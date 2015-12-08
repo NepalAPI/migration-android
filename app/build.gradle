@@ -1,0 +1,47 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    def globalConfig = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfig.getAt("androidCompileSdkVersion")
+    buildToolsVersion globalConfig.getAt("androidBuildToolsVersion")
+
+    defaultConfig {
+        applicationId "com.yipl.nrna"
+        minSdkVersion globalConfig.getAt("androidMinSdkVersion")
+        targetSdkVersion globalConfig.getAt("androidTargetSdkVersion")
+        versionCode 1
+        versionName "0.1"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    def appDependencies = rootProject.ext.appDependencies
+
+    compile project(':domain');
+    compile project(':data');
+
+    compile appDependencies.supportv4
+    compile appDependencies.appCompatv7
+    compile appDependencies.designSupport
+
+    compile appDependencies.butterKnife
+    apt appDependencies.daggerCompiler
+    compile appDependencies.dagger
+    compile appDependencies.rxJava
+    compile appDependencies.rxAndroid
+    provided appDependencies.javaxAnnotation
+    compile 'com.android.support:support-v4:23.1.0'
+}
