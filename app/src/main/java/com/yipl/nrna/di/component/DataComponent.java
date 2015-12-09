@@ -1,9 +1,9 @@
 package com.yipl.nrna.di.component;
 
-import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.data.di.PerActivity;
 import com.yipl.nrna.di.module.ActivityModule;
 import com.yipl.nrna.di.module.DataModule;
+import com.yipl.nrna.ui.fragment.HomeFragment;
 
 import dagger.Component;
 
@@ -16,5 +16,5 @@ import dagger.Component;
         modules = {ActivityModule.class, DataModule.class}
 )
 public interface DataComponent extends ActivityComponent {
-    void inject(BaseFragment pFragment);
+    void inject(HomeFragment pFragment);
 }
