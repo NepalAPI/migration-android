@@ -28,4 +28,8 @@ public abstract class BaseFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
     }
+
+    public void showNewContentInfo(){
+
+    }
 }
