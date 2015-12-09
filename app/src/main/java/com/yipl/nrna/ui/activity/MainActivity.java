@@ -15,9 +15,11 @@ import android.widget.FrameLayout;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
+import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.presenter.LatestContentPresenter;
 import com.yipl.nrna.ui.fragment.HomeFragment;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
+import com.yipl.nrna.util.Logger;
 
 import javax.inject.Inject;
 
@@ -49,7 +51,7 @@ public class MainActivity extends BaseActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mLatestContentPresenter.attachView(this);
+        initialize();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -65,6 +67,15 @@ public class MainActivity extends BaseActivity implements
                 .commit();
 
         fetchLatestContent();
+    }
+
+    private void initialize(){
+        DaggerDataComponent.builder()
+                .activityModule(getActivityModule())
+                .applicationComponent(getApplicationComponent())
+                .build()
+                .inject(this);
+        mLatestContentPresenter.attachView(this);
     }
 
     @Override
@@ -161,6 +172,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void informCurrentFragmentForUpdate() {
+        Logger.d("MainActivity_informCurrentFragmentForUpdate", "send info");
         ((BaseFragment) getSupportFragmentManager().getFragments().get(0)).showNewContentInfo();
     }
 

@@ -22,6 +22,8 @@ android {
         targetSdkVersion globalConfig.getAt("androidTargetSdkVersion")
         versionCode 1
         versionName "1.0"
+
+        buildConfigField("String", "BASE_URL", "\"http://migration-api-sim.herokuapp.com/\"")
     }
 
     compileOptions {
@@ -30,10 +32,6 @@ android {
     }
 
     buildTypes {
-        debug{
-            debuggable true
-            buildConfigField("String", "BASE_URL", "\"http://migration-api-sim.herokuapp.com/\"")
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
