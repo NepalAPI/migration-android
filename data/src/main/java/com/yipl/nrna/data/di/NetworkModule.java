@@ -1,7 +1,6 @@
 package com.yipl.nrna.data.di;
 
 import com.squareup.okhttp.OkHttpClient;
-import com.yipl.nrna.data.BuildConfig;
 import com.yipl.nrna.data.api.ApiRequest;
 import com.yipl.nrna.data.api.ApiService;
 import com.yipl.nrna.data.api.HeaderInterceptor;
@@ -20,6 +19,10 @@ import retrofit.RxJavaCallAdapterFactory;
  */
 @Module
 public class NetworkModule {
+    String mBaseUrl;
+    public NetworkModule(String pBaseUrl){
+        mBaseUrl = pBaseUrl;
+    }
 
     @Provides
     @Singleton
@@ -38,7 +41,7 @@ public class NetworkModule {
     @Singleton
     Retrofit provideRetrofit(OkHttpClient pOkHttpClient){
         return new Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
+                .baseUrl(mBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(pOkHttpClient)

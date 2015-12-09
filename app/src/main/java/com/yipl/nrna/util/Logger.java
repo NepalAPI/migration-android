@@ -2,6 +2,8 @@ package com.yipl.nrna.util;
 
 import android.util.Log;
 
+import com.yipl.nrna.BuildConfig;
+
 public class Logger {
 
     public static final String TAG = "myLog-";
@@ -47,7 +49,7 @@ public class Logger {
     }
 
     private static void writeLog(char flag, String tag, String msg) {
-        //if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             switch (flag) {
                 case 'd':
                     Log.d(tag, msg);
@@ -67,6 +69,6 @@ public class Logger {
                 default:
                     break;
             }
-        //}
+        }
     }
 }
