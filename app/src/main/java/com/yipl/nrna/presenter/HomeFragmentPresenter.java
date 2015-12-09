@@ -3,10 +3,14 @@ package com.yipl.nrna.presenter;
 import com.yipl.nrna.domain.exception.DefaultErrorBundle;
 import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
+import com.yipl.nrna.domain.model.Post;
+import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.exception.ErrorMessageFactory;
 import com.yipl.nrna.ui.interfaces.HomeFragmentView;
 import com.yipl.nrna.ui.interfaces.MvpView;
 import com.yipl.nrna.util.Logger;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,12 +19,22 @@ import javax.inject.Named;
  * Created by julian on 12/9/15.
  */
 public class HomeFragmentPresenter implements Presenter {
+    public static final int FLAG_QUESTION = 0;
+    public static final int FLAG_AUDIO = 1;
+    public static final int FLAG_VIDEO = 2;
+
     HomeFragmentView mView;
-    private final UseCase mUseCase;
+    private final UseCase mQuestionUseCase;
+    private final UseCase mAudioUseCase;
+    private final UseCase mVideoUseCase;
 
     @Inject
-    public HomeFragmentPresenter(@Named("latest") UseCase pUseCase) {
-        mUseCase = pUseCase;
+    public HomeFragmentPresenter(@Named("questionList") UseCase pQuestionUseCase,
+                                 @Named("audioList") UseCase pAudioUseCase,
+                                 @Named("videoList") UseCase pVideoUseCase) {
+        mQuestionUseCase = pQuestionUseCase;
+        mAudioUseCase = pAudioUseCase;
+        mVideoUseCase = pVideoUseCase;
     }
 
     @Override
@@ -33,11 +47,11 @@ public class HomeFragmentPresenter implements Presenter {
 
     @Override
     public void destroy() {
-        mUseCase.unSubscribe();
+        mQuestionUseCase.unSubscribe();
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         loadLatestContent();
     }
 
@@ -46,39 +60,96 @@ public class HomeFragmentPresenter implements Presenter {
         mView = (HomeFragmentView) pView;
     }
 
-    private void loadLatestContent(){
-        mView.hideRetryView();
-        mView.showLoadingView();
-        getLatestContent();
+    private void loadLatestContent() {
+        getLatestQuestions();
+        getLatestAudio();
+        getLatestVideo();
     }
 
-    private void showContents(){
-
+    private void getLatestQuestions() {
+        mView.hideRetryView(FLAG_QUESTION);
+        mView.showLoadingView(FLAG_QUESTION);
+        this.mQuestionUseCase.execute(new QuestionSubscriber());
     }
 
-    private void getLatestContent() {
-        this.mUseCase.execute(new LatestContentSubscriber());
+    private void getLatestAudio() {
+        mView.hideRetryView(FLAG_AUDIO);
+        mView.showLoadingView(FLAG_AUDIO);
+        this.mAudioUseCase.execute(new AudioSubscriber());
     }
 
-    //// TODO: 12/9/15 add Type T for DefaultSubscriber
-    private final class LatestContentSubscriber extends DefaultSubscriber {
+    private void getLatestVideo() {
+        mView.hideRetryView(FLAG_VIDEO);
+        mView.showLoadingView(FLAG_VIDEO);
+        this.mVideoUseCase.execute(new VideoSubscriber());
+    }
 
-        @Override public void onCompleted() {
-            HomeFragmentPresenter.this.mView.hideLoadingView();
+    private final class QuestionSubscriber extends DefaultSubscriber<List<Question>> {
+
+        @Override
+        public void onCompleted() {
+            HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_AUDIO);
         }
 
-        @Override public void onError(Throwable e) {
-            HomeFragmentPresenter.this.mView.hideLoadingView();
-            HomeFragmentPresenter.this.mView.showEmptyView();
-            Logger.e("LatestContentSubscriber_onError", e.getLocalizedMessage());
+        @Override
+        public void onError(Throwable e) {
+            HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_QUESTION);
+            HomeFragmentPresenter.this.mView.showEmptyView(FLAG_QUESTION);
+            Logger.e("QuestionSubscriber_onError", e.getLocalizedMessage());
             HomeFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
-                    .getContext(), new DefaultErrorBundle((Exception)e).getException()));
-            HomeFragmentPresenter.this.mView.showRetryView();
+                    .getContext(), new DefaultErrorBundle((Exception) e).getException()));
+            HomeFragmentPresenter.this.mView.showRetryView(FLAG_QUESTION);
         }
 
-        @Override public void onNext(Object pObject) {
-            //// TODO: 12/9/15
-            HomeFragmentPresenter.this.showContents();
+        @Override
+        public void onNext(List<Question> pQuestions) {
+            HomeFragmentPresenter.this.mView.renderLatestQuestions(pQuestions);
+        }
+    }
+
+    private final class AudioSubscriber extends DefaultSubscriber<List<Post>> {
+
+        @Override
+        public void onCompleted() {
+            HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_AUDIO);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_AUDIO);
+            HomeFragmentPresenter.this.mView.showEmptyView(FLAG_AUDIO);
+            Logger.e("AudioSubscriber_onError", e.getLocalizedMessage());
+            HomeFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
+                    .getContext(), new DefaultErrorBundle((Exception) e).getException()));
+            HomeFragmentPresenter.this.mView.showRetryView(FLAG_AUDIO);
+        }
+
+        @Override
+        public void onNext(List<Post> pPosts) {
+            HomeFragmentPresenter.this.mView.renderLatestAudios(pPosts);
+        }
+    }
+
+    private final class VideoSubscriber extends DefaultSubscriber<List<Post>> {
+
+        @Override
+        public void onCompleted() {
+            HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_VIDEO);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_VIDEO);
+            HomeFragmentPresenter.this.mView.showEmptyView(FLAG_VIDEO);
+            Logger.e("VideoSubscriber_onError", e.getLocalizedMessage());
+            HomeFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
+                    .getContext(), new DefaultErrorBundle((Exception) e).getException()));
+            HomeFragmentPresenter.this.mView.showRetryView(FLAG_VIDEO);
+        }
+
+        @Override
+        public void onNext(List<Post> pVideos) {
+            HomeFragmentPresenter.this.mView.renderLatestVideos(pVideos);
         }
     }
 }

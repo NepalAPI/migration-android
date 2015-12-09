@@ -1,7 +1,7 @@
 package com.yipl.nrna.data.api;
 
 import com.yipl.nrna.data.entity.LatestContentEntity;
-import com.yipl.nrna.data.util.MyConstants;
+import com.yipl.nrna.domain.util.MyConstants;
 
 import retrofit.http.GET;
 import retrofit.http.Query;

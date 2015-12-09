@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by julian on 12/7/15.
  */
-public interface HomeFragmentView extends LoadDataView {
+public interface HomeFragmentView extends MultipleLoadDataView {
     void renderLatestQuestions(List<Question> pQuestions);
     void renderLatestAudios(List<Post> pAudios);
     void renderLatestVideos(List<Post> pVideos);

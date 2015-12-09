@@ -1,0 +1,43 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context="com.yipl.nrna.ui.fragment.RecentQuestionFragment">
+
+    <data class="RecentQuestionDataBinding">
+
+        <variable
+            name="question"
+            type="com.yipl.nrna.domain.model.Question"/>
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/data_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/content_inset_start"
+            android:textColor="@android:color/white"
+            android:text="@{question.mQuestion}"
+            tools:text="How to apply for passport ?"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/see_more"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/see_all_questions"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+</layout>

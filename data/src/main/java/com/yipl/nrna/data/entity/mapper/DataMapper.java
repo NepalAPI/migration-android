@@ -24,8 +24,8 @@ public class DataMapper {
         LatestContent latestContent = null;
         if(pEntity != null){
             latestContent = new LatestContent();
-            latestContent.setQuestionList(transformQuestion(pEntity.getQuestions()));
-            latestContent.setPostList(transformPost(pEntity.getPosts()));
+            latestContent.setQuestions(transformQuestion(pEntity.getQuestions()));
+            latestContent.setPosts(transformPost(pEntity.getPosts()));
         }
         return latestContent;
     }
