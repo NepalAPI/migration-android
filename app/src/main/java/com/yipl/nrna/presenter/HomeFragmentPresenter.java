@@ -126,6 +126,7 @@ public class HomeFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Post> pPosts) {
+            Logger.d("onNext_Post", pPosts.size()+"/");
             HomeFragmentPresenter.this.mView.renderLatestAudios(pPosts);
         }
     }

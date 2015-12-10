@@ -54,6 +54,7 @@ public class DataMapper {
     public Post transformPost(PostEntity pEntity){
         if(pEntity != null){
             Post post = new Post();
+            post.setTitle(pEntity.getTitle());
             return post;
         }
         return null;
