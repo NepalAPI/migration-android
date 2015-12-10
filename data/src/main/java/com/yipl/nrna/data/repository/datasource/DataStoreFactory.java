@@ -3,6 +3,7 @@ package com.yipl.nrna.data.repository.datasource;
 import android.content.Context;
 
 import com.yipl.nrna.data.BuildConfig;
+import com.yipl.nrna.data.Database.DatabaseDao;
 import com.yipl.nrna.data.di.DaggerNetworkComponent;
 import com.yipl.nrna.data.di.NetworkComponent;
 import com.yipl.nrna.data.di.NetworkModule;
@@ -15,15 +16,17 @@ import javax.inject.Inject;
 public class DataStoreFactory {
     private final Context mContext;
     private final DataMapper mDataMapper;
+    private final DatabaseDao mDatabaseDao;
 
     @Inject
-    public DataStoreFactory(Context pContext, DataMapper pDataMapper) {
+    public DataStoreFactory(Context pContext, DataMapper pDataMapper, DatabaseDao pDatabaseDao) {
         mContext = pContext;
         mDataMapper = pDataMapper;
+        mDatabaseDao = pDatabaseDao;
     }
 
-    public IDataStore createDataStore(){
-        return createDataStore();
+    public DBDataStore createDBDataStore(){
+        return new DBDataStore(mDatabaseDao);
     }
 
     public RestDataStore createRestDataStore(){

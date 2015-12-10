@@ -48,4 +48,5 @@ dependencies {
     provided appDependencies.javaxAnnotation
     compile 'com.android.support:support-v4:23.1.0'
     compile 'com.mcxiaoke.viewpagerindicator:library:2.4.1'
+    compile 'com.facebook.stetho:stetho:1.2.0'
 }

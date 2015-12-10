@@ -2,6 +2,7 @@ package com.yipl.nrna.di.module;
 
 import android.content.Context;
 
+import com.yipl.nrna.data.Database.DatabaseDao;
 import com.yipl.nrna.data.di.PerActivity;
 import com.yipl.nrna.data.entity.mapper.DataMapper;
 import com.yipl.nrna.data.repository.AudioRepository;
@@ -134,7 +135,7 @@ public class DataModule {
 
     @Provides
     @PerActivity
-    DataStoreFactory provideDataStoreFactory(Context pContext, DataMapper pDataMapper) {
-        return new DataStoreFactory(pContext, pDataMapper);
+    DataStoreFactory provideDataStoreFactory(Context pContext, DataMapper pDataMapper, DatabaseDao pDatabaseDao) {
+        return new DataStoreFactory(pContext, pDataMapper, pDatabaseDao);
     }
 }

@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/text_margin"
-            android:text="@{audio.mTitle}"
+            android:text="@{audio.getTitle()}"
             tools:text="How to get passport?"/>
     </RelativeLayout>
 </layout>
