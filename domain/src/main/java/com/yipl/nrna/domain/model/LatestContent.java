@@ -6,22 +6,22 @@ import java.util.List;
  * Created by julian on 12/7/15.
  */
 public class LatestContent extends BaseModel {
-    List<Question> mQuestionList;
-    List<Post> mPostList;
+    List<Question> mQuestions;
+    List<Post> mPosts;
 
-    public List<Question> getQuestionList() {
-        return mQuestionList;
+    public List<Question> getQuestions() {
+        return mQuestions;
     }
 
-    public List<Post> getPostList() {
-        return mPostList;
+    public List<Post> getPosts() {
+        return mPosts;
     }
 
-    public void setQuestionList(List<Question> pQuestionList) {
-        mQuestionList = pQuestionList;
+    public void setQuestions(List<Question> pQuestions) {
+        mQuestions = pQuestions;
     }
 
-    public void setPostList(List<Post> pPostList) {
-        mPostList = pPostList;
+    public void setPosts(List<Post> pPosts) {
+        mPosts = pPosts;
     }
 }

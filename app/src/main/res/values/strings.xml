@@ -10,6 +10,15 @@
     <string name="action_retry">Retry</string>
 
     <string name="title_home">Home</string>
+    <string name="title_info_center">Information Center</string>
+    <string name="title_countries">Destination Countries</string>
+    <string name="title_audio">Audios / Podcasts</string>
+    <string name="title_video">Videos</string>
+    <string name="title_questions">Your questions our solutions</string>
+
+    <string name="see_all_questions">See All Questions</string>
+    <string name="latest_audios">latest audios / podcasts</string>
+    <string name="latest_videos">latest videos</string>
 
     <string name="message_fetching_latest_content">Fetching latest content...</string>
 

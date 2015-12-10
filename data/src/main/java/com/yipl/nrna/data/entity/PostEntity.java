@@ -17,9 +17,11 @@ public class PostEntity {
     List<String> questionIdList;
     List<String> tags;
     String language;
+    String type;
     String source;
     String description;
     String title;
+    PostDataEntity data;
 
     public String getId() {
         return id;
@@ -91,5 +93,13 @@ public class PostEntity {
 
     public void setTitle(String pTitle) {
         title = pTitle;
+    }
+
+    public PostDataEntity getData() {
+        return data;
+    }
+
+    public void setData(PostDataEntity pData) {
+        data = pData;
     }
 }
