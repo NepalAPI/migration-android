@@ -22,6 +22,7 @@ ext {
     retrofitVersion = '2.0.0-beta2'
     retrofitGsonVersion = '2.0.0-beta2'
     retrofitRxAdapterVersion = '2.0.0-beta2'
+    gsonVersion = "2.5'"
 
     //Testing
     robolectricVersion = '3.0'
@@ -78,6 +79,7 @@ ext {
             retrofit:               "com.squareup.retrofit:retrofit:${retrofitVersion}",
             retrofitGsonConverter: "com.squareup.retrofit:converter-gson:${retrofitGsonVersion}",
             retrofitRxAdapter:      "com.squareup.retrofit:adapter-rxjava:${retrofitRxAdapterVersion}"
+
     ]
 
     dataTestDependencies = [

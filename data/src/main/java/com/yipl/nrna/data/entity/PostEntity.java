@@ -8,11 +8,11 @@ import java.util.List;
  * Created by julian on 12/8/15.
  */
 public class PostEntity {
-    String id;
+    Integer id;
     @SerializedName("created_at")
-    String createdAt;
+    Long createdAt;
     @SerializedName("updated_at")
-    String updatedAt;
+    Long updatedAt;
     @SerializedName("question_ids")
     List<String> questionIdList;
     List<String> tags;
@@ -23,27 +23,27 @@ public class PostEntity {
     String title;
     PostDataEntity data;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String pId) {
+    public void setId(Integer pId) {
         id = pId;
     }
 
-    public String getCreatedAt() {
+    public Long getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String pCreatedAt) {
+    public void setCreatedAt(Long pCreatedAt) {
         createdAt = pCreatedAt;
     }
 
-    public String getUpdatedAt() {
+    public Long getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String pUpdatedAt) {
+    public void setUpdatedAt(Long pUpdatedAt) {
         updatedAt = pUpdatedAt;
     }
 
@@ -102,4 +102,8 @@ public class PostEntity {
     public void setData(PostDataEntity pData) {
         data = pData;
     }
+
+    public String getType(){ return type; }
+
+    public void setType(String type){ this.type = type; }
 }
