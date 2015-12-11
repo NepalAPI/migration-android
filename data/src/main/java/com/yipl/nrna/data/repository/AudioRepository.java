@@ -22,7 +22,7 @@ public class AudioRepository implements IRepository<Post> {
     @Override
     public Observable<List<Post>> getList() {
         //// TODO: 12/9/15
-        return mDataStoreFactory.createDBDataStore().getAllPosts(-1).map(
+        return mDataStoreFactory.createDBDataStore().getPostByType(-1, "audio").map(
                 pPostEntitites -> mDataMapper.transformPost(pPostEntitites)
         );
     }

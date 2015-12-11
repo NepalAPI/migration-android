@@ -35,4 +35,8 @@ public class DBDataStore implements IDataStore {
     public Observable<List<PostEntity>> getAllPosts(int limit){
         return database.getAllPosts(limit);
     }
+
+    public Observable<List<PostEntity>> getPostByType(int pLimit, String type){
+        return database.getPostByType(pLimit, type);
+    }
 }
