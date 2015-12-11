@@ -2,15 +2,17 @@ package com.yipl.nrna.domain.model;
 
 import com.yipl.nrna.domain.util.MyConstants;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by julian on 12/8/15.
  */
-public class Post extends BaseModel{
-    String mCreatedAt;
-    String mUpdatedAt;
-    List<String> mQuestionIdList;
+public class Post extends BaseModel {
+    Long mCreatedAt;
+    Long mUpdatedAt;
+    List<Long> mQuestionIdList;
     List<String> mTags;
     String mLanguage;
     String mSource;
@@ -19,27 +21,27 @@ public class Post extends BaseModel{
     String type;
     PostData mData;
 
-    public String getCreatedAt() {
+    public Long getCreatedAt() {
         return mCreatedAt;
     }
 
-    public void setCreatedAt(String pCreatedAt) {
+    public void setCreatedAt(Long pCreatedAt) {
         mCreatedAt = pCreatedAt;
     }
 
-    public String getUpdatedAt() {
+    public Long getUpdatedAt() {
         return mUpdatedAt;
     }
 
-    public void setUpdatedAt(String pUpdatedAt) {
+    public void setUpdatedAt(Long pUpdatedAt) {
         mUpdatedAt = pUpdatedAt;
     }
 
-    public List<String> getQuestionIdList() {
+    public List<Long> getQuestionIdList() {
         return mQuestionIdList;
     }
 
-    public void setQuestionIdList(List<String> pQuestionIdList) {
+    public void setQuestionIdList(List<Long> pQuestionIdList) {
         mQuestionIdList = pQuestionIdList;
     }
 
@@ -101,12 +103,30 @@ public class Post extends BaseModel{
 
     @Override
     public int getDataType() {
-        if(getType().equalsIgnoreCase("audio")){
+        if (getType().equalsIgnoreCase("audio")) {
             return MyConstants.Adapter.TYPE_AUDIO;
-        }else if(getType().equalsIgnoreCase("video")){
+        } else if (getType().equalsIgnoreCase("video")) {
             return MyConstants.Adapter.TYPE_VIDEO;
-        }else{
+        } else {
             return MyConstants.Adapter.TYPE_TEXT;
         }
+    }
+
+    public static List<Post> getDummyPosts(String pType) {
+        List<Post> list = new ArrayList<>();
+        String[] tags = {"tag1", "tag2", "tag3"};
+        for (int i = 0; i < 3; i++) {
+            Post post = new Post();
+            post.setId(((long) i));
+            post.setTitle("This is a sample " + pType + " " + i + ".");
+            post.setCreatedAt(123456252L);
+            post.setUpdatedAt(123425645L);
+            post.setDescription("this is the description");
+            post.setTags(Arrays.asList(tags));
+            post.setQuestionIdList(new ArrayList());
+            post.setType(pType);
+            list.add(post);
+        }
+        return list;
     }
 }

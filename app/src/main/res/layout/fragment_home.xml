@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yipl.nrna.ui.fragment.HomeFragment">
+    tools:context="com.yipl.nrna.ui.fragment.HomeFragment" android:fillViewport="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,31 +17,31 @@
             android:id="@+id/question_section"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
+            android:background="@color/recent_questions_bg">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_standard"
+                android:layout_height="@dimen/recent_question_section_height"
                 android:orientation="vertical">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/recent_questions_pager"
                     android:layout_width="fill_parent"
-                    android:layout_height="@dimen/recent_question_section_height"
-                    android:clipToPadding="false"
-                    android:padding="@dimen/padding_standard"/>
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"/>
 
                 <com.viewpagerindicator.CirclePageIndicator
                     android:id="@+id/indicator"
+                    android:layout_alignParentBottom="true"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/spacing_small"
                     app:fillColor="@color/pager_indicator_active"
                     app:pageColor="@color/pager_indicator_inactive"
                     app:radius="@dimen/pager_indicator_radius"
                     app:strokeWidth="0dp"/>
-            </LinearLayout>
+            </RelativeLayout>
 
             <ProgressBar
                 android:id="@+id/question_progress_bar"
@@ -52,70 +52,81 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/audio_section"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/question_section">
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/spacing_standard"
+            android:paddingRight="@dimen/spacing_standard">
 
-            <TextView
-                android:id="@+id/label_audio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
-                android:text="@string/latest_audios"
-                android:textAllCaps="true"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/audio_list"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/recent_audio_section_height"
-                android:layout_below="@id/label_audio"
-                android:clipToPadding="false"
-                android:padding="@dimen/padding_standard"
-                app:layoutManager="LinearLayoutManager"
-                tools:listitem="@layout/list_item_question"/>
-
-            <ProgressBar
-                android:id="@+id/audio_progress_bar"
+            <RelativeLayout
+                android:id="@+id/audio_section"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone"/>
+                android:layout_below="@id/question_section">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/label_audio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginBottom="@dimen/spacing_standard"
+                    android:text="@string/latest_audios"
+                    android:textSize="@dimen/text_big"
+                    android:textColor="@color/text_color_primary"
+                    android:textAllCaps="true"/>
 
-        <RelativeLayout
-            android:id="@+id/video_section"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/audio_section">
+                <LinearLayout
+                    android:id="@+id/audio_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_audio"
+                    android:clipToPadding="false"
+                    android:minHeight="@dimen/recent_audio_section_height"
+                    android:orientation="vertical"/>
 
-            <TextView
-                android:id="@+id/label_video"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
-                android:text="@string/latest_videos"
-                android:textAllCaps="true"/>
+                <ProgressBar
+                    android:id="@+id/audio_progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/video_list"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/recent_video_section_height"
-                android:layout_below="@id/label_video"
-                android:clipToPadding="false"
-                android:padding="@dimen/padding_standard"
-                app:layoutManager="LinearLayoutManager"
-                tools:listitem="@layout/list_item_question"/>
+            </RelativeLayout>
 
-            <ProgressBar
-                android:id="@+id/video_progress_bar"
+            <RelativeLayout
+                android:id="@+id/video_section"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone"/>
+                android:layout_below="@id/audio_section">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/label_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginBottom="@dimen/spacing_standard"
+                    android:text="@string/latest_videos"
+                    android:textSize="@dimen/text_big"
+                    android:textColor="@color/text_color_primary"
+                    android:textAllCaps="true"/>
+                <LinearLayout
+                    android:id="@+id/video_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_video"
+                    android:clipToPadding="false"
+                    android:minHeight="@dimen/recent_audio_section_height"
+                    android:orientation="vertical"/>
+
+                <ProgressBar
+                    android:id="@+id/video_progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

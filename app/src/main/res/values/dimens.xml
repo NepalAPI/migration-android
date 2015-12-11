@@ -8,12 +8,23 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-    <dimen name="padding_standard">16dp</dimen>
-    <dimen name="margin_small">10dp</dimen>
     <dimen name="content_inset_start">72dp</dimen>
+    <dimen name="spacing_big">36dp</dimen>
+    <dimen name="spacing_medium">25dp</dimen>
+    <dimen name="spacing_standard">16dp</dimen>
+    <dimen name="spacing_small">10dp</dimen>
 
-    <dimen name="recent_question_section_height">200dp</dimen>
-    <dimen name="recent_audio_section_height">200dp</dimen>
-    <dimen name="recent_video_section_height">200dp</dimen>
-    <dimen name="pager_indicator_radius">7dp</dimen>
+    <dimen name="content_art_size">40dp</dimen>
+    <dimen name="content_art_radius">20dp</dimen>
+
+    <dimen name="recent_question_section_height">203dp</dimen>
+    <dimen name="recent_audio_section_height">100dp</dimen>
+    <dimen name="recent_video_section_height">100dp</dimen>
+    <dimen name="pager_indicator_radius">4dp</dimen>
+
+    <dimen name="default_line_height">22sp</dimen>
+    <dimen name="text_large">26sp</dimen>
+    <dimen name="text_big">16sp</dimen>
+    <dimen name="text_default">14sp</dimen>
+    <dimen name="text_small">12sp</dimen>
 </resources>

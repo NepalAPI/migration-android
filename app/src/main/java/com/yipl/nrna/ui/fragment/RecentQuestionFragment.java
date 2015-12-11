@@ -16,6 +16,7 @@ import com.yipl.nrna.databinding.RecentQuestionDataBinding;
 import com.yipl.nrna.domain.model.Question;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class RecentQuestionFragment extends BaseFragment {
 
@@ -47,7 +48,7 @@ public class RecentQuestionFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle args = new Bundle();
+        Bundle args = getArguments();
         if (args != null) {
             mQuestion = (Question) args.getSerializable(MyConstants.Extras.KEY_QUESTION);
         }
@@ -61,6 +62,7 @@ public class RecentQuestionFragment extends BaseFragment {
                     container, false);
             mDataBinding.setQuestion(mQuestion);
             View view = mDataBinding.getRoot();
+            ButterKnife.bind(this, view);
             return view;
         }else{
             return super.onCreateView(inflater, container, savedInstanceState);

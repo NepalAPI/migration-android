@@ -2,6 +2,7 @@ package com.yipl.nrna;
 
 import android.app.Application;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.yipl.nrna.data.Database.DatabaseHelper;
 
@@ -20,6 +21,7 @@ public class MyApplication extends Application {
         this.mApplicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
+        Fresco.initialize(this);
         Stetho.initializeWithDefaults(this);
 
         getApplicationComponent().getDatabaseHelper();

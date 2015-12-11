@@ -6,14 +6,14 @@ import java.io.Serializable;
  * Created by julian on 12/7/15.
  */
 public abstract class BaseModel implements Serializable{
-    String mId;
+    Long mId;
     int mDataType;
 
-    public String getId() {
+    public Long getId() {
         return mId;
     }
 
-    public void setId(String pId) {
+    public void setId(Long pId) {
         mId = pId;
     }
 
