@@ -27,7 +27,6 @@ import rx.Subscriber;
  */
 public class DatabaseDao {
 
-
     DatabaseHelper helper;
     SQLiteDatabase db;
 
@@ -35,6 +34,25 @@ public class DatabaseDao {
     public DatabaseDao(DatabaseHelper helper) {
         this.helper = helper;
         db = helper.getWritableDatabase();
+    }
+
+    public PostEntity convertCursorToPostEntity(Cursor cursor) {
+
+        PostEntity post = new PostEntity();
+        post.setId(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_ID)));
+        post.setCreatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_CREATED_AT)));
+        post.setUpdatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_UPDATED_AT)));
+        post.setData(new Gson().fromJson(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_DATA)), PostDataEntity.class));
+        post.setType(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TYPE)));
+        post.setLanguage(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_LANGUAGE)));
+        post.setTags(new Gson().fromJson(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TAGS)),
+                new TypeToken<List<String>>() {
+                }.getType()));
+        post.setSource(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_SOURCE)));
+        post.setDescription(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_DESCRIPTION)));
+        post.setTitle(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TITLE)));
+
+        return post;
     }
 
     public Observable<List<PostEntity>> getAllPosts(int pLimit) {
@@ -47,40 +65,18 @@ public class DatabaseDao {
         Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
             @Override
             public List<PostEntity> call() throws Exception {
-
                 List<PostEntity> posts = new ArrayList<PostEntity>();
-
                 while (cursor.moveToNext()) {
-
-                    PostEntity post = new PostEntity();
-
-                    post.setId(cursor.getInt(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_ID)));
-                    post.setCreatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_CREATED_AT)));
-                    post.setUpdatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_UPDATED_AT)));
-                    post.setData(new Gson().fromJson(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_DATA)), PostDataEntity.class));
-                    post.setType(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TYPE)));
-                    post.setLanguage(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_LANGUAGE)));
-                    post.setTags(new Gson().fromJson(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TAGS)),
-                            new TypeToken<List<String>>() {
-                            }.getType()));
-                    post.setSource(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_SOURCE)));
-                    post.setDescription(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_DESCRIPTION)));
-                    post.setTitle(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TITLE)));
-
-                    posts.add(post);
+                    posts.add(convertCursorToPostEntity(cursor));
                 }
                 return posts;
             }
         };
-
         cursor.close();
-
         return makeObservable(c);
-
     }
 
-    public Observable<PostEntity> getPostById(int pId) {
-
+    public Observable<PostEntity> getPostById(Long pId) {
         SQLiteDatabase db = helper.getWritableDatabase();
         String query = "Select * from " +
                 MyConstants.DATABASE.TABLE_POST.TABLE_NAME +
@@ -91,36 +87,16 @@ public class DatabaseDao {
         Callable<PostEntity> callable = new Callable<PostEntity>() {
             @Override
             public PostEntity call() throws Exception {
-
                 PostEntity post = null;
-
                 if (cursor.moveToFirst()) {
-
-                    post = new PostEntity();
-                    post.setId(cursor.getInt(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_ID)));
-                    post.setCreatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_CREATED_AT)));
-                    post.setUpdatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_UPDATED_AT)));
-                    post.setData(new Gson().fromJson(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_DATA)), PostDataEntity.class));
-                    post.setType(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TYPE)));
-                    post.setLanguage(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_LANGUAGE)));
-                    post.setTags(new Gson().fromJson(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TAGS)),
-                            new TypeToken<List<String>>() {
-                            }.getType()));
-                    post.setSource(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_SOURCE)));
-                    post.setDescription(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_DESCRIPTION)));
-                    post.setTitle(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TITLE)));
-
-
-
+                    post = convertCursorToPostEntity(cursor);
                 }
                 return post;
             }
         };
         cursor.close();
         return makeObservable(callable);
-
     }
-
 
     public Observable<List<PostEntity>> getPostByType(String type) {
         String query = "Select * from " +
@@ -133,38 +109,31 @@ public class DatabaseDao {
         Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
             @Override
             public List<PostEntity> call() throws Exception {
-
                 List<PostEntity> posts = new ArrayList<PostEntity>();
-
                 while (cursor.moveToNext()) {
-
-                    PostEntity post = new PostEntity();
-
-                    post.setId(cursor.getInt(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_ID)));
-                    post.setCreatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_CREATED_AT)));
-                    post.setUpdatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_UPDATED_AT)));
-                    post.setData(new Gson().fromJson(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_DATA)), PostDataEntity.class));
-                    post.setType(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TYPE)));
-                    post.setLanguage(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_LANGUAGE)));
-                    post.setTags(new Gson().fromJson(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TAGS)),
-                            new TypeToken<List<String>>() {
-                            }.getType()));
-                    post.setSource(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_SOURCE)));
-                    post.setDescription(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_DESCRIPTION)));
-                    post.setTitle(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TITLE)));
-
-                    posts.add(post);
+                    posts.add(convertCursorToPostEntity(cursor));
                 }
                 return posts;
             }
         };
-
         cursor.close();
-
         return makeObservable(c);
-
     }
 
+    public QuestionEntity convertCursorToQuestionEntity(Cursor cursor) {
+
+        QuestionEntity question = new QuestionEntity();
+        question.setId(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID)));
+        question.setCreatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_CREATED_AT)));
+        question.setUpdatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COlUMN_UPDATED_AT)));
+        question.setTags(new Gson().fromJson(cursor.getString(cursor.getColumnIndex
+                (MyConstants.DATABASE.TABLE_QUESTION.COLUMN_TAGS)), new TypeToken<List<String>>() {
+        }.getType()));
+        question.setLanguage(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_LANGUAGE)));
+        question.setQuestion(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID)));
+
+        return question;
+    }
 
     public Observable<List<QuestionEntity>> getAllQuestions(int pLimit) {
 
@@ -176,32 +145,16 @@ public class DatabaseDao {
         Callable<List<QuestionEntity>> callable = new Callable<List<QuestionEntity>>() {
             @Override
             public List<QuestionEntity> call() throws Exception {
-
                 List<QuestionEntity> questions = new ArrayList<>();
-
                 while (cursor.moveToNext()) {
-
-                    QuestionEntity question = new QuestionEntity();
-                    question.setId(cursor.getInt(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID)));
-                    question.setCreatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_CREATED_AT)));
-                    question.setUpdatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COlUMN_UPDATED_AT)));
-                    question.setTags(new Gson().fromJson(cursor.getString(cursor.getColumnIndex
-                            (MyConstants.DATABASE.TABLE_QUESTION.COLUMN_TAGS)), new TypeToken<List<String>>() {
-                    }.getType()));
-                    question.setLanguage(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_LANGUAGE)));
-                    question.setQuestion(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID)));
-
-                    questions.add(question);
+                    questions.add(convertCursorToQuestionEntity(cursor));
                 }
-
                 return questions;
             }
         };
-
         cursor.close();
         return makeObservable(callable);
     }
-
 
     public Observable<List<QuestionEntity>> getQuestionByStage(String mStage) {
 
@@ -214,33 +167,16 @@ public class DatabaseDao {
         Callable<List<QuestionEntity>> callable = new Callable<List<QuestionEntity>>() {
             @Override
             public List<QuestionEntity> call() throws Exception {
-
                 List<QuestionEntity> questions = new ArrayList<>();
-
                 while (cursor.moveToNext()) {
-
-                    QuestionEntity question = new QuestionEntity();
-                    question.setId(cursor.getInt(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID)));
-                    question.setCreatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_CREATED_AT)));
-                    question.setUpdatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COlUMN_UPDATED_AT)));
-                    question.setTags(new Gson().fromJson(cursor.getString(cursor.getColumnIndex
-                            (MyConstants.DATABASE.TABLE_QUESTION.COLUMN_TAGS)), new TypeToken<List<String>>() {
-                    }.getType()));
-                    question.setLanguage(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_LANGUAGE)));
-                    question.setQuestion(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID)));
-
-                    questions.add(question);
+                    questions.add(convertCursorToQuestionEntity(cursor));
                 }
-
                 return questions;
             }
         };
-
         cursor.close();
         return makeObservable(callable);
     }
-
-
 
     public Observable<QuestionEntity> getQuestionById(int pId) {
         String query = "Select * from " +
@@ -251,28 +187,16 @@ public class DatabaseDao {
         Callable<QuestionEntity> callable = new Callable<QuestionEntity>() {
             @Override
             public QuestionEntity call() throws Exception {
-
                 QuestionEntity question = null;
-
                 if (cursor.moveToFirst()) {
-                    question = new QuestionEntity();
-                    question.setId(cursor.getInt(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID)));
-                    question.setCreatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_CREATED_AT)));
-                    question.setUpdatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COlUMN_UPDATED_AT)));
-                    question.setTags(new Gson().fromJson(cursor.getString(cursor.getColumnIndex
-                            (MyConstants.DATABASE.TABLE_QUESTION.COLUMN_TAGS)), new TypeToken<List<String>>() {
-                    }.getType()));
-                    question.setLanguage(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_LANGUAGE)));
-                    question.setQuestion(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID)));
+                    question = convertCursorToQuestionEntity(cursor);
                 }
                 return question;
             }
         };
         cursor.close();
         return makeObservable(callable);
-
     }
-
 
     public void saveOnePost(PostEntity post) {
 
@@ -299,16 +223,14 @@ public class DatabaseDao {
                 post.getDescription() + MyConstants.DATABASE.COMMA +
                 post.getTitle() +
                 " )";
-            savePostQuestionRelation(post.getId(), post.getQuestionIdList());
-
+        savePostQuestionRelation(post.getId(), post.getQuestionIdList());
         db.execSQL(sqlQuery);
     }
 
     public void saveAllPost(List<PostEntity> posts) {
-
-        if(posts != null) {
+        if (posts != null) {
             for (PostEntity post : posts) {
-                if(post != null )
+                if (post != null)
                     saveOnePost(post);
             }
         }
@@ -323,7 +245,7 @@ public class DatabaseDao {
                 MyConstants.DATABASE.TABLE_QUESTION.COLUMN_TAGS + MyConstants.DATABASE.COMMA +
                 MyConstants.DATABASE.TABLE_QUESTION.COLUMN_LANGUAGE + MyConstants.DATABASE.COMMA +
                 MyConstants.DATABASE.TABLE_QUESTION.COLUMN_QUESTION +
-                " ) values ( "+
+                " ) values ( " +
                 question.getId() + MyConstants.DATABASE.COMMA +
                 question.getUpdatedAt() + MyConstants.DATABASE.COMMA +
                 question.getCreatedAt() + MyConstants.DATABASE.COMMA +
@@ -333,70 +255,55 @@ public class DatabaseDao {
                 " )";
 
         db.execSQL(sqlQuery);
-
     }
 
     public void saveAllQuestion(List<QuestionEntity> questions) {
 
-        if(questions != null) {
+        if (questions != null) {
             for (QuestionEntity question : questions) {
-                if(question != null)
+                if (question != null)
                     saveOneQuestion(question);
             }
         }
     }
 
-    public void savePostQuestionRelation(int postId, List<String> questionIds){
-        if(questionIds!= null) {
+    public void savePostQuestionRelation(Long postId, List<String> questionIds) {
+        if (questionIds != null) {
             for (String id : questionIds) {
-
-                if(id!=null){
+                if (id != null) {
                     String query = "Insert into " + MyConstants.DATABASE.TABLE_POST_QUESTION.TABLE_NAME + "( " +
                             MyConstants.DATABASE.TABLE_POST_QUESTION.COLUMN_POST_ID + MyConstants.DATABASE.COMMA +
                             MyConstants.DATABASE.TABLE_POST_QUESTION.COLUMN_QUESTION_ID +
                             " );";
-
                     db.execSQL(query);
                 }
             }
         }
-
     }
 
     public void updateOnePost(PostEntity post) {
-
+        // TODO: 12/11/2015
         String sqlQuery = "Update into";
-
-
     }
 
     public void updateAllPosts(List<PostEntity> posts) {
-
+        // TODO: 12/11/2015
         for (PostEntity post : posts) {
-
             updateOnePost(post);
-
         }
-
     }
 
     public void updateOneQuestion(QuestionEntity question) {
-
+        // TODO: 12/11/2015
         String sqlQuery = "Update into";
-
-
     }
 
     public void updateAllQuestions(List<QuestionEntity> questions) {
-
+        // TODO: 12/11/2015
         for (QuestionEntity question : questions) {
-
             updateOneQuestion(question);
-
         }
-
     }
-
 
     private <T> Observable<T> makeObservable(final Callable<T> callable) {
 
@@ -412,6 +319,4 @@ public class DatabaseDao {
                     }
                 });
     }
-
-
 }

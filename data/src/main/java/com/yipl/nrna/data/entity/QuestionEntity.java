@@ -8,7 +8,7 @@ import java.util.List;
  * Created by julian on 12/7/15.
  */
 public class QuestionEntity {
-    Integer id;
+    Long id;
     @SerializedName("updated_at")
     Long updatedAt;
     @SerializedName("created_at")
@@ -18,11 +18,11 @@ public class QuestionEntity {
     String language;
     String question;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer pId) {
+    public void setId(Long pId) {
         id = pId;
     }
 

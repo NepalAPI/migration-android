@@ -8,7 +8,7 @@ import java.util.List;
  * Created by julian on 12/8/15.
  */
 public class PostEntity {
-    Integer id;
+    Long id;
     @SerializedName("created_at")
     Long createdAt;
     @SerializedName("updated_at")
@@ -23,11 +23,11 @@ public class PostEntity {
     String title;
     PostDataEntity data;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer pId) {
+    public void setId(Long pId) {
         id = pId;
     }
 
