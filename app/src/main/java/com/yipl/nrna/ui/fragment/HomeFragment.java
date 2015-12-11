@@ -1,24 +1,27 @@
 package com.yipl.nrna.ui.fragment;
 
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.viewpagerindicator.CirclePageIndicator;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseFragment;
+import com.yipl.nrna.databinding.AudioDataBinding;
+import com.yipl.nrna.databinding.VideoDataBinding;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.presenter.HomeFragmentPresenter;
 import com.yipl.nrna.ui.activity.MainActivity;
-import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.adapter.QuestionPagerAdapter;
 import com.yipl.nrna.ui.interfaces.HomeFragmentView;
 
@@ -40,9 +43,9 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     @Bind(R.id.indicator)
     CirclePageIndicator indicator;
     @Bind(R.id.audio_list)
-    RecyclerView mAudioList;
+    LinearLayout mAudioList;
     @Bind(R.id.video_list)
-    RecyclerView mVideoList;
+    LinearLayout mVideoList;
     @Bind(R.id.question_progress_bar)
     ProgressBar mQuestionProgressBar;
     @Bind(R.id.audio_progress_bar)
@@ -51,8 +54,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     ProgressBar mVideoProgressBar;
 
     private QuestionPagerAdapter mQuestionPagerAdapter;
-    private ListAdapter<Post> mAudioListAdapter;
-    private ListAdapter<Post> mVideoListAdapter;
 
     public HomeFragment() {
         super();
@@ -119,14 +120,10 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
         mQuestionPagerAdapter = new QuestionPagerAdapter(getChildFragmentManager());
         mQuestionsPager.setAdapter(mQuestionPagerAdapter);
         indicator.setViewPager(mQuestionsPager);
-        //for audio
-        mAudioList.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAudioListAdapter = new ListAdapter<>(getActivity());
-        mAudioList.setAdapter(mAudioListAdapter);
-        //for video
-        mVideoList.setLayoutManager(new LinearLayoutManager(getContext()));
-        mVideoListAdapter = new ListAdapter<>(getActivity());
-        mVideoList.setAdapter(mVideoListAdapter);
+
+        renderLatestAudios(Post.getDummyPosts("audio"));
+        renderLatestVideos(Post.getDummyPosts("video"));
+        renderLatestQuestions(Question.getDummyQuestions());
     }
 
     private void loadLatestContent() {
@@ -153,19 +150,45 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
 
     @Override
     public void renderLatestAudios(List<Post> pAudios) {
-        if (pAudios != null)
-            mAudioListAdapter.setDataCollection(pAudios);
+        if (pAudios != null) {
+            mAudioList.removeAllViews();
+            for (Post audio : pAudios) {
+                AudioDataBinding audioDataBinding = DataBindingUtil.inflate
+                        (LayoutInflater.from(getContext()), R.layout.list_item_audio, mAudioList,
+                                false);
+                audioDataBinding.setAudio(audio);
+                View view = audioDataBinding.getRoot();
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
+                        .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0, 0, 0, getResources().getDimensionPixelOffset(R.dimen.spacing_small));
+                view.setLayoutParams(params);
+                mAudioList.addView(view);
+            }
+        }
     }
 
     @Override
     public void renderLatestVideos(List<Post> pVideos) {
-        if (pVideos != null)
-            mVideoListAdapter.setDataCollection(pVideos);
+        if (pVideos != null) {
+            mVideoList.removeAllViews();
+            for (Post video : pVideos) {
+                VideoDataBinding videoDataBinding = DataBindingUtil.inflate
+                        (LayoutInflater.from(getContext()), R.layout.list_item_video, mVideoList,
+                                false);
+                videoDataBinding.setVideo(video);
+                View view = videoDataBinding.getRoot();
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
+                        .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0, 0, 0, getResources().getDimensionPixelOffset(R.dimen.spacing_small));
+                view.setLayoutParams(params);
+                mVideoList.addView(view);
+            }
+        }
     }
 
     @Override
     public void showLoadingView(int flag) {
-        switch (flag){
+        switch (flag) {
             case HomeFragmentPresenter.FLAG_AUDIO:
                 mAudioProgressBar.setVisibility(View.VISIBLE);
                 break;
@@ -180,7 +203,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
 
     @Override
     public void hideLoadingView(int flag) {
-        switch (flag){
+        switch (flag) {
             case HomeFragmentPresenter.FLAG_AUDIO:
                 mAudioProgressBar.setVisibility(View.GONE);
             case HomeFragmentPresenter.FLAG_VIDEO:
@@ -192,7 +215,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
 
     @Override
     public void showErrorView(String pErrorMessage) {
-        Snackbar.make(mContainer, pErrorMessage,Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mContainer, pErrorMessage, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -210,7 +233,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
 
     @Override
     public void showEmptyView(int flag) {
-        switch (flag){
+        switch (flag) {
             case HomeFragmentPresenter.FLAG_AUDIO:
                 break;
             case HomeFragmentPresenter.FLAG_VIDEO:
@@ -222,7 +245,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
 
     @Override
     public void hideEmptyView(int flag) {
-        switch (flag){
+        switch (flag) {
             case HomeFragmentPresenter.FLAG_AUDIO:
                 break;
             case HomeFragmentPresenter.FLAG_VIDEO:

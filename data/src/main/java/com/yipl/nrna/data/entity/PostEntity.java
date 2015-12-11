@@ -14,7 +14,7 @@ public class PostEntity {
     @SerializedName("updated_at")
     Long updatedAt;
     @SerializedName("question_ids")
-    List<String> questionIdList;
+    List<Long> questionIdList;
     List<String> tags;
     String language;
     String type;
@@ -47,11 +47,11 @@ public class PostEntity {
         updatedAt = pUpdatedAt;
     }
 
-    public List<String> getQuestionIdList() {
+    public List<Long> getQuestionIdList() {
         return questionIdList;
     }
 
-    public void setQuestionIdList(List<String> pQuestionIdList) {
+    public void setQuestionIdList(List<Long> pQuestionIdList) {
         questionIdList = pQuestionIdList;
     }
 

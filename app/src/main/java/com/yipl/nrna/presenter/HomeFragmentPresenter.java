@@ -5,6 +5,7 @@ import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
+import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.exception.ErrorMessageFactory;
 import com.yipl.nrna.ui.interfaces.HomeFragmentView;
 import com.yipl.nrna.ui.interfaces.MvpView;
@@ -103,7 +104,11 @@ public class HomeFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Question> pQuestions) {
-            HomeFragmentPresenter.this.mView.renderLatestQuestions(pQuestions);
+            if (pQuestions.isEmpty()) {
+                HomeFragmentPresenter.this.mView.showEmptyView(MyConstants.Adapter.TYPE_QUESTION);
+            } else {
+                HomeFragmentPresenter.this.mView.renderLatestQuestions(pQuestions);
+            }
         }
     }
 
@@ -126,8 +131,11 @@ public class HomeFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Post> pPosts) {
-            Logger.d("onNext_Post", pPosts.size()+"/");
-            HomeFragmentPresenter.this.mView.renderLatestAudios(pPosts);
+            if (!pPosts.isEmpty()) {
+                HomeFragmentPresenter.this.mView.renderLatestAudios(pPosts);
+            } else {
+                HomeFragmentPresenter.this.mView.showEmptyView(FLAG_AUDIO);
+            }
         }
     }
 
@@ -150,7 +158,11 @@ public class HomeFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Post> pVideos) {
-            HomeFragmentPresenter.this.mView.renderLatestVideos(pVideos);
+            if (!pVideos.isEmpty()) {
+                HomeFragmentPresenter.this.mView.renderLatestVideos(pVideos);
+            } else {
+                HomeFragmentPresenter.this.mView.showEmptyView(FLAG_AUDIO);
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.yipl.nrna.ui.fragment.RecentQuestionFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data class="RecentQuestionDataBinding">
         <variable
@@ -21,10 +20,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/content_inset_start"
+            android:paddingLeft="@dimen/spacing_standard"
+            android:paddingRight="@dimen/spacing_standard"
+            android:layout_marginTop="@dimen/spacing_big"
             android:text="@{question.getQuestion()}"
             android:textColor="@android:color/white"
+            android:textSize="@dimen/text_large"
             tools:text="How to apply for passport ?" />
 
     </RelativeLayout>
@@ -40,7 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/see_all_questions"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_large" />
     </RelativeLayout>
     </FrameLayout>
 </layout>
