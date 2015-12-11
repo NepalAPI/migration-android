@@ -8,36 +8,37 @@ import java.util.List;
  * Created by julian on 12/7/15.
  */
 public class QuestionEntity {
-    String id;
+    Long id;
     @SerializedName("updated_at")
-    String updatedAt;
+    Long updatedAt;
     @SerializedName("created_at")
-    String createdAt;
+    Long createdAt;
+    String stage;
     List<String> tags;
     String language;
     String question;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String pId) {
+    public void setId(Long pId) {
         id = pId;
     }
 
-    public String getUpdatedAt() {
+    public Long getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String pUpdatedAt) {
+    public void setUpdatedAt(Long pUpdatedAt) {
         updatedAt = pUpdatedAt;
     }
 
-    public String getCreatedAt() {
+    public Long getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String pCreatedAt) {
+    public void setCreatedAt(Long pCreatedAt) {
         createdAt = pCreatedAt;
     }
 
@@ -63,5 +64,13 @@ public class QuestionEntity {
 
     public void setQuestion(String pQuestion) {
         question = pQuestion;
+    }
+
+    public String getStage() {
+        return stage;
+    }
+
+    public void setStage(String pStage) {
+        stage = pStage;
     }
 }
