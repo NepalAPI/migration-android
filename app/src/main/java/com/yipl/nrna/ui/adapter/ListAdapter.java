@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.databinding.AudioDataBinding;
@@ -118,12 +119,12 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                 break;
             case TYPE_AUDIO:
                 AudioDataBinding aBinding = DataBindingUtil.inflate(mLayoutInflater, R.layout
-                        .list_item_question, parent, false);
+                        .list_item_audio, parent, false);
                 viewHolder = new AudioViewHolder(aBinding);
                 break;
             case TYPE_VIDEO:
                 VideoDataBinding vBinding = DataBindingUtil.inflate(mLayoutInflater, R.layout
-                        .list_item_question, parent, false);
+                        .list_item_video, parent, false);
                 viewHolder = new VideoViewHolder(vBinding);
                 break;
         }

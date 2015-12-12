@@ -56,6 +56,8 @@ public class DatabaseDao {
     }
 
     public Observable<List<PostEntity>> getAllPosts(int pLimit) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+
         String query = "Select * from " +
                 MyConstants.DATABASE.TABLE_POST.TABLE_NAME +
                 " order by " + MyConstants.DATABASE.TABLE_POST.COLUMN_UPDATED_AT +
@@ -69,19 +71,18 @@ public class DatabaseDao {
                 while (cursor.moveToNext()) {
                     posts.add(convertCursorToPostEntity(cursor));
                 }
+                cursor.close();
                 return posts;
             }
         };
-        cursor.close();
         return makeObservable(c);
     }
 
     public Observable<PostEntity> getPostById(Long pId) {
-        SQLiteDatabase db = helper.getWritableDatabase();
         String query = "Select * from " +
                 MyConstants.DATABASE.TABLE_POST.TABLE_NAME +
                 " where " + MyConstants.DATABASE.TABLE_POST.COLUMN_ID + " = " + pId +
-                " LIMIT = 1 ";
+                " LIMIT 1 ";
         Cursor cursor = db.rawQuery(query, null);
 
         Callable<PostEntity> callable = new Callable<PostEntity>() {
@@ -91,19 +92,20 @@ public class DatabaseDao {
                 if (cursor.moveToFirst()) {
                     post = convertCursorToPostEntity(cursor);
                 }
+                cursor.close();
                 return post;
             }
         };
-        cursor.close();
+
         return makeObservable(callable);
     }
 
-    public Observable<List<PostEntity>> getPostByType(String type) {
+    public Observable<List<PostEntity>> getPostByType(int pLimit, String type) {
         String query = "Select * from " +
                 MyConstants.DATABASE.TABLE_POST.TABLE_NAME + " where " +
                 MyConstants.DATABASE.TABLE_POST.COLUMN_TYPE + " = '" + type + "'" +
                 " order by " + MyConstants.DATABASE.TABLE_POST.COLUMN_UPDATED_AT +
-                " DESC";
+                " DESC Limit "+ pLimit;
         Cursor cursor = db.rawQuery(query, null);
 
         Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
@@ -113,10 +115,11 @@ public class DatabaseDao {
                 while (cursor.moveToNext()) {
                     posts.add(convertCursorToPostEntity(cursor));
                 }
+                cursor.close();
                 return posts;
             }
         };
-        cursor.close();
+
         return makeObservable(c);
     }
 
@@ -149,10 +152,10 @@ public class DatabaseDao {
                 while (cursor.moveToNext()) {
                     questions.add(convertCursorToQuestionEntity(cursor));
                 }
+                cursor.close();
                 return questions;
             }
         };
-        cursor.close();
         return makeObservable(callable);
     }
 
@@ -171,10 +174,10 @@ public class DatabaseDao {
                 while (cursor.moveToNext()) {
                     questions.add(convertCursorToQuestionEntity(cursor));
                 }
+                cursor.close();
                 return questions;
             }
         };
-        cursor.close();
         return makeObservable(callable);
     }
 
@@ -182,7 +185,7 @@ public class DatabaseDao {
         String query = "Select * from " +
                 MyConstants.DATABASE.TABLE_QUESTION.TABLE_NAME +
                 " where " + MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID + " = " + pId +
-                "  LIMIT = 1 ";
+                "  LIMIT 1 ";
         Cursor cursor = db.rawQuery(query, null);
         Callable<QuestionEntity> callable = new Callable<QuestionEntity>() {
             @Override
@@ -191,10 +194,10 @@ public class DatabaseDao {
                 if (cursor.moveToFirst()) {
                     question = convertCursorToQuestionEntity(cursor);
                 }
+                cursor.close();
                 return question;
             }
         };
-        cursor.close();
         return makeObservable(callable);
     }
 
@@ -267,9 +270,9 @@ public class DatabaseDao {
         }
     }
 
-    public void savePostQuestionRelation(Long postId, List<String> questionIds) {
+    public void savePostQuestionRelation(Long postId, List<Long> questionIds) {
         if (questionIds != null) {
-            for (String id : questionIds) {
+            for (Long id : questionIds) {
                 if (id != null) {
                     String query = "Insert into " + MyConstants.DATABASE.TABLE_POST_QUESTION.TABLE_NAME + "( " +
                             MyConstants.DATABASE.TABLE_POST_QUESTION.COLUMN_POST_ID + MyConstants.DATABASE.COMMA +

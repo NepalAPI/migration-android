@@ -37,7 +37,7 @@ public class MyConstants {
             public static String COLUMN_UPDATED_AT = "updated_date";
             public static String COLUMN_CREATED_AT = "created_date";
             public static String COLUMN_DATA = "data";
-            public static String COLUMN_TYPE = "text";
+            public static String COLUMN_TYPE = "type";
             public static String COLUMN_LANGUAGE = "language";
             public static String COLUMN_TAGS = "tag";
             public static String COLUMN_SOURCE = "source";
@@ -91,8 +91,8 @@ public class MyConstants {
 
             public static String CREATE_TABLE_POST_QUESTION = "Create table " + TABLE_NAME + "( " +
                     COLUMN_ID + TYPE_INTEGER + " primary key AUTOINCREMENT" + COMMA +
-                    COLUMN_POST_ID + TYPE_TEXT + COMMA +
-                    COLUMN_QUESTION_ID + TYPE_TEXT +
+                    COLUMN_POST_ID + TYPE_INTEGER + COMMA +
+                    COLUMN_QUESTION_ID + TYPE_INTEGER +
                     " );";
         }
 

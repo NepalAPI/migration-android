@@ -17,6 +17,7 @@ import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.presenter.LatestContentPresenter;
+import com.yipl.nrna.ui.fragment.AudioListFragment;
 import com.yipl.nrna.ui.fragment.HomeFragment;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.util.Logger;
@@ -109,8 +110,14 @@ public class MainActivity extends BaseActivity implements
         switch (id){
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.main_content, new HomeFragment(), "home_fragment")
+                        .replace(R.id.main_content, new HomeFragment(), "home_fragment")
                         .commit();
+                break;
+            case R.id.nav_audios:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_content, new AudioListFragment(), "audio_fragment")
+                        .commit();
+                break;
 
         }
 
