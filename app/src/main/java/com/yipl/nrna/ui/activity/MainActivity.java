@@ -19,6 +19,7 @@ import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.presenter.LatestContentPresenter;
 import com.yipl.nrna.ui.fragment.AudioListFragment;
 import com.yipl.nrna.ui.fragment.HomeFragment;
+import com.yipl.nrna.ui.fragment.VideoListFragment;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.util.Logger;
 
@@ -118,7 +119,11 @@ public class MainActivity extends BaseActivity implements
                         .replace(R.id.main_content, new AudioListFragment(), "audio_fragment")
                         .commit();
                 break;
-
+            case R.id.nav_videos:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_content, new VideoListFragment(), "video_fragment")
+                        .commit();
+                break;
         }
 
         mDrawerLayout.closeDrawer(GravityCompat.START);

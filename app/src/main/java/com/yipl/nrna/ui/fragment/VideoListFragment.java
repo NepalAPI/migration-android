@@ -1,28 +1,24 @@
 package com.yipl.nrna.ui.fragment;
 
-import android.app.ProgressDialog;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseFragment;
-import com.yipl.nrna.databinding.AudioDataBinding;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.presenter.AudioListFragmentPresenter;
+import com.yipl.nrna.presenter.VideoListFragmentPresenter;
 import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.AudioListView;
+import com.yipl.nrna.ui.interfaces.VideoListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,33 +29,33 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by Nirazan-PC on 12/11/2015.
+ * Created by Nirazan-PC on 12/14/2015.
  */
-public class AudioListFragment extends BaseFragment implements AudioListView{
+public class VideoListFragment extends BaseFragment implements VideoListView {
 
     @Inject
-    AudioListFragmentPresenter mPresenter;
-
-    @Bind(R.id.recylerViewAudioList)
+    VideoListFragmentPresenter mPresenter;
+    @Bind(R.id.recylerViewVideoList)
     RecyclerView mRecyclerView;
-    @Bind(R.id.tvNoAudio)
-    TextView tvNoAudio;
+    @Bind(R.id.tvNoVideo)
+    TextView tvNoVideo;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
 
     private ListAdapter<Post> mListAdapter;
 
-    public AudioListFragment() {
+    public VideoListFragment() {
         super();
     }
 
-    public static AudioListFragment newInstance() {
-        AudioListFragment fragment = new AudioListFragment();
+    public static VideoListFragment newInstance() {
+        VideoListFragment fragment = new VideoListFragment();
         return fragment;
     }
+
     @Override
     public int getLayout() {
-        return R.layout.fragment_audio_list;
+        return R.layout.fragment_video_list;
     }
 
     @Override
@@ -78,10 +74,10 @@ public class AudioListFragment extends BaseFragment implements AudioListView{
         super.onActivityCreated(savedInstanceState);
         initialize();
         setUpAdapter();
-        loadAudioList();
+        loadVideoList();
     }
 
-    private void loadAudioList() {
+    private void loadVideoList() {
         mPresenter.initialize();
     }
 
@@ -97,7 +93,7 @@ public class AudioListFragment extends BaseFragment implements AudioListView{
                 .build()
                 .inject(this);
         mPresenter.attachView(this);
-        tvNoAudio.setVisibility(View.GONE);
+        tvNoVideo.setVisibility(View.GONE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
@@ -126,7 +122,7 @@ public class AudioListFragment extends BaseFragment implements AudioListView{
 
     @Override
     public void hideLoadingView() {
-        mProgressBar.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -151,19 +147,16 @@ public class AudioListFragment extends BaseFragment implements AudioListView{
 
     @Override
     public void showEmptyView() {
-        tvNoAudio.setVisibility(View.VISIBLE);
+        tvNoVideo.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideEmptyView() {
-        tvNoAudio.setVisibility(View.INVISIBLE);
+        tvNoVideo.setVisibility(View.INVISIBLE);
     }
 
     @Override
-    public void renderAudiolist(List<Post> pAudios) {
-        if (pAudios != null) {
-            tvNoAudio.setVisibility(View.GONE);
-            mListAdapter.setDataCollection(pAudios);
-        }
+    public void renderVideoList(List<Post> pVideos) {
+            mListAdapter.setDataCollection(pVideos);
     }
 }
