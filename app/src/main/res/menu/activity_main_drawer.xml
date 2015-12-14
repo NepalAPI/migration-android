@@ -23,6 +23,10 @@
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/title_video"/>
         <item
+            android:id="@+id/nav_articles"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/title_article"/>
+        <item
             android:id="@+id/nav_questions"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/title_questions"/>

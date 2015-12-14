@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
+import com.yipl.nrna.databinding.ArticleDataBinding;
 import com.yipl.nrna.databinding.AudioDataBinding;
 import com.yipl.nrna.databinding.QuestionDataBinding;
 import com.yipl.nrna.databinding.VideoDataBinding;
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
 
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_AUDIO;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_QUESTION;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_VIDEO;
 
 public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<RecyclerView
@@ -92,6 +94,23 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
         }
     }
 
+    public class ArticleViewHolder extends RecyclerView.ViewHolder {
+
+        public ArticleDataBinding mBinding;
+
+        public ArticleViewHolder(ArticleDataBinding binding) {
+            super(binding.getRoot());
+            ButterKnife.bind(this, binding.getRoot());
+            this.mBinding = binding;
+            /*view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onListItemSelected(data.get(getAdapterPosition()));
+                }
+            });*/
+        }
+    }
+
     public void setDataCollection(List<T> pDataCollection) {
         mDataCollection = pDataCollection;
         notifyDataSetChanged();
@@ -127,6 +146,11 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                         .list_item_video, parent, false);
                 viewHolder = new VideoViewHolder(vBinding);
                 break;
+            case TYPE_TEXT:
+                ArticleDataBinding articleBinding = DataBindingUtil.inflate(mLayoutInflater, R.layout
+                        .list_item_article, parent, false);
+                viewHolder = new ArticleViewHolder(articleBinding);
+                break;
         }
         return viewHolder;
     }
@@ -144,6 +168,10 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
             default:
             case TYPE_VIDEO:
                 ((VideoViewHolder) holder).mBinding.setVideo((Post) mDataCollection.get
+                        (position));
+                break;
+            case TYPE_TEXT:
+                ((ArticleViewHolder) holder).mBinding.setArticle((Post) mDataCollection.get
                         (position));
                 break;
         }
