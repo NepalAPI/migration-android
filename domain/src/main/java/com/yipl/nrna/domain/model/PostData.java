@@ -1,9 +1,11 @@
 package com.yipl.nrna.domain.model;
 
+import java.io.Serializable;
+
 /**
  * Created by julian on 12/9/15.
  */
-public class PostData {
+public class PostData implements Serializable {
     String mediaUrl;
     String content;
 

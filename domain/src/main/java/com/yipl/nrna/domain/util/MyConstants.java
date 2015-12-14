@@ -15,8 +15,22 @@ public class MyConstants {
         public static final int TYPE_TEXT = 3;
     }
 
+    public static class Media{
+        public static final String ACTION_MEDIA_BUFFER_START = "media.action.BUFFER_START";
+        public static final String ACTION_MEDIA_BUFFER_STOP = "media.action.BUFFER_START";
+        public static final String ACTION_MEDIA_CHANGE = "media.action.MEDIA_CHANGE";
+        public static final String ACTION_STATUS_PREPARED = "media.action.STATUS_PREPARED";
+        public static final String ACTION_STATUS_COMPLETION = "media.action.STATUS_COMPLETION";
+        public static final String ACTION_PREFERENCE_CHANGED = "media.action.PREF_CHANGED";
+        public static final String ACTION_PLAY_STATUS_CHANGE = "media.action.PLAY_STATUS_CHANGED";
+    }
+
     public static final class Extras{
         public static final String KEY_QUESTION = "key_question";
+
+        public static final String KEY_AUDIO = "key_audio";
+        public static final String KEY_AUDIO_LIST = "key_audio_list";
+        public static final String KEY_PLAY_STATUS = "key_play_status";
     }
 
     public static class DATABASE{

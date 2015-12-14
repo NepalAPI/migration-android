@@ -22,7 +22,7 @@
     <string name="latest_videos">latest videos</string>
 
     <string name="message_fetching_latest_content">Fetching latest content...</string>
-
+    <string name="error_message_no_metadata">Unable to retrieve meta-data.</string>
     <string name="exception_message_generic">Error encountered.</string>
     <string name="exception_message_no_connection">Please check your internet connection.</string>
     <!-- TODO: Remove or change this placeholder text -->

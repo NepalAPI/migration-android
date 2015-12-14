@@ -21,6 +21,7 @@
         <item name="android:textColor">@color/text_color_primary</item>
         <item name="android:textSize">@dimen/text_default</item>
     </style>
+
     <style name="post_duration">
         <item name="android:textColor">@color/text_color_primary_faded_70</item>
         <item name="android:textSize">@dimen/text_small</item>

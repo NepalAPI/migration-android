@@ -115,6 +115,9 @@ public class Post extends BaseModel {
     public static List<Post> getDummyPosts(String pType) {
         List<Post> list = new ArrayList<>();
         String[] tags = {"tag1", "tag2", "tag3"};
+        PostData data = new PostData();
+        data.setContent("This is sample content...");
+        data.setMediaUrl("https://storage.googleapis.com/anthem/National%20Anthem%20Of%20Nepal%20-%5B%20www.mp3mp4.ninja%20%5D.mp3");
         for (int i = 0; i < 3; i++) {
             Post post = new Post();
             post.setId(((long) i));
@@ -123,6 +126,7 @@ public class Post extends BaseModel {
             post.setUpdatedAt(123425645L);
             post.setDescription("this is the description");
             post.setTags(Arrays.asList(tags));
+            post.setData(data);
             post.setQuestionIdList(new ArrayList());
             post.setType(pType);
             list.add(post);
