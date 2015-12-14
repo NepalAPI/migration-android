@@ -22,7 +22,9 @@ public class VideoRepository implements IRepository<Post> {
     @Override
     public Observable<List<Post>> getList() {
         //// TODO: 12/9/15
-        return Observable.empty();
+        return mDataStoreFactory.createDBDataStore().getPostByType(-1, "video").map(
+                pPostEntitites -> mDataMapper.transformPost(pPostEntitites)
+        );
     }
 
     @Override
