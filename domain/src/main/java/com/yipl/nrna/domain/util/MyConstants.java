@@ -8,7 +8,57 @@ public class MyConstants {
         public static final String LATEST_CONTENT = "latest";
     }
 
-    public static final class Adapter {
+    public enum Stage {
+        PRE_APPLICATION,
+        APPLICATION,
+        WORK_PERMIT,
+        DESTINATION_COUNTRY;
+
+        public static String toString(Stage pStage) {
+            switch (pStage){
+                default:
+                case PRE_APPLICATION:
+                    return DataInfo.STAGE_PRE_APPLICATION;
+                case APPLICATION:
+                    return DataInfo.STAGE_APPLICATION;
+                case WORK_PERMIT:
+                    return DataInfo.STAGE_WORK_PERMIT;
+                case DESTINATION_COUNTRY:
+                    return DataInfo.STAGE_DESTINATION_COUNTRY;
+            }
+        }
+    }
+
+    public enum PostType{
+        AUDIO,
+        VIDEO,
+        TEXT;
+
+        public static String toString(PostType pType){
+            switch (pType){
+                default:
+                case AUDIO:
+                    return DataInfo.TYPE_AUDIO;
+                case VIDEO:
+                    return DataInfo.TYPE_VIDEO;
+                case TEXT:
+                    return DataInfo.TYPE_TEXT;
+            }
+        }
+    }
+
+    public static class DataInfo{
+        public static final String STAGE_PRE_APPLICATION = "pre-application";
+        public static final String STAGE_APPLICATION = "application";
+        public static final String STAGE_WORK_PERMIT = "work-permit";
+        public static final String STAGE_DESTINATION_COUNTRY = "destination-country";
+
+        public static final String TYPE_AUDIO = "audio";
+        public static final String TYPE_VIDEO = "video";
+        public static final String TYPE_TEXT = "text";
+    }
+
+    public static final class Adapter{
         public static final int TYPE_QUESTION = 0;
         public static final int TYPE_AUDIO = 1;
         public static final int TYPE_VIDEO = 2;
@@ -31,8 +81,8 @@ public class MyConstants {
         public static final String KEY_AUDIO = "key_audio";
         public static final String KEY_AUDIO_LIST = "key_audio_list";
         public static final String KEY_PLAY_STATUS = "key_play_status";
-
         public static final String KEY_ID = "key_id";
+        public static final String KEY_STAGE = "key_stage";
     }
 
     public static class DATABASE {
@@ -54,6 +104,7 @@ public class MyConstants {
             public static String COLUMN_CREATED_AT = "created_date";
             public static String COLUMN_DATA = "data";
             public static String COLUMN_TYPE = "type";
+            public static String COLUMN_STAGE = "stage";
             public static String COLUMN_LANGUAGE = "language";
             public static String COLUMN_TAGS = "tag";
             public static String COLUMN_SOURCE = "source";
@@ -66,6 +117,7 @@ public class MyConstants {
                     COLUMN_CREATED_AT + TYPE_INTEGER + COMMA +
                     COLUMN_DATA + TYPE_TEXT + COMMA +
                     COLUMN_TYPE + TYPE_TEXT + COMMA +
+                    COLUMN_STAGE + TYPE_TEXT + COMMA +
                     COLUMN_LANGUAGE + TYPE_TEXT + COMMA +
                     COLUMN_TAGS + TYPE_TEXT + COMMA +
                     COLUMN_SOURCE + TYPE_TEXT + COMMA +

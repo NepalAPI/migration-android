@@ -1,34 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-    >
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-        <data class="ArticleDataBinding">
+    <data class="ArticleDataBinding">
 
-                <variable
-                    name="article"
-                    type="com.yipl.nrna.domain.model.Post"/>
-        </data>
-    <LinearLayout
-        android:layout_width="match_parent"
+        <variable
+            name="article"
+            type="com.yipl.nrna.domain.model.Post"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/spacing_standard">
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/post_title"
+        <ImageView
+            android:id="@+id/content_art"
+            android:layout_width="@dimen/content_art_size"
+            android:layout_height="@dimen/content_art_size"
+            android:padding="@dimen/spacing_small"
+            android:src="@drawable/ic_menu_gallery"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingRight="@dimen/spacing_standard"
-            android:text="@{article.getTitle()}"
-            tools:text="My experience on applying for citizenship."/>
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/content_art"
+            android:layout_alignBottom="@id/content_art"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/spacing_standard">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:background="@color/divider"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/title"
+                style="@style/post_title"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/spacing_standard"
+                android:text="@{article.getTitle()}"
+                tools:text="My experience on applying for citizenship."/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:background="@color/divider"/>
+        </LinearLayout>
+    </RelativeLayout>
 </layout>

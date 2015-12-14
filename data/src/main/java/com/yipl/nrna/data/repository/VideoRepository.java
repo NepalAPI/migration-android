@@ -20,11 +20,26 @@ public class VideoRepository implements IRepository<Post> {
     }
 
     @Override
-    public Observable<List<Post>> getList() {
+    public Observable<List<Post>> getList(int pLimit) {
         //// TODO: 12/9/15
-        return mDataStoreFactory.createDBDataStore().getPostByType(-1, "video").map(
+        return mDataStoreFactory.createDBDataStore().getPostByType(pLimit, "video").map(
                 pPostEntitites -> mDataMapper.transformPost(pPostEntitites)
         );
+    }
+
+    @Override
+    public Observable<List<Post>> getListByType(int pLimit, String pType) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Post>> getListByStage(int pLimit, String pType) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Post>> getListByStageAndType(int pLimit, String pType, String pStage) {
+        return null;
     }
 
     @Override

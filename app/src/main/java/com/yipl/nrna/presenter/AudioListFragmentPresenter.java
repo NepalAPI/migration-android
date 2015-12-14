@@ -89,7 +89,6 @@ public class AudioListFragmentPresenter implements Presenter {
                 AudioListFragmentPresenter.this.mView.renderAudiolist(pPosts);
             }
             AudioListFragmentPresenter.this.mView.hideLoadingView();
-
         }
     }
 

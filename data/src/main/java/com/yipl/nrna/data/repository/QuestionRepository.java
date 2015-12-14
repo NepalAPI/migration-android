@@ -20,9 +20,24 @@ public class QuestionRepository implements IRepository<Question> {
     }
 
     @Override
-    public Observable<List<Question>> getList() {
+    public Observable<List<Question>> getList(int pLimit) {
         //// TODO: 12/9/15
         return Observable.empty();
+    }
+
+    @Override
+    public Observable<List<Question>> getListByType(int pLimit, String pType) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Question>> getListByStage(int pLimit, String pType) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Question>> getListByStageAndType(int pLimit, String pType, String pStage) {
+        return null;
     }
 
     @Override
