@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+    >
+
+        <data class="ArticleDataBinding">
+
+                <variable
+                    name="article"
+                    type="com.yipl.nrna.domain.model.Post"/>
+        </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/spacing_standard">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/post_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/spacing_standard"
+            android:text="@{article.getTitle()}"
+            tools:text="My experience on applying for citizenship."/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:background="@color/divider"/>
+    </LinearLayout>
+
+</layout>

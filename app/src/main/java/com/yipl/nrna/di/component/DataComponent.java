@@ -4,6 +4,7 @@ import com.yipl.nrna.data.di.PerActivity;
 import com.yipl.nrna.di.module.ActivityModule;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.ui.activity.MainActivity;
+import com.yipl.nrna.ui.fragment.ArticleListFragment;
 import com.yipl.nrna.ui.fragment.AudioListFragment;
 import com.yipl.nrna.ui.fragment.HomeFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
@@ -23,4 +24,5 @@ public interface DataComponent extends ActivityComponent {
     void inject(MainActivity pBaseActivity);
     void inject(AudioListFragment pFragment);
     void inject(VideoListFragment pFragment);
+    void inject(ArticleListFragment pFragment);
 }

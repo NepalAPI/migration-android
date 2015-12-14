@@ -5,6 +5,7 @@ import android.content.Context;
 import com.yipl.nrna.data.Database.DatabaseDao;
 import com.yipl.nrna.data.di.PerActivity;
 import com.yipl.nrna.data.entity.mapper.DataMapper;
+import com.yipl.nrna.data.repository.ArticleRepository;
 import com.yipl.nrna.data.repository.AudioRepository;
 import com.yipl.nrna.data.repository.LatestContentRepository;
 import com.yipl.nrna.data.repository.QuestionRepository;
@@ -12,6 +13,7 @@ import com.yipl.nrna.data.repository.VideoRepository;
 import com.yipl.nrna.data.repository.datasource.DataStoreFactory;
 import com.yipl.nrna.domain.executor.PostExecutionThread;
 import com.yipl.nrna.domain.executor.ThreadExecutor;
+import com.yipl.nrna.domain.interactor.GetArticleListUseCase;
 import com.yipl.nrna.domain.interactor.GetAudioDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetAudioListUseCase;
 import com.yipl.nrna.domain.interactor.GetLatestContentUseCase;
@@ -131,6 +133,23 @@ public class DataModule {
     IRepository provideVideoDataRepository(DataStoreFactory pDataStoreFactory, DataMapper
             pDataMapper) {
         return new VideoRepository(pDataStoreFactory, pDataMapper);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("articleList")
+    UseCase provideArticleListUseCase(@Named("article") IRepository pDataRepository,
+                                    ThreadExecutor pThreadExecutor, PostExecutionThread
+                                            pPostExecutionThread) {
+        return new GetArticleListUseCase(pDataRepository, pThreadExecutor, pPostExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("article")
+    IRepository provideArticleDataRepository(DataStoreFactory pDataStoreFactory, DataMapper
+            pDataMapper) {
+        return new ArticleRepository(pDataStoreFactory, pDataMapper);
     }
 
     @Provides
