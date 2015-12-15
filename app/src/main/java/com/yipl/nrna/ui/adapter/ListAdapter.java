@@ -11,12 +11,13 @@ import android.view.ViewGroup;
 import com.yipl.nrna.R;
 import com.yipl.nrna.databinding.ArticleDataBinding;
 import com.yipl.nrna.databinding.AudioDataBinding;
+import com.yipl.nrna.databinding.CountryDataBinding;
 import com.yipl.nrna.databinding.QuestionDataBinding;
 import com.yipl.nrna.databinding.VideoDataBinding;
 import com.yipl.nrna.domain.model.BaseModel;
+import com.yipl.nrna.domain.model.Country;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
-import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_AUDIO;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_COUNTRY;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_QUESTION;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_VIDEO;
@@ -117,6 +119,23 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
         }
     }
 
+    public class CountryViewHolder extends RecyclerView.ViewHolder {
+
+        public CountryDataBinding mBinding;
+
+        public CountryViewHolder(CountryDataBinding binding) {
+            super(binding.getRoot());
+            ButterKnife.bind(this, binding.getRoot());
+            this.mBinding = binding;
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onListItemSelected(TYPE_COUNTRY, mBinding.getCountry().getId());
+                }
+            });
+        }
+    }
+
     public void setDataCollection(List<T> pDataCollection) {
         mDataCollection = pDataCollection;
         notifyDataSetChanged();
@@ -157,6 +176,11 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                         .list_item_article, parent, false);
                 viewHolder = new ArticleViewHolder(articleBinding);
                 break;
+            case TYPE_COUNTRY:
+                CountryDataBinding countryBinding = DataBindingUtil.inflate(mLayoutInflater, R
+                        .layout.list_item_country, parent, false);
+                viewHolder = new CountryViewHolder(countryBinding);
+                break;
         }
         return viewHolder;
     }
@@ -169,16 +193,18 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                         .get(position));
                 break;
             case TYPE_AUDIO:
-                ((AudioViewHolder) holder).mBinding.setAudio((Post) mDataCollection.get
-                        (position));
+                ((AudioViewHolder) holder).mBinding.setAudio((Post) mDataCollection.get(position));
                 break;
             default:
             case TYPE_VIDEO:
-                ((VideoViewHolder) holder).mBinding.setVideo((Post) mDataCollection.get
-                        (position));
+                ((VideoViewHolder) holder).mBinding.setVideo((Post) mDataCollection.get(position));
                 break;
             case TYPE_TEXT:
                 ((ArticleViewHolder) holder).mBinding.setArticle((Post) mDataCollection.get
+                        (position));
+                break;
+            case TYPE_COUNTRY:
+                ((CountryViewHolder) holder).mBinding.setCountry((Country) mDataCollection.get
                         (position));
                 break;
         }

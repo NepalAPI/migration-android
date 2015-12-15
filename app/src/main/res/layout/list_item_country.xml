@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:fresco="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="CountryDataBinding">
+
+        <variable
+            name="country"
+            type="com.yipl.nrna.domain.model.Country"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/country_list_image_height"
+            app:imageUrl="@{country.getImageUrl()}"
+            fresco:actualImageScaleType="focusCrop"
+            fresco:backgroundImage="@color/colorPrimaryDark"
+            fresco:fadeDuration="300"
+            fresco:failureImageScaleType="centerInside"
+            fresco:placeholderImageScaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/image"
+            android:layout_marginBottom="@dimen/spacing_big"
+            android:layout_marginLeft="@dimen/content_inset_start"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_xlarge"
+            android:text="@{country.getName()}"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"/>
+    </RelativeLayout>
+</layout>

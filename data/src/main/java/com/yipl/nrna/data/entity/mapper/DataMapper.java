@@ -1,10 +1,12 @@
 package com.yipl.nrna.data.entity.mapper;
 
 import com.yipl.nrna.data.di.PerActivity;
+import com.yipl.nrna.data.entity.CountryEntity;
 import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.data.entity.PostDataEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
+import com.yipl.nrna.domain.model.Country;
 import com.yipl.nrna.domain.model.LatestContent;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.PostData;
@@ -90,9 +92,35 @@ public class DataMapper {
         return postList;
     }
 
-    public PostData transformPostData(PostDataEntity pEntity){
+    public Country transformCountry(CountryEntity pCountry) {
+        if (pCountry != null) {
+            Country country = new Country();
+            country.setId(pCountry.getId());
+            country.setUpdatedAt(pCountry.getUpdatedAt());
+            country.setCreatedAt(pCountry.getCreatedAt());
+            country.setAbout(pCountry.getAbout());
+            country.setImageUrl(pCountry.getImageUrl());
+            country.setName(pCountry.getName());
+            return country;
+        }
+        return null;
+    }
+
+    public List<Country> transformCountry(List<CountryEntity> pEntities) {
+        List<Country> countryList = new ArrayList<>();
+        if (pEntities != null) {
+            for (CountryEntity entity : pEntities) {
+                Country country = transformCountry(entity);
+                if (country != null)
+                    countryList.add(country);
+            }
+        }
+        return countryList;
+    }
+
+    public PostData transformPostData(PostDataEntity pEntity) {
         PostData data = null;
-        if(pEntity != null) {
+        if (pEntity != null) {
             data = new PostData();
             data.setContent(pEntity.getContent());
             data.setMediaUrl(pEntity.getMediaUrl());

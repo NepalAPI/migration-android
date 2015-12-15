@@ -11,7 +11,6 @@ import android.os.PowerManager;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -131,12 +130,9 @@ public class MediaService extends Service implements
             mPlayer.reset();
             mPlayer.setDataSource(mCurrentTrack.getData().getMediaUrl());
             mPlayer.prepareAsync();
-        } catch (IllegalStateException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            playNext();
         }
     }
 

@@ -25,7 +25,7 @@
             android:layout_marginTop="@dimen/spacing_big"
             android:text="@{question.getQuestion()}"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_xlarge"
+            android:textSize="@dimen/text_xxlarge"
             tools:text="How to apply for passport ?" />
 
     </RelativeLayout>
@@ -42,7 +42,7 @@
             android:layout_centerInParent="true"
             android:text="@string/see_all_questions"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_xlarge" />
+            android:textSize="@dimen/text_xxlarge" />
     </RelativeLayout>
     </FrameLayout>
 </layout>

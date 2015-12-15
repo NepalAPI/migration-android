@@ -24,7 +24,8 @@ ext {
     retrofitRxAdapterVersion = '2.0.0-beta2'
     pagerIndicatorVersion = '2.4.1'
     stethoVersion = '1.2.0'
-    frescoVersion = '0.8.1'
+    frescoVersion = '0.5.3'
+    picassoVersion = '2.5.2'
 
     //Testing
     robolectricVersion = '3.0'
@@ -51,7 +52,8 @@ ext {
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             pagerIndicator:     "com.mcxiaoke.viewpagerindicator:library:${pagerIndicatorVersion}",
             stetho:             "com.facebook.stetho:stetho:${stethoVersion}",
-            fresco:             "com.facebook.fresco:fresco:${frescoVersion}"
+            fresco:             "com.facebook.fresco:fresco:${frescoVersion}",
+            picasso:            "com.squareup.picasso:picasso:${picassoVersion}"
     ]
 
     appTestDependencies = [

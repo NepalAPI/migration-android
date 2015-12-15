@@ -91,7 +91,7 @@ public class HomeFragmentPresenter implements Presenter {
 
         @Override
         public void onCompleted() {
-            HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_AUDIO);
+            HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_QUESTION);
         }
 
         @Override
@@ -111,6 +111,7 @@ public class HomeFragmentPresenter implements Presenter {
             } else {
                 HomeFragmentPresenter.this.mView.renderLatestQuestions(pQuestions);
             }
+            HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_QUESTION);
         }
     }
 
@@ -138,6 +139,7 @@ public class HomeFragmentPresenter implements Presenter {
             } else {
                 HomeFragmentPresenter.this.mView.showEmptyView(FLAG_AUDIO);
             }
+            HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_AUDIO);
         }
     }
 
@@ -165,6 +167,7 @@ public class HomeFragmentPresenter implements Presenter {
             } else {
                 HomeFragmentPresenter.this.mView.showEmptyView(FLAG_AUDIO);
             }
+            HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_VIDEO);
         }
     }
 }

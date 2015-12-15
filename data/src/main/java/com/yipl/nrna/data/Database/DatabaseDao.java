@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.yipl.nrna.data.entity.CountryEntity;
 import com.yipl.nrna.data.entity.PostDataEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
@@ -33,7 +34,24 @@ public class DatabaseDao {
         db = helper.getWritableDatabase();
     }
 
-    public PostEntity convertCursorToPostEntity(Cursor cursor) {
+    public CountryEntity mapCursorToCountryEntity(Cursor pCursor){
+        CountryEntity country = new CountryEntity();
+        country.setId(pCursor.getLong(pCursor.getColumnIndex(MyConstants.DATABASE.TABLE_COUNTRY
+                .COLUMN_ID)));
+        country.setCreatedAt(pCursor.getLong(pCursor.getColumnIndex(MyConstants.DATABASE
+                .TABLE_COUNTRY.COLUMN_CREATED_AT)));
+        country.setUpdatedAt(pCursor.getLong(pCursor.getColumnIndex(MyConstants.DATABASE
+                .TABLE_COUNTRY.COlUMN_UPDATED_AT)));
+        country.setName(pCursor.getString(pCursor.getColumnIndex(MyConstants.DATABASE
+                .TABLE_COUNTRY.COLUMN_NAME)));
+        country.setAbout(pCursor.getString(pCursor.getColumnIndex(MyConstants.DATABASE
+                .TABLE_COUNTRY.COLUMN_ABOUT)));
+        country.setImageUrl(pCursor.getString(pCursor.getColumnIndex(MyConstants.DATABASE.TABLE_COUNTRY
+                .COLUMN_IMAGE_URL)));
+        return country;
+    }
+
+    public PostEntity mapCursorToPostEntity(Cursor cursor) {
 
         PostEntity post = new PostEntity();
         post.setId(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_ID)));
@@ -66,7 +84,7 @@ public class DatabaseDao {
             public List<PostEntity> call() throws Exception {
                 List<PostEntity> posts = new ArrayList<PostEntity>();
                 while (cursor.moveToNext()) {
-                    posts.add(convertCursorToPostEntity(cursor));
+                    posts.add(mapCursorToPostEntity(cursor));
                 }
                 cursor.close();
                 return posts;
@@ -87,7 +105,7 @@ public class DatabaseDao {
             public PostEntity call() throws Exception {
                 PostEntity post = null;
                 if (cursor.moveToFirst()) {
-                    post = convertCursorToPostEntity(cursor);
+                    post = mapCursorToPostEntity(cursor);
                 }
                 cursor.close();
                 return post;
@@ -110,7 +128,7 @@ public class DatabaseDao {
             public List<PostEntity> call() throws Exception {
                 List<PostEntity> posts = new ArrayList<PostEntity>();
                 while (cursor.moveToNext()) {
-                    posts.add(convertCursorToPostEntity(cursor));
+                    posts.add(mapCursorToPostEntity(cursor));
                 }
                 cursor.close();
                 return posts;
@@ -133,7 +151,7 @@ public class DatabaseDao {
             public List<PostEntity> call() throws Exception {
                 List<PostEntity> posts = new ArrayList<PostEntity>();
                 while (cursor.moveToNext()) {
-                    posts.add(convertCursorToPostEntity(cursor));
+                    posts.add(mapCursorToPostEntity(cursor));
                 }
                 cursor.close();
                 return posts;
@@ -326,6 +344,49 @@ public class DatabaseDao {
         for (QuestionEntity question : questions) {
             updateOneQuestion(question);
         }
+    }
+
+    public Observable<List<CountryEntity>> getAllCountries(int pLimit) {
+        String query = "Select * from " +
+                MyConstants.DATABASE.TABLE_COUNTRY.TABLE_NAME +
+                " order by " + MyConstants.DATABASE.TABLE_COUNTRY.COlUMN_UPDATED_AT +
+                " DESC LIMIT " + pLimit;
+        Cursor cursor = db.rawQuery(query, null);
+
+        Callable<List<CountryEntity>> c = new Callable<List<CountryEntity>>() {
+            @Override
+            public List<CountryEntity> call() throws Exception {
+                List<CountryEntity> countryList = new ArrayList<>();
+                while (cursor.moveToNext()) {
+                    countryList.add(mapCursorToCountryEntity(cursor));
+                }
+                cursor.close();
+                return countryList;
+            }
+        };
+        return makeObservable(c);
+    }
+
+    public Observable<CountryEntity> getCountryById(Long pId) {
+        String query = "Select * from " +
+                MyConstants.DATABASE.TABLE_COUNTRY.TABLE_NAME +
+                " where " + MyConstants.DATABASE.TABLE_COUNTRY.COLUMN_ID + " = " + pId +
+                " LIMIT 1 ";
+        Cursor cursor = db.rawQuery(query, null);
+
+        Callable<CountryEntity> callable = new Callable<CountryEntity>() {
+            @Override
+            public CountryEntity call() throws Exception {
+                CountryEntity countryEntity = null;
+                if (cursor.moveToFirst()) {
+                    countryEntity = mapCursorToCountryEntity(cursor);
+                }
+                cursor.close();
+                return countryEntity;
+            }
+        };
+
+        return makeObservable(callable);
     }
 
     private <T> Observable<T> makeObservable(final Callable<T> callable) {
