@@ -8,10 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import com.yipl.nrna.data.entity.PostDataEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
-import com.yipl.nrna.domain.model.PostData;
 import com.yipl.nrna.domain.util.MyConstants;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;

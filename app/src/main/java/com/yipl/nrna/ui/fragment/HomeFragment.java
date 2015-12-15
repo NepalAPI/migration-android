@@ -1,6 +1,7 @@
 package com.yipl.nrna.ui.fragment;
 
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,11 +21,14 @@ import com.yipl.nrna.databinding.VideoDataBinding;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
+import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.HomeFragmentPresenter;
+import com.yipl.nrna.ui.activity.AudioDetailActivity;
 import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.QuestionPagerAdapter;
 import com.yipl.nrna.ui.interfaces.HomeFragmentView;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -149,7 +153,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     }
 
     @Override
-    public void renderLatestAudios(List<Post> pAudios) {
+    public void renderLatestAudios(final List<Post> pAudios) {
         if (pAudios != null) {
             mAudioList.removeAllViews();
             for (Post audio : pAudios) {
@@ -162,6 +166,14 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
                         .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.setMargins(0, 0, 0, getResources().getDimensionPixelOffset(R.dimen.spacing_small));
                 view.setLayoutParams(params);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), AudioDetailActivity.class);
+                        intent.putExtra(MyConstants.Extras.KEY_AUDIO_LIST, (Serializable) pAudios);
+                        startActivity(intent);
+                    }
+                });
                 mAudioList.addView(view);
             }
         }
