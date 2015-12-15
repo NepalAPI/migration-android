@@ -25,15 +25,15 @@ public class MyApplication extends Application {
         Stetho.initializeWithDefaults(this);
 
         getApplicationComponent().getDatabaseHelper();
-}
+    }
 
-public ApplicationComponent getApplicationComponent() {
+    public ApplicationComponent getApplicationComponent() {
         return mApplicationComponent;
-        }
+    }
 
-@Override
-public void onTerminate() {
+    @Override
+    public void onTerminate() {
         databaseHelper.close();
         super.onTerminate();
-        }
-        }
+    }
+}

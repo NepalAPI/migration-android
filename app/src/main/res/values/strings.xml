@@ -40,8 +40,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="empty_audio">No Audio / Podcasts Available</string>
-    <string name="empty_video">No videos Available</string>
+    <string name="empty_video">No Videos Available</string>
     <string name="empty_article">No Articles Available</string>
+    <string name="empty_country">No Countries Available</string>
     <string name="empty_info">No information available for %1$s stage.</string>
     <string name="empty_question">No Question Available</string>
 </resources>

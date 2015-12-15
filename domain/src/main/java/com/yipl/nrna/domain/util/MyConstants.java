@@ -63,6 +63,7 @@ public class MyConstants {
         public static final int TYPE_AUDIO = 1;
         public static final int TYPE_VIDEO = 2;
         public static final int TYPE_TEXT = 3;
+        public static final int TYPE_COUNTRY = 4;
     }
 
     public static class Media {
@@ -147,6 +148,27 @@ public class MyConstants {
                     COLUMN_STAGE + TYPE_TEXT + COMMA +
                     COLUMN_QUESTION + TYPE_TEXT +
                     " );";
+
+        }
+
+        public static class TABLE_COUNTRY {
+
+            public static String TABLE_NAME = "tbl_country";
+
+            public static String COLUMN_ID = "id";
+            public static String COlUMN_UPDATED_AT = "updated_date";
+            public static String COLUMN_CREATED_AT = "created_date";
+            public static String COLUMN_IMAGE_URL = "image_url";
+            public static String COLUMN_NAME = "name";
+            public static String COLUMN_ABOUT = "about";
+
+            public static String CREATE_TABLE_COUNTRY = "Create table " + TABLE_NAME + "( " +
+                    COLUMN_ID + TYPE_INTEGER + " primary key " + COMMA +
+                    COlUMN_UPDATED_AT + TYPE_INTEGER + COMMA +
+                    COLUMN_CREATED_AT + TYPE_INTEGER + COMMA +
+                    COLUMN_IMAGE_URL + TYPE_TEXT + COMMA +
+                    COLUMN_NAME + TYPE_TEXT + COMMA +
+                    COLUMN_ABOUT + TYPE_TEXT + " );";
 
         }
 

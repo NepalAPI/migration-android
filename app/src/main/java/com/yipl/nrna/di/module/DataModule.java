@@ -7,6 +7,7 @@ import com.yipl.nrna.data.di.PerActivity;
 import com.yipl.nrna.data.entity.mapper.DataMapper;
 import com.yipl.nrna.data.repository.ArticleRepository;
 import com.yipl.nrna.data.repository.AudioRepository;
+import com.yipl.nrna.data.repository.CountryRepository;
 import com.yipl.nrna.data.repository.LatestContentRepository;
 import com.yipl.nrna.data.repository.PostRepository;
 import com.yipl.nrna.data.repository.QuestionRepository;
@@ -18,6 +19,8 @@ import com.yipl.nrna.domain.interactor.GetArticleDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetArticleListUseCase;
 import com.yipl.nrna.domain.interactor.GetAudioDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetAudioListUseCase;
+import com.yipl.nrna.domain.interactor.GetCountryDetailUseCase;
+import com.yipl.nrna.domain.interactor.GetCountryListUseCase;
 import com.yipl.nrna.domain.interactor.GetLatestContentUseCase;
 import com.yipl.nrna.domain.interactor.GetPostDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetPostListUseCase;
@@ -45,28 +48,36 @@ public class DataModule {
     private MyConstants.Stage mStage = null;
     private int mLimit = -1;
 
-    public DataModule(){}
-    public DataModule(long pId){
-        mId= pId;
+    public DataModule() {
     }
-    public DataModule(int pLimit){
+
+    public DataModule(long pId) {
+        mId = pId;
+    }
+
+    public DataModule(int pLimit) {
         mLimit = pLimit;
     }
-    public DataModule(MyConstants.Stage pStage){
+
+    public DataModule(MyConstants.Stage pStage) {
         mStage = pStage;
     }
-    public DataModule(MyConstants.PostType pPostType){
+
+    public DataModule(MyConstants.PostType pPostType) {
         mPostType = pPostType;
     }
-    public DataModule(MyConstants.PostType pPostType, int pLimit){
+
+    public DataModule(MyConstants.PostType pPostType, int pLimit) {
         mPostType = pPostType;
         mLimit = pLimit;
     }
-    public DataModule(MyConstants.Stage pStage, int pLimit){
+
+    public DataModule(MyConstants.Stage pStage, int pLimit) {
         mStage = pStage;
         mLimit = pLimit;
     }
-    public DataModule(MyConstants.Stage pStage, MyConstants.PostType pType, int pLimit){
+
+    public DataModule(MyConstants.Stage pStage, MyConstants.PostType pType, int pLimit) {
         mStage = pStage;
         mPostType = pType;
         mLimit = pLimit;
@@ -90,7 +101,7 @@ public class DataModule {
     }
 
     @Provides
-    //@PerActivity
+    @PerActivity
     @Named("postList")
     UseCase providePostListUseCase(@Named("post") IRepository pDataRepository, ThreadExecutor
             pThreadExecutor,
@@ -103,7 +114,7 @@ public class DataModule {
     @PerActivity
     @Named("postDetails")
     UseCase providePostDetailUseCase(@Named("post") IRepository pDataRepository,
-                                         ThreadExecutor pThreadExecutor, PostExecutionThread
+                                     ThreadExecutor pThreadExecutor, PostExecutionThread
                                              pPostExecutionThread) {
         return new GetPostDetailUseCase(mId, pDataRepository, pThreadExecutor,
                 pPostExecutionThread);
@@ -116,6 +127,35 @@ public class DataModule {
             pDataMapper) {
         return new PostRepository(pDataStoreFactory, pDataMapper);
     }
+
+    @Provides
+    @PerActivity
+    @Named("countryList")
+    UseCase provideCountryListUseCase(@Named("country") IRepository pDataRepository, ThreadExecutor
+            pThreadExecutor,
+                                      PostExecutionThread pPostExecutionThread) {
+        return new GetCountryListUseCase(mLimit, pDataRepository,
+                pThreadExecutor, pPostExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("countryDetails")
+    UseCase provideCountryDetailUseCase(@Named("country") IRepository pDataRepository,
+                                        ThreadExecutor pThreadExecutor, PostExecutionThread
+                                                pPostExecutionThread) {
+        return new GetCountryDetailUseCase(mId, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("country")
+    IRepository provideCountryDataRepository(DataStoreFactory pDataStoreFactory, DataMapper
+            pDataMapper) {
+        return new CountryRepository(pDataStoreFactory, pDataMapper);
+    }
+
 
     @Provides
     @PerActivity
@@ -202,8 +242,8 @@ public class DataModule {
     @PerActivity
     @Named("articleList")
     UseCase provideArticleListUseCase(@Named("article") IRepository pDataRepository,
-                                    ThreadExecutor pThreadExecutor, PostExecutionThread
-                                            pPostExecutionThread) {
+                                      ThreadExecutor pThreadExecutor, PostExecutionThread
+                                              pPostExecutionThread) {
         return new GetArticleListUseCase(pDataRepository, pThreadExecutor, pPostExecutionThread);
     }
 
@@ -219,8 +259,8 @@ public class DataModule {
     @PerActivity
     @Named("articleDetails")
     UseCase provideArticleDetailUseCase(@Named("article") IRepository pDataRepository,
-                                      ThreadExecutor pThreadExecutor, PostExecutionThread
-                                              pPostExecutionThread) {
+                                        ThreadExecutor pThreadExecutor, PostExecutionThread
+                                                pPostExecutionThread) {
         return new GetArticleDetailUseCase(mId, pDataRepository, pThreadExecutor,
                 pPostExecutionThread);
     }

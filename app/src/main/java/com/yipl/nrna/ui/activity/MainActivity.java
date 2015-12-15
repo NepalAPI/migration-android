@@ -21,6 +21,7 @@ import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.LatestContentPresenter;
 import com.yipl.nrna.ui.fragment.ArticleListFragment;
 import com.yipl.nrna.ui.fragment.AudioListFragment;
+import com.yipl.nrna.ui.fragment.CountryListFragment;
 import com.yipl.nrna.ui.fragment.HomeFragment;
 import com.yipl.nrna.ui.fragment.InfoCenterFragment;
 import com.yipl.nrna.ui.fragment.QuestionListFragment;
@@ -33,10 +34,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_AUDIO;
-import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_QUESTION;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
-import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_VIDEO;
 
 public class MainActivity extends BaseActivity implements
         MainActivityView,
@@ -148,6 +146,11 @@ public class MainActivity extends BaseActivity implements
             case R.id.nav_questions:
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new QuestionListFragment(), "question_fragment")
+			.commit();
+		break;
+            case R.id.nav_countries:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_content, new CountryListFragment(), "country_fragment")
                         .commit();
                 break;
         }
