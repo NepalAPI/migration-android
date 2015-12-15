@@ -23,6 +23,7 @@ import com.yipl.nrna.ui.fragment.ArticleListFragment;
 import com.yipl.nrna.ui.fragment.AudioListFragment;
 import com.yipl.nrna.ui.fragment.HomeFragment;
 import com.yipl.nrna.ui.fragment.InfoCenterFragment;
+import com.yipl.nrna.ui.fragment.QuestionListFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.util.Logger;
@@ -142,6 +143,11 @@ public class MainActivity extends BaseActivity implements
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new InfoCenterFragment(),
                                 "info_center_fragment")
+                        .commit();
+                break;
+            case R.id.nav_questions:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_content, new QuestionListFragment(), "question_fragment")
                         .commit();
                 break;
         }
