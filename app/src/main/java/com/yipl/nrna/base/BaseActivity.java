@@ -1,5 +1,6 @@
 package com.yipl.nrna.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,7 +31,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void initializeToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        //mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar == null) {
             throw new IllegalStateException("Layout is required to include a Toolbar with id " +
                     "'toolbar'");

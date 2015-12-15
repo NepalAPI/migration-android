@@ -5,4 +5,5 @@ package com.yipl.nrna.ui.interfaces;
  */
 public interface MainActivityView extends LoadDataView {
     void informCurrentFragmentForUpdate();
+    void onListItemSelected(int pType, Long pId);
 }

@@ -1,6 +1,7 @@
 package com.yipl.nrna.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,7 @@ import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
+import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.LatestContentPresenter;
 import com.yipl.nrna.ui.fragment.ArticleListFragment;
 import com.yipl.nrna.ui.fragment.AudioListFragment;
@@ -28,6 +30,11 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_AUDIO;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_QUESTION;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_VIDEO;
 
 public class MainActivity extends BaseActivity implements
         MainActivityView,
@@ -191,6 +198,16 @@ public class MainActivity extends BaseActivity implements
     public void informCurrentFragmentForUpdate() {
         Logger.d("MainActivity_informCurrentFragmentForUpdate", "send info");
         ((BaseFragment) getSupportFragmentManager().getFragments().get(0)).showNewContentInfo();
+    }
+
+    @Override
+    public void onListItemSelected(int pType, Long pId) {
+        switch (pType){
+            case TYPE_TEXT:
+                Intent intent = new Intent(this, ArticleDetailActivity.class);
+                intent.putExtra(MyConstants.Extras.KEY_ID, pId);
+                startActivity(intent);
+        }
     }
 
     @Override

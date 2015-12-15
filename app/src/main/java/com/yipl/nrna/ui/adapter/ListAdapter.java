@@ -5,6 +5,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -16,6 +17,8 @@ import com.yipl.nrna.databinding.VideoDataBinding;
 import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
+import com.yipl.nrna.ui.activity.MainActivity;
+import com.yipl.nrna.ui.interfaces.MainActivityView;
 
 import java.util.List;
 
@@ -31,16 +34,20 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
 
     List<T> mDataCollection;
     private final LayoutInflater mLayoutInflater;
+    MainActivityView mListener;
 
-    public ListAdapter(Context pContext) {
+
+    public ListAdapter(Context pContext, MainActivityView pListener) {
         this.mLayoutInflater = (LayoutInflater) pContext.getSystemService(Context
                 .LAYOUT_INFLATER_SERVICE);
+        this.mListener = pListener;
     }
 
-    public ListAdapter(Context pContext, List<T> pDataCollection) {
+    public ListAdapter(Context pContext, List<T> pDataCollection, MainActivityView pListener) {
         mDataCollection = pDataCollection;
         this.mLayoutInflater = (LayoutInflater) pContext.getSystemService(Context
                 .LAYOUT_INFLATER_SERVICE);
+        this.mListener = pListener;
     }
 
     public class QuestionsViewHolder extends RecyclerView.ViewHolder {
@@ -102,12 +109,12 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
             super(binding.getRoot());
             ButterKnife.bind(this, binding.getRoot());
             this.mBinding = binding;
-            /*view.setOnClickListener(new View.OnClickListener() {
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onListItemSelected(data.get(getAdapterPosition()));
+                    mListener.onListItemSelected(TYPE_TEXT, mBinding.getArticle().getId());
                 }
-            });*/
+            });
         }
     }
 

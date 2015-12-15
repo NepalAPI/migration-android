@@ -13,6 +13,7 @@ import com.yipl.nrna.data.repository.VideoRepository;
 import com.yipl.nrna.data.repository.datasource.DataStoreFactory;
 import com.yipl.nrna.domain.executor.PostExecutionThread;
 import com.yipl.nrna.domain.executor.ThreadExecutor;
+import com.yipl.nrna.domain.interactor.GetArticleDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetArticleListUseCase;
 import com.yipl.nrna.domain.interactor.GetAudioDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetAudioListUseCase;
@@ -36,6 +37,12 @@ import dagger.Provides;
 public class DataModule {
 
     private long mId = Long.MIN_VALUE;
+
+    public DataModule(){}
+
+    public DataModule(long pId){
+        this.mId = pId;
+    }
 
     @Provides
     @PerActivity
@@ -150,6 +157,16 @@ public class DataModule {
     IRepository provideArticleDataRepository(DataStoreFactory pDataStoreFactory, DataMapper
             pDataMapper) {
         return new ArticleRepository(pDataStoreFactory, pDataMapper);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("articleDetails")
+    UseCase provideArticleDetailUseCase(@Named("article") IRepository pDataRepository,
+                                      ThreadExecutor pThreadExecutor, PostExecutionThread
+                                              pPostExecutionThread) {
+        return new GetArticleDetailUseCase(mId, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
     }
 
     @Provides
