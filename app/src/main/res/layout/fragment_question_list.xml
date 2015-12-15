@@ -7,7 +7,7 @@
         android:id="@+id/tvNoQuestion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/empty_audio"
+        android:text="@string/empty_question"
         android:visibility="gone"
         android:gravity="center"
         android:layout_centerInParent="true"
