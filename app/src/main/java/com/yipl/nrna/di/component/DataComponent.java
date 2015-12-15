@@ -8,6 +8,7 @@ import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.fragment.ArticleListFragment;
 import com.yipl.nrna.ui.fragment.AudioListFragment;
 import com.yipl.nrna.ui.fragment.HomeFragment;
+import com.yipl.nrna.ui.fragment.InfoCenterContentFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
 
 import dagger.Component;
@@ -26,5 +27,6 @@ public interface DataComponent extends ActivityComponent {
     void inject(AudioListFragment pFragment);
     void inject(VideoListFragment pFragment);
     void inject(ArticleListFragment pFragment);
+    void inject(InfoCenterContentFragment pFragment);
     void inject(ArticleDetailActivity pActivity);
 }

@@ -120,6 +120,29 @@ public class DatabaseDao {
         return makeObservable(c);
     }
 
+    public Observable<List<PostEntity>> getPostByStage(int pLimit, String pStage) {
+        String query = "Select * from " +
+                MyConstants.DATABASE.TABLE_POST.TABLE_NAME + " where " +
+                MyConstants.DATABASE.TABLE_POST.COLUMN_STAGE + " = '" + pStage + "'" +
+                " order by " + MyConstants.DATABASE.TABLE_POST.COLUMN_UPDATED_AT +
+                " DESC Limit "+ pLimit;
+        Cursor cursor = db.rawQuery(query, null);
+
+        Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
+            @Override
+            public List<PostEntity> call() throws Exception {
+                List<PostEntity> posts = new ArrayList<PostEntity>();
+                while (cursor.moveToNext()) {
+                    posts.add(convertCursorToPostEntity(cursor));
+                }
+                cursor.close();
+                return posts;
+            }
+        };
+
+        return makeObservable(c);
+    }
+
     public QuestionEntity convertCursorToQuestionEntity(Cursor cursor) {
 
         QuestionEntity question = new QuestionEntity();

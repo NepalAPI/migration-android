@@ -49,6 +49,8 @@ public class HomeFragmentPresenter implements Presenter {
     @Override
     public void destroy() {
         mQuestionUseCase.unSubscribe();
+        mAudioUseCase.unSubscribe();
+        mVideoUseCase.unSubscribe();
     }
 
     @Override

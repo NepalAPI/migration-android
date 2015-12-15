@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.databinding.ArticleDataBinding;
@@ -166,7 +165,8 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
             case TYPE_QUESTION:
-                ((QuestionsViewHolder) holder).mBinding.setQuestion((Question) mDataCollection.get(position));
+                ((QuestionsViewHolder) holder).mBinding.setQuestion((Question) mDataCollection
+                        .get(position));
                 break;
             case TYPE_AUDIO:
                 ((AudioViewHolder) holder).mBinding.setAudio((Post) mDataCollection.get

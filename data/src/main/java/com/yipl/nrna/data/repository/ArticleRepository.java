@@ -23,8 +23,8 @@ public class ArticleRepository implements IRepository<Post> {
     }
 
     @Override
-    public Observable<List<Post>> getList() {
-        return mDataStoreFactory.createDBDataStore().getPostByType(-1,"text").map(
+    public Observable<List<Post>> getList(int pLimit) {
+        return mDataStoreFactory.createDBDataStore().getPostByType(pLimit,"text").map(
                 postEntities -> mDataMapper.transformPost(postEntities)
         );
     }
@@ -34,5 +34,20 @@ public class ArticleRepository implements IRepository<Post> {
         return mDataStoreFactory.createDBDataStore().getPostById(pId).map(
                 postEntity -> mDataMapper.transformPost(postEntity)
         );
+    }
+
+    @Override
+    public Observable<List<Post>> getListByType(int pLimit, String pType) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Post>> getListByStage(int pLimit, String pType) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Post>> getListByStageAndType(int pLimit, String pType, String pStage) {
+        return null;
     }
 }

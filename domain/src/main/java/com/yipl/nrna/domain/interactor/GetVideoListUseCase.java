@@ -25,6 +25,6 @@ public class GetVideoListUseCase extends UseCase<List<Post>> {
 
     @Override
     protected Observable<List<Post>> buildUseCaseObservable() {
-        return mRepository.getList();
+        return mRepository.getList(-1);
     }
 }

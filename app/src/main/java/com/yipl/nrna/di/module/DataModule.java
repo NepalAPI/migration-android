@@ -8,6 +8,7 @@ import com.yipl.nrna.data.entity.mapper.DataMapper;
 import com.yipl.nrna.data.repository.ArticleRepository;
 import com.yipl.nrna.data.repository.AudioRepository;
 import com.yipl.nrna.data.repository.LatestContentRepository;
+import com.yipl.nrna.data.repository.PostRepository;
 import com.yipl.nrna.data.repository.QuestionRepository;
 import com.yipl.nrna.data.repository.VideoRepository;
 import com.yipl.nrna.data.repository.datasource.DataStoreFactory;
@@ -18,12 +19,15 @@ import com.yipl.nrna.domain.interactor.GetArticleListUseCase;
 import com.yipl.nrna.domain.interactor.GetAudioDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetAudioListUseCase;
 import com.yipl.nrna.domain.interactor.GetLatestContentUseCase;
+import com.yipl.nrna.domain.interactor.GetPostDetailUseCase;
+import com.yipl.nrna.domain.interactor.GetPostListUseCase;
 import com.yipl.nrna.domain.interactor.GetQuestionDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetQuestionListUseCase;
 import com.yipl.nrna.domain.interactor.GetVideoDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetVideoListUseCase;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.repository.IRepository;
+import com.yipl.nrna.domain.util.MyConstants;
 
 import javax.inject.Named;
 
@@ -37,19 +41,43 @@ import dagger.Provides;
 public class DataModule {
 
     private long mId = Long.MIN_VALUE;
+    private MyConstants.PostType mPostType = null;
+    private MyConstants.Stage mStage = null;
+    private int mLimit = -1;
 
     public DataModule(){}
-
     public DataModule(long pId){
-        this.mId = pId;
+        mId= pId;
+    }
+    public DataModule(int pLimit){
+        mLimit = pLimit;
+    }
+    public DataModule(MyConstants.Stage pStage){
+        mStage = pStage;
+    }
+    public DataModule(MyConstants.PostType pPostType){
+        mPostType = pPostType;
+    }
+    public DataModule(MyConstants.PostType pPostType, int pLimit){
+        mPostType = pPostType;
+        mLimit = pLimit;
+    }
+    public DataModule(MyConstants.Stage pStage, int pLimit){
+        mStage = pStage;
+        mLimit = pLimit;
+    }
+    public DataModule(MyConstants.Stage pStage, MyConstants.PostType pType, int pLimit){
+        mStage = pStage;
+        mPostType = pType;
+        mLimit = pLimit;
     }
 
     @Provides
     @PerActivity
     @Named("latest")
     UseCase provideLatestContentUseCase(@Named("latest") IRepository pDataRepository,
-                                        ThreadExecutor
-                                                pThreadExecutor, PostExecutionThread pPostExecutionThread) {
+                                        ThreadExecutor pThreadExecutor, PostExecutionThread
+                                                pPostExecutionThread) {
         return new GetLatestContentUseCase(pDataRepository, pThreadExecutor, pPostExecutionThread);
     }
 
@@ -59,6 +87,34 @@ public class DataModule {
     IRepository provideLatestContentDataRepository(DataStoreFactory pDataStoreFactory, DataMapper
             pDataMapper) {
         return new LatestContentRepository(pDataStoreFactory, pDataMapper);
+    }
+
+    @Provides
+    //@PerActivity
+    @Named("postList")
+    UseCase providePostListUseCase(@Named("post") IRepository pDataRepository, ThreadExecutor
+            pThreadExecutor,
+                                   PostExecutionThread pPostExecutionThread) {
+        return new GetPostListUseCase(mLimit, mPostType, mStage, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("postDetails")
+    UseCase providePostDetailUseCase(@Named("post") IRepository pDataRepository,
+                                         ThreadExecutor pThreadExecutor, PostExecutionThread
+                                             pPostExecutionThread) {
+        return new GetPostDetailUseCase(mId, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("post")
+    IRepository providePostDataRepository(DataStoreFactory pDataStoreFactory, DataMapper
+            pDataMapper) {
+        return new PostRepository(pDataStoreFactory, pDataMapper);
     }
 
     @Provides

@@ -22,7 +22,22 @@ public class LatestContentRepository implements IRepository<LatestContent> {
     }
 
     @Override
-    public Observable<List<LatestContent>> getList() {
+    public Observable<List<LatestContent>> getList(int pLimit) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<LatestContent>> getListByType(int pLimit, String pType) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<LatestContent>> getListByStage(int pLimit, String pType) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<LatestContent>> getListByStageAndType(int pLimit, String pType, String pStage) {
         return null;
     }
 
