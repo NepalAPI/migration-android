@@ -112,7 +112,7 @@ public class MyConstants {
             public static String COLUMN_TITLE = "title";
 
             public static String CREATE_TABLE_POST = "CREATE TABLE " + TABLE_NAME + " ( " +
-                    COLUMN_ID + " STRING PRIMARY KEY, " +
+                    COLUMN_ID + TYPE_INTEGER +" PRIMARY KEY" + COMMA +
                     COLUMN_UPDATED_AT + TYPE_INTEGER + COMMA +
                     COLUMN_CREATED_AT + TYPE_INTEGER + COMMA +
                     COLUMN_DATA + TYPE_TEXT + COMMA +

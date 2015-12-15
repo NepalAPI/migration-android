@@ -2,7 +2,9 @@ package com.yipl.nrna.data.repository.datasource;
 
 import com.yipl.nrna.data.Database.DatabaseDao;
 import com.yipl.nrna.data.entity.PostEntity;
+import com.yipl.nrna.data.entity.QuestionEntity;
 import com.yipl.nrna.domain.model.Post;
+import com.yipl.nrna.domain.model.Question;
 
 import java.util.List;
 
@@ -37,4 +39,9 @@ public class DBDataStore implements IDataStore {
     public Observable<PostEntity> getPostById(Long pId){
         return database.getPostById(pId);
     }
+
+    public Observable<List<QuestionEntity>> getAllQuestion(int limit){
+        return database.getAllQuestions(limit);
+    }
+
 }

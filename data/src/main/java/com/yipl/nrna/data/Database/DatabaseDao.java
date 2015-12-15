@@ -153,7 +153,7 @@ public class DatabaseDao {
                 (MyConstants.DATABASE.TABLE_QUESTION.COLUMN_TAGS)), new TypeToken<List<String>>() {
         }.getType()));
         question.setLanguage(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_LANGUAGE)));
-        question.setQuestion(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID)));
+        question.setQuestion(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_QUESTION)));
 
         return question;
     }

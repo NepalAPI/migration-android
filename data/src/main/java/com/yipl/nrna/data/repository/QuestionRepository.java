@@ -20,9 +20,12 @@ public class QuestionRepository implements IRepository<Question> {
     }
 
     @Override
+
     public Observable<List<Question>> getList(int pLimit) {
-        //// TODO: 12/9/15
-        return Observable.empty();
+
+        return mDataStoreFactory.createDBDataStore().getAllQuestion(-1).map(
+                questionEntities -> mDataMapper.transformQuestion(questionEntities)
+        );
     }
 
     @Override
@@ -44,5 +47,6 @@ public class QuestionRepository implements IRepository<Question> {
     public Observable<Question> getSingle(Long pId) {
         //// TODO: 12/9/15
         return Observable.empty();
+
     }
 }
