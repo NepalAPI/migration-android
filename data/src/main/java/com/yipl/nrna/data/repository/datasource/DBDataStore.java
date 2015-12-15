@@ -10,6 +10,7 @@ import com.yipl.nrna.data.api.ApiRequest;
 import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.data.entity.PostDataEntity;
 import com.yipl.nrna.data.entity.PostEntity;
+import com.yipl.nrna.domain.model.Post;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,5 +39,9 @@ public class DBDataStore implements IDataStore {
 
     public Observable<List<PostEntity>> getPostByType(int pLimit, String type){
         return database.getPostByType(pLimit, type);
+    }
+
+    public Observable<PostEntity> getPostById(Long pId){
+        return database.getPostById(pId);
     }
 }

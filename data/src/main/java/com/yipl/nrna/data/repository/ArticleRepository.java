@@ -30,8 +30,9 @@ public class ArticleRepository implements IRepository<Post> {
     }
 
     @Override
-    public Observable<Post> getSingle(Long id) {
-        //// TODO: 12/14/2015
-        return Observable.empty();
+    public Observable<Post> getSingle(Long pId) {
+        return mDataStoreFactory.createDBDataStore().getPostById(pId).map(
+                postEntity -> mDataMapper.transformPost(postEntity)
+        );
     }
 }

@@ -17,6 +17,7 @@ import com.yipl.nrna.presenter.ArticleListFragmentPresenter;
 import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.ArticleListView;
+import com.yipl.nrna.ui.interfaces.MainActivityView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +82,7 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
     }
 
     private void setUpAdapter() {
-        mListAdapter = new ListAdapter<Post>(getContext(), new ArrayList<Post>());
+        mListAdapter = new ListAdapter<Post>(getContext(), new ArrayList<Post>(), (MainActivityView) getActivity());
         mRecyclerView.setAdapter(mListAdapter);
     }
 

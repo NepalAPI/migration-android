@@ -4,18 +4,18 @@ package com.yipl.nrna.domain.util;
  * Created by julian on 12/9/15.
  */
 public class MyConstants {
-    public static final class API{
+    public static final class API {
         public static final String LATEST_CONTENT = "latest";
     }
 
-    public static final class Adapter{
+    public static final class Adapter {
         public static final int TYPE_QUESTION = 0;
         public static final int TYPE_AUDIO = 1;
         public static final int TYPE_VIDEO = 2;
         public static final int TYPE_TEXT = 3;
     }
 
-    public static class Media{
+    public static class Media {
         public static final String ACTION_MEDIA_BUFFER_START = "media.action.BUFFER_START";
         public static final String ACTION_MEDIA_BUFFER_STOP = "media.action.BUFFER_START";
         public static final String ACTION_MEDIA_CHANGE = "media.action.MEDIA_CHANGE";
@@ -25,26 +25,28 @@ public class MyConstants {
         public static final String ACTION_PLAY_STATUS_CHANGE = "media.action.PLAY_STATUS_CHANGED";
     }
 
-    public static final class Extras{
+    public static final class Extras {
         public static final String KEY_QUESTION = "key_question";
 
         public static final String KEY_AUDIO = "key_audio";
         public static final String KEY_AUDIO_LIST = "key_audio_list";
         public static final String KEY_PLAY_STATUS = "key_play_status";
+
+        public static final String KEY_ID = "key_id";
     }
 
-    public static class DATABASE{
+    public static class DATABASE {
 
         public static String TYPE_TEXT = " TEXT ";
         public static String TYPE_INTEGER = " INTEGER ";
         public static String COMMA = ", ";
 
-        public static class DBINFO{
+        public static class DBINFO {
             public static Integer DB_VERSION = 1;
             public static String DATABASE_NAME = "nrna-database.db";
         }
 
-        public static class TABLE_POST{
+        public static class TABLE_POST {
 
             public static String TABLE_NAME = "tbl_post";
             public static String COLUMN_ID = "id";
@@ -58,7 +60,7 @@ public class MyConstants {
             public static String COLUMN_DESCRIPTION = "description";
             public static String COLUMN_TITLE = "title";
 
-            public static String CREATE_TABLE_POST = "CREATE TABLE "+ TABLE_NAME + " ( "+
+            public static String CREATE_TABLE_POST = "CREATE TABLE " + TABLE_NAME + " ( " +
                     COLUMN_ID + " STRING PRIMARY KEY, " +
                     COLUMN_UPDATED_AT + TYPE_INTEGER + COMMA +
                     COLUMN_CREATED_AT + TYPE_INTEGER + COMMA +
@@ -72,7 +74,7 @@ public class MyConstants {
                     " );";
         }
 
-        public static class TABLE_QUESTION{
+        public static class TABLE_QUESTION {
 
             public static String TABLE_NAME = "tbl_question";
 
@@ -85,18 +87,18 @@ public class MyConstants {
             public static String COLUMN_STAGE = "stage";
 
             public static String CREATE_TABLE_QUESTION = "Create table " + TABLE_NAME + "( " +
-                    COLUMN_ID + TYPE_INTEGER + " primary key "+ COMMA +
+                    COLUMN_ID + TYPE_INTEGER + " primary key " + COMMA +
                     COlUMN_UPDATED_AT + TYPE_INTEGER + COMMA +
                     COLUMN_CREATED_AT + TYPE_INTEGER + COMMA +
                     COLUMN_TAGS + TYPE_TEXT + COMMA +
                     COLUMN_LANGUAGE + TYPE_TEXT + COMMA +
                     COLUMN_STAGE + TYPE_TEXT + COMMA +
-                    COLUMN_QUESTION + TYPE_TEXT+
+                    COLUMN_QUESTION + TYPE_TEXT +
                     " );";
 
         }
 
-        public static class TABLE_POST_QUESTION{
+        public static class TABLE_POST_QUESTION {
 
             public static String TABLE_NAME = "tbl_post_question";
             public static String COLUMN_ID = "id";

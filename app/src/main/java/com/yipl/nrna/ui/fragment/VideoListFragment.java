@@ -18,6 +18,7 @@ import com.yipl.nrna.presenter.VideoListFragmentPresenter;
 import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.AudioListView;
+import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.ui.interfaces.VideoListView;
 
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class VideoListFragment extends BaseFragment implements VideoListView {
     }
 
     private void setUpAdapter() {
-        mListAdapter = new ListAdapter<Post>(getContext(), new ArrayList<Post>());
+        mListAdapter = new ListAdapter<Post>(getContext(), new ArrayList<Post>(), (MainActivityView) getActivity());
         mRecyclerView.setAdapter(mListAdapter);
     }
 
