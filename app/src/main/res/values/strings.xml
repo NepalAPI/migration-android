@@ -33,6 +33,10 @@
         <item>Destination country</item>
     </string-array>
 
+    <string-array name="country_info">
+        <item>About</item>
+    </string-array>
+
     <string name="message_fetching_latest_content">Fetching latest content...</string>
     <string name="error_message_no_metadata">Unable to retrieve meta-data.</string>
     <string name="exception_message_generic">Error encountered.</string>
@@ -45,4 +49,5 @@
     <string name="empty_country">No Countries Available</string>
     <string name="empty_info">No information available for %1$s stage.</string>
     <string name="empty_question">No Question Available</string>
+    <string name="title_activity_country_detail">CountryDetailActivity</string>
 </resources>
