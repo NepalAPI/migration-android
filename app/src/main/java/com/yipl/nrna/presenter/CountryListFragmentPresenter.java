@@ -23,7 +23,7 @@ public class CountryListFragmentPresenter implements Presenter {
     private CountryListView mView;
 
     @Inject
-    public CountryListFragmentPresenter(@Named("countryList") UseCase pUseCase){
+    public CountryListFragmentPresenter(@Named("countryList") UseCase pUseCase) {
         mUseCase = pUseCase;
     }
 
@@ -49,7 +49,7 @@ public class CountryListFragmentPresenter implements Presenter {
 
     @Override
     public void attachView(MvpView view) {
-        mView = (CountryListView)view;
+        mView = (CountryListView) view;
     }
 
     private void loadCountryList() {
@@ -58,11 +58,11 @@ public class CountryListFragmentPresenter implements Presenter {
         getCountryList();
     }
 
-    public void getCountryList(){
+    public void getCountryList() {
         this.mUseCase.execute(new CountrySubscriber());
     }
 
-    private final class CountrySubscriber extends DefaultSubscriber<List<Country>>{
+    private final class CountrySubscriber extends DefaultSubscriber<List<Country>> {
 
         @Override
         public void onCompleted() {
@@ -82,9 +82,9 @@ public class CountryListFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Country> pCountries) {
-            if(pCountries == null || pCountries.isEmpty()) {
+            if (pCountries == null || pCountries.isEmpty()) {
                 CountryListFragmentPresenter.this.mView.showEmptyView();
-            }else{
+            } else {
                 CountryListFragmentPresenter.this.mView.hideEmptyView();
                 CountryListFragmentPresenter.this.mView.renderCountryList(pCountries);
             }

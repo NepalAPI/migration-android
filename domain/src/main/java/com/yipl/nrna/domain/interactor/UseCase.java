@@ -13,17 +13,16 @@ public abstract class UseCase<T> {
 
     private final ThreadExecutor mThreadExecutor;
     private final PostExecutionThread mPostExecutionThread;
+    private Subscription mSubscription = Subscriptions.empty();
 
-    protected UseCase(ThreadExecutor pThreadExecutor, PostExecutionThread pPostExecutionThread){
+    protected UseCase(ThreadExecutor pThreadExecutor, PostExecutionThread pPostExecutionThread) {
         mPostExecutionThread = pPostExecutionThread;
         mThreadExecutor = pThreadExecutor;
     }
 
-    private Subscription mSubscription = Subscriptions.empty();
-
     protected abstract Observable<T> buildUseCaseObservable();
 
-    public void execute(Subscriber pSubscriber){
+    public void execute(Subscriber pSubscriber) {
         this.mSubscription = this.buildUseCaseObservable()
                 .subscribeOn(Schedulers.from(mThreadExecutor))
                 .observeOn(mPostExecutionThread.getScheduler())

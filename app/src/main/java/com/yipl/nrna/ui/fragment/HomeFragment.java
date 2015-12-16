@@ -12,17 +12,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.viewpagerindicator.CirclePageIndicator;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseFragment;
+import com.yipl.nrna.databinding.ArticleDataBinding;
 import com.yipl.nrna.databinding.AudioDataBinding;
 import com.yipl.nrna.databinding.VideoDataBinding;
 import com.yipl.nrna.di.component.DaggerDataComponent;
+import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.HomeFragmentPresenter;
+import com.yipl.nrna.ui.activity.ArticleDetailActivity;
 import com.yipl.nrna.ui.activity.AudioDetailActivity;
 import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.QuestionPagerAdapter;
@@ -38,8 +42,11 @@ import butterknife.ButterKnife;
 
 public class HomeFragment extends BaseFragment implements HomeFragmentView {
 
+    public static final int LATEST_DATA_SIZE = 5;
+
     @Inject
     HomeFragmentPresenter mPresenter;
+
     @Bind(R.id.container)
     View mContainer;
     @Bind(R.id.recent_questions_pager)
@@ -50,22 +57,29 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     LinearLayout mAudioList;
     @Bind(R.id.video_list)
     LinearLayout mVideoList;
+    @Bind(R.id.article_list)
+    LinearLayout mArticleList;
     @Bind(R.id.question_progress_bar)
     ProgressBar mQuestionProgressBar;
     @Bind(R.id.audio_progress_bar)
     ProgressBar mAudioProgressBar;
     @Bind(R.id.video_progress_bar)
     ProgressBar mVideoProgressBar;
+    @Bind(R.id.article_progress_bar)
+    ProgressBar mArticleProgressBar;
+    @Bind(R.id.no_question)
+    TextView mNoQuestion;
+    @Bind(R.id.no_article)
+    TextView mNoArticle;
+    @Bind(R.id.no_audio)
+    TextView mNoAudio;
+    @Bind(R.id.no_video)
+    TextView mNoVideo;
 
     private QuestionPagerAdapter mQuestionPagerAdapter;
 
     public HomeFragment() {
         super();
-    }
-
-    @Override
-    public int getLayout() {
-        return R.layout.fragment_home;
     }
 
     public static HomeFragment newInstance() {
@@ -74,14 +88,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.resume();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public int getLayout() {
+        return R.layout.fragment_home;
     }
 
     @Override
@@ -93,15 +101,33 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        mPresenter.pause();
+    public void showNewContentInfo() {
+        Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
+                .LENGTH_INDEFINITE)
+                .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View pView) {
+                        loadLatestContent();
+                    }
+                })
+                .show();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.resume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.pause();
     }
 
     @Override
@@ -110,8 +136,15 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
         ButterKnife.unbind(this);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
     private void initialize() {
         DaggerDataComponent.builder()
+                .dataModule(new DataModule(LATEST_DATA_SIZE))
                 .activityModule(((MainActivity) getActivity()).getActivityModule())
                 .applicationComponent(((MainActivity) getActivity()).getApplicationComponent())
                 .build()
@@ -124,26 +157,10 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
         mQuestionPagerAdapter = new QuestionPagerAdapter(getChildFragmentManager());
         mQuestionsPager.setAdapter(mQuestionPagerAdapter);
         indicator.setViewPager(mQuestionsPager);
-
-        renderLatestAudios(Post.getDummyPosts("audio"));
-        renderLatestVideos(Post.getDummyPosts("video"));
-        renderLatestQuestions(Question.getDummyQuestions());
     }
 
     private void loadLatestContent() {
         mPresenter.initialize();
-    }
-
-    @Override
-    public void showNewContentInfo() {
-        Snackbar.make(mContainer, "", Snackbar.LENGTH_INDEFINITE)
-                .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View pView) {
-                        loadLatestContent();
-                    }
-                })
-                .show();
     }
 
     @Override
@@ -193,7 +210,44 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
                         .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.setMargins(0, 0, 0, getResources().getDimensionPixelOffset(R.dimen.spacing_small));
                 view.setLayoutParams(params);
+
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //// TODO: 12/16/15  
+                    }
+                });
+
                 mVideoList.addView(view);
+            }
+        }
+    }
+
+    @Override
+    public void renderLatestArticles(List<Post> pArticles) {
+        if (pArticles != null) {
+            mArticleList.removeAllViews();
+            for (final Post article : pArticles) {
+                ArticleDataBinding articleDataBinding = DataBindingUtil.inflate
+                        (LayoutInflater.from(getContext()), R.layout.list_item_article, mArticleList,
+                                false);
+                articleDataBinding.setArticle(article);
+                View view = articleDataBinding.getRoot();
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
+                        .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0, 0, 0, getResources().getDimensionPixelOffset(R.dimen.spacing_small));
+                view.setLayoutParams(params);
+
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
+                        intent.putExtra(MyConstants.Extras.KEY_ID, article.getId());
+                        startActivity(intent);
+                    }
+                });
+
+                mArticleList.addView(view);
             }
         }
     }
@@ -210,6 +264,9 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
             case HomeFragmentPresenter.FLAG_QUESTION:
                 mQuestionProgressBar.setVisibility(View.VISIBLE);
                 break;
+            case HomeFragmentPresenter.FLAG_ARTICLE:
+                mArticleProgressBar.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
@@ -218,20 +275,18 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
         switch (flag) {
             case HomeFragmentPresenter.FLAG_AUDIO:
                 mAudioProgressBar.setVisibility(View.GONE);
+                break;
             case HomeFragmentPresenter.FLAG_VIDEO:
                 mVideoProgressBar.setVisibility(View.GONE);
+                break;
             case HomeFragmentPresenter.FLAG_QUESTION:
                 mQuestionProgressBar.setVisibility(View.GONE);
+                break;
+            case HomeFragmentPresenter.FLAG_ARTICLE:
+                mArticleProgressBar.setVisibility(View.GONE);
+                break;
+
         }
-    }
-
-    @Override
-    public void showErrorView(String pErrorMessage) {
-        Snackbar.make(mContainer, pErrorMessage, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void hideErrorView() {
     }
 
     @Override
@@ -244,13 +299,28 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     }
 
     @Override
+    public void showErrorView(String pErrorMessage) {
+        Snackbar.make(mContainer, pErrorMessage, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void hideErrorView() {
+    }
+
+    @Override
     public void showEmptyView(int flag) {
         switch (flag) {
             case HomeFragmentPresenter.FLAG_AUDIO:
+                mNoAudio.setVisibility(View.VISIBLE);
                 break;
             case HomeFragmentPresenter.FLAG_VIDEO:
+                mNoVideo.setVisibility(View.VISIBLE);
                 break;
             case HomeFragmentPresenter.FLAG_QUESTION:
+                //mNoQuestion.setVisibility(View.VISIBLE);
+                break;
+            case HomeFragmentPresenter.FLAG_ARTICLE:
+                mNoArticle.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -259,10 +329,16 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     public void hideEmptyView(int flag) {
         switch (flag) {
             case HomeFragmentPresenter.FLAG_AUDIO:
+                mNoAudio.setVisibility(View.GONE);
                 break;
             case HomeFragmentPresenter.FLAG_VIDEO:
+                mNoVideo.setVisibility(View.GONE);
                 break;
             case HomeFragmentPresenter.FLAG_QUESTION:
+                //mNoQuestion.setVisibility(View.VISIBLE);
+                break;
+            case HomeFragmentPresenter.FLAG_ARTICLE:
+                mNoArticle.setVisibility(View.GONE);
                 break;
         }
     }

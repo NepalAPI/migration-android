@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
@@ -16,13 +17,9 @@ import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
-import com.yipl.nrna.presenter.AudioListFragmentPresenter;
 import com.yipl.nrna.presenter.VideoListFragmentPresenter;
-import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
-import com.yipl.nrna.ui.interfaces.AudioListView;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
-import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.ui.interfaces.VideoListView;
 
 import java.util.ArrayList;
@@ -46,6 +43,8 @@ public class VideoListFragment extends BaseFragment implements VideoListView {
     TextView tvNoVideo;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
+    @Bind(R.id.data_container)
+    RelativeLayout mContainer;
 
     private ListAdapter<Post> mListAdapter;
     private Long mQuestionId = Long.MIN_VALUE;
@@ -68,26 +67,57 @@ public class VideoListFragment extends BaseFragment implements VideoListView {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.resume();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initialize();
+        setUpAdapter();
+        loadVideoList();
+    }
+
+    @Override
+    public void showNewContentInfo() {
+        Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
+                .LENGTH_INDEFINITE)
+                .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View pView) {
+                        loadVideoList();
+                    }
+                })
+                .show();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        if(bundle!= null){
+        if (bundle != null) {
             mQuestionId = bundle.getLong(MyConstants.Extras.KEY_ID);
         }
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initialize();
-        setUpAdapter();
-        loadVideoList();
+    public void onResume() {
+        super.onResume();
+        mPresenter.resume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.pause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
     }
 
     private void loadVideoList() {
@@ -100,15 +130,14 @@ public class VideoListFragment extends BaseFragment implements VideoListView {
     }
 
     private void initialize() {
-        if(mQuestionId != Long.MIN_VALUE) {
+        if (mQuestionId != Long.MIN_VALUE) {
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(mQuestionId))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()
                     .inject(this);
-        }
-        else{
+        } else {
             DaggerDataComponent.builder()
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
@@ -118,24 +147,6 @@ public class VideoListFragment extends BaseFragment implements VideoListView {
         mPresenter.attachView(this);
         tvNoVideo.setVisibility(View.GONE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mPresenter.pause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override
@@ -180,6 +191,6 @@ public class VideoListFragment extends BaseFragment implements VideoListView {
 
     @Override
     public void renderVideoList(List<Post> pVideos) {
-            mListAdapter.setDataCollection(pVideos);
+        mListAdapter.setDataCollection(pVideos);
     }
 }

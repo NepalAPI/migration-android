@@ -18,7 +18,7 @@ public class CountryDetailActivityPresenter implements Presenter {
     CountryDetailActivityView mView;
 
     @Inject
-    public CountryDetailActivityPresenter(@Named("countryDetails") UseCase pArticleUseCase){
+    public CountryDetailActivityPresenter(@Named("countryDetails") UseCase pArticleUseCase) {
         mmUseCase = pArticleUseCase;
     }
 
@@ -38,20 +38,20 @@ public class CountryDetailActivityPresenter implements Presenter {
     }
 
     @Override
-    public void attachView(MvpView view) {
-        mView = (CountryDetailActivityView) view;
+    public void initialize() {
+        loadCountry();
     }
 
     @Override
-    public void initialize() {
-        loadCountry();
+    public void attachView(MvpView view) {
+        mView = (CountryDetailActivityView) view;
     }
 
     private void loadCountry() {
         this.mmUseCase.execute(new CountryDetailSubscriber());
     }
 
-    private final class CountryDetailSubscriber extends DefaultSubscriber<Country>{
+    private final class CountryDetailSubscriber extends DefaultSubscriber<Country> {
         @Override
         public void onCompleted() {
             CountryDetailActivityPresenter.this.mView.hideLoadingView();

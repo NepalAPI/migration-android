@@ -20,6 +20,7 @@
     <string name="see_all_questions">See All Questions</string>
     <string name="latest_audios">latest audios / podcasts</string>
     <string name="latest_videos">latest videos</string>
+    <string name="latest_articles">latest articles</string>
 
     <!--<string name="stage_pre_application">Pre-application</string>
     <string name="stage_application">Application</string>
@@ -38,6 +39,7 @@
     </string-array>
 
     <string name="message_fetching_latest_content">Fetching latest content...</string>
+    <string name="message_content_available">New content available...</string>
     <string name="error_message_no_metadata">Unable to retrieve meta-data.</string>
     <string name="exception_message_generic">Error encountered.</string>
     <string name="exception_message_no_connection">Please check your internet connection.</string>

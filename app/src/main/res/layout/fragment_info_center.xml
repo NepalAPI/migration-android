@@ -1,4 +1,5 @@
 <LinearLayout
+    android:id="@+id/data_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,9 +12,9 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="6dp"
         android:textSize="@dimen/text_default"
         app:tabBackground="@color/colorPrimary"
-        android:elevation="6dp"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@android:color/white"
         app:tabTextColor="@color/white_alpha_70"/>

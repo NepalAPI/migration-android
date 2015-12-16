@@ -1,6 +1,5 @@
 package com.yipl.nrna.data.di;
 
-import com.yipl.nrna.data.Database.DatabaseHelper;
 import com.yipl.nrna.data.api.ApiRequest;
 import com.yipl.nrna.data.entity.mapper.DataMapper;
 
@@ -17,8 +16,6 @@ public interface NetworkComponent {
     ApiRequest getApiRequest();
 
     DataMapper getDataMapper();
-
-
 
 
 }

@@ -1,7 +1,5 @@
 package com.yipl.nrna.presenter;
 
-import android.util.Log;
-
 import com.yipl.nrna.domain.exception.DefaultErrorBundle;
 import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
@@ -25,7 +23,7 @@ public class VideoListFragmentPresenter implements Presenter {
     VideoListView mView;
 
     @Inject
-    public VideoListFragmentPresenter(@Named("videoList") UseCase pVideoUseCase){
+    public VideoListFragmentPresenter(@Named("videoList") UseCase pVideoUseCase) {
         mVideoUseCase = pVideoUseCase;
     }
 
@@ -64,7 +62,7 @@ public class VideoListFragmentPresenter implements Presenter {
         this.mVideoUseCase.execute(new VideoSubscriber());
     }
 
-    private class VideoSubscriber extends DefaultSubscriber<List<Post>>{
+    private class VideoSubscriber extends DefaultSubscriber<List<Post>> {
 
         @Override
         public void onCompleted() {
@@ -84,9 +82,9 @@ public class VideoListFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Post> pPosts) {
-            if(pPosts.isEmpty()) {
+            if (pPosts.isEmpty()) {
                 VideoListFragmentPresenter.this.mView.showEmptyView();
-            }else{
+            } else {
                 VideoListFragmentPresenter.this.mView.hideEmptyView();
                 VideoListFragmentPresenter.this.mView.renderVideoList(pPosts);
             }

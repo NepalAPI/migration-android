@@ -3,8 +3,11 @@ package com.yipl.nrna.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseFragment;
@@ -18,6 +21,8 @@ public class InfoCenterFragment extends BaseFragment {
     ViewPager mViewPager;
     @Bind(R.id.tabs)
     TabLayout mTabs;
+    @Bind(R.id.data_container)
+    LinearLayout mContainer;
 
     InfoCenterPagerAdapter mPagerAdapter;
 
@@ -38,5 +43,18 @@ public class InfoCenterFragment extends BaseFragment {
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
         mTabs.setupWithViewPager(mViewPager);
+    }
+
+    @Override
+    public void showNewContentInfo() {
+        Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
+                .LENGTH_INDEFINITE)
+                .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View pView) {
+                        mPagerAdapter.notifyDataSetChanged();
+                    }
+                })
+                .show();
     }
 }

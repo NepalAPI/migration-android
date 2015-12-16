@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
@@ -15,10 +16,8 @@ import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.presenter.QuestionListFragmentPresenter;
-import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
-import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.ui.interfaces.QuestionListFragmentView;
 
 import java.util.ArrayList;
@@ -41,10 +40,12 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     TextView tvNoQuestion;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
+    @Bind(R.id.data_container)
+    RelativeLayout mContainer;
 
     ListAdapter<Question> mListAdapter;
 
-    public QuestionListFragment(){
+    public QuestionListFragment() {
         super();
     }
 
@@ -59,16 +60,41 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initialize();
         setUpAdapter();
         loadQuestionList();
+    }
+
+    @Override
+    public void showNewContentInfo() {
+        Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
+                .LENGTH_INDEFINITE)
+                .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View pView) {
+                        loadQuestionList();
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.pause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
     }
 
     private void initialize() {
@@ -83,24 +109,12 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     }
 
     private void setUpAdapter() {
-        mListAdapter = new ListAdapter<Question>(getContext(),new ArrayList<Question>(), (ListClickCallbackInterface) getActivity());
+        mListAdapter = new ListAdapter<Question>(getContext(), new ArrayList<Question>(), (ListClickCallbackInterface) getActivity());
         mRecyclerView.setAdapter(mListAdapter);
     }
 
     private void loadQuestionList() {
         mPresenter.initialize();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mPresenter.pause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
     }
 
     @Override

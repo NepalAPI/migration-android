@@ -15,22 +15,23 @@ public class GetAudioListUseCase extends UseCase<List<Post>> {
 
     private final IRepository mRepository;
     private final Long mQuestionId;
+    private final int mLimit;
 
     @Inject
-    public GetAudioListUseCase(Long pId, IRepository pRepository, ThreadExecutor
-                                     pThreadExecutor, PostExecutionThread
-            pPostExecutionThread) {
+    public GetAudioListUseCase(Long pId, int pLimit, IRepository pRepository, ThreadExecutor
+            pThreadExecutor, PostExecutionThread
+                                       pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
         mRepository = pRepository;
         mQuestionId = pId;
+        mLimit = pLimit;
     }
 
     @Override
     protected Observable<List<Post>> buildUseCaseObservable() {
-        if(mQuestionId == Long.MIN_VALUE){
-            return mRepository.getList(-1);
-        }
-        else
+        if (mQuestionId == Long.MIN_VALUE) {
+            return mRepository.getList(mLimit);
+        } else
             return mRepository.getListByQuestionAndType(mQuestionId);
     }
 }

@@ -23,9 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_medium"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/spacing_medium"
         android:padding="@dimen/spacing_standard">
         <!--TODO : -->
         <ImageView

@@ -25,15 +25,15 @@ public class DataStoreFactory {
         mDatabaseDao = pDatabaseDao;
     }
 
-    public DBDataStore createDBDataStore(){
+    public DBDataStore createDBDataStore() {
         return new DBDataStore(mDatabaseDao);
     }
 
-    public RestDataStore createRestDataStore(){
+    public RestDataStore createRestDataStore() {
         NetworkComponent networkComponent = DaggerNetworkComponent
                 .builder()
                 .networkModule(new NetworkModule(BuildConfig.BASE_URL))
                 .build();
-        return new RestDataStore(networkComponent.getApiRequest());
+        return new RestDataStore(mContext, networkComponent.getApiRequest(), mDatabaseDao);
     }
 }

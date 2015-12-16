@@ -10,15 +10,32 @@ import java.util.List;
 /**
  * Created by julian on 12/7/15.
  */
-public class Question extends BaseModel{
+public class Question extends BaseModel {
     Long mUpdatedAt;
     Long mCreatedAt;
     List<String> mTags;
     String mLanguage;
-    String mQuestion;
+    String mTitle;
+    String mStage;
 
-    public Question(){
+    public Question() {
         setDataType(MyConstants.Adapter.TYPE_QUESTION);
+    }
+
+    public static List<Question> getDummyQuestions() {
+        List<Question> list = new ArrayList<>();
+        String[] tags = {"tag1", "tag2", "tag3"};
+        for (int i = 0; i < 3; i++) {
+            Question question = new Question();
+            question.setId((long) i);
+            question.setCreatedAt(123456252L);
+            question.setUpdatedAt(123425645L);
+            question.setTags(Arrays.asList(tags));
+            question.setLanguage("ne");
+            question.setTitle("This is sample question " + (i + 1) + " ?");
+            list.add(question);
+        }
+        return list;
     }
 
     public Long getUpdatedAt() {
@@ -53,27 +70,19 @@ public class Question extends BaseModel{
         mLanguage = pLanguage;
     }
 
-    public String getQuestion() {
-        return mQuestion;
+    public String getTitle() {
+        return mTitle;
     }
 
-    public void setQuestion(String pQuestion) {
-        mQuestion = pQuestion;
+    public void setTitle(String pTitle) {
+        mTitle = pTitle;
     }
 
-    public static List<Question> getDummyQuestions(){
-        List<Question> list = new ArrayList<>();
-        String[] tags = {"tag1", "tag2", "tag3"};
-        for (int i = 0; i < 3; i++) {
-            Question question = new Question();
-            question.setId((long) i);
-            question.setCreatedAt(123456252L);
-            question.setUpdatedAt(123425645L);
-            question.setTags(Arrays.asList(tags));
-            question.setLanguage("ne");
-            question.setQuestion("This is sample question "+ (i+1) +" ?");
-            list.add(question);
-        }
-        return list;
+    public String getStage() {
+        return mStage;
+    }
+
+    public void setStage(String pStage) {
+        mStage = pStage;
     }
 }

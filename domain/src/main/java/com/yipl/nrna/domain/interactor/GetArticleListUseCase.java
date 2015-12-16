@@ -18,22 +18,24 @@ public class GetArticleListUseCase extends UseCase<List<Post>> {
 
     private final IRepository mRepository;
     private final Long mQuestionId;
+    private final int mLimit;
 
     @Inject
-    public GetArticleListUseCase(Long pId,IRepository pRepository, ThreadExecutor
+    public GetArticleListUseCase(Long pId, int pLimit, IRepository pRepository, ThreadExecutor
             pThreadExecutor, PostExecutionThread
-                                       pPostExecutionThread) {
+                                         pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
         mRepository = pRepository;
         mQuestionId = pId;
+        mLimit = pLimit;
     }
 
 
     @Override
     protected Observable<List<Post>> buildUseCaseObservable() {
-        if(mQuestionId != Long.MIN_VALUE)
+        if (mQuestionId != Long.MIN_VALUE)
             return mRepository.getListByQuestionAndType(mQuestionId);
         else
-            return mRepository.getList(-1);
+            return mRepository.getList(mLimit);
     }
 }

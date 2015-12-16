@@ -5,7 +5,6 @@ import android.app.Application;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.yipl.nrna.data.Database.DatabaseHelper;
-
 import com.yipl.nrna.di.component.ApplicationComponent;
 import com.yipl.nrna.di.component.DaggerApplicationComponent;
 import com.yipl.nrna.di.module.ApplicationModule;
@@ -22,18 +21,20 @@ public class MyApplication extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .build();
         Fresco.initialize(this);
-        Stetho.initializeWithDefaults(this);
+        if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this);
+        }
 
         getApplicationComponent().getDatabaseHelper();
-    }
-
-    public ApplicationComponent getApplicationComponent() {
-        return mApplicationComponent;
     }
 
     @Override
     public void onTerminate() {
         databaseHelper.close();
         super.onTerminate();
+    }
+
+    public ApplicationComponent getApplicationComponent() {
+        return mApplicationComponent;
     }
 }

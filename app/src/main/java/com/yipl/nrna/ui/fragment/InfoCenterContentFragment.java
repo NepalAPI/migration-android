@@ -22,7 +22,6 @@ import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.InfoCenterContentFragmentView;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
-import com.yipl.nrna.ui.interfaces.MainActivityView;
 
 import java.util.List;
 
@@ -34,11 +33,8 @@ import butterknife.ButterKnife;
 public class InfoCenterContentFragment extends BaseFragment implements
         InfoCenterContentFragmentView {
 
-    private MyConstants.Stage mStage;
-
     @Inject
     InfoCenterFragmentPresenter mPresenter;
-
     @Bind(R.id.postList)
     RecyclerView mRecyclerView;
     @Bind(R.id.tvNoInformation)
@@ -47,16 +43,11 @@ public class InfoCenterContentFragment extends BaseFragment implements
     ProgressBar mProgressBar;
     @Bind(R.id.main_container)
     RelativeLayout mContainer;
-
+    private MyConstants.Stage mStage;
     private ListAdapter<Post> mListAdapter;
 
     public InfoCenterContentFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public int getLayout() {
-        return R.layout.fragment_info_center_content;
     }
 
     public static InfoCenterContentFragment newInstance(MyConstants.Stage stage) {
@@ -68,18 +59,8 @@ public class InfoCenterContentFragment extends BaseFragment implements
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mStage = (MyConstants.Stage) getArguments().getSerializable(MyConstants.Extras.KEY_STAGE);
-        if(mStage == null){
-            throw new IllegalStateException("Fragment argument must consist of Stage.");
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.resume();
+    public int getLayout() {
+        return R.layout.fragment_info_center_content;
     }
 
     @Override
@@ -91,21 +72,48 @@ public class InfoCenterContentFragment extends BaseFragment implements
     }
 
     @Override
+    public void showNewContentInfo() {
+        Snackbar.make(mContainer, "", Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View pView) {
+                        loadRelatedPosts();
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mStage = (MyConstants.Stage) getArguments().getSerializable(MyConstants.Extras.KEY_STAGE);
+        if (mStage == null) {
+            throw new IllegalStateException("Fragment argument must consist of Stage.");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.resume();
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         mPresenter.pause();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
     }
 
     private void initialize() {
@@ -131,20 +139,8 @@ public class InfoCenterContentFragment extends BaseFragment implements
     }
 
     @Override
-    public void showNewContentInfo() {
-        Snackbar.make(mContainer, "", Snackbar.LENGTH_INDEFINITE)
-                .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View pView) {
-                        loadRelatedPosts();
-                    }
-                })
-                .show();
-    }
-
-    @Override
     public void renderPosts(List<Post> pPosts) {
-        if(pPosts != null)
+        if (pPosts != null)
             mListAdapter.setDataCollection(pPosts);
     }
 
@@ -159,20 +155,20 @@ public class InfoCenterContentFragment extends BaseFragment implements
     }
 
     @Override
+    public void showRetryView() {
+    }
+
+    @Override
+    public void hideRetryView() {
+    }
+
+    @Override
     public void showErrorView(String pErrorMessage) {
         Snackbar.make(mContainer, pErrorMessage, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void hideErrorView() {
-    }
-
-    @Override
-    public void showRetryView() {
-    }
-
-    @Override
-    public void hideRetryView() {
     }
 
     @Override

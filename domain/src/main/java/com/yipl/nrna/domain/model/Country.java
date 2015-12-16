@@ -12,7 +12,7 @@ public class Country extends BaseModel {
     String mName;
     String mAbout;
 
-    public Country(){
+    public Country() {
         mDataType = MyConstants.Adapter.TYPE_COUNTRY;
     }
 

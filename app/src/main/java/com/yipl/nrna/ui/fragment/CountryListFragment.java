@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
@@ -18,7 +19,6 @@ import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.CountryListView;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
-import com.yipl.nrna.ui.interfaces.MainActivityView;
 
 import java.util.List;
 
@@ -41,6 +41,8 @@ public class CountryListFragment extends BaseFragment implements CountryListView
     TextView tvNoCountry;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
+    @Bind(R.id.data_container)
+    RelativeLayout mContainer;
 
     private ListAdapter<Country> mListAdapter;
 
@@ -52,9 +54,36 @@ public class CountryListFragment extends BaseFragment implements CountryListView
         CountryListFragment fragment = new CountryListFragment();
         return fragment;
     }
+
     @Override
     public int getLayout() {
         return R.layout.fragment_country_list;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initialize();
+        setUpAdapter();
+        loadCountryList();
+    }
+
+    @Override
+    public void showNewContentInfo() {
+        Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
+                .LENGTH_INDEFINITE)
+                .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View pView) {
+                        loadCountryList();
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -64,16 +93,21 @@ public class CountryListFragment extends BaseFragment implements CountryListView
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onPause() {
+        super.onPause();
+        mPresenter.pause();
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initialize();
-        setUpAdapter();
-        loadCountryList();
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
     }
 
     private void loadCountryList() {
@@ -93,24 +127,6 @@ public class CountryListFragment extends BaseFragment implements CountryListView
                 .build()
                 .inject(this);
         mPresenter.attachView(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mPresenter.pause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override

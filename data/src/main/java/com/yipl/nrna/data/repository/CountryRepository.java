@@ -27,6 +27,21 @@ public class CountryRepository implements IRepository<Country> {
     }
 
     @Override
+    public Observable<List<Country>> getListByStage(int pLimit, String pType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Observable<List<Country>> getListByType(int pLimit, String pType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Observable<List<Country>> getListByStageAndType(int pLimit, String pType, String pStage) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Observable<Country> getSingle(Long pId) {
         return mDataStoreFactory.createDBDataStore()
                 .getCountryById(pId)
@@ -36,20 +51,5 @@ public class CountryRepository implements IRepository<Country> {
     @Override
     public Observable<List<Country>> getListByQuestionAndType(Long pId) {
         return null;
-    }
-
-    @Override
-    public Observable<List<Country>> getListByType(int pLimit, String pType) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Observable<List<Country>> getListByStage(int pLimit, String pType) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Observable<List<Country>> getListByStageAndType(int pLimit, String pType, String pStage) {
-        throw new UnsupportedOperationException();
     }
 }

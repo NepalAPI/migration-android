@@ -22,7 +22,7 @@ public class QuestionListFragmentPresenter implements Presenter {
     QuestionListFragmentView mView;
 
     @Inject
-    public QuestionListFragmentPresenter(@Named("questionList") UseCase pQuestionUseCase){
+    public QuestionListFragmentPresenter(@Named("questionList") UseCase pQuestionUseCase) {
         mUseCase = pQuestionUseCase;
     }
 
@@ -42,13 +42,13 @@ public class QuestionListFragmentPresenter implements Presenter {
     }
 
     @Override
-    public void attachView(MvpView view) {
-        mView = (QuestionListFragmentView) view;
+    public void initialize() {
+        loadQuestionList();
     }
 
     @Override
-    public void initialize() {
-        loadQuestionList();
+    public void attachView(MvpView view) {
+        mView = (QuestionListFragmentView) view;
     }
 
     private void loadQuestionList() {
@@ -61,7 +61,7 @@ public class QuestionListFragmentPresenter implements Presenter {
         mUseCase.execute(new QuestionListSubscirber());
     }
 
-    private final class QuestionListSubscirber extends DefaultSubscriber<List<Question>>{
+    private final class QuestionListSubscirber extends DefaultSubscriber<List<Question>> {
 
         @Override
         public void onCompleted() {
@@ -80,10 +80,9 @@ public class QuestionListFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Question> pQuestionList) {
-            if(pQuestionList.isEmpty()){
+            if (pQuestionList.isEmpty()) {
                 QuestionListFragmentPresenter.this.mView.showEmptyView();
-            }
-            else{
+            } else {
                 QuestionListFragmentPresenter.this.mView.hideEmptyView();
                 QuestionListFragmentPresenter.this.mView.renderQuestionList(pQuestionList);
             }

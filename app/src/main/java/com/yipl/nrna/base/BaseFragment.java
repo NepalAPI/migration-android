@@ -29,7 +29,7 @@ public abstract class BaseFragment extends Fragment {
         //setRetainInstance(true);
     }
 
-    public void showNewContentInfo(){
+    public void showNewContentInfo() {
 
     }
 }

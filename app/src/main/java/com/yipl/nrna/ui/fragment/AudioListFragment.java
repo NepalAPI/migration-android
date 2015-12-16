@@ -1,33 +1,26 @@
 package com.yipl.nrna.ui.fragment;
 
-import android.app.ProgressDialog;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
-import com.yipl.nrna.databinding.AudioDataBinding;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.AudioListFragmentPresenter;
-import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.AudioListView;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
-import com.yipl.nrna.ui.interfaces.MainActivityView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +33,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Nirazan-PC on 12/11/2015.
  */
-public class AudioListFragment extends BaseFragment implements AudioListView{
+public class AudioListFragment extends BaseFragment implements AudioListView {
 
     @Inject
     AudioListFragmentPresenter mPresenter;
@@ -51,6 +44,8 @@ public class AudioListFragment extends BaseFragment implements AudioListView{
     TextView tvNoAudio;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
+    @Bind(R.id.data_container)
+    RelativeLayout mContainer;
 
     private ListAdapter<Post> mListAdapter;
     private Long mQuestionId = Long.MIN_VALUE;
@@ -66,9 +61,40 @@ public class AudioListFragment extends BaseFragment implements AudioListView{
         fragment.setArguments(data);
         return fragment;
     }
+
     @Override
     public int getLayout() {
         return R.layout.fragment_audio_list;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initialize();
+        setUpAdapter();
+        loadAudioList();
+    }
+
+    @Override
+    public void showNewContentInfo() {
+        Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
+                .LENGTH_INDEFINITE)
+                .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View pView) {
+                        loadAudioList();
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle data = getArguments();
+        if (data != null) {
+            mQuestionId = data.getLong(MyConstants.Extras.KEY_ID);
+        }
     }
 
     @Override
@@ -78,20 +104,21 @@ public class AudioListFragment extends BaseFragment implements AudioListView{
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle data = getArguments();
-        if(data != null){
-            mQuestionId = data.getLong(MyConstants.Extras.KEY_ID);
-        }
+    public void onPause() {
+        super.onPause();
+        mPresenter.pause();
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initialize();
-        setUpAdapter();
-        loadAudioList();
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
     }
 
     private void loadAudioList() {
@@ -104,14 +131,14 @@ public class AudioListFragment extends BaseFragment implements AudioListView{
     }
 
     private void initialize() {
-        if(mQuestionId != Long.MIN_VALUE) {
+        if (mQuestionId != Long.MIN_VALUE) {
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(mQuestionId))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()
                     .inject(this);
-        }else{
+        } else {
             DaggerDataComponent.builder()
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
@@ -121,24 +148,6 @@ public class AudioListFragment extends BaseFragment implements AudioListView{
         mPresenter.attachView(this);
         tvNoAudio.setVisibility(View.GONE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mPresenter.pause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override

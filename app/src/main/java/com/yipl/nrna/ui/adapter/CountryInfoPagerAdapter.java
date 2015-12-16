@@ -32,16 +32,16 @@ public class CountryInfoPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
+    public CharSequence getPageTitle(int position) {
+        return mTitles[position];
+    }
+
+    @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0:
             default:
                 return AboutFragment.newInstance(mCountry);
         }
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mTitles[position];
     }
 }

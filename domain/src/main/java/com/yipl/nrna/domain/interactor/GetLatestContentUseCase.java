@@ -12,18 +12,19 @@ import rx.Observable;
 public class GetLatestContentUseCase extends UseCase<LatestContent> {
 
     private final IRepository mLatestContentRepository;
+    private final long mLastUpdatedStamp;
 
     @Inject
-    public GetLatestContentUseCase(IRepository pRepository, ThreadExecutor
-                                     pThreadExecutor, PostExecutionThread
-            pPostExecutionThread) {
+    public GetLatestContentUseCase(Long pLastUpdatedStamp, IRepository pRepository, ThreadExecutor
+            pThreadExecutor, PostExecutionThread
+                                           pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
         mLatestContentRepository = pRepository;
+        mLastUpdatedStamp = pLastUpdatedStamp;
     }
 
     @Override
     protected Observable<LatestContent> buildUseCaseObservable() {
-        // TODO: 12/8/15 get last update timestamp
-        return mLatestContentRepository.getSingle(14354637L);
+        return mLatestContentRepository.getSingle(mLastUpdatedStamp);
     }
 }

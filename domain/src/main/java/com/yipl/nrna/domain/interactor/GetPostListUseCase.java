@@ -21,8 +21,8 @@ public class GetPostListUseCase extends UseCase<List<Post>> {
 
     @Inject
     public GetPostListUseCase(int pLimit, MyConstants.PostType pType, MyConstants.Stage pStage,
-            IRepository pRepository, ThreadExecutor pThreadExecutor, PostExecutionThread
-            pPostExecutionThread) {
+                              IRepository pRepository, ThreadExecutor pThreadExecutor, PostExecutionThread
+                                      pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
         mRepository = pRepository;
         mLimit = pLimit;
@@ -32,13 +32,13 @@ public class GetPostListUseCase extends UseCase<List<Post>> {
 
     @Override
     protected Observable<List<Post>> buildUseCaseObservable() {
-        if(mType == null && mStage == null) {
+        if (mType == null && mStage == null) {
             return mRepository.getList(mLimit);
-        }else if(mType != null){
+        } else if (mType != null) {
             return mRepository.getListByType(mLimit, MyConstants.PostType.toString(mType));
-        }else if(mStage != null){
+        } else if (mStage != null) {
             return mRepository.getListByStage(mLimit, MyConstants.Stage.toString(mStage));
-        }else{
+        } else {
             return mRepository.getListByStageAndType(mLimit, MyConstants.PostType.toString(mType),
                     MyConstants.Stage.toString(mStage));
         }

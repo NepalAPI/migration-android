@@ -3,9 +3,7 @@ package com.yipl.nrna.presenter;
 import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.model.Post;
-import com.yipl.nrna.ui.activity.ArticleDetailActivity;
 import com.yipl.nrna.ui.interfaces.ArticleDetailActivityView;
-import com.yipl.nrna.ui.interfaces.ArticleListView;
 import com.yipl.nrna.ui.interfaces.MvpView;
 
 import javax.inject.Inject;
@@ -20,7 +18,7 @@ public class ArticleDetailActivityPresenter implements Presenter {
     ArticleDetailActivityView mView;
 
     @Inject
-    public ArticleDetailActivityPresenter(@Named("articleDetails") UseCase pArticleUseCase){
+    public ArticleDetailActivityPresenter(@Named("articleDetails") UseCase pArticleUseCase) {
         mArticleDetailUseCase = pArticleUseCase;
     }
 
@@ -40,13 +38,13 @@ public class ArticleDetailActivityPresenter implements Presenter {
     }
 
     @Override
-    public void attachView(MvpView view) {
-        mView = (ArticleDetailActivityView) view;
+    public void initialize() {
+        loadArticle();
     }
 
     @Override
-    public void initialize() {
-        loadArticle();
+    public void attachView(MvpView view) {
+        mView = (ArticleDetailActivityView) view;
     }
 
     private void loadArticle() {
@@ -57,7 +55,7 @@ public class ArticleDetailActivityPresenter implements Presenter {
         this.mArticleDetailUseCase.execute(new ArticleDetailSubscriber());
     }
 
-    private final class ArticleDetailSubscriber extends DefaultSubscriber<Post>{
+    private final class ArticleDetailSubscriber extends DefaultSubscriber<Post> {
         @Override
         public void onCompleted() {
             ArticleDetailActivityPresenter.this.mView.hideLoadingView();

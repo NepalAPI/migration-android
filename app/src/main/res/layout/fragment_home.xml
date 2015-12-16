@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yipl.nrna.ui.fragment.HomeFragment" android:fillViewport="false">
+    android:fillViewport="false"
+    tools:context="com.yipl.nrna.ui.fragment.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,9 +33,9 @@
 
                 <com.viewpagerindicator.CirclePageIndicator
                     android:id="@+id/indicator"
-                    android:layout_alignParentBottom="true"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginBottom="@dimen/spacing_medium"
                     android:layout_marginTop="@dimen/spacing_small"
                     app:fillColor="@color/pager_indicator_active"
@@ -48,6 +49,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/no_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/text_default"
                 android:visibility="gone"/>
 
         </RelativeLayout>
@@ -69,12 +79,12 @@
                     android:id="@+id/label_audio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginBottom="@dimen/spacing_standard"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     android:text="@string/latest_audios"
-                    android:textSize="@dimen/text_big"
+                    android:textAllCaps="true"
                     android:textColor="@color/text_color_primary"
-                    android:textAllCaps="true"/>
+                    android:textSize="@dimen/text_big"/>
 
                 <LinearLayout
                     android:id="@+id/audio_list"
@@ -92,6 +102,17 @@
                     android:layout_centerInParent="true"
                     android:visibility="gone"/>
 
+                <TextView
+                    android:id="@+id/no_audio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_audio"
+                    android:layout_centerInParent="true"
+                    android:text="@string/empty_video"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_default"
+                    android:visibility="gone"/>
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -104,12 +125,13 @@
                     android:id="@+id/label_video"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginBottom="@dimen/spacing_standard"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     android:text="@string/latest_videos"
-                    android:textSize="@dimen/text_big"
+                    android:textAllCaps="true"
                     android:textColor="@color/text_color_primary"
-                    android:textAllCaps="true"/>
+                    android:textSize="@dimen/text_big"/>
+
                 <LinearLayout
                     android:id="@+id/video_list"
                     android:layout_width="match_parent"
@@ -126,6 +148,62 @@
                     android:layout_centerInParent="true"
                     android:visibility="gone"/>
 
+                <TextView
+                    android:id="@+id/no_video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_video"
+                    android:layout_centerInParent="true"
+                    android:text="@string/empty_video"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_default"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/article_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/audio_section">
+
+                <TextView
+                    android:id="@+id/label_articles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_standard"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:text="@string/latest_articles"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_big"/>
+
+                <LinearLayout
+                    android:id="@+id/article_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_articles"
+                    android:clipToPadding="false"
+                    android:minHeight="@dimen/recent_audio_section_height"
+                    android:orientation="vertical"/>
+
+                <ProgressBar
+                    android:id="@+id/article_progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/no_article"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_articles"
+                    android:layout_centerInParent="true"
+                    android:text="@string/empty_article"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_default"
+                    android:visibility="gone"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

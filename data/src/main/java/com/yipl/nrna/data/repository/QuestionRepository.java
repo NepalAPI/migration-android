@@ -23,18 +23,18 @@ public class QuestionRepository implements IRepository<Question> {
 
     public Observable<List<Question>> getList(int pLimit) {
 
-        return mDataStoreFactory.createDBDataStore().getAllQuestion(-1).map(
+        return mDataStoreFactory.createDBDataStore().getAllQuestion(pLimit).map(
                 questionEntities -> mDataMapper.transformQuestion(questionEntities)
         );
     }
 
     @Override
-    public Observable<List<Question>> getListByType(int pLimit, String pType) {
+    public Observable<List<Question>> getListByStage(int pLimit, String pType) {
         return null;
     }
 
     @Override
-    public Observable<List<Question>> getListByStage(int pLimit, String pType) {
+    public Observable<List<Question>> getListByType(int pLimit, String pType) {
         return null;
     }
 

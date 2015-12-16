@@ -23,7 +23,7 @@ public class ArticleListFragmentPresenter implements Presenter {
     ArticleListView mView;
 
     @Inject
-    public ArticleListFragmentPresenter(@Named("articleList") UseCase pArticleUseCase){
+    public ArticleListFragmentPresenter(@Named("articleList") UseCase pArticleUseCase) {
         mArticleUseCase = pArticleUseCase;
     }
 
@@ -64,7 +64,7 @@ public class ArticleListFragmentPresenter implements Presenter {
         this.mArticleUseCase.execute(new ArticleSubscriber());
     }
 
-    private final class ArticleSubscriber extends DefaultSubscriber<List<Post>>{
+    private final class ArticleSubscriber extends DefaultSubscriber<List<Post>> {
 
         @Override
         public void onCompleted() {
@@ -84,9 +84,9 @@ public class ArticleListFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Post> pPosts) {
-            if(pPosts.isEmpty()) {
+            if (pPosts.isEmpty()) {
                 ArticleListFragmentPresenter.this.mView.showEmptyView();
-            }else{
+            } else {
                 ArticleListFragmentPresenter.this.mView.hideEmptyView();
                 ArticleListFragmentPresenter.this.mView.renderArticleList(pPosts);
             }

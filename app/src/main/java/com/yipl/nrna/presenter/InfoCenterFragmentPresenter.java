@@ -19,8 +19,8 @@ import javax.inject.Named;
  */
 public class InfoCenterFragmentPresenter implements Presenter {
 
-    InfoCenterContentFragmentView mView;
     private final UseCase mPostUseCase;
+    InfoCenterContentFragmentView mView;
 
     @Inject
     public InfoCenterFragmentPresenter(@Named("postList") UseCase pQuestionUseCase) {

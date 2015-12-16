@@ -13,12 +13,12 @@ public class LatestContent extends BaseModel {
         return mQuestions;
     }
 
-    public List<Post> getPosts() {
-        return mPosts;
-    }
-
     public void setQuestions(List<Question> pQuestions) {
         mQuestions = pQuestions;
+    }
+
+    public List<Post> getPosts() {
+        return mPosts;
     }
 
     public void setPosts(List<Post> pPosts) {

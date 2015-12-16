@@ -14,17 +14,19 @@ import rx.Observable;
 public class GetQuestionListUseCase extends UseCase<List<Question>> {
 
     private final IRepository mRepository;
+    private final int mLimit;
 
     @Inject
-    public GetQuestionListUseCase(IRepository pRepository, ThreadExecutor
-                                     pThreadExecutor, PostExecutionThread
-            pPostExecutionThread) {
+    public GetQuestionListUseCase(int pLimit, IRepository pRepository, ThreadExecutor
+            pThreadExecutor, PostExecutionThread
+                                          pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
         mRepository = pRepository;
+        mLimit = pLimit;
     }
 
     @Override
     protected Observable<List<Question>> buildUseCaseObservable() {
-        return mRepository.getList(-1);
+        return mRepository.getList(mLimit);
     }
 }

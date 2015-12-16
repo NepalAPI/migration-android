@@ -20,6 +20,7 @@ public class PostEntity {
     String type;
     String source;
     String description;
+    String stage;
     String title;
     PostDataEntity data;
 
@@ -103,7 +104,19 @@ public class PostEntity {
         data = pData;
     }
 
-    public String getType(){ return type; }
+    public String getType() {
+        return type;
+    }
 
-    public void setType(String type){ this.type = type; }
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getStage() {
+        return stage;
+    }
+
+    public void setStage(String pStage) {
+        stage = pStage;
+    }
 }

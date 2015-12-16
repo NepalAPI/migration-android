@@ -1,16 +1,16 @@
 package com.yipl.nrna.data.Database;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yipl.nrna.data.entity.CountryEntity;
+import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.data.entity.PostDataEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
-import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 
 import java.util.ArrayList;
@@ -21,6 +21,11 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscriber;
+
+import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_COUNTRY;
+import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_POST;
+import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_POST_QUESTION;
+import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_QUESTION;
 
 /**
  * Created by Nirazan-PC on 12/9/2015.
@@ -36,7 +41,7 @@ public class DatabaseDao {
         db = helper.getWritableDatabase();
     }
 
-    public CountryEntity mapCursorToCountryEntity(Cursor pCursor){
+    public CountryEntity mapCursorToCountryEntity(Cursor pCursor) {
         CountryEntity country = new CountryEntity();
         country.setId(pCursor.getLong(pCursor.getColumnIndex(MyConstants.DATABASE.TABLE_COUNTRY
                 .COLUMN_ID)));
@@ -70,6 +75,21 @@ public class DatabaseDao {
         post.setTitle(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TITLE)));
 
         return post;
+    }
+
+    public QuestionEntity mapCursorToQuestionEntity(Cursor cursor) {
+
+        QuestionEntity question = new QuestionEntity();
+        question.setId(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID)));
+        question.setCreatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_CREATED_AT)));
+        question.setUpdatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COlUMN_UPDATED_AT)));
+        question.setTags(new Gson().fromJson(cursor.getString(cursor.getColumnIndex
+                (MyConstants.DATABASE.TABLE_QUESTION.COLUMN_TAGS)), new TypeToken<List<String>>() {
+        }.getType()));
+        question.setLanguage(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_LANGUAGE)));
+        question.setTitle(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_QUESTION)));
+
+        return question;
     }
 
     public Observable<List<PostEntity>> getAllPosts(int pLimit) {
@@ -122,7 +142,7 @@ public class DatabaseDao {
                 MyConstants.DATABASE.TABLE_POST.TABLE_NAME + " where " +
                 MyConstants.DATABASE.TABLE_POST.COLUMN_TYPE + " = '" + type + "'" +
                 " order by " + MyConstants.DATABASE.TABLE_POST.COLUMN_UPDATED_AT +
-                " DESC Limit "+ pLimit;
+                " DESC Limit " + pLimit;
         Cursor cursor = db.rawQuery(query, null);
 
         Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
@@ -145,7 +165,7 @@ public class DatabaseDao {
                 MyConstants.DATABASE.TABLE_POST.TABLE_NAME + " where " +
                 MyConstants.DATABASE.TABLE_POST.COLUMN_STAGE + " = '" + pStage + "'" +
                 " order by " + MyConstants.DATABASE.TABLE_POST.COLUMN_UPDATED_AT +
-                " DESC Limit "+ pLimit;
+                " DESC Limit " + pLimit;
         Cursor cursor = db.rawQuery(query, null);
 
         Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
@@ -163,21 +183,6 @@ public class DatabaseDao {
         return makeObservable(c);
     }
 
-    public QuestionEntity convertCursorToQuestionEntity(Cursor cursor) {
-
-        QuestionEntity question = new QuestionEntity();
-        question.setId(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID)));
-        question.setCreatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_CREATED_AT)));
-        question.setUpdatedAt(cursor.getLong(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COlUMN_UPDATED_AT)));
-        question.setTags(new Gson().fromJson(cursor.getString(cursor.getColumnIndex
-                (MyConstants.DATABASE.TABLE_QUESTION.COLUMN_TAGS)), new TypeToken<List<String>>() {
-        }.getType()));
-        question.setLanguage(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_LANGUAGE)));
-        question.setQuestion(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_QUESTION)));
-
-        return question;
-    }
-
     public Observable<List<QuestionEntity>> getAllQuestions(int pLimit) {
 
         String query = "Select * from " +
@@ -190,7 +195,7 @@ public class DatabaseDao {
             public List<QuestionEntity> call() throws Exception {
                 List<QuestionEntity> questions = new ArrayList<>();
                 while (cursor.moveToNext()) {
-                    questions.add(convertCursorToQuestionEntity(cursor));
+                    questions.add(mapCursorToQuestionEntity(cursor));
                 }
                 cursor.close();
                 return questions;
@@ -212,7 +217,7 @@ public class DatabaseDao {
             public List<QuestionEntity> call() throws Exception {
                 List<QuestionEntity> questions = new ArrayList<>();
                 while (cursor.moveToNext()) {
-                    questions.add(convertCursorToQuestionEntity(cursor));
+                    questions.add(mapCursorToQuestionEntity(cursor));
                 }
                 cursor.close();
                 return questions;
@@ -232,7 +237,7 @@ public class DatabaseDao {
             public QuestionEntity call() throws Exception {
                 QuestionEntity question = null;
                 if (cursor.moveToFirst()) {
-                    question = convertCursorToQuestionEntity(cursor);
+                    question = mapCursorToQuestionEntity(cursor);
                 }
                 cursor.close();
                 return question;
@@ -241,103 +246,19 @@ public class DatabaseDao {
         return makeObservable(callable);
     }
 
-    public void saveOnePost(PostEntity post) {
-
-        String sqlQuery = "Insert into " + MyConstants.DATABASE.TABLE_POST.TABLE_NAME + "( " +
-                MyConstants.DATABASE.TABLE_POST.COLUMN_ID + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_POST.COLUMN_UPDATED_AT + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_POST.COLUMN_CREATED_AT + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_POST.COLUMN_DATA + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_POST.COLUMN_TYPE + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_POST.COLUMN_LANGUAGE + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_POST.COLUMN_TAGS + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_POST.COLUMN_SOURCE + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_POST.COLUMN_DESCRIPTION + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_POST.COLUMN_TITLE + MyConstants.DATABASE.COMMA +
-                " values( " +
-                post.getId() + MyConstants.DATABASE.COMMA +
-                post.getUpdatedAt() + MyConstants.DATABASE.COMMA +
-                post.getCreatedAt() + MyConstants.DATABASE.COMMA +
-                new Gson().toJson(post.getData()) + MyConstants.DATABASE.COMMA +
-                post.getType() + MyConstants.DATABASE.COMMA +
-                post.getLanguage() + MyConstants.DATABASE.COMMA +
-                post.getTags() + MyConstants.DATABASE.COMMA +
-                post.getSource() + MyConstants.DATABASE.COMMA +
-                post.getDescription() + MyConstants.DATABASE.COMMA +
-                post.getTitle() +
-                " )";
-        savePostQuestionRelation(post.getId(), post.getQuestionIdList());
-        db.execSQL(sqlQuery);
-    }
-
-    public void saveAllPost(List<PostEntity> posts) {
-        if (posts != null) {
-            for (PostEntity post : posts) {
-                if (post != null)
-                    saveOnePost(post);
-            }
-        }
-    }
-
-    public void saveOneQuestion(QuestionEntity question) {
-
-        String sqlQuery = "Insert into " + MyConstants.DATABASE.TABLE_QUESTION.TABLE_NAME + "( " +
-                MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_QUESTION.COlUMN_UPDATED_AT + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_QUESTION.COLUMN_CREATED_AT + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_QUESTION.COLUMN_TAGS + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_QUESTION.COLUMN_LANGUAGE + MyConstants.DATABASE.COMMA +
-                MyConstants.DATABASE.TABLE_QUESTION.COLUMN_QUESTION +
-                " ) values ( " +
-                question.getId() + MyConstants.DATABASE.COMMA +
-                question.getUpdatedAt() + MyConstants.DATABASE.COMMA +
-                question.getCreatedAt() + MyConstants.DATABASE.COMMA +
-                new Gson().toJson(question.getTags()) + MyConstants.DATABASE.COMMA +
-                question.getLanguage() + MyConstants.DATABASE.COMMA +
-                question.getQuestion() +
-                " )";
-
-        db.execSQL(sqlQuery);
-    }
-
-    public void saveAllQuestion(List<QuestionEntity> questions) {
-
-        if (questions != null) {
-            for (QuestionEntity question : questions) {
-                if (question != null)
-                    saveOneQuestion(question);
-            }
-        }
-    }
-
-    public void savePostQuestionRelation(Long postId, List<Long> questionIds) {
-        if (questionIds != null) {
-            for (Long id : questionIds) {
-                if (id != null) {
-                    String query = "Insert into " + MyConstants.DATABASE.TABLE_POST_QUESTION.TABLE_NAME + "( " +
-                            MyConstants.DATABASE.TABLE_POST_QUESTION.COLUMN_POST_ID + MyConstants.DATABASE.COMMA +
-                            MyConstants.DATABASE.TABLE_POST_QUESTION.COLUMN_QUESTION_ID +
-                            " );";
-                    db.execSQL(query);
-                }
-            }
-        }
-    }
-
-    public Observable<List<PostEntity>> getPostByQuestionAndType(Long pId, String pType){
+    public Observable<List<PostEntity>> getPostByQuestionAndType(Long pId, String pType) {
 
         String query = "Select * from " + MyConstants.DATABASE.TABLE_POST.TABLE_NAME + " p join " +
-                MyConstants.DATABASE.TABLE_POST_QUESTION.TABLE_NAME + " pq on p."+ MyConstants.DATABASE.TABLE_POST.COLUMN_ID +
-                " = pq."+ MyConstants.DATABASE.TABLE_POST_QUESTION.COLUMN_POST_ID + " join "+MyConstants.DATABASE.TABLE_QUESTION.TABLE_NAME +
-                " q on q."+MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID + " = pq."+ MyConstants.DATABASE.TABLE_POST_QUESTION.COLUMN_QUESTION_ID +
+                MyConstants.DATABASE.TABLE_POST_QUESTION.TABLE_NAME + " pq on p." + MyConstants.DATABASE.TABLE_POST.COLUMN_ID +
+                " = pq." + MyConstants.DATABASE.TABLE_POST_QUESTION.COLUMN_POST_ID + " join " + MyConstants.DATABASE.TABLE_QUESTION.TABLE_NAME +
+                " q on q." + MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID + " = pq." + MyConstants.DATABASE.TABLE_POST_QUESTION.COLUMN_QUESTION_ID +
                 " where q." + MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID + " = " + pId;
 
-        if(pType != null || !pType.isEmpty()){
+        if (pType != null || !pType.isEmpty()) {
             query += " and type = '" + pType + "'";
         }
 
         Cursor cursor = db.rawQuery(query, null);
-        Log.i("query ", query +" / "+cursor.getCount());
         Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
             @Override
             public List<PostEntity> call() throws Exception {
@@ -351,30 +272,6 @@ public class DatabaseDao {
         };
         return makeObservable(c);
 
-    }
-
-    public void updateOnePost(PostEntity post) {
-        // TODO: 12/11/2015
-        String sqlQuery = "Update into";
-    }
-
-    public void updateAllPosts(List<PostEntity> posts) {
-        // TODO: 12/11/2015
-        for (PostEntity post : posts) {
-            updateOnePost(post);
-        }
-    }
-
-    public void updateOneQuestion(QuestionEntity question) {
-        // TODO: 12/11/2015
-        String sqlQuery = "Update into";
-    }
-
-    public void updateAllQuestions(List<QuestionEntity> questions) {
-        // TODO: 12/11/2015
-        for (QuestionEntity question : questions) {
-            updateOneQuestion(question);
-        }
     }
 
     public Observable<List<CountryEntity>> getAllCountries(int pLimit) {
@@ -418,6 +315,180 @@ public class DatabaseDao {
         };
 
         return makeObservable(callable);
+    }
+
+    /*======= Save Operations ==========*/
+
+    public void insertUpdate(LatestContentEntity pLatestContent) {
+        saveAllQuestion(pLatestContent.getQuestions());
+        saveAllPost(pLatestContent.getPosts());
+        saveAllCountries(pLatestContent.getCountries());
+    }
+
+    public void saveAllPost(List<PostEntity> posts) {
+        if (posts != null) {
+            for (PostEntity post : posts) {
+                if (post != null)
+                    insertUpdatePost(post);
+            }
+        }
+    }
+
+    public long insertUpdatePost(PostEntity pPost) {
+        Cursor cursor;
+        String query = "Select count(*) as count from " +
+                MyConstants.DATABASE.TABLE_POST.TABLE_NAME +
+                " where " + MyConstants.DATABASE.TABLE_POST.COLUMN_ID + " = " + pPost.getId();
+
+        cursor = db.rawQuery(query, null);
+        cursor.moveToNext();
+        long count = cursor.getLong(0);
+        cursor.close();
+
+        if (count > 0) {
+            return updateOnePost(pPost);
+        } else {
+            return saveOnePost(pPost);
+        }
+    }
+
+    public long saveOnePost(PostEntity post) {
+        long insertId = db.insert(TABLE_POST.TABLE_NAME, null, getContentValues(post));
+        savePostQuestionRelation(post.getId(), post.getQuestionIdList());
+        return insertId;
+    }
+
+    public long updateOnePost(PostEntity post) {
+        long insertId = db.update(TABLE_POST.TABLE_NAME, getContentValues(post), TABLE_POST
+                .COLUMN_ID + " = " + post.getId(), null);
+        return insertId;
+    }
+
+    public void savePostQuestionRelation(Long postId, List<Long> questionIds) {
+        if (questionIds != null) {
+            for (Long id : questionIds) {
+                if (id != null) {
+                    ContentValues values = new ContentValues();
+                    values.put(TABLE_POST_QUESTION.COLUMN_POST_ID, postId);
+                    values.put(TABLE_POST_QUESTION.COLUMN_QUESTION_ID, id);
+                    db.insert(TABLE_POST_QUESTION.TABLE_NAME, null, values);
+                }
+            }
+        }
+    }
+
+    public void saveAllQuestion(List<QuestionEntity> questions) {
+
+        if (questions != null) {
+            for (QuestionEntity question : questions) {
+                if (question != null)
+                    insertUpdateQuestion(question);
+            }
+        }
+    }
+
+    public long insertUpdateQuestion(QuestionEntity pQuestion) {
+        Cursor cursor;
+        String query = "Select count(*) as count from " +
+                MyConstants.DATABASE.TABLE_QUESTION.TABLE_NAME + " where " + MyConstants.DATABASE
+                .TABLE_QUESTION.COLUMN_ID + " = " + pQuestion.getId();
+
+        cursor = db.rawQuery(query, null);
+        cursor.moveToNext();
+        long count = cursor.getLong(0);
+        cursor.close();
+
+        if (count > 0) {
+            return updateOneQuestion(pQuestion);
+        } else {
+            return saveOneQuestion(pQuestion);
+        }
+    }
+
+    public long saveOneQuestion(QuestionEntity question) {
+        return db.insert(TABLE_QUESTION.TABLE_NAME, null, getContentValues(question));
+    }
+
+    public long updateOneQuestion(QuestionEntity question) {
+        return db.update(TABLE_QUESTION.TABLE_NAME, getContentValues(question), TABLE_QUESTION
+                .COLUMN_ID + " = " + question.getId(), null);
+    }
+
+    public void saveAllCountries(List<CountryEntity> pCountries) {
+
+        if (pCountries != null) {
+            for (CountryEntity country : pCountries) {
+                if (country != null)
+                    insertUpdateCountry(country);
+            }
+        }
+    }
+
+    public long insertUpdateCountry(CountryEntity pCountry) {
+        Cursor cursor;
+        String query = "Select count(*) as count from " +
+                MyConstants.DATABASE.TABLE_COUNTRY.TABLE_NAME + " where " + MyConstants.DATABASE
+                .TABLE_COUNTRY.COLUMN_ID + " = " + pCountry.getId();
+
+        cursor = db.rawQuery(query, null);
+        cursor.moveToNext();
+        long count = cursor.getLong(0);
+        cursor.close();
+
+        if (count > 0) {
+            return updateOneCountry(pCountry);
+        } else {
+            return saveOneCountry(pCountry);
+        }
+    }
+
+    public long saveOneCountry(CountryEntity pCountry) {
+        return db.insert(TABLE_QUESTION.TABLE_NAME, null, getContentValues(pCountry));
+    }
+
+    public long updateOneCountry(CountryEntity pCountry) {
+        return db.update(TABLE_QUESTION.TABLE_NAME, getContentValues(pCountry), TABLE_QUESTION
+                .COLUMN_ID + " = " + pCountry.getId(), null);
+    }
+
+    private ContentValues getContentValues(PostEntity pPost) {
+        ContentValues values = new ContentValues();
+        Gson gson = new Gson();
+        values.put(TABLE_POST.COLUMN_ID, pPost.getId());
+        values.put(TABLE_POST.COLUMN_CREATED_AT, pPost.getUpdatedAt());
+        values.put(TABLE_POST.COLUMN_UPDATED_AT, pPost.getCreatedAt());
+        values.put(TABLE_POST.COLUMN_DATA, gson.toJson(pPost.getData()));
+        values.put(TABLE_POST.COLUMN_TYPE, pPost.getType());
+        values.put(TABLE_POST.COLUMN_LANGUAGE, pPost.getLanguage());
+        values.put(TABLE_POST.COLUMN_TAGS, gson.toJson(pPost.getTags()));
+        values.put(TABLE_POST.COLUMN_SOURCE, pPost.getSource());
+        values.put(TABLE_POST.COLUMN_DESCRIPTION, pPost.getDescription());
+        values.put(TABLE_POST.COLUMN_TITLE, pPost.getTitle());
+        values.put(TABLE_POST.COLUMN_STAGE, pPost.getStage());
+        return values;
+    }
+
+    private ContentValues getContentValues(QuestionEntity pQuestion) {
+        ContentValues values = new ContentValues();
+        values.put(TABLE_QUESTION.COLUMN_ID, pQuestion.getId());
+        values.put(TABLE_QUESTION.COlUMN_UPDATED_AT, pQuestion.getUpdatedAt());
+        values.put(TABLE_QUESTION.COLUMN_CREATED_AT, pQuestion.getCreatedAt());
+        values.put(TABLE_QUESTION.COLUMN_TAGS, new Gson().toJson(pQuestion.getTags()));
+        values.put(TABLE_QUESTION.COLUMN_LANGUAGE, pQuestion.getLanguage());
+        values.put(TABLE_QUESTION.COLUMN_STAGE, pQuestion.getStage());
+        values.put(TABLE_QUESTION.COLUMN_QUESTION, pQuestion.getTitle());
+        return values;
+    }
+
+    private ContentValues getContentValues(CountryEntity pCountry) {
+        ContentValues values = new ContentValues();
+        values.put(TABLE_COUNTRY.COLUMN_ID, pCountry.getId());
+        values.put(TABLE_COUNTRY.COlUMN_UPDATED_AT, pCountry.getUpdatedAt());
+        values.put(TABLE_COUNTRY.COLUMN_CREATED_AT, pCountry.getCreatedAt());
+        values.put(TABLE_COUNTRY.COLUMN_ABOUT, pCountry.getAbout());
+        values.put(TABLE_COUNTRY.COLUMN_IMAGE_URL, pCountry.getImageUrl());
+        values.put(TABLE_COUNTRY.COLUMN_NAME, pCountry.getName());
+        return values;
     }
 
     private <T> Observable<T> makeObservable(final Callable<T> callable) {
