@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="CountryInfoDataBinding">
+
+        <variable
+            name="country"
+            type="com.yipl.nrna.domain.model.Country"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_standard"
+        tools:context="com.yipl.nrna.ui.fragment.country.AboutFragment">
+
+        <TextView
+            android:id="@+id/about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_default"
+            android:textColor="@color/text_color_primary"
+            android:text="@{country.getAbout()}"/>
+
+    </FrameLayout>
+</layout>

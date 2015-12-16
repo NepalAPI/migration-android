@@ -34,6 +34,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_COUNTRY;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
 
 public class MainActivity extends BaseActivity implements
@@ -224,6 +225,12 @@ public class MainActivity extends BaseActivity implements
                 Intent intent = new Intent(this, ArticleDetailActivity.class);
                 intent.putExtra(MyConstants.Extras.KEY_ID, pId);
                 startActivity(intent);
+                break;
+            case TYPE_COUNTRY:
+                Intent countryIntent = new Intent(this, CountryDetailActivity.class);
+                countryIntent.putExtra(MyConstants.Extras.KEY_ID, pId);
+                startActivity(countryIntent);
+                break;
         }
     }
 
