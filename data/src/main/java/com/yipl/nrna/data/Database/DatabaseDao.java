@@ -2,6 +2,7 @@ package com.yipl.nrna.data.Database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -9,6 +10,7 @@ import com.yipl.nrna.data.entity.CountryEntity;
 import com.yipl.nrna.data.entity.PostDataEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
+import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 
 import java.util.ArrayList;
@@ -320,6 +322,35 @@ public class DatabaseDao {
                 }
             }
         }
+    }
+
+    public Observable<List<PostEntity>> getPostByQuestionAndType(Long pId, String pType){
+
+        String query = "Select * from " + MyConstants.DATABASE.TABLE_POST.TABLE_NAME + " p join " +
+                MyConstants.DATABASE.TABLE_POST_QUESTION.TABLE_NAME + " pq on p."+ MyConstants.DATABASE.TABLE_POST.COLUMN_ID +
+                " = pq."+ MyConstants.DATABASE.TABLE_POST_QUESTION.COLUMN_POST_ID + " join "+MyConstants.DATABASE.TABLE_QUESTION.TABLE_NAME +
+                " q on q."+MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID + " = pq."+ MyConstants.DATABASE.TABLE_POST_QUESTION.COLUMN_QUESTION_ID +
+                " where q." + MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID + " = " + pId;
+
+        if(pType != null || !pType.isEmpty()){
+            query += " and type = '" + pType + "'";
+        }
+
+        Cursor cursor = db.rawQuery(query, null);
+        Log.i("query ", query +" / "+cursor.getCount());
+        Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
+            @Override
+            public List<PostEntity> call() throws Exception {
+                List<PostEntity> posts = new ArrayList<PostEntity>();
+                while (cursor.moveToNext()) {
+                    posts.add(mapCursorToPostEntity(cursor));
+                }
+                cursor.close();
+                return posts;
+            }
+        };
+        return makeObservable(c);
+
     }
 
     public void updateOnePost(PostEntity post) {

@@ -14,17 +14,22 @@ import rx.Observable;
 public class GetVideoListUseCase extends UseCase<List<Post>> {
 
     private final IRepository mRepository;
+    private final Long mQuestionId;
 
     @Inject
-    public GetVideoListUseCase(IRepository pRepository, ThreadExecutor
+    public GetVideoListUseCase(Long pId, IRepository pRepository, ThreadExecutor
                                      pThreadExecutor, PostExecutionThread
             pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
         mRepository = pRepository;
+        mQuestionId = pId;
     }
 
     @Override
     protected Observable<List<Post>> buildUseCaseObservable() {
-        return mRepository.getList(-1);
+        if(mQuestionId == Long.MIN_VALUE)
+            return mRepository.getList(-1);
+        else
+            return mRepository.getListByQuestionAndType(mQuestionId);
     }
 }

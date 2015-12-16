@@ -49,6 +49,19 @@
             android:name=".ui.activity.CountryDetailActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.yipl.nrna.ui.activity.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".ui.activity.QuestionDetailActivity"
+            android:label="@string/title_activity_question_detail"
+            android:parentActivityName=".ui.activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.yipl.nrna.ui.activity.MainActivity" />
         </activity>
     </application>
 

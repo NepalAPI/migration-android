@@ -37,6 +37,13 @@ public class ArticleRepository implements IRepository<Post> {
     }
 
     @Override
+    public Observable<List<Post>> getListByQuestionAndType(Long pId) {
+        return mDataStoreFactory.createDBDataStore().getPostByQuestionAndType(pId, "text").map(
+                postEntities -> mDataMapper.transformPost(postEntities)
+        );
+    }
+
+    @Override
     public Observable<List<Post>> getListByType(int pLimit, String pType) {
         return null;
     }

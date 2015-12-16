@@ -10,12 +10,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
+import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.presenter.QuestionListFragmentPresenter;
 import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
+import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.ui.interfaces.QuestionListFragmentView;
 
@@ -71,8 +73,8 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
 
     private void initialize() {
         DaggerDataComponent.builder()
-                .activityModule(((MainActivity) getActivity()).getActivityModule())
-                .applicationComponent(((MainActivity) getActivity()).getApplicationComponent())
+                .activityModule(((BaseActivity) getActivity()).getActivityModule())
+                .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                 .build()
                 .inject(this);
         mPresenter.attachView(this);
@@ -81,7 +83,7 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     }
 
     private void setUpAdapter() {
-        mListAdapter = new ListAdapter<Question>(getContext(),new ArrayList<Question>(), (MainActivityView) getActivity());
+        mListAdapter = new ListAdapter<Question>(getContext(),new ArrayList<Question>(), (ListClickCallbackInterface) getActivity());
         mRecyclerView.setAdapter(mListAdapter);
     }
 

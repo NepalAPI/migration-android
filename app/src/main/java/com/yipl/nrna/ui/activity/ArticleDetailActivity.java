@@ -38,6 +38,7 @@ public class ArticleDetailActivity extends BaseActivity implements ArticleDetail
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle data = getIntent().getExtras();
         if(data!= null){
             mId = data.getLong(MyConstants.Extras.KEY_ID, Long.MIN_VALUE);
@@ -108,6 +109,6 @@ public class ArticleDetailActivity extends BaseActivity implements ArticleDetail
 
     @Override
     public Context getContext() {
-        return null;
+        return this;
     }
 }

@@ -10,13 +10,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
+import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
+import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
+import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.ArticleListFragmentPresenter;
 import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.ArticleListView;
+import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 
 import java.util.ArrayList;
@@ -42,14 +46,19 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
 
+    Long mQuestionId = Long.MIN_VALUE;
+
     private ListAdapter<Post> mListAdapter;
 
     public ArticleListFragment(){
         super();
     }
 
-    public static ArticleListFragment newInstance(){
+    public static ArticleListFragment newInstance(Long pId){
         ArticleListFragment fragment = new ArticleListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLong(MyConstants.Extras.KEY_ID, pId);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -67,6 +76,10 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = new Bundle();
+        if(bundle!= null){
+            mQuestionId = bundle.getLong(MyConstants.Extras.KEY_ID);
+        }
     }
 
     @Override
@@ -82,16 +95,26 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
     }
 
     private void setUpAdapter() {
-        mListAdapter = new ListAdapter<Post>(getContext(), new ArrayList<Post>(), (MainActivityView) getActivity());
+        mListAdapter = new ListAdapter<Post>(getContext(), new ArrayList<Post>(), (ListClickCallbackInterface) getActivity());
         mRecyclerView.setAdapter(mListAdapter);
     }
 
     private void initialize() {
-        DaggerDataComponent.builder()
-                .activityModule(((MainActivity) getActivity()).getActivityModule())
-                .applicationComponent(((MainActivity) getActivity()).getApplicationComponent())
-                .build()
-                .inject(this);
+        if(mQuestionId != Long.MIN_VALUE) {
+            DaggerDataComponent.builder()
+                    .dataModule(new DataModule(mQuestionId))
+                    .activityModule(((BaseActivity) getActivity()).getActivityModule())
+                    .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
+                    .build()
+                    .inject(this);
+        }
+        else{
+            DaggerDataComponent.builder()
+                    .activityModule(((BaseActivity) getActivity()).getActivityModule())
+                    .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
+                    .build()
+                    .inject(this);
+        }
         mPresenter.attachView(this);
         tvNoArticle.setVisibility(View.GONE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

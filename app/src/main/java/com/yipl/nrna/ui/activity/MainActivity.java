@@ -17,6 +17,8 @@ import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
+import com.yipl.nrna.domain.model.BaseModel;
+import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.LatestContentPresenter;
 import com.yipl.nrna.ui.fragment.ArticleListFragment;
@@ -26,6 +28,7 @@ import com.yipl.nrna.ui.fragment.HomeFragment;
 import com.yipl.nrna.ui.fragment.InfoCenterFragment;
 import com.yipl.nrna.ui.fragment.QuestionListFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
+import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.util.Logger;
 
@@ -33,13 +36,12 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_COUNTRY;
-import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.*;
 
 public class MainActivity extends BaseActivity implements
         MainActivityView,
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener,
+        ListClickCallbackInterface{
 
     @Inject
     LatestContentPresenter mLatestContentPresenter;
@@ -219,18 +221,24 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onListItemSelected(int pType, Long pId) {
-        switch (pType){
+    public void onListItemSelected(BaseModel pModel) {
+        Intent intent;
+        switch (pModel.getDataType()){
             case TYPE_TEXT:
-                Intent intent = new Intent(this, ArticleDetailActivity.class);
-                intent.putExtra(MyConstants.Extras.KEY_ID, pId);
+                intent = new Intent(this, ArticleDetailActivity.class);
+                intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
                 startActivity(intent);
                 break;
             case TYPE_COUNTRY:
                 Intent countryIntent = new Intent(this, CountryDetailActivity.class);
-                countryIntent.putExtra(MyConstants.Extras.KEY_ID, pId);
+                countryIntent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
                 startActivity(countryIntent);
                 break;
+            case TYPE_QUESTION:
+                intent = new Intent(this, QuestionDetailActivity.class);
+                intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
+                intent.putExtra(MyConstants.Extras.KEY_TITLE, ((Question)pModel).getQuestion());
+                startActivity(intent);
         }
     }
 
