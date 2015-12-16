@@ -18,6 +18,9 @@ import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Country;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
+
+import com.yipl.nrna.ui.activity.MainActivity;
+import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 
 import java.util.List;
@@ -35,16 +38,16 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
 
     List<T> mDataCollection;
     private final LayoutInflater mLayoutInflater;
-    MainActivityView mListener;
+    ListClickCallbackInterface mListener;
 
 
-    public ListAdapter(Context pContext, MainActivityView pListener) {
+    public ListAdapter(Context pContext, ListClickCallbackInterface pListener) {
         this.mLayoutInflater = (LayoutInflater) pContext.getSystemService(Context
                 .LAYOUT_INFLATER_SERVICE);
         this.mListener = pListener;
     }
 
-    public ListAdapter(Context pContext, List<T> pDataCollection, MainActivityView pListener) {
+    public ListAdapter(Context pContext, List<T> pDataCollection, ListClickCallbackInterface pListener) {
         mDataCollection = pDataCollection;
         this.mLayoutInflater = (LayoutInflater) pContext.getSystemService(Context
                 .LAYOUT_INFLATER_SERVICE);
@@ -59,12 +62,12 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
             super(binding.getRoot());
             ButterKnife.bind(this, binding.getRoot());
             this.mBinding = binding;
-            /*view.setOnClickListener(new View.OnClickListener() {
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onListItemSelected(data.get(getAdapterPosition()));
+                    mListener.onListItemSelected(mBinding.getQuestion());
                 }
-            });*/
+            });
         }
     }
 
@@ -113,7 +116,7 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
             mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.onListItemSelected(TYPE_TEXT, mBinding.getArticle().getId());
+                    mListener.onListItemSelected(mBinding.getArticle());
                 }
             });
         }
@@ -130,7 +133,7 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
             mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.onListItemSelected(TYPE_COUNTRY, mBinding.getCountry().getId());
+                    mListener.onListItemSelected(mBinding.getCountry());
                 }
             });
         }

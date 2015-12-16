@@ -21,6 +21,7 @@ import com.yipl.nrna.presenter.InfoCenterFragmentPresenter;
 import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.InfoCenterContentFragmentView;
+import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 
 import java.util.List;
@@ -118,7 +119,7 @@ public class InfoCenterContentFragment extends BaseFragment implements
     }
 
     private void setUpAdapter() {
-        mListAdapter = new ListAdapter(getContext(), (MainActivityView) getActivity());
+        mListAdapter = new ListAdapter(getContext(), (ListClickCallbackInterface) getActivity());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mListAdapter);
     }

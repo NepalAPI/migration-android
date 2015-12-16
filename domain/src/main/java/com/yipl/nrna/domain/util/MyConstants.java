@@ -85,6 +85,7 @@ public class MyConstants {
         public static final String KEY_PLAY_STATUS = "key_play_status";
         public static final String KEY_ID = "key_id";
         public static final String KEY_STAGE = "key_stage";
+        public static final String KEY_TITLE = "key_title";
     }
 
     public static class DATABASE {

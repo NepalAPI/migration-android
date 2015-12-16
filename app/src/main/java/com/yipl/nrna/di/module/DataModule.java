@@ -190,7 +190,7 @@ public class DataModule {
     UseCase provideAudioListUseCase(@Named("audio") IRepository pDataRepository,
                                     ThreadExecutor pThreadExecutor, PostExecutionThread
                                             pPostExecutionThread) {
-        return new GetAudioListUseCase(pDataRepository, pThreadExecutor, pPostExecutionThread);
+        return new GetAudioListUseCase(mId, pDataRepository, pThreadExecutor, pPostExecutionThread);
     }
 
     @Provides
@@ -217,7 +217,7 @@ public class DataModule {
     UseCase provideVideoListUseCase(@Named("video") IRepository pDataRepository,
                                     ThreadExecutor pThreadExecutor, PostExecutionThread
                                             pPostExecutionThread) {
-        return new GetVideoListUseCase(pDataRepository, pThreadExecutor, pPostExecutionThread);
+        return new GetVideoListUseCase(mId, pDataRepository, pThreadExecutor, pPostExecutionThread);
     }
 
     @Provides
@@ -242,9 +242,9 @@ public class DataModule {
     @PerActivity
     @Named("articleList")
     UseCase provideArticleListUseCase(@Named("article") IRepository pDataRepository,
-                                      ThreadExecutor pThreadExecutor, PostExecutionThread
-                                              pPostExecutionThread) {
-        return new GetArticleListUseCase(pDataRepository, pThreadExecutor, pPostExecutionThread);
+                                    ThreadExecutor pThreadExecutor, PostExecutionThread
+                                            pPostExecutionThread) {
+        return new GetArticleListUseCase(mId, pDataRepository, pThreadExecutor, pPostExecutionThread);
     }
 
     @Provides

@@ -34,6 +34,11 @@ public class CountryRepository implements IRepository<Country> {
     }
 
     @Override
+    public Observable<List<Country>> getListByQuestionAndType(Long pId) {
+        return null;
+    }
+
+    @Override
     public Observable<List<Country>> getListByType(int pLimit, String pType) {
         throw new UnsupportedOperationException();
     }

@@ -50,4 +50,9 @@ public class LatestContentRepository implements IRepository<LatestContent> {
                 .map(pLatestContentEntity -> mDataMapper.transformLatestContent
                         (pLatestContentEntity));
     }
+
+    @Override
+    public Observable<List<LatestContent>> getListByQuestionAndType(Long pId) {
+        return null;
+    }
 }

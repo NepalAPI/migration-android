@@ -49,4 +49,9 @@ public class QuestionRepository implements IRepository<Question> {
         return Observable.empty();
 
     }
+
+    @Override
+    public Observable<List<Question>> getListByQuestionAndType(Long pId) {
+        return null;
+    }
 }
