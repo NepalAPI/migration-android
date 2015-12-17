@@ -20,30 +20,31 @@ public class PostRepository implements IRepository<Post> {
     }
 
     @Override
-    public Observable<List<Post>> getListByType(int pLimit, String pType) {
+    public Observable<List<Post>> getList(int pLimit) {
         return mDataStoreFactory.createDBDataStore()
-                .getPostByType(pLimit, pType)
-                .map(pPostEntities -> mDataMapper.transformPost(pPostEntities)
-        );
+                .getAllPosts(pLimit)
+                .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
     }
+
     @Override
     public Observable<List<Post>> getListByStage(int pLimit, String pStage) {
         return mDataStoreFactory.createDBDataStore()
                 .getPostByStage(pLimit, pStage)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities)
-        );
+                );
+    }
+
+    @Override
+    public Observable<List<Post>> getListByType(int pLimit, String pType) {
+        return mDataStoreFactory.createDBDataStore()
+                .getPostByType(pLimit, pType)
+                .map(pPostEntities -> mDataMapper.transformPost(pPostEntities)
+                );
     }
 
     @Override
     public Observable<List<Post>> getListByStageAndType(int pLimit, String pType, String pStage) {
         return null;
-    }
-
-    @Override
-    public Observable<List<Post>> getList(int pLimit) {
-        return mDataStoreFactory.createDBDataStore()
-                .getAllPosts(pLimit)
-                .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
     }
 
     @Override

@@ -27,6 +27,7 @@ import butterknife.Bind;
 
 public class CountryDetailActivity extends BaseActivity implements CountryDetailActivityView {
 
+    public Country mCountry;
     Long mId;
     @Inject
     CountryDetailActivityPresenter mPresenter;
@@ -40,10 +41,7 @@ public class CountryDetailActivity extends BaseActivity implements CountryDetail
     SimpleDraweeView mImage;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
-
     private CountryInfoPagerAdapter mAdapter;
-
-    public Country mCountry;
 
     @Override
     public int getLayout() {
@@ -54,7 +52,7 @@ public class CountryDetailActivity extends BaseActivity implements CountryDetail
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle data = getIntent().getExtras();
-        if(data!= null){
+        if (data != null) {
             mId = data.getLong(MyConstants.Extras.KEY_ID, Long.MIN_VALUE);
         }
         getToolbar().setTitle("");
@@ -63,7 +61,7 @@ public class CountryDetailActivity extends BaseActivity implements CountryDetail
         fetchDetail();
     }
 
-    private void initialize(){
+    private void initialize() {
         DaggerDataComponent.builder()
                 .activityModule(getActivityModule())
                 .dataModule(new DataModule(mId))
@@ -80,7 +78,7 @@ public class CountryDetailActivity extends BaseActivity implements CountryDetail
     @Override
     public void renderCountryDetail(Country pCountry) {
         mCountry = pCountry;
-        mImage.setImageURI(Uri.parse(mCountry.getImageUrl()));
+        mImage.setImageURI(Uri.parse(mCountry.getImage()));
         mAdapter = new CountryInfoPagerAdapter(getSupportFragmentManager(), this, mCountry);
         mViewPager.setAdapter(mAdapter);
         mTabs.setupWithViewPager(mViewPager);
@@ -97,6 +95,14 @@ public class CountryDetailActivity extends BaseActivity implements CountryDetail
     }
 
     @Override
+    public void showRetryView() {
+    }
+
+    @Override
+    public void hideRetryView() {
+    }
+
+    @Override
     public void showErrorView(String pErrorMessage) {
         Snackbar.make(mDataContainer, pErrorMessage, Snackbar.LENGTH_LONG).show();
     }
@@ -107,19 +113,6 @@ public class CountryDetailActivity extends BaseActivity implements CountryDetail
     }
 
     @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    public void showRetryView() {
-    }
-
-    @Override
-    public void hideRetryView() {
-    }
-
-    @Override
     public void showEmptyView() {
 
     }
@@ -127,5 +120,10 @@ public class CountryDetailActivity extends BaseActivity implements CountryDetail
     @Override
     public void hideEmptyView() {
 
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 }

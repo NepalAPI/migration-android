@@ -1,6 +1,5 @@
 package com.yipl.nrna.base;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +8,7 @@ import com.yipl.nrna.MyApplication;
 import com.yipl.nrna.R;
 import com.yipl.nrna.di.component.ApplicationComponent;
 import com.yipl.nrna.di.module.ActivityModule;
+import com.yipl.nrna.util.AppPreferences;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -19,6 +19,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
+    AppPreferences mPreferences;
+
     public abstract int getLayout();
 
     @Override
@@ -28,6 +30,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayout());
         ButterKnife.bind(this);
         initializeToolbar();
+
+        mPreferences = new AppPreferences(this);
     }
 
     private void initializeToolbar() {
@@ -46,6 +50,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected Toolbar getToolbar() {
         return mToolbar;
+    }
+
+    public AppPreferences getPreferences() {
+        return mPreferences;
     }
 
     public ApplicationComponent getApplicationComponent() {

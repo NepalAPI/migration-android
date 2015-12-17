@@ -17,16 +17,31 @@ public class ArticleRepository implements IRepository<Post> {
     private final DataStoreFactory mDataStoreFactory;
     private final DataMapper mDataMapper;
 
-    public ArticleRepository(DataStoreFactory pDataStoreFactory, DataMapper pDataMapper){
+    public ArticleRepository(DataStoreFactory pDataStoreFactory, DataMapper pDataMapper) {
         mDataStoreFactory = pDataStoreFactory;
         mDataMapper = pDataMapper;
     }
 
     @Override
     public Observable<List<Post>> getList(int pLimit) {
-        return mDataStoreFactory.createDBDataStore().getPostByType(pLimit,"text").map(
+        return mDataStoreFactory.createDBDataStore().getPostByType(pLimit, "text").map(
                 postEntities -> mDataMapper.transformPost(postEntities)
         );
+    }
+
+    @Override
+    public Observable<List<Post>> getListByStage(int pLimit, String pType) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Post>> getListByType(int pLimit, String pType) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Post>> getListByStageAndType(int pLimit, String pType, String pStage) {
+        return null;
     }
 
     @Override
@@ -41,20 +56,5 @@ public class ArticleRepository implements IRepository<Post> {
         return mDataStoreFactory.createDBDataStore().getPostByQuestionAndType(pId, "text").map(
                 postEntities -> mDataMapper.transformPost(postEntities)
         );
-    }
-
-    @Override
-    public Observable<List<Post>> getListByType(int pLimit, String pType) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<Post>> getListByStage(int pLimit, String pType) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<Post>> getListByStageAndType(int pLimit, String pType, String pStage) {
-        return null;
     }
 }

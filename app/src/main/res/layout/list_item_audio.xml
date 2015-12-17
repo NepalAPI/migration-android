@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
     <data class="AudioDataBinding">
@@ -25,25 +26,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/content_art"
-            android:paddingLeft="@dimen/spacing_standard"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/spacing_standard">
 
             <TextView
                 android:id="@+id/title"
+                style="@style/post_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{audio.getTitle()}"
                 android:paddingRight="@dimen/spacing_standard"
-                style="@style/post_title"
+                android:text="@{audio.getTitle()}"
                 tools:text="My experience on applying for citizenship."/>
 
-            <!--TODO: replace duration text-->
             <TextView
                 android:id="@+id/duration"
+                style="@style/post_duration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/post_duration"
-                android:text="2 : 37"/>
+                app:mediaDuration="@{audio.getData().getDuration()}"/>
 
             <View
                 android:layout_width="match_parent"

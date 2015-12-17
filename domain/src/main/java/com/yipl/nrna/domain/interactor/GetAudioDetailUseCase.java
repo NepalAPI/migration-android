@@ -16,8 +16,8 @@ public class GetAudioDetailUseCase extends UseCase<Post> {
 
     @Inject
     public GetAudioDetailUseCase(long pId, IRepository pRepository, ThreadExecutor
-                                     pThreadExecutor, PostExecutionThread
-            pPostExecutionThread) {
+            pThreadExecutor, PostExecutionThread
+                                         pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
         this.mId = pId;
         mRepository = pRepository;

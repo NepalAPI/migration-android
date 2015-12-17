@@ -23,7 +23,7 @@ public class AudioListFragmentPresenter implements Presenter {
     private AudioListView mView;
 
     @Inject
-    public AudioListFragmentPresenter(@Named("audioList") UseCase pAudioUseCase){
+    public AudioListFragmentPresenter(@Named("audioList") UseCase pAudioUseCase) {
         mAudioUseCase = pAudioUseCase;
     }
 
@@ -49,7 +49,7 @@ public class AudioListFragmentPresenter implements Presenter {
 
     @Override
     public void attachView(MvpView view) {
-        mView = (AudioListView)view;
+        mView = (AudioListView) view;
     }
 
     private void loadAudioList() {
@@ -58,11 +58,11 @@ public class AudioListFragmentPresenter implements Presenter {
         getAudioList();
     }
 
-    public void getAudioList(){
+    public void getAudioList() {
         this.mAudioUseCase.execute(new AudioSubscriber());
     }
 
-    private final class AudioSubscriber extends DefaultSubscriber<List<Post>>{
+    private final class AudioSubscriber extends DefaultSubscriber<List<Post>> {
 
         @Override
         public void onCompleted() {
@@ -82,9 +82,9 @@ public class AudioListFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Post> pPosts) {
-            if(pPosts.isEmpty()) {
+            if (pPosts.isEmpty()) {
                 AudioListFragmentPresenter.this.mView.showEmptyView();
-            }else{
+            } else {
                 AudioListFragmentPresenter.this.mView.hideEmptyView();
                 AudioListFragmentPresenter.this.mView.renderAudiolist(pPosts);
             }

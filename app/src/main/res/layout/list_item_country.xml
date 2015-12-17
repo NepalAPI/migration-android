@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:fresco="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    >
 
     <data class="CountryDataBinding">
 
@@ -19,7 +19,7 @@
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/country_list_image_height"
-            app:imageUrl="@{country.getImageUrl()}"
+            app:imageUrl="@{country.getImage()}"
             fresco:actualImageScaleType="focusCrop"
             fresco:backgroundImage="@color/colorPrimaryDark"
             fresco:fadeDuration="300"
@@ -33,9 +33,9 @@
             android:layout_alignBottom="@id/image"
             android:layout_marginBottom="@dimen/spacing_big"
             android:layout_marginLeft="@dimen/content_inset_start"
+            android:text="@{country.getName()}"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_xlarge"
-            android:text="@{country.getName()}"/>
+            android:textSize="@dimen/text_xlarge"/>
 
         <View
             android:layout_width="match_parent"

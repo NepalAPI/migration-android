@@ -16,7 +16,7 @@ public class QuestionEntity {
     String stage;
     List<String> tags;
     String language;
-    String question;
+    String title;
 
     public Long getId() {
         return id;
@@ -58,12 +58,12 @@ public class QuestionEntity {
         language = pLanguage;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getTitle() {
+        return title;
     }
 
-    public void setQuestion(String pQuestion) {
-        question = pQuestion;
+    public void setTitle(String pTitle) {
+        title = pTitle;
     }
 
     public String getStage() {

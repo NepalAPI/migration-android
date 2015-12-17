@@ -1,7 +1,6 @@
 package com.yipl.nrna.ui.activity;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -40,14 +39,14 @@ public class ArticleDetailActivity extends BaseActivity implements ArticleDetail
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle data = getIntent().getExtras();
-        if(data!= null){
+        if (data != null) {
             mId = data.getLong(MyConstants.Extras.KEY_ID, Long.MIN_VALUE);
         }
         initialize();
         fetchDetail();
     }
 
-    private void initialize(){
+    private void initialize() {
         DaggerDataComponent.builder()
                 .activityModule(getActivityModule())
                 .dataModule(new DataModule(mId))
@@ -64,7 +63,8 @@ public class ArticleDetailActivity extends BaseActivity implements ArticleDetail
     @Override
     public void renderArticleDetail(Post post) {
         tvTitle.setText(post.getTitle());
-        webContent.loadData(post.getData().getContent(), "text/html","utf-8");
+        webContent.loadDataWithBaseURL(null, post.getData().getContent(), "text/html", "utf-8",
+                null);
     }
 
     @Override

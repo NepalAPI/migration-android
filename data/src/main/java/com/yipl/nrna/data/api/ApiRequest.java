@@ -4,6 +4,7 @@ import com.yipl.nrna.data.entity.LatestContentEntity;
 
 import javax.inject.Inject;
 
+import retrofit.Response;
 import rx.Observable;
 
 public class ApiRequest {
@@ -16,5 +17,12 @@ public class ApiRequest {
 
     public Observable<LatestContentEntity> getLatestContents(long pLatestUpdateStamp) {
         return mApiService.getLatestContent(pLatestUpdateStamp);
+    }
+
+    /**
+     * For debug only
+     */
+    public Response getLatestContentsResponse(long pLatestUpdateStamp) {
+        return mApiService.getLatestContentResponse(pLatestUpdateStamp);
     }
 }

@@ -16,8 +16,8 @@ import javax.inject.Named;
 @PerActivity
 public class LatestContentPresenter implements Presenter {
 
-    MainActivityView mView;
     private final UseCase mUseCase;
+    MainActivityView mView;
 
     @Inject
     public LatestContentPresenter(@Named("latest") UseCase pUseCase) {
@@ -38,7 +38,7 @@ public class LatestContentPresenter implements Presenter {
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         loadLatestContent();
     }
 
@@ -47,7 +47,7 @@ public class LatestContentPresenter implements Presenter {
         mView = (MainActivityView) pView;
     }
 
-    private void loadLatestContent(){
+    private void loadLatestContent() {
         mView.hideRetryView();
         mView.showLoadingView();
         getLatestContent();
@@ -59,22 +59,32 @@ public class LatestContentPresenter implements Presenter {
 
     private final class LatestContentSubscriber extends DefaultSubscriber<LatestContent> {
 
-        @Override public void onCompleted() {
+        @Override
+        public void onCompleted() {
             LatestContentPresenter.this.mView.hideLoadingView();
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
             LatestContentPresenter.this.mView.hideLoadingView();
             LatestContentPresenter.this.mView.showEmptyView();
-            Logger.e("LatestContentSubscriber_onError", e.getLocalizedMessage());
+            Logger.e("LatestContentSubscriber_onError", "local_message: " + e.getLocalizedMessage());
+            Logger.e("LatestContentSubscriber_onError", "factory_message: " + ErrorMessageFactory
+                    .create(mView.getContext(), new DefaultErrorBundle((Exception) e)
+                            .getException()));
             LatestContentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
-                    .getContext(), new DefaultErrorBundle((Exception)e).getException()));
+                    .getContext(), new DefaultErrorBundle((Exception) e).getException()));
             LatestContentPresenter.this.mView.showRetryView();
         }
 
-        @Override public void onNext(LatestContent pLatestContent) {
-            LatestContentPresenter.this.mView.informCurrentFragmentForUpdate();
-
+        @Override
+        public void onNext(LatestContent pLatestContent) {
+            if (pLatestContent != null) {
+                if (!pLatestContent.getPosts().isEmpty() && !pLatestContent.getQuestions()
+                        .isEmpty())
+                    LatestContentPresenter.this.mView.informCurrentFragmentForUpdate();
+            }
+            LatestContentPresenter.this.mView.hideLoadingView();
         }
     }
 }

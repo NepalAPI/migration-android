@@ -23,23 +23,17 @@ public class AboutFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-    public static AboutFragment newInstance(Country pCountry){
+    public static AboutFragment newInstance(Country pCountry) {
         AboutFragment fragment = new AboutFragment();
         Bundle data = new Bundle();
         data.putSerializable(MyConstants.Extras.KEY_Country, pCountry);
-        fragment .setArguments(data);
+        fragment.setArguments(data);
         return fragment;
     }
 
     @Override
     public int getLayout() {
         return R.layout.fragment_country_about;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mCountry = (Country) getArguments().getSerializable(MyConstants.Extras.KEY_Country);
     }
 
     @Nullable
@@ -50,5 +44,11 @@ public class AboutFragment extends BaseFragment {
         mBinding = DataBindingUtil.inflate(inflater, getLayout(), container, false);
         mBinding.setCountry(mCountry);
         return mBinding.getRoot();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mCountry = (Country) getArguments().getSerializable(MyConstants.Extras.KEY_Country);
     }
 }

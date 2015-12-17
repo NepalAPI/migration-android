@@ -18,7 +18,7 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
-    Activity provideActivity(){
+    Activity provideActivity() {
         return mActivity;
     }
 }

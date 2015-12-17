@@ -27,15 +27,24 @@ import dagger.Component;
 )
 public interface DataComponent extends ActivityComponent {
     void inject(HomeFragment pFragment);
+
     void inject(MainActivity pBaseActivity);
 
     void inject(AudioListFragment pFragment);
+
     void inject(VideoListFragment pFragment);
+
     void inject(ArticleListFragment pFragment);
+
     void inject(CountryListFragment pFragment);
+
     void inject(InfoCenterContentFragment pFragment);
+
     void inject(QuestionListFragment pFragment);
+
     void inject(ArticleDetailActivity pActivity);
+
     void inject(CountryDetailActivity pActivity);
+
     void inject(QuestionDetailActivity pActivity);
 }

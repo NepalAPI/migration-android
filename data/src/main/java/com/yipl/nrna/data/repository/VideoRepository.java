@@ -28,12 +28,12 @@ public class VideoRepository implements IRepository<Post> {
     }
 
     @Override
-    public Observable<List<Post>> getListByType(int pLimit, String pType) {
+    public Observable<List<Post>> getListByStage(int pLimit, String pType) {
         return null;
     }
 
     @Override
-    public Observable<List<Post>> getListByStage(int pLimit, String pType) {
+    public Observable<List<Post>> getListByType(int pLimit, String pType) {
         return null;
     }
 

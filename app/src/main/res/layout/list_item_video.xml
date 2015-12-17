@@ -16,17 +16,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!--TODO: change content_art src-->
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/content_art"
             android:layout_width="@dimen/content_art_size"
             android:layout_height="@dimen/content_art_size"
+            app:imageUrl="@{video.getData().getThumbnail()}"
             fresco:actualImageScaleType="centerCrop"
             fresco:backgroundImage="@color/colorAccent"
-            fresco:placeholderImage="@mipmap/ic_launcher"
-            fresco:placeholderImageScaleType="fitCenter"
-            fresco:progressBarAutoRotateInterval="1000"
-            fresco:progressBarImage="@mipmap/ic_launcher"
             fresco:progressBarImageScaleType="centerInside"
             fresco:roundAsCircle="true"
             fresco:roundedCornerRadius="@dimen/content_art_radius"/>
@@ -47,13 +43,12 @@
                 android:text="@{video.getTitle()}"
                 tools:text="My experience on applying for citizenship."/>
 
-            <!--TODO: replace duration text-->
             <TextView
                 android:id="@+id/duration"
                 style="@style/post_duration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="6 : 55"/>
+                app:mediaDuration="@{video.getData().getDuration()}"/>
 
             <View
                 android:layout_width="match_parent"

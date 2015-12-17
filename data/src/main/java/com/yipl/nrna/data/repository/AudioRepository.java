@@ -27,12 +27,12 @@ public class AudioRepository implements IRepository<Post> {
     }
 
     @Override
-    public Observable<List<Post>> getListByType(int pLimit, String pType) {
+    public Observable<List<Post>> getListByStage(int pLimit, String pType) {
         return null;
     }
 
     @Override
-    public Observable<List<Post>> getListByStage(int pLimit, String pType) {
+    public Observable<List<Post>> getListByType(int pLimit, String pType) {
         return null;
     }
 
@@ -40,6 +40,7 @@ public class AudioRepository implements IRepository<Post> {
     public Observable<List<Post>> getListByStageAndType(int pLimit, String pType, String pStage) {
         return null;
     }
+
     @Override
     public Observable<Post> getSingle(Long pId) {
         //// TODO: 12/9/15

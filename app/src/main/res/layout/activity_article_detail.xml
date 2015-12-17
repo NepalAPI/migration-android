@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.yipl.nrna.ui.activity.ArticleDetailActivity">
+
     <include
         layout="@layout/app_bar_article_detail"
         android:layout_width="match_parent"

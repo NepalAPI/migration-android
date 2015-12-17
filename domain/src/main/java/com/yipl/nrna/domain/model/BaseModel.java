@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by julian on 12/7/15.
  */
-public abstract class BaseModel implements Serializable{
+public abstract class BaseModel implements Serializable {
     Long mId;
     int mDataType;
 

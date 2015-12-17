@@ -1,9 +1,6 @@
 package com.yipl.nrna.data.di;
 
-import android.content.Context;
-
 import com.squareup.okhttp.OkHttpClient;
-import com.yipl.nrna.data.Database.DatabaseHelper;
 import com.yipl.nrna.data.api.ApiRequest;
 import com.yipl.nrna.data.api.ApiService;
 import com.yipl.nrna.data.api.HeaderInterceptor;
@@ -23,18 +20,19 @@ import retrofit.RxJavaCallAdapterFactory;
 @Module
 public class NetworkModule {
     String mBaseUrl;
-    public NetworkModule(String pBaseUrl){
+
+    public NetworkModule(String pBaseUrl) {
         mBaseUrl = pBaseUrl;
     }
 
     @Provides
     @Singleton
-    DataMapper provideDataMapper(){
+    DataMapper provideDataMapper() {
         return new DataMapper();
     }
 
     @Provides
-    OkHttpClient provideHttpClient(){
+    OkHttpClient provideHttpClient() {
         OkHttpClient okClient = new OkHttpClient();
         okClient.interceptors().add(new HeaderInterceptor());
         return okClient;
@@ -42,7 +40,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    Retrofit provideRetrofit(OkHttpClient pOkHttpClient){
+    Retrofit provideRetrofit(OkHttpClient pOkHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(mBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -53,7 +51,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    ApiRequest provideApiRequest(Retrofit pRetrofit){
+    ApiRequest provideApiRequest(Retrofit pRetrofit) {
         return new ApiRequest(pRetrofit.create(ApiService.class));
     }
 }

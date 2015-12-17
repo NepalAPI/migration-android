@@ -22,9 +22,9 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
         <RelativeLayout
-            android:layout_gravity="center_horizontal"
             android:layout_width="@dimen/player_art_size"
             android:layout_height="@dimen/player_art_size"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/spacing_small"
             android:background="@drawable/podcast_art_bg">
 

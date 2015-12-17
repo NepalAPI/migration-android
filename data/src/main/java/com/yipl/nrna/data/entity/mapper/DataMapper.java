@@ -38,9 +38,10 @@ public class DataMapper {
         if (pEntity != null) {
             Question question = new Question();
             question.setId(pEntity.getId());
-            question.setQuestion(pEntity.getQuestion());
+            question.setTitle(pEntity.getTitle());
             question.setLanguage(pEntity.getLanguage());
             question.setTags(pEntity.getTags());
+            question.setStage(pEntity.getStage());
             question.setCreatedAt(pEntity.getCreatedAt());
             question.setUpdatedAt(pEntity.getUpdatedAt());
             return question;
@@ -75,6 +76,7 @@ public class DataMapper {
             post.setQuestionIdList(pEntity.getQuestionIdList());
             post.setTags(pEntity.getTags());
             post.setData(transformPostData(pEntity.getData()));
+            post.setStage(pEntity.getStage());
             return post;
         }
         return null;
@@ -98,9 +100,10 @@ public class DataMapper {
             country.setId(pCountry.getId());
             country.setUpdatedAt(pCountry.getUpdatedAt());
             country.setCreatedAt(pCountry.getCreatedAt());
-            country.setAbout(pCountry.getAbout());
-            country.setImageUrl(pCountry.getImageUrl());
+            country.setDescription(pCountry.getDescription());
+            country.setImage(pCountry.getImage());
             country.setName(pCountry.getName());
+            country.setCode(pCountry.getCode());
             return country;
         }
         return null;
@@ -124,6 +127,8 @@ public class DataMapper {
             data = new PostData();
             data.setContent(pEntity.getContent());
             data.setMediaUrl(pEntity.getMediaUrl());
+            data.setDuration(pEntity.getDuration());
+            data.setThumbnail(pEntity.getThumbnail());
         }
         return data;
     }

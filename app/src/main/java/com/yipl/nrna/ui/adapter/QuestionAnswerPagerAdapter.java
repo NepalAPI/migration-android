@@ -1,22 +1,15 @@
 package com.yipl.nrna.ui.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
 import android.view.ViewGroup;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.ui.fragment.ArticleListFragment;
 import com.yipl.nrna.ui.fragment.AudioListFragment;
-import com.yipl.nrna.ui.fragment.QuestionListFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
-import com.yipl.nrna.util.Logger;
 
 /**
  * Created by Nirazan-PC on 12/15/2015.
@@ -25,6 +18,11 @@ public class QuestionAnswerPagerAdapter extends FragmentPagerAdapter {
 
     Context mContext;
     Long mQuestionId;
+    private int[] imageResId = {
+            R.drawable.ic_menu_camera,
+            R.drawable.ic_menu_gallery,
+            R.drawable.ic_menu_send
+    };
 
     public QuestionAnswerPagerAdapter(FragmentManager fm, Context pContext, Long pId) {
         super(fm);
@@ -34,31 +32,31 @@ public class QuestionAnswerPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Logger.d("new qa fragment" + position);
         Fragment fragment;
         switch (position) {
             case 0:
             default:
-                Logger.d("new qa fragment");
-            fragment = AudioListFragment.newInstance(mQuestionId);
-            break;
+                fragment = AudioListFragment.newInstance(mQuestionId);
+                break;
             case 1:
                 fragment = VideoListFragment.newInstance(mQuestionId);
                 break;
             case 2:
-                fragment  = ArticleListFragment.newInstance(mQuestionId);
+                fragment = ArticleListFragment.newInstance(mQuestionId);
                 break;
         }
-
         return fragment;
     }
-    private int[] imageResId = {
-            R.drawable.ic_menu_camera,
-            R.drawable.ic_menu_gallery,
-            R.drawable.ic_menu_send
-    };
 
-// ...
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        return super.instantiateItem(container, position);
+    }
+
+    @Override
+    public int getCount() {
+        return 3;
+    }
 
     @Override
     public CharSequence getPageTitle(int position) {
@@ -78,25 +76,15 @@ public class QuestionAnswerPagerAdapter extends FragmentPagerAdapter {
 //
 //        return sb;
 
-            switch (position) {
-                case 0:
-                    default:
-                    return "Audio";
-                case 1:
-                    return "Video";
-                case 2:
-                    return "Article";
-            }
+        switch (position) {
+            case 0:
+            default:
+                return "Audio";
+            case 1:
+                return "Video";
+            case 2:
+                return "Article";
+        }
 
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        return super.instantiateItem(container, position);
-    }
-
-    @Override
-    public int getCount() {
-        return 3;
     }
 }

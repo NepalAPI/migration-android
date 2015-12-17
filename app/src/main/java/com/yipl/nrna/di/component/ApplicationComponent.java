@@ -17,10 +17,14 @@ import dagger.Component;
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
     void inject(BaseActivity pBaseActivity);
+
     void inject(MediaService pMediaService);
 
     Context getContext();
+
     ThreadExecutor threadExecutor();
+
     PostExecutionThread postExecutionThread();
+
     DatabaseHelper getDatabaseHelper();
 }

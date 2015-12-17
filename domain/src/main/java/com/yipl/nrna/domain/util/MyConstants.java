@@ -4,9 +4,6 @@ package com.yipl.nrna.domain.util;
  * Created by julian on 12/9/15.
  */
 public class MyConstants {
-    public static final class API {
-        public static final String LATEST_CONTENT = "latest";
-    }
 
     public enum Stage {
         PRE_APPLICATION,
@@ -15,7 +12,7 @@ public class MyConstants {
         DESTINATION_COUNTRY;
 
         public static String toString(Stage pStage) {
-            switch (pStage){
+            switch (pStage) {
                 default:
                 case PRE_APPLICATION:
                     return DataInfo.STAGE_PRE_APPLICATION;
@@ -29,13 +26,13 @@ public class MyConstants {
         }
     }
 
-    public enum PostType{
+    public enum PostType {
         AUDIO,
         VIDEO,
         TEXT;
 
-        public static String toString(PostType pType){
-            switch (pType){
+        public static String toString(PostType pType) {
+            switch (pType) {
                 default:
                 case AUDIO:
                     return DataInfo.TYPE_AUDIO;
@@ -47,7 +44,17 @@ public class MyConstants {
         }
     }
 
-    public static class DataInfo{
+    public static final class Preferences {
+        public static final String PREF_NAME = "nrna_app_preferences";
+
+        public static final String LAST_UPDATE_STAMP = "last_update_stamp";
+    }
+
+    public static final class API {
+        public static final String LATEST_CONTENT = "api/latest";
+    }
+
+    public static class DataInfo {
         public static final String STAGE_PRE_APPLICATION = "pre-application";
         public static final String STAGE_APPLICATION = "application";
         public static final String STAGE_WORK_PERMIT = "work-permit";
@@ -58,7 +65,7 @@ public class MyConstants {
         public static final String TYPE_TEXT = "text";
     }
 
-    public static final class Adapter{
+    public static final class Adapter {
         public static final int TYPE_QUESTION = 0;
         public static final int TYPE_AUDIO = 1;
         public static final int TYPE_VIDEO = 2;
@@ -115,7 +122,7 @@ public class MyConstants {
             public static String COLUMN_TITLE = "title";
 
             public static String CREATE_TABLE_POST = "CREATE TABLE " + TABLE_NAME + " ( " +
-                    COLUMN_ID + TYPE_INTEGER +" PRIMARY KEY" + COMMA +
+                    COLUMN_ID + TYPE_INTEGER + " PRIMARY KEY" + COMMA +
                     COLUMN_UPDATED_AT + TYPE_INTEGER + COMMA +
                     COLUMN_CREATED_AT + TYPE_INTEGER + COMMA +
                     COLUMN_DATA + TYPE_TEXT + COMMA +
@@ -160,17 +167,19 @@ public class MyConstants {
             public static String COLUMN_ID = "id";
             public static String COlUMN_UPDATED_AT = "updated_date";
             public static String COLUMN_CREATED_AT = "created_date";
-            public static String COLUMN_IMAGE_URL = "image_url";
+            public static String COLUMN_IMAGE = "image_url";
             public static String COLUMN_NAME = "name";
-            public static String COLUMN_ABOUT = "about";
+            public static String COLUMN_CODE = "code";
+            public static String COLUMN_DESCRIPTION = "description";
 
             public static String CREATE_TABLE_COUNTRY = "Create table " + TABLE_NAME + "( " +
                     COLUMN_ID + TYPE_INTEGER + " primary key " + COMMA +
                     COlUMN_UPDATED_AT + TYPE_INTEGER + COMMA +
                     COLUMN_CREATED_AT + TYPE_INTEGER + COMMA +
-                    COLUMN_IMAGE_URL + TYPE_TEXT + COMMA +
+                    COLUMN_IMAGE + TYPE_TEXT + COMMA +
+                    COLUMN_CODE + TYPE_TEXT + COMMA +
                     COLUMN_NAME + TYPE_TEXT + COMMA +
-                    COLUMN_ABOUT + TYPE_TEXT + " );";
+                    COLUMN_DESCRIPTION + TYPE_TEXT + " );";
 
         }
 

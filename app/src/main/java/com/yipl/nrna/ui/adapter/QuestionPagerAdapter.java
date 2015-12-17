@@ -39,18 +39,18 @@ public class QuestionPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public int getItemPosition(Object object) {
-        return FragmentStatePagerAdapter.POSITION_NONE;
-    }
-
-    @Override
     public int getCount() {
         return mQuestions.size() + 1;
     }
 
     @Override
+    public int getItemPosition(Object object) {
+        return FragmentStatePagerAdapter.POSITION_NONE;
+    }
+
+    @Override
     public CharSequence getPageTitle(int position) {
-        return mQuestions.get(position).getQuestion();
+        return mQuestions.get(position).getTitle();
     }
 }
 

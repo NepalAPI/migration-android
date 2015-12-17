@@ -29,12 +29,12 @@ public class InfoCenterPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
-        return InfoCenterContentFragment.newInstance(MyConstants.Stage.values()[position]);
+    public CharSequence getPageTitle(int position) {
+        return mTitles[position];
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
-        return mTitles[position];
+    public Fragment getItem(int position) {
+        return InfoCenterContentFragment.newInstance(MyConstants.Stage.values()[position]);
     }
 }

@@ -10,6 +10,10 @@ import java.util.List;
  */
 public interface HomeFragmentView extends MultipleLoadDataView {
     void renderLatestQuestions(List<Question> pQuestions);
+
     void renderLatestAudios(List<Post> pAudios);
+
     void renderLatestVideos(List<Post> pVideos);
+
+    void renderLatestArticles(List<Post> pArticles);
 }

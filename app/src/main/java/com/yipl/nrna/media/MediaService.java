@@ -22,34 +22,12 @@ public class MediaService extends Service implements
         MediaPlayer.OnErrorListener,
         MediaPlayer.OnInfoListener {
 
+    private final IBinder mBinder = new MusicBinder();
     private MediaPlayer mPlayer;
     private List<Post> mTracks;
     private int mCurrentPosition;
     private Post mCurrentTrack;
     private boolean mIsMediaValid = false;
-
-    private final IBinder mBinder = new MusicBinder();
-
-    public class MusicBinder extends Binder {
-        public MediaService getService() {
-            return MediaService.this;
-        }
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return mBinder;
-    }
-
-    @Override
-    public boolean onUnbind(Intent intent) {
-        if (mPlayer != null) {
-            mPlayer.stop();
-            mPlayer.release();
-        }
-        return true;
-    }
-
 
     @Override
     public void onCreate() {
@@ -75,6 +53,20 @@ public class MediaService extends Service implements
             mPlayer.release();
             mPlayer = null;
         }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mBinder;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        if (mPlayer != null) {
+            mPlayer.stop();
+            mPlayer.release();
+        }
+        return true;
     }
 
     private void initMediaPlayer() {
@@ -206,5 +198,11 @@ public class MediaService extends Service implements
 
     public boolean getPlayStatus() {
         return mPlayer.isPlaying();
+    }
+
+    public class MusicBinder extends Binder {
+        public MediaService getService() {
+            return MediaService.this;
+        }
     }
 }

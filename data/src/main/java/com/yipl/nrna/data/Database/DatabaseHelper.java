@@ -10,7 +10,7 @@ import com.yipl.nrna.domain.util.MyConstants;
 /**
  * Created by Nirazan-PC on 12/9/2015.
  */
-public class DatabaseHelper extends SQLiteOpenHelper{
+public class DatabaseHelper extends SQLiteOpenHelper {
 
     Context context;
     private SQLiteDatabase db;
@@ -20,6 +20,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         super(context, MyConstants.DATABASE.DBINFO.DATABASE_NAME, null, MyConstants.DATABASE.DBINFO.DB_VERSION);
         db = getWritableDatabase();
         Log.i("database", "constructor called");
+    }
+
+    public SQLiteDatabase getSqlLiteDatabse() {
+        return db;
+    }
+
+    public void close() {
+
+        db.close();
+
     }
 
     @Override
@@ -34,17 +44,5 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-    }
-
-
-
-    public SQLiteDatabase getSqlLiteDatabse() {
-        return db;
-    }
-
-    public void close(){
-
-        db.close();
-
     }
 }

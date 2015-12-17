@@ -11,10 +11,10 @@ public class CountryEntity {
     long createdAt;
     @SerializedName("updated_at")
     long updatedAt;
-    String about;
+    String description;
     String name;
-    @SerializedName("image_url")
-    String imageUrl;
+    String code;
+    String image;
 
     public long getId() {
         return id;
@@ -40,12 +40,12 @@ public class CountryEntity {
         updatedAt = pUpdatedAt;
     }
 
-    public String getAbout() {
-        return about;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAbout(String pAbout) {
-        about = pAbout;
+    public void setDescription(String pDescription) {
+        description = pDescription;
     }
 
     public String getName() {
@@ -56,11 +56,19 @@ public class CountryEntity {
         name = pName;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getCode() {
+        return code;
     }
 
-    public void setImageUrl(String pImageUrl) {
-        imageUrl = pImageUrl;
+    public void setCode(String pCode) {
+        code = pCode;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String pImage) {
+        image = pImage;
     }
 }

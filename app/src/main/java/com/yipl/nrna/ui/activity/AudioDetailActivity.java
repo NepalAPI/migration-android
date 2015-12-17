@@ -34,16 +34,6 @@ public class AudioDetailActivity extends BaseActivity implements
         View.OnClickListener,
         SeekBar.OnSeekBarChangeListener {
 
-    private MediaService mService;
-    private Intent mPlayIntent;
-    private boolean mMusicBound = false;
-    private List<Post> mTracks;
-    private int[] mTrackLengths = new int[2];
-
-    private Handler seekbarHandler = new Handler();
-    private MediaReceiver mediaReceiver;
-    private IntentFilter receiverFilter;
-
     @Bind(R.id.bufferingText)
     TextView bufferingText;
     @Bind(R.id.playerControls)
@@ -62,12 +52,14 @@ public class AudioDetailActivity extends BaseActivity implements
     SeekBar seekbar;
     @Bind(R.id.title)
     TextView title;
-
-    @Override
-    public int getLayout() {
-        return R.layout.activity_audio_detail;
-    }
-
+    private MediaService mService;
+    private Intent mPlayIntent;
+    private boolean mMusicBound = false;
+    private List<Post> mTracks;
+    private int[] mTrackLengths = new int[2];
+    private Handler seekbarHandler = new Handler();
+    private MediaReceiver mediaReceiver;
+    private IntentFilter receiverFilter;
     //connect to the service
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -84,15 +76,32 @@ public class AudioDetailActivity extends BaseActivity implements
             mMusicBound = false;
         }
     };
+    private Runnable updateSeekTime = new Runnable() {
+        @Override
+        public void run() {
+            if (mService != null) {
+                long[] lengths = mService.getSongLengths();
+                if (lengths != null) {
+                    Logger.e("AudioDetailActivity_updateSeekTime", "lengths: " + lengths[0] + "/" +
+                            lengths[1]);
+                    currentTime.setText(MediaHelper.getFormattedTime(lengths[0]));
+                    totalTime.setText(MediaHelper.getFormattedTime(lengths[1]));
+                    int progress = MediaHelper.getProgressPercentage(lengths[0], lengths[1]);
+                    seekbar.setProgress(progress);
+                    seekbarHandler.postDelayed(this, 100);
+                } else {
+                    Logger.e("AudioDetailActivity_updateSeekTime", "lengths: null");
+                    seekbar.removeCallbacks(updateSeekTime);
+                }
+            } else {
+                seekbar.setProgress(0);
+            }
+        }
+    };
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        if (mPlayIntent == null) {
-            mPlayIntent = new Intent(this, MediaService.class);
-            bindService(mPlayIntent, mConnection, Context.BIND_AUTO_CREATE);
-            startService(mPlayIntent);
-        }
+    public int getLayout() {
+        return R.layout.activity_audio_detail;
     }
 
     @Override
@@ -100,7 +109,7 @@ public class AudioDetailActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
 
         Bundle data = getIntent().getExtras();
-        if(data != null){
+        if (data != null) {
             mTracks = (List<Post>) data.getSerializable(MyConstants.Extras.KEY_AUDIO_LIST);
         }
 
@@ -126,7 +135,7 @@ public class AudioDetailActivity extends BaseActivity implements
     @Override
     public void onPause() {
         super.onPause();
-        if(mediaReceiver != null)
+        if (mediaReceiver != null)
             unregisterReceiver(mediaReceiver);
     }
 
@@ -139,6 +148,16 @@ public class AudioDetailActivity extends BaseActivity implements
         receiverFilter.addAction(MyConstants.Media.ACTION_MEDIA_CHANGE);
         receiverFilter.addAction(MyConstants.Media.ACTION_PLAY_STATUS_CHANGE);
         registerReceiver(mediaReceiver, receiverFilter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mPlayIntent == null) {
+            mPlayIntent = new Intent(this, MediaService.class);
+            bindService(mPlayIntent, mConnection, Context.BIND_AUTO_CREATE);
+            startService(mPlayIntent);
+        }
     }
 
     @Override
@@ -223,8 +242,10 @@ public class AudioDetailActivity extends BaseActivity implements
     @Override
     public void playStatusChanged(boolean pIsPlaying) {
         if (pIsPlaying) {
+            updateSeekBar();
             play.setImageResource(android.R.drawable.ic_media_pause);
         } else {
+            seekbarHandler.removeCallbacks(updateSeekTime);
             play.setImageResource(android.R.drawable.ic_media_play);
         }
     }
@@ -253,27 +274,4 @@ public class AudioDetailActivity extends BaseActivity implements
         seekbarHandler.removeCallbacks(updateSeekTime);
         seekbarHandler.postDelayed(updateSeekTime, 100);
     }
-
-    private Runnable updateSeekTime = new Runnable() {
-        @Override
-        public void run() {
-            if(mService != null) {
-                long[] lengths = mService.getSongLengths();
-                if (lengths != null) {
-                    Logger.e("AudioDetailActivity_updateSeekTime", "lengths: " + lengths[0] + "/" +
-                            lengths[1]);
-                    currentTime.setText(MediaHelper.getFormattedTime(lengths[0]));
-                    totalTime.setText(MediaHelper.getFormattedTime(lengths[1]));
-                    int progress = MediaHelper.getProgressPercentage(lengths[0], lengths[1]);
-                    seekbar.setProgress(progress);
-                    seekbarHandler.postDelayed(this, 100);
-                } else {
-                    Logger.e("AudioDetailActivity_updateSeekTime", "lengths: null");
-                    seekbar.removeCallbacks(updateSeekTime);
-                }
-            }else{
-                seekbar.setProgress(0);
-            }
-        }
-    };
 }

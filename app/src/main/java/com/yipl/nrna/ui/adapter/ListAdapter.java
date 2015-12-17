@@ -18,11 +18,10 @@ import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Country;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
-
-import com.yipl.nrna.ui.activity.MainActivity;
+import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
-import com.yipl.nrna.ui.interfaces.MainActivityView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -36,8 +35,8 @@ import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_VIDEO;
 public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<RecyclerView
         .ViewHolder> {
 
-    List<T> mDataCollection;
     private final LayoutInflater mLayoutInflater;
+    List<T> mDataCollection;
     ListClickCallbackInterface mListener;
 
 
@@ -54,104 +53,9 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
         this.mListener = pListener;
     }
 
-    public class QuestionsViewHolder extends RecyclerView.ViewHolder {
-
-        public QuestionDataBinding mBinding;
-
-        public QuestionsViewHolder(QuestionDataBinding binding) {
-            super(binding.getRoot());
-            ButterKnife.bind(this, binding.getRoot());
-            this.mBinding = binding;
-            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mListener.onListItemSelected(mBinding.getQuestion());
-                }
-            });
-        }
-    }
-
-    public class AudioViewHolder extends RecyclerView.ViewHolder {
-
-        public AudioDataBinding mBinding;
-
-        public AudioViewHolder(AudioDataBinding binding) {
-            super(binding.getRoot());
-            ButterKnife.bind(this, binding.getRoot());
-            this.mBinding = binding;
-            /*view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onListItemSelected(data.get(getAdapterPosition()));
-                }
-            });*/
-        }
-    }
-
-    public class VideoViewHolder extends RecyclerView.ViewHolder {
-
-        public VideoDataBinding mBinding;
-
-        public VideoViewHolder(VideoDataBinding binding) {
-            super(binding.getRoot());
-            ButterKnife.bind(this, binding.getRoot());
-            this.mBinding = binding;
-            /*view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onListItemSelected(data.get(getAdapterPosition()));
-                }
-            });*/
-        }
-    }
-
-    public class ArticleViewHolder extends RecyclerView.ViewHolder {
-
-        public ArticleDataBinding mBinding;
-
-        public ArticleViewHolder(ArticleDataBinding binding) {
-            super(binding.getRoot());
-            ButterKnife.bind(this, binding.getRoot());
-            this.mBinding = binding;
-            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mListener.onListItemSelected(mBinding.getArticle());
-                }
-            });
-        }
-    }
-
-    public class CountryViewHolder extends RecyclerView.ViewHolder {
-
-        public CountryDataBinding mBinding;
-
-        public CountryViewHolder(CountryDataBinding binding) {
-            super(binding.getRoot());
-            ButterKnife.bind(this, binding.getRoot());
-            this.mBinding = binding;
-            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mListener.onListItemSelected(mBinding.getCountry());
-                }
-            });
-        }
-    }
-
     public void setDataCollection(List<T> pDataCollection) {
         mDataCollection = pDataCollection;
         notifyDataSetChanged();
-    }
-
-    @Override
-    public int getItemCount() {
-        return (mDataCollection != null) ? mDataCollection.size() : 0;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return mDataCollection.get(position).getDataType();
     }
 
     @Override
@@ -210,6 +114,111 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                 ((CountryViewHolder) holder).mBinding.setCountry((Country) mDataCollection.get
                         (position));
                 break;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return mDataCollection.get(position).getDataType();
+    }
+
+    @Override
+    public int getItemCount() {
+        return (mDataCollection != null) ? mDataCollection.size() : 0;
+    }
+
+    private List<Post> filterList(int type) {
+        List<Post> list = new ArrayList<>();
+        for (BaseModel post : mDataCollection) {
+            if (post != null && post.getDataType() == type) {
+                list.add((Post) post);
+            }
+        }
+        return list;
+    }
+
+    public class QuestionsViewHolder extends RecyclerView.ViewHolder {
+
+        public QuestionDataBinding mBinding;
+
+        public QuestionsViewHolder(QuestionDataBinding binding) {
+            super(binding.getRoot());
+            ButterKnife.bind(this, binding.getRoot());
+            this.mBinding = binding;
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onListItemSelected(mBinding.getQuestion());
+                }
+            });
+        }
+    }
+
+    public class AudioViewHolder extends RecyclerView.ViewHolder {
+
+        public AudioDataBinding mBinding;
+
+        public AudioViewHolder(AudioDataBinding binding) {
+            super(binding.getRoot());
+            ButterKnife.bind(this, binding.getRoot());
+            this.mBinding = binding;
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onAudioItemSelected(filterList(MyConstants.Adapter.TYPE_AUDIO));
+                }
+            });
+        }
+    }
+
+    public class VideoViewHolder extends RecyclerView.ViewHolder {
+
+        public VideoDataBinding mBinding;
+
+        public VideoViewHolder(VideoDataBinding binding) {
+            super(binding.getRoot());
+            ButterKnife.bind(this, binding.getRoot());
+            this.mBinding = binding;
+            /*view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onListItemSelected(data.get(getAdapterPosition()));
+                }
+            });*/
+        }
+    }
+
+    public class ArticleViewHolder extends RecyclerView.ViewHolder {
+
+        public ArticleDataBinding mBinding;
+
+        public ArticleViewHolder(ArticleDataBinding binding) {
+            super(binding.getRoot());
+            ButterKnife.bind(this, binding.getRoot());
+            this.mBinding = binding;
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onListItemSelected(mBinding.getArticle());
+                }
+            });
+        }
+    }
+
+    public class CountryViewHolder extends RecyclerView.ViewHolder {
+
+        public CountryDataBinding mBinding;
+
+        public CountryViewHolder(CountryDataBinding binding) {
+            super(binding.getRoot());
+            ButterKnife.bind(this, binding.getRoot());
+            this.mBinding = binding;
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onListItemSelected(mBinding.getCountry());
+                }
+            });
         }
     }
 }

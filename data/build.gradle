@@ -23,7 +23,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField("String", "BASE_URL", "\"http://migration-api-sim.herokuapp.com/\"")
+        buildConfigField("String", "BASE_URL", "\"http://nrna.yipl.com.np/\"")
     }
 
     compileOptions {

@@ -17,7 +17,9 @@ import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
+import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.BaseModel;
+import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.LatestContentPresenter;
@@ -32,16 +34,23 @@ import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.util.Logger;
 
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import static com.yipl.nrna.domain.util.MyConstants.Adapter.*;
+
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_COUNTRY;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_QUESTION;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
 
 public class MainActivity extends BaseActivity implements
         MainActivityView,
         NavigationView.OnNavigationItemSelectedListener,
-        ListClickCallbackInterface{
+        ListClickCallbackInterface {
 
     @Inject
     LatestContentPresenter mLatestContentPresenter;
@@ -52,8 +61,6 @@ public class MainActivity extends BaseActivity implements
     DrawerLayout mDrawerLayout;
     @Bind(R.id.main_content)
     FrameLayout mMainContent;
-
-    Snackbar mSnackbar;
 
     @Override
     public int getLayout() {
@@ -82,8 +89,9 @@ public class MainActivity extends BaseActivity implements
         fetchLatestContent();
     }
 
-    private void initialize(){
+    private void initialize() {
         DaggerDataComponent.builder()
+                .dataModule(new DataModule(getPreferences().getLastUpdateStamp(), 0))
                 .activityModule(getActivityModule())
                 .applicationComponent(getApplicationComponent())
                 .build()
@@ -99,6 +107,18 @@ public class MainActivity extends BaseActivity implements
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mLatestContentPresenter.pause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mLatestContentPresenter.resume();
     }
 
     @Override
@@ -118,8 +138,13 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id){
+        showFragment(item.getItemId());
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    public void showFragment(int id) {
+        switch (id) {
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new HomeFragment(), "home_fragment")
@@ -149,29 +174,14 @@ public class MainActivity extends BaseActivity implements
             case R.id.nav_questions:
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new QuestionListFragment(), "question_fragment")
-			.commit();
-		break;
+                        .commit();
+                break;
             case R.id.nav_countries:
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new CountryListFragment(), "country_fragment")
                         .commit();
                 break;
         }
-
-        mDrawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mLatestContentPresenter.resume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mLatestContentPresenter.pause();
     }
 
     @Override
@@ -181,49 +191,68 @@ public class MainActivity extends BaseActivity implements
         ButterKnife.unbind(this);
     }
 
-    private void fetchLatestContent(){
+    private void fetchLatestContent() {
         mLatestContentPresenter.initialize();
     }
 
     @Override
     public void showLoadingView() {
-        mSnackbar = Snackbar.make(mMainContent, getString(R.string
-                .message_fetching_latest_content), Snackbar.LENGTH_INDEFINITE);
-        mSnackbar.show();
+        Snackbar.make(mMainContent, getString(R.string.message_fetching_latest_content), Snackbar
+                .LENGTH_LONG)
+                .show();
     }
 
     @Override
     public void hideLoadingView() {
-        if(mSnackbar != null)
-            mSnackbar.dismiss();
+    }
+
+    @Override
+    public void showRetryView() {
+    }
+
+    @Override
+    public void hideRetryView() {
     }
 
     @Override
     public void showErrorView(String pErrorMessage) {
-        mSnackbar = Snackbar.make(mMainContent, pErrorMessage, Snackbar.LENGTH_INDEFINITE);
-        mSnackbar.setAction(getString(R.string.action_retry), new View.OnClickListener() {
-            @Override
-            public void onClick(View pView) {
-                fetchLatestContent();
-            }
-        });
+        Snackbar.make(mMainContent, pErrorMessage, Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.action_retry), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View pView) {
+                        fetchLatestContent();
+                    }
+                }).show();
     }
 
     @Override
     public void hideErrorView() {
-        mSnackbar.dismiss();
+    }
+
+    @Override
+    public void showEmptyView() {
+    }
+
+    @Override
+    public void hideEmptyView() {
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     @Override
     public void informCurrentFragmentForUpdate() {
         Logger.d("MainActivity_informCurrentFragmentForUpdate", "send info");
+        getPreferences().setLastUpdateStamp(Calendar.getInstance().getTimeInMillis());
         ((BaseFragment) getSupportFragmentManager().getFragments().get(0)).showNewContentInfo();
     }
 
     @Override
     public void onListItemSelected(BaseModel pModel) {
         Intent intent;
-        switch (pModel.getDataType()){
+        switch (pModel.getDataType()) {
             case TYPE_TEXT:
                 intent = new Intent(this, ArticleDetailActivity.class);
                 intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
@@ -237,29 +266,15 @@ public class MainActivity extends BaseActivity implements
             case TYPE_QUESTION:
                 intent = new Intent(this, QuestionDetailActivity.class);
                 intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
-                intent.putExtra(MyConstants.Extras.KEY_TITLE, ((Question)pModel).getQuestion());
+                intent.putExtra(MyConstants.Extras.KEY_TITLE, ((Question) pModel).getTitle());
                 startActivity(intent);
         }
     }
 
     @Override
-    public void showEmptyView() {
-    }
-
-    @Override
-    public void hideEmptyView() {
-    }
-
-    @Override
-    public void showRetryView() {
-    }
-
-    @Override
-    public void hideRetryView() {
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
+    public void onAudioItemSelected(List<Post> pAudios) {
+        Intent intent = new Intent(this, AudioDetailActivity.class);
+        intent.putExtra(MyConstants.Extras.KEY_AUDIO_LIST, (Serializable) pAudios);
+        startActivity(intent);
     }
 }

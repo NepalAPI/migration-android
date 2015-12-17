@@ -19,39 +19,39 @@ public class DBDataStore implements IDataStore {
     DatabaseDao database;
 
     @Inject
-    public DBDataStore(DatabaseDao database){
+    public DBDataStore(DatabaseDao database) {
         this.database = database;
     }
 
-    public Observable<List<PostEntity>> getAllPosts(int limit){
+    public Observable<List<PostEntity>> getAllPosts(int limit) {
         return database.getAllPosts(limit);
     }
 
-    public Observable<List<PostEntity>> getPostByType(int pLimit, String pType){
+    public Observable<List<PostEntity>> getPostByType(int pLimit, String pType) {
         return database.getPostByType(pLimit, pType);
     }
 
-    public Observable<List<PostEntity>> getPostByStage(int pLimit, String pStage){
+    public Observable<List<PostEntity>> getPostByStage(int pLimit, String pStage) {
         return database.getPostByStage(pLimit, pStage);
     }
 
-    public Observable<PostEntity> getPostById(Long pId){
+    public Observable<PostEntity> getPostById(Long pId) {
         return database.getPostById(pId);
     }
 
-    public Observable<List<QuestionEntity>> getAllQuestion(int limit){
+    public Observable<List<QuestionEntity>> getAllQuestion(int limit) {
         return database.getAllQuestions(limit);
     }
 
-    public Observable<List<PostEntity>> getPostByQuestionAndType(Long pQId, String pType){
+    public Observable<List<PostEntity>> getPostByQuestionAndType(Long pQId, String pType) {
         return database.getPostByQuestionAndType(pQId, pType);
     }
 
-    public Observable<List<CountryEntity>> getAllCountries(int pLimit){
+    public Observable<List<CountryEntity>> getAllCountries(int pLimit) {
         return database.getAllCountries(pLimit);
     }
 
-    public Observable<CountryEntity> getCountryById(long pId){
+    public Observable<CountryEntity> getCountryById(long pId) {
         return database.getCountryById(pId);
     }
 

@@ -29,12 +29,14 @@ public class ApplicationModule {
         return this.mApplication;
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
         return jobExecutor;
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     PostExecutionThread providePostExecutionThread(UIThread uiThread) {
         return uiThread;
     }
@@ -42,13 +44,13 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    DatabaseHelper provideDatabaseHelper(Context context){
+    DatabaseHelper provideDatabaseHelper(Context context) {
         return new DatabaseHelper(context);
     }
 
     @Provides
     @Singleton
-    DatabaseDao provideDatabaseDao(DatabaseHelper databaseHelper){
+    DatabaseDao provideDatabaseDao(DatabaseHelper databaseHelper) {
         return new DatabaseDao(databaseHelper);
     }
 }

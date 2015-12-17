@@ -42,7 +42,7 @@ import dagger.Provides;
  */
 @Module
 public class DataModule {
-
+    private long mLastUpdateStamp = Long.MIN_VALUE;
     private long mId = Long.MIN_VALUE;
     private MyConstants.PostType mPostType = null;
     private MyConstants.Stage mStage = null;
@@ -53,6 +53,10 @@ public class DataModule {
 
     public DataModule(long pId) {
         mId = pId;
+    }
+
+    public DataModule(long pLastUpdateStamp, int flag) {
+        mLastUpdateStamp = pLastUpdateStamp;
     }
 
     public DataModule(int pLimit) {
@@ -89,7 +93,8 @@ public class DataModule {
     UseCase provideLatestContentUseCase(@Named("latest") IRepository pDataRepository,
                                         ThreadExecutor pThreadExecutor, PostExecutionThread
                                                 pPostExecutionThread) {
-        return new GetLatestContentUseCase(pDataRepository, pThreadExecutor, pPostExecutionThread);
+        return new GetLatestContentUseCase(mLastUpdateStamp, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
     }
 
     @Provides
@@ -163,7 +168,8 @@ public class DataModule {
     UseCase provideQuestionListUseCase(@Named("question") IRepository pDataRepository,
                                        ThreadExecutor
                                                pThreadExecutor, PostExecutionThread pPostExecutionThread) {
-        return new GetQuestionListUseCase(pDataRepository, pThreadExecutor, pPostExecutionThread);
+        return new GetQuestionListUseCase(mLimit, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
     }
 
     @Provides
@@ -190,7 +196,8 @@ public class DataModule {
     UseCase provideAudioListUseCase(@Named("audio") IRepository pDataRepository,
                                     ThreadExecutor pThreadExecutor, PostExecutionThread
                                             pPostExecutionThread) {
-        return new GetAudioListUseCase(mId, pDataRepository, pThreadExecutor, pPostExecutionThread);
+        return new GetAudioListUseCase(mId, mLimit, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
     }
 
     @Provides
@@ -217,7 +224,8 @@ public class DataModule {
     UseCase provideVideoListUseCase(@Named("video") IRepository pDataRepository,
                                     ThreadExecutor pThreadExecutor, PostExecutionThread
                                             pPostExecutionThread) {
-        return new GetVideoListUseCase(mId, pDataRepository, pThreadExecutor, pPostExecutionThread);
+        return new GetVideoListUseCase(mId, mLimit, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
     }
 
     @Provides
@@ -242,9 +250,10 @@ public class DataModule {
     @PerActivity
     @Named("articleList")
     UseCase provideArticleListUseCase(@Named("article") IRepository pDataRepository,
-                                    ThreadExecutor pThreadExecutor, PostExecutionThread
-                                            pPostExecutionThread) {
-        return new GetArticleListUseCase(mId, pDataRepository, pThreadExecutor, pPostExecutionThread);
+                                      ThreadExecutor pThreadExecutor, PostExecutionThread
+                                              pPostExecutionThread) {
+        return new GetArticleListUseCase(mId, mLimit, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
     }
 
     @Provides
