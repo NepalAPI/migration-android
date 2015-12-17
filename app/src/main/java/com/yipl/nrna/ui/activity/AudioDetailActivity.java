@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.hardware.camera2.params.Face;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
+import com.yipl.nrna.base.FacebookActivity;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.media.MediaHelper;
@@ -29,7 +32,7 @@ import java.util.List;
 
 import butterknife.Bind;
 
-public class AudioDetailActivity extends BaseActivity implements
+public class AudioDetailActivity extends FacebookActivity implements
         AudioDetailActivityView,
         View.OnClickListener,
         SeekBar.OnSeekBarChangeListener {
@@ -123,6 +126,13 @@ public class AudioDetailActivity extends BaseActivity implements
         play.setOnClickListener(this);
         next.setOnClickListener(this);
         seekbar.setOnSeekBarChangeListener(this);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_share){
+            //showShareDialog(mPost);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

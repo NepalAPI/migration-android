@@ -8,6 +8,7 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_sync">Sync</string>
     <string name="action_retry">Retry</string>
+    <string name="action_share">Share On Facebook</string>
 
     <string name="title_home">Home</string>
     <string name="title_info_center">Information Center</string>
@@ -54,4 +55,6 @@
     <string name="title_activity_country_detail">CountryDetailActivity</string>
     <string name="title_activity_question_detail">QuestionDetailActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    
+    <string name="facebook_app_id">902864043138819</string>
 </resources>

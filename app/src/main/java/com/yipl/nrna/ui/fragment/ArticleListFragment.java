@@ -93,7 +93,7 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        if(bundle!= null){
             mQuestionId = bundle.getLong(MyConstants.Extras.KEY_ID);
         }
     }

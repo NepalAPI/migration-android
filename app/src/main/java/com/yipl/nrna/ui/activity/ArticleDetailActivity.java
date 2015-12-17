@@ -2,11 +2,11 @@ package com.yipl.nrna.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.webkit.WebView;
 import android.widget.TextView;
-
 import com.yipl.nrna.R;
-import com.yipl.nrna.base.BaseActivity;
+import com.yipl.nrna.base.FacebookActivity;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
@@ -18,7 +18,7 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 
-public class ArticleDetailActivity extends BaseActivity implements ArticleDetailActivityView {
+public class ArticleDetailActivity extends FacebookActivity implements ArticleDetailActivityView {
 
     Long mId;
     @Inject
@@ -28,6 +28,7 @@ public class ArticleDetailActivity extends BaseActivity implements ArticleDetail
     TextView tvTitle;
     @Bind(R.id.webContent)
     WebView webContent;
+    private Post mPost;
 
     @Override
     public int getLayout() {
@@ -62,9 +63,17 @@ public class ArticleDetailActivity extends BaseActivity implements ArticleDetail
 
     @Override
     public void renderArticleDetail(Post post) {
+        mPost = post;
         tvTitle.setText(post.getTitle());
         webContent.loadDataWithBaseURL(null, post.getData().getContent(), "text/html", "utf-8",
                 null);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_share){
+            showShareDialog(mPost);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -89,7 +98,6 @@ public class ArticleDetailActivity extends BaseActivity implements ArticleDetail
 
     @Override
     public void showErrorView(String pErrorMessage) {
-
     }
 
     @Override
