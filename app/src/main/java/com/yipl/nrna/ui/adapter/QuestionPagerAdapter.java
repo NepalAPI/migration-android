@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.ui.fragment.RecentQuestionFragment;
+import com.yipl.nrna.util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,12 @@ public class QuestionPagerAdapter extends FragmentPagerAdapter {
         mQuestions = new ArrayList<>();
     }
 
+    public QuestionPagerAdapter(FragmentManager pFragmentManager, List<Question> pQuestions) {
+        super(pFragmentManager);
+        this.mFragmentManager = pFragmentManager;
+        mQuestions = pQuestions;
+    }
+
     public void setQuestions(List<Question> pQuestions) {
         this.mQuestions = pQuestions;
         this.notifyDataSetChanged();
@@ -31,6 +38,7 @@ public class QuestionPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        Logger.d("QuestionPagerAdapter_getItem", position + " / " + mQuestions.size());
         if (position == mQuestions.size()) {
             return RecentQuestionFragment.newInstance(null);
         } else {

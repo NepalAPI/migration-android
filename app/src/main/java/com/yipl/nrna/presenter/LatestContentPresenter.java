@@ -6,9 +6,12 @@ import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.model.LatestContent;
 import com.yipl.nrna.exception.ErrorMessageFactory;
+import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.ui.interfaces.MvpView;
 import com.yipl.nrna.util.Logger;
+
+import java.util.Calendar;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -80,6 +83,10 @@ public class LatestContentPresenter implements Presenter {
         @Override
         public void onNext(LatestContent pLatestContent) {
             if (pLatestContent != null) {
+                long timestamp = Calendar.getInstance().getTimeInMillis();
+                Logger.d("LatestContentSubscriber_onNext", "timestamp: " + (timestamp / 1000l));
+                ((MainActivity) mView).getPreferences().setLastUpdateStamp((timestamp / 1000L) -
+                        1000);
                 if (!pLatestContent.getPosts().isEmpty() && !pLatestContent.getQuestions()
                         .isEmpty())
                     LatestContentPresenter.this.mView.informCurrentFragmentForUpdate();

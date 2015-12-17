@@ -6,13 +6,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yipl.nrna.R;
-import com.yipl.nrna.base.BaseActivity;
+import com.yipl.nrna.base.FacebookActivity;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
@@ -25,13 +26,12 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 
-public class VideoDetailActivity extends BaseActivity implements VideoDetailActivityView {
+public class VideoDetailActivity extends FacebookActivity implements VideoDetailActivityView {
 
+    public Post mVideo;
     Long mId;
-
     @Inject
     VideoDetailActivityPresenter mPresenter;
-
     @Bind(R.id.data_container)
     CoordinatorLayout mDataContainer;
     @Bind(R.id.image)
@@ -40,10 +40,7 @@ public class VideoDetailActivity extends BaseActivity implements VideoDetailActi
     TextView mDescription;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
-
     private CountryInfoPagerAdapter mAdapter;
-
-    public Post mVideo;
 
     @Override
     public int getLayout() {
@@ -54,7 +51,7 @@ public class VideoDetailActivity extends BaseActivity implements VideoDetailActi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle data = getIntent().getExtras();
-        if(data!= null){
+        if (data != null) {
             mId = data.getLong(MyConstants.Extras.KEY_ID, Long.MIN_VALUE);
             getSupportActionBar().setTitle(data.getString(MyConstants.Extras.KEY_TITLE));
         }
@@ -63,7 +60,17 @@ public class VideoDetailActivity extends BaseActivity implements VideoDetailActi
         fetchDetail();
     }
 
-    private void initialize(){
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_share) {
+            showShareDialog(mVideo);
+        } else if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void initialize() {
         DaggerDataComponent.builder()
                 .activityModule(getActivityModule())
                 .dataModule(new DataModule(mId))
@@ -104,6 +111,14 @@ public class VideoDetailActivity extends BaseActivity implements VideoDetailActi
     }
 
     @Override
+    public void showRetryView() {
+    }
+
+    @Override
+    public void hideRetryView() {
+    }
+
+    @Override
     public void showErrorView(String pErrorMessage) {
         Snackbar.make(mDataContainer, pErrorMessage, Snackbar.LENGTH_LONG).show();
     }
@@ -114,19 +129,6 @@ public class VideoDetailActivity extends BaseActivity implements VideoDetailActi
     }
 
     @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    public void showRetryView() {
-    }
-
-    @Override
-    public void hideRetryView() {
-    }
-
-    @Override
     public void showEmptyView() {
 
     }
@@ -134,5 +136,10 @@ public class VideoDetailActivity extends BaseActivity implements VideoDetailActi
     @Override
     public void hideEmptyView() {
 
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 }

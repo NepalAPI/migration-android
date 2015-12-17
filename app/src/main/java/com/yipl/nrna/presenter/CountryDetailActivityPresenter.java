@@ -18,7 +18,7 @@ public class CountryDetailActivityPresenter implements Presenter {
     CountryDetailActivityView mView;
 
     @Inject
-    public CountryDetailActivityPresenter(@Named("countryDetails") UseCase pUseCase){
+    public CountryDetailActivityPresenter(@Named("countryDetails") UseCase pUseCase) {
         mmUseCase = pUseCase;
     }
 

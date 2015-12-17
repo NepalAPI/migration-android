@@ -250,7 +250,9 @@ public class DatabaseDao {
 
     public Observable<List<PostEntity>> getPostByQuestionAndType(Long pId, String pType) {
 
-        String query = "Select * from " + MyConstants.DATABASE.TABLE_POST.TABLE_NAME + " p join " +
+        String query = "Select p.*" +
+                "  from " + MyConstants.DATABASE.TABLE_POST.TABLE_NAME + "" +
+                " p join " +
                 MyConstants.DATABASE.TABLE_POST_QUESTION.TABLE_NAME + " pq on p." + MyConstants.DATABASE.TABLE_POST.COLUMN_ID +
                 " = pq." + MyConstants.DATABASE.TABLE_POST_QUESTION.COLUMN_POST_ID + " join " + MyConstants.DATABASE.TABLE_QUESTION.TABLE_NAME +
                 " q on q." + MyConstants.DATABASE.TABLE_QUESTION.COLUMN_ID + " = pq." + MyConstants.DATABASE.TABLE_POST_QUESTION.COLUMN_QUESTION_ID +

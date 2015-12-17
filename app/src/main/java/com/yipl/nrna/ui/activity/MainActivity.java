@@ -2,6 +2,7 @@ package com.yipl.nrna.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -33,9 +34,9 @@ import com.yipl.nrna.ui.fragment.VideoListFragment;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.util.Logger;
+import com.yipl.nrna.util.Utils;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -82,6 +83,8 @@ public class MainActivity extends BaseActivity implements
         toggle.syncState();
 
         mNavigationView.setNavigationItemSelectedListener(this);
+        mNavigationView.setItemIconTintList(Utils.getIconColorTint(getResources().getColor(R.color
+                .white_alpha_70), Color.WHITE));
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.main_content, new HomeFragment(), "home_fragment")
@@ -246,7 +249,6 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void informCurrentFragmentForUpdate() {
         Logger.d("MainActivity_informCurrentFragmentForUpdate", "send info");
-        getPreferences().setLastUpdateStamp(Calendar.getInstance().getTimeInMillis());
         ((BaseFragment) getSupportFragmentManager().getFragments().get(0)).showNewContentInfo();
     }
 
@@ -278,9 +280,10 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onAudioItemSelected(List<Post> pAudios) {
+    public void onAudioItemSelected(List<Post> pAudios, int index) {
         Intent intent = new Intent(this, AudioDetailActivity.class);
         intent.putExtra(MyConstants.Extras.KEY_AUDIO_LIST, (Serializable) pAudios);
+        intent.putExtra(MyConstants.Extras.KEY_AUDIO_SELECTION, index);
         startActivity(intent);
     }
 }

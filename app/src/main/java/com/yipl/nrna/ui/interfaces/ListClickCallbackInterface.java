@@ -11,5 +11,5 @@ import java.util.List;
 public interface ListClickCallbackInterface {
     void onListItemSelected(BaseModel pModel);
 
-    void onAudioItemSelected(List<Post> pAudios);
+    void onAudioItemSelected(List<Post> pAudios, int index);
 }

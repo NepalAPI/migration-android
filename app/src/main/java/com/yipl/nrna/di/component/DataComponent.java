@@ -48,5 +48,6 @@ public interface DataComponent extends ActivityComponent {
     void inject(CountryDetailActivity pActivity);
 
     void inject(QuestionDetailActivity pActivity);
+
     void inject(VideoDetailActivity pActivity);
 }
