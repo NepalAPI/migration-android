@@ -15,15 +15,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/spacing_standard"
-        android:text="Article Title 1"
-        />
+        android:textColor="@color/text_color_primary"
+        android:textSize="@dimen/text_large"/>
 
     <WebView
         android:id="@+id/webContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
-        android:padding="@dimen/spacing_standard"
-        >
+        android:padding="@dimen/spacing_standard">
     </WebView>
 </RelativeLayout>

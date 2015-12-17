@@ -63,7 +63,8 @@ public class ArticleDetailActivity extends BaseActivity implements ArticleDetail
     @Override
     public void renderArticleDetail(Post post) {
         tvTitle.setText(post.getTitle());
-        webContent.loadData(post.getData().getContent(), "text/html", "utf-8");
+        webContent.loadDataWithBaseURL(null, post.getData().getContent(), "text/html", "utf-8",
+                null);
     }
 
     @Override
