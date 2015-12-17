@@ -30,6 +30,10 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     def appDependencies = rootProject.ext.appDependencies
 
@@ -49,4 +53,5 @@ dependencies {
     compile appDependencies.pagerIndicator
     compile appDependencies.stetho
     compile appDependencies.fresco
+    compile appDependencies.facebookSdk
 }

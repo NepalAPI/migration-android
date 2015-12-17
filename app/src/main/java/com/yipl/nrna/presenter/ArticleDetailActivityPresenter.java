@@ -66,6 +66,7 @@ public class ArticleDetailActivityPresenter implements Presenter {
             ArticleDetailActivityPresenter.this.mView.hideLoadingView();
             ArticleDetailActivityPresenter.this.mView.showErrorView(e.getLocalizedMessage());
             ArticleDetailActivityPresenter.this.mView.showRetryView();
+            e.printStackTrace();
         }
 
         @Override
