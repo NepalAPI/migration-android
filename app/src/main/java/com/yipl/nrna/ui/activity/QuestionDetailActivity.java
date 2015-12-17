@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_QUESTION;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_VIDEO;
 
 public class QuestionDetailActivity extends BaseActivity implements ListClickCallbackInterface {
 
@@ -72,6 +73,7 @@ public class QuestionDetailActivity extends BaseActivity implements ListClickCal
         Intent intent;
         switch (pModel.getDataType()) {
             case TYPE_TEXT:
+            default:
                 intent = new Intent(this, ArticleDetailActivity.class);
                 intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
                 startActivity(intent);
@@ -81,7 +83,13 @@ public class QuestionDetailActivity extends BaseActivity implements ListClickCal
                 intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
                 intent.putExtra(MyConstants.Extras.KEY_TITLE, ((Question) pModel).getTitle());
                 startActivity(intent);
-
+                break;
+            case TYPE_VIDEO:
+                intent = new Intent(this, VideoDetailActivity.class);
+                intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
+                intent.putExtra(MyConstants.Extras.KEY_TITLE, ((Post)pModel).getTitle());
+                startActivity(intent);
+                break;
         }
     }
 

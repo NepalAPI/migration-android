@@ -29,6 +29,7 @@ import com.yipl.nrna.presenter.HomeFragmentPresenter;
 import com.yipl.nrna.ui.activity.ArticleDetailActivity;
 import com.yipl.nrna.ui.activity.AudioDetailActivity;
 import com.yipl.nrna.ui.activity.MainActivity;
+import com.yipl.nrna.ui.activity.VideoDetailActivity;
 import com.yipl.nrna.ui.adapter.QuestionPagerAdapter;
 import com.yipl.nrna.ui.interfaces.HomeFragmentView;
 
@@ -200,7 +201,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     public void renderLatestVideos(List<Post> pVideos) {
         if (pVideos != null) {
             mVideoList.removeAllViews();
-            for (Post video : pVideos) {
+            for (final Post video : pVideos) {
                 VideoDataBinding videoDataBinding = DataBindingUtil.inflate
                         (LayoutInflater.from(getContext()), R.layout.list_item_video, mVideoList,
                                 false);
@@ -214,7 +215,10 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //// TODO: 12/16/15  
+                        Intent intent = new Intent(getContext(), VideoDetailActivity.class);
+                        intent.putExtra(MyConstants.Extras.KEY_ID, video.getId());
+                        intent.putExtra(MyConstants.Extras.KEY_TITLE, video.getTitle());
+                        startActivity(intent);
                     }
                 });
 

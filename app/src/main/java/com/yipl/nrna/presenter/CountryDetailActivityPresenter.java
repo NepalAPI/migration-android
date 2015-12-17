@@ -18,8 +18,8 @@ public class CountryDetailActivityPresenter implements Presenter {
     CountryDetailActivityView mView;
 
     @Inject
-    public CountryDetailActivityPresenter(@Named("countryDetails") UseCase pArticleUseCase) {
-        mmUseCase = pArticleUseCase;
+    public CountryDetailActivityPresenter(@Named("countryDetails") UseCase pUseCase){
+        mmUseCase = pUseCase;
     }
 
     @Override

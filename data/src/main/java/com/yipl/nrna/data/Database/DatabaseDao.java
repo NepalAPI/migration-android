@@ -417,7 +417,6 @@ public class DatabaseDao {
     }
 
     public void saveAllCountries(List<CountryEntity> pCountries) {
-
         if (pCountries != null) {
             for (CountryEntity country : pCountries) {
                 if (country != null)
@@ -436,7 +435,6 @@ public class DatabaseDao {
         cursor.moveToNext();
         long count = cursor.getLong(0);
         cursor.close();
-
         if (count > 0) {
             return updateOneCountry(pCountry);
         } else {
@@ -445,11 +443,11 @@ public class DatabaseDao {
     }
 
     public long saveOneCountry(CountryEntity pCountry) {
-        return db.insert(TABLE_QUESTION.TABLE_NAME, null, getContentValues(pCountry));
+        return db.insert(TABLE_COUNTRY.TABLE_NAME, null, getContentValues(pCountry));
     }
 
     public long updateOneCountry(CountryEntity pCountry) {
-        return db.update(TABLE_QUESTION.TABLE_NAME, getContentValues(pCountry), TABLE_QUESTION
+        return db.update(TABLE_COUNTRY.TABLE_NAME, getContentValues(pCountry), TABLE_QUESTION
                 .COLUMN_ID + " = " + pCountry.getId(), null);
     }
 
