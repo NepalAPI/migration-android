@@ -179,12 +179,12 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
             super(binding.getRoot());
             ButterKnife.bind(this, binding.getRoot());
             this.mBinding = binding;
-            /*view.setOnClickListener(new View.OnClickListener() {
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onListItemSelected(data.get(getAdapterPosition()));
+                    mListener.onListItemSelected(mBinding.getVideo());
                 }
-            });*/
+            });
         }
     }
 

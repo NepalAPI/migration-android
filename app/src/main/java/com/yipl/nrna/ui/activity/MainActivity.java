@@ -46,6 +46,7 @@ import butterknife.ButterKnife;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_COUNTRY;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_QUESTION;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_VIDEO;
 
 public class MainActivity extends BaseActivity implements
         MainActivityView,
@@ -251,24 +252,29 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onListItemSelected(BaseModel pModel) {
-        Intent intent;
+        Intent intent = null;
         switch (pModel.getDataType()) {
             case TYPE_TEXT:
+            default:
                 intent = new Intent(this, ArticleDetailActivity.class);
                 intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
-                startActivity(intent);
                 break;
             case TYPE_COUNTRY:
-                Intent countryIntent = new Intent(this, CountryDetailActivity.class);
-                countryIntent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
-                startActivity(countryIntent);
+                intent = new Intent(this, CountryDetailActivity.class);
+                intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
                 break;
             case TYPE_QUESTION:
                 intent = new Intent(this, QuestionDetailActivity.class);
                 intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
                 intent.putExtra(MyConstants.Extras.KEY_TITLE, ((Question) pModel).getTitle());
-                startActivity(intent);
+                break;
+            case TYPE_VIDEO:
+                intent = new Intent(this, VideoDetailActivity.class);
+                intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
+                intent.putExtra(MyConstants.Extras.KEY_TITLE, ((Post) pModel).getTitle());
+                break;
         }
+        startActivity(intent);
     }
 
     @Override
