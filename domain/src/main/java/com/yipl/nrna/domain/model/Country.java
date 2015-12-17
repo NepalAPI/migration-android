@@ -6,38 +6,39 @@ import com.yipl.nrna.domain.util.MyConstants;
  * Created by julian on 12/8/15.
  */
 public class Country extends BaseModel {
-    Long mCreatedAt;
-    Long mUpdatedAt;
-    String mImageUrl;
+    long mCreatedAt;
+    long mUpdatedAt;
+    String mDescription;
     String mName;
-    String mAbout;
+    String mCode;
+    String mImage;
 
     public Country() {
         mDataType = MyConstants.Adapter.TYPE_COUNTRY;
     }
 
-    public Long getCreatedAt() {
+    public long getCreatedAt() {
         return mCreatedAt;
     }
 
-    public void setCreatedAt(Long pCreatedAt) {
+    public void setCreatedAt(long pCreatedAt) {
         mCreatedAt = pCreatedAt;
     }
 
-    public Long getUpdatedAt() {
+    public long getUpdatedAt() {
         return mUpdatedAt;
     }
 
-    public void setUpdatedAt(Long pUpdatedAt) {
+    public void setUpdatedAt(long pUpdatedAt) {
         mUpdatedAt = pUpdatedAt;
     }
 
-    public String getImageUrl() {
-        return mImageUrl;
+    public String getDescription() {
+        return mDescription;
     }
 
-    public void setImageUrl(String pImageUrl) {
-        mImageUrl = pImageUrl;
+    public void setDescription(String pDescription) {
+        mDescription = pDescription;
     }
 
     public String getName() {
@@ -48,11 +49,19 @@ public class Country extends BaseModel {
         mName = pName;
     }
 
-    public String getAbout() {
-        return mAbout;
+    public String getCode() {
+        return mCode;
     }
 
-    public void setAbout(String pAbout) {
-        mAbout = pAbout;
+    public void setCode(String pCode) {
+        mCode = pCode;
+    }
+
+    public String getImage() {
+        return mImage;
+    }
+
+    public void setImage(String pImage) {
+        mImage = pImage;
     }
 }

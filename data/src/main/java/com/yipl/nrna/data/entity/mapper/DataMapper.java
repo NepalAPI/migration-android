@@ -100,9 +100,10 @@ public class DataMapper {
             country.setId(pCountry.getId());
             country.setUpdatedAt(pCountry.getUpdatedAt());
             country.setCreatedAt(pCountry.getCreatedAt());
-            country.setAbout(pCountry.getAbout());
-            country.setImageUrl(pCountry.getImageUrl());
+            country.setDescription(pCountry.getDescription());
+            country.setImage(pCountry.getImage());
             country.setName(pCountry.getName());
+            country.setCode(pCountry.getCode());
             return country;
         }
         return null;

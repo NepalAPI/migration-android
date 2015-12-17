@@ -19,7 +19,7 @@
             android:id="@+id/about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{country.getAbout()}"
+            android:text="@{country.getDescription()}"
             android:textColor="@color/text_color_primary"
             android:textSize="@dimen/text_default"/>
 

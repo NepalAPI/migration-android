@@ -167,17 +167,19 @@ public class MyConstants {
             public static String COLUMN_ID = "id";
             public static String COlUMN_UPDATED_AT = "updated_date";
             public static String COLUMN_CREATED_AT = "created_date";
-            public static String COLUMN_IMAGE_URL = "image_url";
+            public static String COLUMN_IMAGE = "image_url";
             public static String COLUMN_NAME = "name";
-            public static String COLUMN_ABOUT = "about";
+            public static String COLUMN_CODE = "code";
+            public static String COLUMN_DESCRIPTION = "description";
 
             public static String CREATE_TABLE_COUNTRY = "Create table " + TABLE_NAME + "( " +
                     COLUMN_ID + TYPE_INTEGER + " primary key " + COMMA +
                     COlUMN_UPDATED_AT + TYPE_INTEGER + COMMA +
                     COLUMN_CREATED_AT + TYPE_INTEGER + COMMA +
-                    COLUMN_IMAGE_URL + TYPE_TEXT + COMMA +
+                    COLUMN_IMAGE + TYPE_TEXT + COMMA +
+                    COLUMN_CODE + TYPE_TEXT + COMMA +
                     COLUMN_NAME + TYPE_TEXT + COMMA +
-                    COLUMN_ABOUT + TYPE_TEXT + " );";
+                    COLUMN_DESCRIPTION + TYPE_TEXT + " );";
 
         }
 

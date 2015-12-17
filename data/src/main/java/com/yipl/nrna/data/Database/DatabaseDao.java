@@ -51,10 +51,12 @@ public class DatabaseDao {
                 .TABLE_COUNTRY.COlUMN_UPDATED_AT)));
         country.setName(pCursor.getString(pCursor.getColumnIndex(MyConstants.DATABASE
                 .TABLE_COUNTRY.COLUMN_NAME)));
-        country.setAbout(pCursor.getString(pCursor.getColumnIndex(MyConstants.DATABASE
-                .TABLE_COUNTRY.COLUMN_ABOUT)));
-        country.setImageUrl(pCursor.getString(pCursor.getColumnIndex(MyConstants.DATABASE.TABLE_COUNTRY
-                .COLUMN_IMAGE_URL)));
+        country.setDescription(pCursor.getString(pCursor.getColumnIndex(
+                TABLE_COUNTRY.COLUMN_DESCRIPTION)));
+        country.setImage(pCursor.getString(pCursor.getColumnIndex(MyConstants.DATABASE.TABLE_COUNTRY
+                .COLUMN_IMAGE)));
+        country.setCode(pCursor.getString(pCursor.getColumnIndex(TABLE_COUNTRY
+                .COLUMN_CODE)));
         return country;
     }
 
@@ -485,9 +487,10 @@ public class DatabaseDao {
         values.put(TABLE_COUNTRY.COLUMN_ID, pCountry.getId());
         values.put(TABLE_COUNTRY.COlUMN_UPDATED_AT, pCountry.getUpdatedAt());
         values.put(TABLE_COUNTRY.COLUMN_CREATED_AT, pCountry.getCreatedAt());
-        values.put(TABLE_COUNTRY.COLUMN_ABOUT, pCountry.getAbout());
-        values.put(TABLE_COUNTRY.COLUMN_IMAGE_URL, pCountry.getImageUrl());
+        values.put(TABLE_COUNTRY.COLUMN_DESCRIPTION, pCountry.getDescription());
+        values.put(TABLE_COUNTRY.COLUMN_IMAGE, pCountry.getImage());
         values.put(TABLE_COUNTRY.COLUMN_NAME, pCountry.getName());
+        values.put(TABLE_COUNTRY.COLUMN_CODE, pCountry.getCode());
         return values;
     }
 

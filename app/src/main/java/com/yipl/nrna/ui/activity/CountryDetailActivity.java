@@ -78,7 +78,7 @@ public class CountryDetailActivity extends BaseActivity implements CountryDetail
     @Override
     public void renderCountryDetail(Country pCountry) {
         mCountry = pCountry;
-        mImage.setImageURI(Uri.parse(mCountry.getImageUrl()));
+        mImage.setImageURI(Uri.parse(mCountry.getImage()));
         mAdapter = new CountryInfoPagerAdapter(getSupportFragmentManager(), this, mCountry);
         mViewPager.setAdapter(mAdapter);
         mTabs.setupWithViewPager(mViewPager);
