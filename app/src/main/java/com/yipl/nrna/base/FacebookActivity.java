@@ -9,6 +9,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.internal.CallbackManagerImpl;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.share.Sharer;
@@ -84,12 +85,12 @@ public abstract class FacebookActivity extends BaseActivity {
     public ShareOpenGraphContent getShareContent(Post pPost){
 
         ShareOpenGraphObject object = new ShareOpenGraphObject.Builder()
-                .putString("og:type","mypost:post")
+                .putString("og:type","nrnaapp.post")
                 .putString("og:title",pPost.getTitle())
                 .putString("og:description", pPost.getDescription())
                 .build();
         ShareOpenGraphAction action = new ShareOpenGraphAction.Builder()
-                .setActionType("mypost:reads")
+                .setActionType("nrna.share")
                 .putObject("post", object)
                 .build();
         ShareOpenGraphContent content = new ShareOpenGraphContent.Builder()
