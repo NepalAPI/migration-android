@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,6 +97,8 @@ public class RecentQuestionFragment extends BaseFragment {
         Bundle args = getArguments();
         if (args != null) {
             mQuestion = (Question) args.getSerializable(MyConstants.Extras.KEY_QUESTION);
+        }else{
+            mQuestion = null;
         }
     }
 }
