@@ -1,22 +1,16 @@
 package com.yipl.nrna.base;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.internal.CallbackManagerImpl;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.share.Sharer;
-import com.facebook.share.model.ShareContent;
-import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.ShareOpenGraphAction;
 import com.facebook.share.model.ShareOpenGraphContent;
 import com.facebook.share.model.ShareOpenGraphObject;
@@ -24,8 +18,8 @@ import com.facebook.share.widget.ShareDialog;
 import com.yipl.nrna.R;
 import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Post;
-import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.domain.util.MyConstants;
+import com.yipl.nrna.util.Logger;
 
 /**
  * Created by Nirazan-PC on 12/17/2015.
@@ -33,8 +27,8 @@ import com.yipl.nrna.domain.util.MyConstants;
 public abstract class FacebookActivity extends BaseActivity {
 
     FacebookCallback<Sharer.Result> mFbCallBack;
-    private CallbackManager mCallback;
     ShareDialog mShareDialog;
+    private CallbackManager mCallback;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,48 +50,45 @@ public abstract class FacebookActivity extends BaseActivity {
         mFbCallBack = new FacebookCallback<Sharer.Result>() {
             @Override
             public void onSuccess(Sharer.Result result) {
-                Log.i("fbshare", "success:// " + result.getPostId());
+                Logger.d("FacebookActivity_onSuccess", "Share successful: " + result.getPostId());
             }
 
             @Override
             public void onCancel() {
-                Log.i("fbshare","canceled");
-
+                Logger.d("FacebookActivity_onCancel", "Share canceled");
             }
 
             @Override
             public void onError(FacebookException error) {
-                Log.i("fbshare", "error: " + error.getMessage());
+                Logger.e("FacebookActivity_onError", error.getMessage());
                 error.printStackTrace();
-
             }
         };
         LoginManager.getInstance().registerCallback(mCallback, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult result) {
-                Log.i("fbshare", "login successful: ");
-
+                Logger.d("FacebookActivity_onSuccess", "Login successful");
             }
 
             @Override
             public void onCancel() {
-                Log.i("fbshare", "login calceled: ");
+                Logger.d("FacebookActivity_onCancel", "Login cancelled");
             }
 
             @Override
             public void onError(FacebookException error) {
-                Log.i("fbshare", "login error: " + error.getMessage());
+                Logger.e("FacebookActivity_onError", error.getMessage());
                 error.printStackTrace();
             }
         });
 
         mShareDialog = new ShareDialog(this);
-        mShareDialog.registerCallback(mCallback,mFbCallBack);
+        mShareDialog.registerCallback(mCallback, mFbCallBack);
     }
 
-    public ShareOpenGraphContent getShareContent(BaseModel pModel){
+    public ShareOpenGraphContent getShareContent(BaseModel pModel) {
         String title, description;
-        switch (pModel.getDataType()){
+        switch (pModel.getDataType()) {
             default:
             case MyConstants.Adapter.TYPE_AUDIO:
             case MyConstants.Adapter.TYPE_VIDEO:
@@ -108,7 +99,7 @@ public abstract class FacebookActivity extends BaseActivity {
         }
 
         ShareOpenGraphObject object = new ShareOpenGraphObject.Builder()
-                .putString("og:type","nrnaapp:post")
+                .putString("og:type", "nrnaapp:post")
                 .putString("og:title", title)
                 .putString("og:description", description)
                 .build();
@@ -120,17 +111,11 @@ public abstract class FacebookActivity extends BaseActivity {
                 .setPreviewPropertyName("post")
                 .setAction(action)
                 .build();
-
-//        ShareLinkContent content = new ShareLinkContent.Builder()
-//                .setContentTitle(pModel.getTitle())
-////                .setContentDescription(pModel.getDescription())
-//                .setContentUrl(null)
-//                .build();
         return content;
     }
 
-    public void showShareDialog(final BaseModel pModel){
-        if(mShareDialog.canShow(ShareOpenGraphContent.class)){
+    public void showShareDialog(final BaseModel pModel) {
+        if (mShareDialog.canShow(ShareOpenGraphContent.class)) {
             mShareDialog.show(getShareContent(pModel));
         }
     }

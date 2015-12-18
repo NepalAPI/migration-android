@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.widget.TextView;
+
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.FacebookActivity;
 import com.yipl.nrna.di.component.DaggerDataComponent;
@@ -68,10 +69,13 @@ public class ArticleDetailActivity extends FacebookActivity implements ArticleDe
         webContent.loadDataWithBaseURL(null, post.getData().getContent(), "text/html", "utf-8",
                 null);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_share){
+        if (item.getItemId() == R.id.action_share) {
             showShareDialog(mPost);
+        } else if (item.getItemId() == android.R.id.home) {
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

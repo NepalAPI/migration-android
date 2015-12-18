@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.hardware.camera2.params.Face;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -17,7 +16,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
-import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.FacebookActivity;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
@@ -59,7 +57,7 @@ public class AudioDetailActivity extends FacebookActivity implements
     private Intent mPlayIntent;
     private boolean mMusicBound = false;
     private List<Post> mTracks;
-    private int[] mTrackLengths = new int[2];
+    private int mSelectedTrack = 0;
     private Handler seekbarHandler = new Handler();
     private MediaReceiver mediaReceiver;
     private IntentFilter receiverFilter;
@@ -69,7 +67,7 @@ public class AudioDetailActivity extends FacebookActivity implements
         public void onServiceConnected(ComponentName name, IBinder service) {
             MusicBinder binder = (MusicBinder) service;
             mService = binder.getService();
-            mService.setTracks(mTracks, 0);
+            mService.setTracks(mTracks, mSelectedTrack);
             mService.startStreaming();
             mMusicBound = true;
         }
@@ -79,14 +77,13 @@ public class AudioDetailActivity extends FacebookActivity implements
             mMusicBound = false;
         }
     };
+
     private Runnable updateSeekTime = new Runnable() {
         @Override
         public void run() {
             if (mService != null) {
                 long[] lengths = mService.getSongLengths();
                 if (lengths != null) {
-                    Logger.e("AudioDetailActivity_updateSeekTime", "lengths: " + lengths[0] + "/" +
-                            lengths[1]);
                     currentTime.setText(MediaHelper.getFormattedTime(lengths[0]));
                     totalTime.setText(MediaHelper.getFormattedTime(lengths[1]));
                     int progress = MediaHelper.getProgressPercentage(lengths[0], lengths[1]);
@@ -114,6 +111,7 @@ public class AudioDetailActivity extends FacebookActivity implements
         Bundle data = getIntent().getExtras();
         if (data != null) {
             mTracks = (List<Post>) data.getSerializable(MyConstants.Extras.KEY_AUDIO_LIST);
+            mSelectedTrack = data.getInt(MyConstants.Extras.KEY_AUDIO_SELECTION);
         }
 
         getToolbar().setTitle("");
@@ -127,12 +125,27 @@ public class AudioDetailActivity extends FacebookActivity implements
         next.setOnClickListener(this);
         seekbar.setOnSeekBarChangeListener(this);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_share){
-            //showShareDialog(mPost);
+        if (item.getItemId() == R.id.action_share) {
+            Logger.d("AudioDetailActivity_onOptionsItemSelected", "audioTitle: " + mService
+                    .getCurrentTrack().getTitle());
+            showShareDialog(mService.getCurrentTrack());
+        } else if (item.getItemId() == android.R.id.home) {
+            finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Unbind from the service
+        if (mMusicBound) {
+            unbindService(mConnection);
+            mMusicBound = false;
+        }
     }
 
     @Override
@@ -252,10 +265,8 @@ public class AudioDetailActivity extends FacebookActivity implements
     @Override
     public void playStatusChanged(boolean pIsPlaying) {
         if (pIsPlaying) {
-            updateSeekBar();
             play.setImageResource(android.R.drawable.ic_media_pause);
         } else {
-            seekbarHandler.removeCallbacks(updateSeekTime);
             play.setImageResource(android.R.drawable.ic_media_play);
         }
     }

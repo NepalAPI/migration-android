@@ -89,6 +89,7 @@ public class MyConstants {
         public static final String KEY_Country = "key_country";
         public static final String KEY_AUDIO = "key_audio";
         public static final String KEY_AUDIO_LIST = "key_audio_list";
+        public static final String KEY_AUDIO_SELECTION = "key_audio_selection";
         public static final String KEY_PLAY_STATUS = "key_play_status";
         public static final String KEY_ID = "key_id";
         public static final String KEY_STAGE = "key_stage";

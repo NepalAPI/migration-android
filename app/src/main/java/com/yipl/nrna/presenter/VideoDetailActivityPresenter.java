@@ -18,7 +18,7 @@ public class VideoDetailActivityPresenter implements Presenter {
     VideoDetailActivityView mView;
 
     @Inject
-    public VideoDetailActivityPresenter(@Named("videoDetails") UseCase pUseCase){
+    public VideoDetailActivityPresenter(@Named("videoDetails") UseCase pUseCase) {
         mmUseCase = pUseCase;
     }
 
@@ -38,20 +38,20 @@ public class VideoDetailActivityPresenter implements Presenter {
     }
 
     @Override
-    public void attachView(MvpView view) {
-        mView = (VideoDetailActivityView) view;
+    public void initialize() {
+        loadVideo();
     }
 
     @Override
-    public void initialize() {
-        loadVideo();
+    public void attachView(MvpView view) {
+        mView = (VideoDetailActivityView) view;
     }
 
     private void loadVideo() {
         this.mmUseCase.execute(new VideoDetailSubscriber());
     }
 
-    private final class VideoDetailSubscriber extends DefaultSubscriber<Post>{
+    private final class VideoDetailSubscriber extends DefaultSubscriber<Post> {
         @Override
         public void onCompleted() {
             VideoDetailActivityPresenter.this.mView.hideLoadingView();

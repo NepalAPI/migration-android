@@ -2,6 +2,7 @@ package com.yipl.nrna.util;
 
 import android.databinding.BindingAdapter;
 import android.net.Uri;
+import android.text.Html;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,5 +22,10 @@ public class BindingUtil {
                 pView.setText(duration);
             }
         }
+    }
+
+    @BindingAdapter("bind:fromHtml")
+    public static void setFromHtml(TextView pView, String text) {
+        pView.setText(Html.fromHtml(text));
     }
 }

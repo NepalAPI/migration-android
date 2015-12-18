@@ -19,6 +19,7 @@
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/country_list_image_height"
+            android:layout_centerVertical="true"
             app:imageUrl="@{country.getImage()}"
             fresco:actualImageScaleType="focusCrop"
             fresco:backgroundImage="@color/colorPrimaryDark"

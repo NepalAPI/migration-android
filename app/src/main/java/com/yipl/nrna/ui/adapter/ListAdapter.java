@@ -20,6 +20,7 @@ import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
+import com.yipl.nrna.util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,14 +128,16 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
         return (mDataCollection != null) ? mDataCollection.size() : 0;
     }
 
-    private List<Post> filterList(int type) {
-        List<Post> list = new ArrayList<>();
+    private int filterList(List<Post> selectedTracks, Post selection, int type) {
+        int index = 0;
         for (BaseModel post : mDataCollection) {
             if (post != null && post.getDataType() == type) {
-                list.add((Post) post);
+                selectedTracks.add((Post) post);
+                if (post == selection)
+                    index = selectedTracks.size() - 1;
             }
         }
-        return list;
+        return index;
     }
 
     public class QuestionsViewHolder extends RecyclerView.ViewHolder {
@@ -165,7 +168,11 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
             mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.onAudioItemSelected(filterList(MyConstants.Adapter.TYPE_AUDIO));
+                    List<Post> selectedTracks = new ArrayList();
+                    int index = filterList(selectedTracks, mBinding.getAudio(), MyConstants.Adapter
+                            .TYPE_AUDIO);
+                    Logger.d("AudioViewHolder_onClick", "index: " + index);
+                    mListener.onAudioItemSelected(selectedTracks, index);
                 }
             });
         }

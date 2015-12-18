@@ -91,7 +91,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/label_audio"
-                    android:clipToPadding="false"
                     android:minHeight="@dimen/recent_audio_section_height"
                     android:orientation="vertical"/>
 
@@ -137,7 +136,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/label_video"
-                    android:clipToPadding="false"
                     android:minHeight="@dimen/recent_audio_section_height"
                     android:orientation="vertical"/>
 
@@ -183,7 +181,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/label_articles"
-                    android:clipToPadding="false"
                     android:minHeight="@dimen/recent_audio_section_height"
                     android:orientation="vertical"/>
 

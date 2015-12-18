@@ -20,6 +20,7 @@
     <style name="post_title">
         <item name="android:textColor">@color/text_color_primary</item>
         <item name="android:textSize">@dimen/text_default</item>
+        <!--<item name="android:lineSpacingExtra">@dimen/text_big</item>-->
     </style>
 
     <style name="post_duration">
