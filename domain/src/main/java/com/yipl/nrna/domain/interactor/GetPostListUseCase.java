@@ -18,9 +18,10 @@ public class GetPostListUseCase extends UseCase<List<Post>> {
     private final int mLimit;
     private final MyConstants.PostType mType;
     private final MyConstants.Stage mStage;
+    private final Long mCountryId;
 
     @Inject
-    public GetPostListUseCase(int pLimit, MyConstants.PostType pType, MyConstants.Stage pStage,
+    public GetPostListUseCase(int pLimit, Long pCountryId,MyConstants.PostType pType, MyConstants.Stage pStage,
                               IRepository pRepository, ThreadExecutor pThreadExecutor, PostExecutionThread
                                       pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
@@ -28,10 +29,14 @@ public class GetPostListUseCase extends UseCase<List<Post>> {
         mLimit = pLimit;
         mType = pType;
         mStage = pStage;
+        mCountryId = pCountryId;
     }
 
     @Override
     protected Observable<List<Post>> buildUseCaseObservable() {
+        if(mCountryId != null){
+            return mRepository.getListByCountry(mCountryId);
+        }
         if (mType == null && mStage == null) {
             return mRepository.getList(mLimit);
         } else if (mType != null) {

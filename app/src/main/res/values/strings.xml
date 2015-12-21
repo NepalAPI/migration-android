@@ -37,6 +37,7 @@
 
     <string-array name="country_info">
         <item>About</item>
+        <item>Content</item>
     </string-array>
 
     <string name="message_fetching_latest_content">Fetching latest content...</string>
@@ -57,4 +58,5 @@
     <string name="section_format">Hello World from section: %1$d</string>
     
     <string name="facebook_app_id">902864043138819</string>
+    <string name="empty_related_content">No Related Content Available</string>
 </resources>

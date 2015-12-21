@@ -52,4 +52,9 @@ public class CountryRepository implements IRepository<Country> {
     public Observable<List<Country>> getListByQuestionAndType(Long pId) {
         return null;
     }
+
+    @Override
+    public Observable<List<Country>> getListByCountry(Long pId) {
+        return null;
+    }
 }

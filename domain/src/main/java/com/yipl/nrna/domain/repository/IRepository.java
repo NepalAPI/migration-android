@@ -16,4 +16,6 @@ public interface IRepository<T> {
     Observable<T> getSingle(Long id);
 
     Observable<List<T>> getListByQuestionAndType(Long pId);
+
+    Observable<List<T>> getListByCountry(Long pId);
 }

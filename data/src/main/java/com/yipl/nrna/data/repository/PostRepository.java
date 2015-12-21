@@ -57,4 +57,12 @@ public class PostRepository implements IRepository<Post> {
     public Observable<List<Post>> getListByQuestionAndType(Long pId) {
         return null;
     }
+
+   @Override
+    public Observable<List<Post>> getListByCountry(Long pId) {
+        return mDataStoreFactory.createDBDataStore().getPostByCountry(pId).map(
+                pPostEntities -> mDataMapper.transformPost(pPostEntities)
+        );
+    }
+
 }

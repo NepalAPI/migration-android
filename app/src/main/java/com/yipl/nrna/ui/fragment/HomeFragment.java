@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,6 +157,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     private void setUpAdapter() {
         //for question
         mQuestionPagerAdapter = new QuestionPagerAdapter(getChildFragmentManager());
+        mQuestionsPager.setOffscreenPageLimit(0);
         mQuestionsPager.setAdapter(mQuestionPagerAdapter);
         indicator.setViewPager(mQuestionsPager);
     }

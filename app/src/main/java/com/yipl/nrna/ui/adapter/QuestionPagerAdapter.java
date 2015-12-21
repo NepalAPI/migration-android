@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by julian on 12/10/15.
  */
-public class QuestionPagerAdapter extends FragmentPagerAdapter {
+public class QuestionPagerAdapter extends FragmentStatePagerAdapter {
     FragmentManager mFragmentManager;
     List<Question> mQuestions;
 
@@ -53,7 +53,7 @@ public class QuestionPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getItemPosition(Object object) {
-        return FragmentStatePagerAdapter.POSITION_NONE;
+        return POSITION_NONE;
     }
 
     @Override

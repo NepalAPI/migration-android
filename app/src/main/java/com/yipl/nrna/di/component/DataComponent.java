@@ -15,6 +15,7 @@ import com.yipl.nrna.ui.fragment.HomeFragment;
 import com.yipl.nrna.ui.fragment.InfoCenterContentFragment;
 import com.yipl.nrna.ui.fragment.QuestionListFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
+import com.yipl.nrna.ui.fragment.country.RelatedContentFragment;
 
 import dagger.Component;
 
@@ -50,4 +51,6 @@ public interface DataComponent extends ActivityComponent {
     void inject(QuestionDetailActivity pActivity);
 
     void inject(VideoDetailActivity pActivity);
+
+    void inject(RelatedContentFragment pFragment);
 }

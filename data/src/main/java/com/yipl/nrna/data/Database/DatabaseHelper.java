@@ -39,6 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(MyConstants.DATABASE.TABLE_QUESTION.CREATE_TABLE_QUESTION);
         db.execSQL(MyConstants.DATABASE.TABLE_POST_QUESTION.CREATE_TABLE_POST_QUESTION);
         db.execSQL(MyConstants.DATABASE.TABLE_COUNTRY.CREATE_TABLE_COUNTRY);
+        db.execSQL(MyConstants.DATABASE.TABLE_POST_COUNTRY.CREATE_TABLE_POST_COUNTRY);
         Log.i("database", "database created");
     }
 
