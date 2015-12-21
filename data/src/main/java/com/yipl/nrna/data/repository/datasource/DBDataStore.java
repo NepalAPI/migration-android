@@ -4,6 +4,7 @@ import com.yipl.nrna.data.Database.DatabaseDao;
 import com.yipl.nrna.data.entity.CountryEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
+import com.yipl.nrna.domain.model.Post;
 
 import java.util.List;
 
@@ -53,6 +54,10 @@ public class DBDataStore implements IDataStore {
 
     public Observable<CountryEntity> getCountryById(long pId) {
         return database.getCountryById(pId);
+    }
+
+    public Observable<List<PostEntity>> getPostByCountry(Long pId){
+        return database.getPostByCountry(pId);
     }
 
 }

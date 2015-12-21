@@ -55,4 +55,9 @@ public class LatestContentRepository implements IRepository<LatestContent> {
     public Observable<List<LatestContent>> getListByQuestionAndType(Long pId) {
         return null;
     }
+
+    @Override
+    public Observable<List<LatestContent>> getListByCountry(Long pId) {
+        return null;
+    }
 }

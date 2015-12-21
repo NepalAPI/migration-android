@@ -198,5 +198,18 @@ public class MyConstants {
                     " );";
         }
 
+        public static class TABLE_POST_COUNTRY{
+
+            public static String TABLE_NAME = "tbl_post_country";
+            public static String COLUMN_ID = "id";
+            public static String COLUMN_POST_ID = "post_id";
+            public static String COLUMN_COUNTRY_ID = "country_id";
+
+            public static String CREATE_TABLE_POST_COUNTRY = "Create table " + TABLE_NAME + "( "+
+                    COLUMN_ID + TYPE_INTEGER + " primary key AUTOINCREMENT" + COMMA +
+                    COLUMN_POST_ID + TYPE_INTEGER +COMMA +
+                    COLUMN_COUNTRY_ID + TYPE_INTEGER +
+                    " );";
+        }
     }
 }

@@ -26,6 +26,8 @@ import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_COUNTRY;
 import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_POST;
 import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_POST_QUESTION;
 import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_QUESTION;
+import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_POST_COUNTRY;
+
 
 /**
  * Created by Nirazan-PC on 12/9/2015.
@@ -182,6 +184,29 @@ public class DatabaseDao {
             }
         };
 
+        return makeObservable(c);
+    }
+
+    public Observable<List<PostEntity>> getPostByCountry(Long countryId){
+
+        String query = "Select p.* from " +
+                TABLE_POST.TABLE_NAME + " p join " + TABLE_POST_COUNTRY.TABLE_NAME +
+                " pc on p." +TABLE_POST.COLUMN_ID + " = pc." + TABLE_POST_COUNTRY.COLUMN_POST_ID +
+                " join " + TABLE_COUNTRY.TABLE_NAME + " c on c." + TABLE_COUNTRY.COLUMN_ID + " = pc."+
+                TABLE_POST_COUNTRY.COLUMN_COUNTRY_ID + " where c."+ TABLE_COUNTRY.COLUMN_ID + " = "+ countryId;
+
+        Cursor cursor = db.rawQuery(query, null);
+        Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
+            @Override
+            public List<PostEntity> call() throws Exception {
+                List<PostEntity> posts = new ArrayList<PostEntity>();
+                while (cursor.moveToNext()) {
+                    posts.add(mapCursorToPostEntity(cursor));
+                }
+                cursor.close();
+                return posts;
+            }
+        };
         return makeObservable(c);
     }
 
@@ -359,6 +384,7 @@ public class DatabaseDao {
     public long saveOnePost(PostEntity post) {
         long insertId = db.insert(TABLE_POST.TABLE_NAME, null, getContentValues(post));
         savePostQuestionRelation(post.getId(), post.getQuestionIdList());
+        savePostCountryRelation(post.getId(), post.getCountryIdList());
         return insertId;
     }
 
@@ -376,6 +402,19 @@ public class DatabaseDao {
                     values.put(TABLE_POST_QUESTION.COLUMN_POST_ID, postId);
                     values.put(TABLE_POST_QUESTION.COLUMN_QUESTION_ID, id);
                     db.insert(TABLE_POST_QUESTION.TABLE_NAME, null, values);
+                }
+            }
+        }
+    }
+    
+    public void savePostCountryRelation(Long postId, List<Long> countryIds){
+        if(countryIds != null){
+            for(Long id: countryIds){
+                if(id!= null){
+                    ContentValues values = new ContentValues();
+                    values.put(TABLE_POST_COUNTRY.COLUMN_POST_ID, postId);
+                    values.put(TABLE_POST_COUNTRY.COLUMN_COUNTRY_ID, id);
+                    db.insert(TABLE_POST_COUNTRY.TABLE_NAME, null, values);
                 }
             }
         }
@@ -466,7 +505,7 @@ public class DatabaseDao {
         values.put(TABLE_POST.COLUMN_SOURCE, pPost.getSource());
         values.put(TABLE_POST.COLUMN_DESCRIPTION, pPost.getDescription());
         values.put(TABLE_POST.COLUMN_TITLE, pPost.getTitle());
-        values.put(TABLE_POST.COLUMN_STAGE, pPost.getStage());
+        values.put(TABLE_POST.COLUMN_STAGE, gson.toJson(pPost.getStage()));
         return values;
     }
 

@@ -15,12 +15,15 @@ public class PostEntity {
     Long updatedAt;
     @SerializedName("question_ids")
     List<Long> questionIdList;
+    //// TODO: 12/21/2015 change serialized name as per api
+    @SerializedName("country_ids")
+    List<Long> countryIdList;
     List<String> tags;
     String language;
     String type;
     String source;
     String description;
-    String stage;
+    List<String> stage;
     String title;
     PostDataEntity data;
 
@@ -112,11 +115,15 @@ public class PostEntity {
         this.type = type;
     }
 
-    public String getStage() {
+    public List<String> getStage() {
         return stage;
     }
 
-    public void setStage(String pStage) {
+    public void setStage(List<String> pStage) {
         stage = pStage;
     }
+
+    public List<Long> getCountryIdList(){ return this.countryIdList; }
+
+    public void setCountryIdList(List<Long> pQuestionIdList){ this.questionIdList = pQuestionIdList; }
 }

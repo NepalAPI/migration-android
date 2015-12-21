@@ -20,7 +20,7 @@ public class Post extends BaseModel {
     String mTitle;
     String type;
     PostData mData;
-    String stage;
+    List<String> stage;
 
     public static List<Post> getDummyPosts(String pType) {
         List<Post> list = new ArrayList<>();
@@ -124,11 +124,11 @@ public class Post extends BaseModel {
         type = pType;
     }
 
-    public String getStage() {
+    public List<String> getStage() {
         return stage;
     }
 
-    public void setStage(String pStage) {
+    public void setStage(List<String> pStage) {
         stage = pStage;
     }
 

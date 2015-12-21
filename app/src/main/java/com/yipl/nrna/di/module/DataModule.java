@@ -111,7 +111,7 @@ public class DataModule {
     UseCase providePostListUseCase(@Named("post") IRepository pDataRepository, ThreadExecutor
             pThreadExecutor,
                                    PostExecutionThread pPostExecutionThread) {
-        return new GetPostListUseCase(mLimit, mPostType, mStage, pDataRepository, pThreadExecutor,
+        return new GetPostListUseCase(mLimit,mId, mPostType, mStage, pDataRepository, pThreadExecutor,
                 pPostExecutionThread);
     }
 

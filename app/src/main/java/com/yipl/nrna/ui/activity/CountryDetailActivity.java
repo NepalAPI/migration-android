@@ -1,6 +1,7 @@
 package com.yipl.nrna.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -16,17 +17,29 @@ import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
+import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Country;
+import com.yipl.nrna.domain.model.Post;
+import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.CountryDetailActivityPresenter;
 import com.yipl.nrna.ui.adapter.CountryInfoPagerAdapter;
 import com.yipl.nrna.ui.interfaces.CountryDetailActivityView;
+import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
+
+import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 
-public class CountryDetailActivity extends BaseActivity implements CountryDetailActivityView {
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_COUNTRY;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_QUESTION;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_VIDEO;
+
+public class CountryDetailActivity extends BaseActivity implements CountryDetailActivityView,ListClickCallbackInterface {
 
     public Country mCountry;
     Long mId;
@@ -134,5 +147,40 @@ public class CountryDetailActivity extends BaseActivity implements CountryDetail
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public void onListItemSelected(BaseModel pModel) {
+        Intent intent = null;
+        switch (pModel.getDataType()) {
+            case TYPE_TEXT:
+            default:
+                intent = new Intent(this, ArticleDetailActivity.class);
+                intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
+                break;
+            case TYPE_COUNTRY:
+                intent = new Intent(this, CountryDetailActivity.class);
+                intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
+                break;
+            case TYPE_QUESTION:
+                intent = new Intent(this, QuestionDetailActivity.class);
+                intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
+                intent.putExtra(MyConstants.Extras.KEY_TITLE, ((Question) pModel).getTitle());
+                break;
+            case TYPE_VIDEO:
+                intent = new Intent(this, VideoDetailActivity.class);
+                intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
+                intent.putExtra(MyConstants.Extras.KEY_TITLE, ((Post) pModel).getTitle());
+                break;
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    public void onAudioItemSelected(List<Post> pAudios, int index) {
+        Intent intent = new Intent(this, AudioDetailActivity.class);
+        intent.putExtra(MyConstants.Extras.KEY_AUDIO_LIST, (Serializable) pAudios);
+        intent.putExtra(MyConstants.Extras.KEY_AUDIO_SELECTION, index);
+        startActivity(intent);
     }
 }

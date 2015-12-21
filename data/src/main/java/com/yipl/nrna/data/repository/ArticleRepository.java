@@ -57,4 +57,9 @@ public class ArticleRepository implements IRepository<Post> {
                 postEntities -> mDataMapper.transformPost(postEntities)
         );
     }
+
+    @Override
+    public Observable<List<Post>> getListByCountry(Long pId) {
+        return null;
+    }
 }
