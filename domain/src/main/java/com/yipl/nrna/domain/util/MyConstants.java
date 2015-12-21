@@ -1,5 +1,7 @@
 package com.yipl.nrna.domain.util;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 /**
  * Created by julian on 12/9/15.
  */
@@ -209,6 +211,17 @@ public class MyConstants {
                     COLUMN_ID + TYPE_INTEGER + " primary key AUTOINCREMENT" + COMMA +
                     COLUMN_POST_ID + TYPE_INTEGER +COMMA +
                     COLUMN_COUNTRY_ID + TYPE_INTEGER +
+                    " );";
+        }
+
+        public static class TABLE_TAGS{
+            public static String TABLE_NAME = "tbl_tags";
+            public static String COLUUMN_ID = "id";
+            public static String COLUMN_TAG = "tag";
+
+            public static String CREATE_TABLE_TAGS = "Create table " + TABLE_NAME + "( "+
+                    COLUUMN_ID + TYPE_INTEGER + " primary key AUTOINCREMENT " + COMMA +
+                    COLUMN_TAG + TYPE_TEXT + " UNIQUE " +
                     " );";
         }
     }
