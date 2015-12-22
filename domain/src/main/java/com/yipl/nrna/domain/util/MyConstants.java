@@ -1,7 +1,5 @@
 package com.yipl.nrna.domain.util;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
-
 /**
  * Created by julian on 12/9/15.
  */
@@ -50,6 +48,11 @@ public class MyConstants {
         public static final String PREF_NAME = "nrna_app_preferences";
 
         public static final String LAST_UPDATE_STAMP = "last_update_stamp";
+    }
+
+    public static final class Language{
+        public static final int ENGLISH = 0;
+        public static final int NEPALI = 1;
     }
 
     public static final class API {

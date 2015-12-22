@@ -53,6 +53,9 @@ public class AudioDetailActivity extends FacebookActivity implements
     SeekBar seekbar;
     @Bind(R.id.title)
     TextView title;
+    @Bind(R.id.description)
+    TextView description;
+
     private MediaService mService;
     private Intent mPlayIntent;
     private boolean mMusicBound = false;
@@ -84,6 +87,8 @@ public class AudioDetailActivity extends FacebookActivity implements
             if (mService != null) {
                 long[] lengths = mService.getSongLengths();
                 if (lengths != null) {
+                    Logger.e("AudioDetailActivity_updateSeekTime", "lengths: " + lengths[0] + "/" +
+                            lengths[1] );
                     currentTime.setText(MediaHelper.getFormattedTime(lengths[0]));
                     totalTime.setText(MediaHelper.getFormattedTime(lengths[1]));
                     int progress = MediaHelper.getProgressPercentage(lengths[0], lengths[1]);
@@ -158,6 +163,7 @@ public class AudioDetailActivity extends FacebookActivity implements
     @Override
     public void onPause() {
         super.onPause();
+        seekbar.removeCallbacks(updateSeekTime);
         if (mediaReceiver != null)
             unregisterReceiver(mediaReceiver);
     }
@@ -165,6 +171,7 @@ public class AudioDetailActivity extends FacebookActivity implements
     @Override
     public void onResume() {
         super.onResume();
+        updateSeekBar();
         receiverFilter.addAction(MyConstants.Media.ACTION_MEDIA_BUFFER_START);
         receiverFilter.addAction(MyConstants.Media.ACTION_MEDIA_BUFFER_STOP);
         receiverFilter.addAction(MyConstants.Media.ACTION_STATUS_PREPARED);
@@ -215,7 +222,6 @@ public class AudioDetailActivity extends FacebookActivity implements
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        seekbarHandler.removeCallbacks(updateSeekTime);
         mService.seekTo(seekBar.getProgress());
         updateSeekBar();
     }
@@ -259,7 +265,7 @@ public class AudioDetailActivity extends FacebookActivity implements
     @Override
     public void onMediaChanged(Post pTrack) {
         updateView(pTrack);
-        //seekbarHandler.removeCallbacks(updateSeekTime);
+        seekbarHandler.removeCallbacks(updateSeekTime);
     }
 
     @Override
@@ -273,6 +279,7 @@ public class AudioDetailActivity extends FacebookActivity implements
 
     private void updateView(Post pPost) {
         title.setText(pPost.getTitle());
+        description.setText(pPost.getDescription());
     }
 
     private void disablePlayerControls() {

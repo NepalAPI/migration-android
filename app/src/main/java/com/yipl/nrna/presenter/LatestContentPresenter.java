@@ -86,7 +86,7 @@ public class LatestContentPresenter implements Presenter {
                 long timestamp = Calendar.getInstance().getTimeInMillis();
                 Logger.d("LatestContentSubscriber_onNext", "timestamp: " + (timestamp / 1000l));
                 ((MainActivity) mView).getPreferences().setLastUpdateStamp((timestamp / 1000L) -
-                        1000);
+                        2000);
                 if (!pLatestContent.getPosts().isEmpty() && !pLatestContent.getQuestions()
                         .isEmpty())
                     LatestContentPresenter.this.mView.informCurrentFragmentForUpdate();

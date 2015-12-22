@@ -39,7 +39,7 @@ import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_QUESTION;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_VIDEO;
 
-public class CountryDetailActivity extends BaseActivity implements CountryDetailActivityView,ListClickCallbackInterface {
+public class CountryDetailActivity extends BaseActivity implements CountryDetailActivityView, ListClickCallbackInterface {
 
     public Country mCountry;
     Long mId;
@@ -92,7 +92,7 @@ public class CountryDetailActivity extends BaseActivity implements CountryDetail
     @Override
     public void renderCountryDetail(Country pCountry) {
         mCountry = pCountry;
-        mImage.setImageURI(Uri.parse(mCountry.getImage()));
+        mImage.setImageURI(Uri.parse(pCountry.getImage()));
         mAdapter = new CountryInfoPagerAdapter(getSupportFragmentManager(), this, mCountry);
         mViewPager.setAdapter(mAdapter);
         mTabs.setupWithViewPager(mViewPager);

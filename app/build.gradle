@@ -8,7 +8,7 @@ android {
     buildToolsVersion globalConfig.getAt("androidBuildToolsVersion")
 
     defaultConfig {
-        applicationId "com.yipl.nrna"
+        applicationId "com.taf.migration"
         minSdkVersion globalConfig.getAt("androidMinSdkVersion")
         targetSdkVersion globalConfig.getAt("androidTargetSdkVersion")
         versionCode 1
@@ -42,6 +42,7 @@ dependencies {
 
     compile appDependencies.supportv4
     compile appDependencies.appCompatv7
+    compile appDependencies.palette
     compile appDependencies.designSupport
 
     compile appDependencies.butterKnife
