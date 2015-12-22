@@ -27,6 +27,7 @@ import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_POST;
 import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_POST_QUESTION;
 import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_QUESTION;
 import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_POST_COUNTRY;
+import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_TAGS;
 
 
 /**
@@ -346,6 +347,24 @@ public class DatabaseDao {
         return makeObservable(callable);
     }
 
+    public Observable<List<String>> getTags(){
+        String query = "Select "+ TABLE_TAGS.COLUMN_TAG + " from " + TABLE_TAGS.TABLE_NAME;
+        Cursor cursor = db.rawQuery(query, null);
+
+        Callable<List<String>> callable =  new Callable<List<String>>() {
+            @Override
+            public List<String> call() throws Exception {
+                List<String> tagsList = new ArrayList<>();
+                while(cursor.moveToNext()){
+                    tagsList.add(cursor.getString(0));
+                }
+                cursor.close();
+                return tagsList;
+            }
+        };
+        return makeObservable(callable);
+    }
+
     /*======= Save Operations ==========*/
 
     public void insertUpdate(LatestContentEntity pLatestContent) {
@@ -373,7 +392,7 @@ public class DatabaseDao {
         cursor.moveToNext();
         long count = cursor.getLong(0);
         cursor.close();
-
+        saveTags(pPost.getTags());
         if (count > 0) {
             return updateOnePost(pPost);
         } else {
@@ -420,6 +439,27 @@ public class DatabaseDao {
         }
     }
 
+    public void saveTags(List<String> pTagList){
+
+        if(pTagList != null) {
+            for(String tag: pTagList) {
+                if(tag!= null) {
+                    String query = "Select count(*) as count from " + TABLE_TAGS.TABLE_NAME +
+                            " where " + TABLE_TAGS.COLUMN_TAG + " = '" + tag + "'";
+
+                    Cursor cursor = db.rawQuery(query, null);
+                    cursor.moveToFirst();
+                    Integer count = cursor.getInt(0);
+                    if (count == 0) {
+                        ContentValues values = new ContentValues();
+                        values.put(TABLE_TAGS.COLUMN_TAG, tag);
+                        db.insert(TABLE_TAGS.TABLE_NAME, null, values);
+                    }
+                }
+            }
+        }
+    }
+
     public void saveAllQuestion(List<QuestionEntity> questions) {
 
         if (questions != null) {
@@ -440,7 +480,7 @@ public class DatabaseDao {
         cursor.moveToNext();
         long count = cursor.getLong(0);
         cursor.close();
-
+        saveTags(pQuestion.getTags());
         if (count > 0) {
             return updateOneQuestion(pQuestion);
         } else {
