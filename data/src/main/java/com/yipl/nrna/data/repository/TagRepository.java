@@ -25,8 +25,7 @@ public class TagRepository implements IRepository<String> {
 
     @Override
     public Observable<List<String>> getList(int pLimit) {
-        //return mDataStoreFactory.createDBDataStore().getTags().asObservable();
-        return null;
+        return mDataStoreFactory.createDBDataStore().getTags().asObservable();
     }
 
     @Override

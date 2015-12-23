@@ -1,30 +1,26 @@
 package com.yipl.nrna.ui.fragment;
 
-import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
-import com.yipl.nrna.presenter.ArticleListFragmentPresenter;
 import com.yipl.nrna.presenter.FilterDialogFragmentPresenter;
+import com.yipl.nrna.ui.interfaces.FilterDialogCallbackInterface;
 import com.yipl.nrna.ui.interfaces.FilterDialogFragmentView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -35,7 +31,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Nirazan-PC on 12/22/2015.
  */
-public class FilterDialogFragment extends DialogFragment implements FilterDialogFragmentView {
+public class FilterDialogFragment extends DialogFragment implements FilterDialogFragmentView, View.OnClickListener {
 
     @Inject
     FilterDialogFragmentPresenter mPresenter;
@@ -51,6 +47,8 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
     @Bind(R.id.btnCancel)
     Button btnCancel;
     List<CheckBox> tagCheckbox;
+
+    FilterDialogCallbackInterface mCallbackInterface;
 
     public FilterDialogFragment(){
 
@@ -77,7 +75,6 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-
         initialize();
         loadTags();
     }
@@ -90,6 +87,10 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
                 .build()
                 .inject(this);
         mPresenter.attachView(this);
+        tagCheckbox = new ArrayList<>();
+        btnFilter.setOnClickListener(this);
+        btnCancel.setOnClickListener(this);
+        mCallbackInterface = (FilterDialogCallbackInterface) getTargetFragment();
     }
 
     private void loadTags() {
@@ -102,14 +103,38 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
 
     @Override
     public void renderTags(List<String> tagsList) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         if(tagsList != null){
             for(String tag:tagsList){
                 CheckBox checkBox = new CheckBox(getContext());
                 checkBox.setText(tag);
                 tagCheckbox.add(checkBox);
-                tagsContainer.addView(checkBox);
+                tagsContainer.addView(checkBox, params);
             }
         }
+        restoreLastChoices();
+    }
+
+    private void restoreLastChoices() {
+        List<String> lastTagChoices = ((BaseActivity) getActivity()).getPreferences().getFilterTagChoices();
+        List<String> lastStageChoices = ((BaseActivity) getActivity()).getPreferences().getFilterStageChoices();
+        if(lastStageChoices != null) {
+            for (String choice : lastTagChoices) {
+                for (CheckBox checkBox : tagCheckbox) {
+                    if (choice.equals(checkBox.getText().toString()))
+                        checkBox.setChecked(true);
+                }
+            }
+        }
+        if(lastTagChoices != null) {
+            for (String choice : lastStageChoices) {
+                for (CheckBox checkBox : stageCheckbox) {
+                    if (choice.equals(checkBox.getText().toString()))
+                        checkBox.setChecked(true);
+                }
+            }
+        }
+
     }
 
     @Override
@@ -174,5 +199,32 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
     @Override
     public void hideEmptyView() {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.btnFilter:
+                List<String> tagFilter = new ArrayList<>();
+                List<String> stageFilter = new ArrayList<>();
+                for(CheckBox checkBox:stageCheckbox){
+                    if(checkBox.isChecked()){
+                        stageFilter.add(checkBox.getText().toString());
+                    }
+                }
+                for (CheckBox checkBox:tagCheckbox){
+                    if(checkBox.isChecked()){
+                        tagFilter.add(checkBox.getText().toString());
+                    }
+                }
+                ((BaseActivity) getActivity()).getPreferences().setFilterTagChoices(tagFilter);
+                ((BaseActivity) getActivity()).getPreferences().setFilterStageChoices(stageFilter);
+                mCallbackInterface.filterContentList(stageFilter, tagFilter);
+                this.dismiss();
+                break;
+            case R.id.btnCancel:
+                this.dismiss();
+                break;
+        }
     }
 }

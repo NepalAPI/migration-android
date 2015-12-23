@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
+import com.yipl.nrna.base.ContentListFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
@@ -33,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Nirazan-PC on 12/11/2015.
  */
-public class AudioListFragment extends BaseFragment implements AudioListView {
+public class AudioListFragment extends ContentListFragment implements AudioListView {
 
     @Inject
     AudioListFragmentPresenter mPresenter;
@@ -46,8 +47,6 @@ public class AudioListFragment extends BaseFragment implements AudioListView {
     ProgressBar mProgressBar;
     @Bind(R.id.data_container)
     RelativeLayout mContainer;
-
-    private ListAdapter<Post> mListAdapter;
     private Long mQuestionId = Long.MIN_VALUE;
 
     public AudioListFragment() {
@@ -193,6 +192,7 @@ public class AudioListFragment extends BaseFragment implements AudioListView {
     @Override
     public void renderAudiolist(List<Post> pAudios) {
         if (pAudios != null) {
+            mPosts = pAudios;
             tvNoAudio.setVisibility(View.GONE);
             mListAdapter.setDataCollection(pAudios);
         }

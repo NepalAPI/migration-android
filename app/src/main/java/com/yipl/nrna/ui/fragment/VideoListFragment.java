@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
-import com.yipl.nrna.base.BaseFragment;
+import com.yipl.nrna.base.ContentListFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Nirazan-PC on 12/14/2015.
  */
-public class VideoListFragment extends BaseFragment implements VideoListView {
+public class VideoListFragment extends ContentListFragment implements VideoListView {
 
     @Inject
     VideoListFragmentPresenter mPresenter;
@@ -46,7 +46,6 @@ public class VideoListFragment extends BaseFragment implements VideoListView {
     @Bind(R.id.data_container)
     RelativeLayout mContainer;
 
-    private ListAdapter<Post> mListAdapter;
     private Long mQuestionId = Long.MIN_VALUE;
 
     public VideoListFragment() {
@@ -191,6 +190,7 @@ public class VideoListFragment extends BaseFragment implements VideoListView {
 
     @Override
     public void renderVideoList(List<Post> pVideos) {
+        mPosts = pVideos;
         mListAdapter.setDataCollection(pVideos);
     }
 }

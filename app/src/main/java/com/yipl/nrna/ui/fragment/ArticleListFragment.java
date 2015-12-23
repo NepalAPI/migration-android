@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
+import com.yipl.nrna.base.ContentListFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
@@ -26,9 +27,11 @@ import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.ArticleListFragmentPresenter;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.ArticleListView;
+import com.yipl.nrna.ui.interfaces.FilterDialogCallbackInterface;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,7 +42,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Nirazan-PC on 12/14/2015.
  */
-public class ArticleListFragment extends BaseFragment implements ArticleListView {
+public class ArticleListFragment extends ContentListFragment implements ArticleListView {
 
     @Inject
     ArticleListFragmentPresenter mPresenter;
@@ -54,8 +57,6 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
     RelativeLayout mContainer;
 
     Long mQuestionId = Long.MIN_VALUE;
-
-    private ListAdapter<Post> mListAdapter;
 
     public ArticleListFragment() {
         super();
@@ -128,28 +129,7 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
         mPresenter.destroy();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_filter, menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_filter){
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment prev = getChildFragmentManager().findFragmentByTag("dialog");
-            if (prev != null) {
-                ft.remove(prev);
-            }
-            ft.addToBackStack(null);
-
-            FilterDialogFragment newFragment = FilterDialogFragment.newInstance();
-            newFragment.show(ft, "dialog");
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private void loadArticleList() {
         mPresenter.initialize();
@@ -182,6 +162,7 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
 
     @Override
     public void renderArticleList(List<Post> pPosts) {
+        mPosts = pPosts;
         mListAdapter.setDataCollection(pPosts);
     }
 
@@ -224,4 +205,6 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
     public void hideEmptyView() {
         tvNoArticle.setVisibility(View.INVISIBLE);
     }
+
+
 }

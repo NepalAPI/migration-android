@@ -22,10 +22,10 @@
     <string name="latest_videos">latest videos</string>
     <string name="latest_articles">latest articles</string>
 
-    <string name="stage_pre_application">Pre-application</string>
-    <string name="stage_application">Application</string>
-    <string name="stage_work_permit">Work permit</string>
-    <string name="stage_destination_country">Destination country</string>
+    <string name="stage_pre_application">pre-application</string>
+    <string name="stage_application">applying</string>
+    <string name="stage_work_permit">work-permit</string>
+    <string name="stage_destination_country">destination-country</string>
 
     <string-array name="stages">
         <item>Pre-application</item>

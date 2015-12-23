@@ -33,4 +33,10 @@ public abstract class BaseFragment extends Fragment {
     public void showNewContentInfo() {
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((BaseActivity) getActivity()).getPreferences().removeFilterChoices();
+    }
 }
