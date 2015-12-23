@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,46 +10,32 @@
     tools:context="com.yipl.nrna.ui.activity.AudioDetailActivity"
     tools:showIn="@layout/activity_audio_detail">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/text_color_primary"
-        android:textSize="@dimen/text_large"/>
-
     <LinearLayout
-        android:id="@+id/playerControls"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="@dimen/spacing_standard">
-        <!--TODO : -->
-        <ImageView
-            android:id="@+id/prev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/spacing_small"
-            android:src="@android:drawable/ic_media_previous"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/play"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/spacing_large"
-            android:layout_marginRight="@dimen/spacing_large"
-            android:background="@drawable/play_button_bg"
-            android:src="@android:drawable/ic_media_pause"/>
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_large"
+            android:textStyle="bold"/>
 
-        <ImageView
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/spacing_small"
-            android:src="@android:drawable/ic_media_next"/>
+            android:layout_marginTop="@dimen/spacing_small"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_default"
+            android:text=""
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sit amet lectus ut urna pulvinar iaculis in vel erat. Phasellus et magna vel turpis vulputate dictum. In fermentum sagittis eros iaculis posuere. Praesent velit diam, efficitur sed pellentesque eget, viverra quis arcu. Vestibulum sagittis nulla at nulla bibendum hendrerit. Donec aliquet libero est, sed volutpat nisl ultricies vitae. Sed non elementum nunc, et malesuada nulla. Suspendisse eu felis maximus, auctor purus sit amet, pretium dolor.
+
+Ut accumsan justo vel neque tempus, in fermentum massa fringilla. In eu libero non nisl rutrum dignissim. Proin id euismod eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent in dui nec orci bibendum vulputate a vitae lacus. Sed lobortis sem vel egestas luctus. Donec non dui aliquet risus finibus pellentesque id sed massa. Ut diam metus, malesuada et cursus sed, ultricies sed odio.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sit amet lectus ut urna pulvinar iaculis in vel erat. Phasellus et magna vel turpis vulputate dictum. In fermentum sagittis eros iaculis posuere. Praesent velit diam, efficitur sed pellentesque eget, viverra quis arcu. Vestibulum sagittis nulla at nulla bibendum hendrerit. Donec aliquet libero est, sed volutpat nisl ultricies vitae. Sed non elementum nunc, et malesuada nulla. Suspendisse eu felis maximus, auctor purus sit amet, pretium dolor.
+
+Ut accumsan justo vel neque tempus, in fermentum massa fringilla. In eu libero non nisl rutrum dignissim. Proin id euismod eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent in dui nec orci bibendum vulputate a vitae lacus. Sed lobortis sem vel egestas luctus. Donec non dui aliquet risus finibus pellentesque id sed massa. Ut diam metus, malesuada et cursus sed, ultricies sed odio."/>
     </LinearLayout>
-
-</RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

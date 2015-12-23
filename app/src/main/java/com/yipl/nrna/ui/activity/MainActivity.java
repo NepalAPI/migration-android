@@ -71,8 +71,8 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        initLanguage();
         super.onCreate(savedInstanceState);
-
         initialize();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -86,6 +86,7 @@ public class MainActivity extends BaseActivity implements
         mNavigationView.setItemIconTintList(Utils.getIconColorTint(getResources().getColor(R.color
                 .white_alpha_70), Color.WHITE));
 
+        getSupportActionBar().setTitle(getString(R.string.title_home));
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.main_content, new HomeFragment(), "home_fragment")
                 .commit();
@@ -101,6 +102,10 @@ public class MainActivity extends BaseActivity implements
                 .build()
                 .inject(this);
         mLatestContentPresenter.attachView(this);
+    }
+
+    private void initLanguage(){
+        Utils.setLanguage(MyConstants.Language.NEPALI, getContext());
     }
 
     @Override
@@ -150,37 +155,44 @@ public class MainActivity extends BaseActivity implements
     public void showFragment(int id) {
         switch (id) {
             case R.id.nav_home:
+                getSupportActionBar().setTitle(getString(R.string.title_home));
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new HomeFragment(), "home_fragment")
                         .commit();
                 break;
             case R.id.nav_audios:
+                getSupportActionBar().setTitle(getString(R.string.title_audio));
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new AudioListFragment(), "audio_fragment")
                         .commit();
                 break;
             case R.id.nav_videos:
+                getSupportActionBar().setTitle(getString(R.string.title_video));
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new VideoListFragment(), "video_fragment")
                         .commit();
                 break;
             case R.id.nav_articles:
+                getSupportActionBar().setTitle(getString(R.string.title_article));
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new ArticleListFragment(), "article_fragment")
                         .commit();
                 break;
             case R.id.nav_info_center:
+                getSupportActionBar().setTitle(getString(R.string.title_info_center));
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new InfoCenterFragment(),
                                 "info_center_fragment")
                         .commit();
                 break;
             case R.id.nav_questions:
+                getSupportActionBar().setTitle(getString(R.string.title_questions));
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new QuestionListFragment(), "question_fragment")
                         .commit();
                 break;
             case R.id.nav_countries:
+                getSupportActionBar().setTitle(getString(R.string.title_countries));
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new CountryListFragment(), "country_fragment")
                         .commit();

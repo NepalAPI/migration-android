@@ -8,8 +8,8 @@ import java.text.DecimalFormat;
 public class MediaHelper {
     public static int getProgressPercentage(long currentDuration, long totalDuration) {
         Double percentage = 0.0;
-        long currentSeconds = (int) (currentDuration / 1000);
-        long totalSeconds = (int) (totalDuration / 1000);
+        double currentSeconds = (double) (currentDuration / 1000);
+        double totalSeconds = (double) (totalDuration / 1000);
         percentage = (((double) currentSeconds) / totalSeconds) * 100;
         return percentage.intValue();
     }
