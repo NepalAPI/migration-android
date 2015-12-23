@@ -1,8 +1,11 @@
 package com.yipl.nrna.ui.fragment;
 
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -133,10 +136,18 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        if(item.getItemId() == R.id.action_filter){
-//            FilterDialogFragment dialogFragment = new FilterDialogFragment();
-//            dialogFragment.show(getFragmentManager(),"filter_dialog");
-//        }
+        if(item.getItemId() == R.id.action_filter){
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            Fragment prev = getChildFragmentManager().findFragmentByTag("dialog");
+            if (prev != null) {
+                ft.remove(prev);
+            }
+            ft.addToBackStack(null);
+
+            FilterDialogFragment newFragment = FilterDialogFragment.newInstance();
+            newFragment.show(ft, "dialog");
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

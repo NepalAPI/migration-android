@@ -20,6 +20,7 @@ public abstract class BaseFragment extends Fragment {
     Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
         ButterKnife.bind(this, view);
+        setHasOptionsMenu(true);
         return view;
     }
 

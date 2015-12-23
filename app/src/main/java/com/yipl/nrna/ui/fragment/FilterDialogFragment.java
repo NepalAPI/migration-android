@@ -7,8 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -18,6 +21,7 @@ import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
+import com.yipl.nrna.presenter.ArticleListFragmentPresenter;
 import com.yipl.nrna.presenter.FilterDialogFragmentPresenter;
 import com.yipl.nrna.ui.interfaces.FilterDialogFragmentView;
 
@@ -34,14 +38,18 @@ import butterknife.ButterKnife;
 public class FilterDialogFragment extends DialogFragment implements FilterDialogFragmentView {
 
     @Inject
-    private FilterDialogFragmentPresenter mPresenter;
-//
-//    @Bind({R.id.checkBoxStage0, R.id.checkBoxStage1, R.id.checkBoxStage2, R.id.checkBoxStage3})
-//    List<CheckBox> stageCheckbox;
-    @Bind(R.id.progressBar)
+    FilterDialogFragmentPresenter mPresenter;
+
+    @Bind({R.id.checkBoxStage0, R.id.checkBoxStage1, R.id.checkBoxStage2, R.id.checkBoxStage3})
+    List<CheckBox> stageCheckbox;
+    @Bind(R.id.tagProgressBar)
     ProgressBar mProgressBar;
     @Bind(R.id.tagsContainer)
     LinearLayout tagsContainer;
+    @Bind(R.id.btnFilter)
+    Button btnFilter;
+    @Bind(R.id.btnCancel)
+    Button btnCancel;
     List<CheckBox> tagCheckbox;
 
     public FilterDialogFragment(){
@@ -57,13 +65,19 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.dialog_frgment_filter, container, false);
-        ButterKnife.bind(this, v);
         return v;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+
         initialize();
         loadTags();
     }
@@ -88,14 +102,14 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
 
     @Override
     public void renderTags(List<String> tagsList) {
-        /*if(tagsList != null){
+        if(tagsList != null){
             for(String tag:tagsList){
                 CheckBox checkBox = new CheckBox(getContext());
                 checkBox.setText(tag);
                 tagCheckbox.add(checkBox);
                 tagsContainer.addView(checkBox);
             }
-        }*/
+        }
     }
 
     @Override
