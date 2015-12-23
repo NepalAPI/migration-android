@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -120,6 +123,21 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
     public void onDestroy() {
         super.onDestroy();
         mPresenter.destroy();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_filter, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+//        if(item.getItemId() == R.id.action_filter){
+//            FilterDialogFragment dialogFragment = new FilterDialogFragment();
+//            dialogFragment.show(getFragmentManager(),"filter_dialog");
+//        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadArticleList() {

@@ -2,4 +2,63 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="facebook_app_id">902864043138819</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_sync">Sync</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_share">Share On Facebook</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_info_center">Information Center</string>
+    <string name="title_countries">Destination Countries</string>
+    <string name="title_audio">Audios / Podcasts</string>
+    <string name="title_video">Videos</string>
+    <string name="title_article">Articles</string>
+    <string name="title_questions">Your questions our solutions</string>
+
+    <string name="see_all_questions">See All Questions</string>
+    <string name="latest_audios">latest audios / podcasts</string>
+    <string name="latest_videos">latest videos</string>
+    <string name="latest_articles">latest articles</string>
+
+    <string name="stage_pre_application">Pre-application</string>
+    <string name="stage_application">Application</string>
+    <string name="stage_work_permit">Work permit</string>
+    <string name="stage_destination_country">Destination country</string>
+
+    <string-array name="stages">
+        <item>Pre-application</item>
+        <item>Application</item>
+        <item>Work permit</item>
+        <item>Destination country</item>
+    </string-array>
+
+    <string-array name="country_info">
+        <item>About</item>
+        <item>Content</item>
+    </string-array>
+
+    <string name="message_fetching_latest_content">Fetching latest content...</string>
+    <string name="message_content_available">New content available...</string>
+    <string name="error_message_no_metadata">Unable to retrieve meta-data.</string>
+    <string name="exception_message_generic">Error encountered.</string>
+    <string name="exception_message_no_connection">Please check your internet connection.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_audio">No Audio / Podcasts Available</string>
+    <string name="empty_video">No Videos Available</string>
+    <string name="empty_article">No Articles Available</string>
+    <string name="empty_country">No Countries Available</string>
+    <string name="empty_info">No information available for %1$s stage.</string>
+    <string name="empty_question">No Question Available</string>
+    <string name="title_activity_country_detail">CountryDetailActivity</string>
+    <string name="title_activity_question_detail">QuestionDetailActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    
+    <string name="empty_related_content">No Related Content Available</string>
+    <string name="filter_by_stage">Filter By Stage</string>
+    <string name="filter_by_tag">Filter By Tags</string>
+    <string name="menu_filter">Filter</string>
+>>>>>>> work in progress
 </resources>

@@ -11,6 +11,7 @@ import com.yipl.nrna.data.repository.CountryRepository;
 import com.yipl.nrna.data.repository.LatestContentRepository;
 import com.yipl.nrna.data.repository.PostRepository;
 import com.yipl.nrna.data.repository.QuestionRepository;
+import com.yipl.nrna.data.repository.TagRepository;
 import com.yipl.nrna.data.repository.VideoRepository;
 import com.yipl.nrna.data.repository.datasource.DataStoreFactory;
 import com.yipl.nrna.domain.executor.PostExecutionThread;
@@ -26,6 +27,7 @@ import com.yipl.nrna.domain.interactor.GetPostDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetPostListUseCase;
 import com.yipl.nrna.domain.interactor.GetQuestionDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetQuestionListUseCase;
+import com.yipl.nrna.domain.interactor.GetTagListUseCase;
 import com.yipl.nrna.domain.interactor.GetVideoDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetVideoListUseCase;
 import com.yipl.nrna.domain.interactor.UseCase;
@@ -272,6 +274,22 @@ public class DataModule {
                                                 pPostExecutionThread) {
         return new GetArticleDetailUseCase(mId, pDataRepository, pThreadExecutor,
                 pPostExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("tag")
+    IRepository provideTagDataRepository(DataStoreFactory pDataStoreFactory, DataMapper pDataMapper){
+        return new TagRepository(pDataStoreFactory, pDataMapper);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("tagList")
+    UseCase provideTagListUseCase(@Named("tag") IRepository pTagRepository,
+                                  ThreadExecutor pThreadExecutor,
+                                  PostExecutionThread pPostExecutionThread){
+        return new GetTagListUseCase(pTagRepository, pThreadExecutor, pPostExecutionThread);
     }
 
     @Provides

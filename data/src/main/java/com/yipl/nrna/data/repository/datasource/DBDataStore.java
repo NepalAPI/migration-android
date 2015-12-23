@@ -60,4 +60,8 @@ public class DBDataStore implements IDataStore {
         return database.getPostByCountry(pId);
     }
 
+    public Observable<List<String>> getTags(){
+        return database.getTags();
+    }
+
 }
