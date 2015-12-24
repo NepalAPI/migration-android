@@ -1,10 +1,16 @@
 package com.yipl.nrna.ui.fragment;
 
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -13,6 +19,7 @@ import android.widget.TextView;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
+import com.yipl.nrna.base.ContentListFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
@@ -20,9 +27,11 @@ import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.ArticleListFragmentPresenter;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.ArticleListView;
+import com.yipl.nrna.ui.interfaces.FilterDialogCallbackInterface;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,7 +42,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Nirazan-PC on 12/14/2015.
  */
-public class ArticleListFragment extends BaseFragment implements ArticleListView {
+public class ArticleListFragment extends ContentListFragment implements ArticleListView {
 
     @Inject
     ArticleListFragmentPresenter mPresenter;
@@ -48,8 +57,6 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
     RelativeLayout mContainer;
 
     Long mQuestionId = Long.MIN_VALUE;
-
-    private ListAdapter<Post> mListAdapter;
 
     public ArticleListFragment() {
         super();
@@ -122,6 +129,8 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
         mPresenter.destroy();
     }
 
+
+
     private void loadArticleList() {
         mPresenter.initialize();
     }
@@ -153,6 +162,7 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
 
     @Override
     public void renderArticleList(List<Post> pPosts) {
+        mPosts = pPosts;
         mListAdapter.setDataCollection(pPosts);
     }
 
@@ -195,4 +205,6 @@ public class ArticleListFragment extends BaseFragment implements ArticleListView
     public void hideEmptyView() {
         tvNoArticle.setVisibility(View.INVISIBLE);
     }
+
+
 }

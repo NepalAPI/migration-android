@@ -3,8 +3,13 @@ package com.yipl.nrna.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -14,9 +19,11 @@ import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
+import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.presenter.QuestionListFragmentPresenter;
 import com.yipl.nrna.ui.adapter.ListAdapter;
+import com.yipl.nrna.ui.interfaces.FilterDialogCallbackInterface;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.QuestionListFragmentView;
 
@@ -30,7 +37,7 @@ import butterknife.Bind;
 /**
  * Created by Nirazan-PC on 12/15/2015.
  */
-public class QuestionListFragment extends BaseFragment implements QuestionListFragmentView {
+public class QuestionListFragment extends BaseFragment implements QuestionListFragmentView, FilterDialogCallbackInterface {
 
     @Inject
     QuestionListFragmentPresenter mPresenter;
@@ -44,6 +51,7 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     RelativeLayout mContainer;
 
     ListAdapter<Question> mListAdapter;
+    List<Question> mQuestions;
 
     public QuestionListFragment() {
         super();
@@ -65,6 +73,30 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
         initialize();
         setUpAdapter();
         loadQuestionList();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_filter, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_filter){
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            Fragment prev = getChildFragmentManager().findFragmentByTag("dialog");
+            if (prev != null) {
+                ft.remove(prev);
+            }
+            ft.addToBackStack(null);
+
+            FilterDialogFragment newFragment = FilterDialogFragment.newInstance();
+            newFragment.setTargetFragment(this,0);
+            newFragment.show(ft, "dialog");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -119,6 +151,7 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
 
     @Override
     public void renderQuestionList(List<Question> pQuestionList) {
+        mQuestions = pQuestionList;
         mListAdapter.setDataCollection(pQuestionList);
     }
 
@@ -161,5 +194,42 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     @Override
     public void hideEmptyView() {
         tvNoQuestion.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void filterContentList(List<String> pStageFilter, List<String> pTagFilter) {
+        if(pStageFilter.isEmpty() && pTagFilter.isEmpty()){
+            mListAdapter.setDataCollection(mQuestions);
+            return;
+        }
+        List<Question> filteredQuestion = new ArrayList<>();
+        if(pTagFilter.isEmpty()) {
+            for(Question question: mQuestions){
+                if (question.getStage() != null && pStageFilter.contains(question.getStage())) {
+                    filteredQuestion.add(question);
+                }
+            }
+            mListAdapter.setDataCollection(filteredQuestion);
+            return;
+        }
+        if(pStageFilter.isEmpty()){
+            for(Question question: mQuestions){
+                if (question.getTags() != null && question.getTags().containsAll(pTagFilter)) {
+                    filteredQuestion.add(question);
+                }
+            }
+            mListAdapter.setDataCollection(filteredQuestion);
+            return;
+        }
+
+        for(Question question: mQuestions){
+            if (question.getStage() != null && pStageFilter.contains(question.getStage()) &&
+                    question.getTags() != null && question.getTags().containsAll(pTagFilter)) {
+                filteredQuestion.add(question);
+            }
+        }
+        mListAdapter.setDataCollection(filteredQuestion);
+        return;
+
     }
 }

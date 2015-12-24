@@ -27,6 +27,11 @@
         <item>Destination country</item>
     </string-array>
 
+    <string name="stage_pre_application">pre-application</string>
+    <string name="stage_application">applying</string>
+    <string name="stage_work_permit">work-permit</string>
+    <string name="stage_destination_country">destination-country</string>
+
     <string-array name="country_info">
         <item>About</item>
         <item>Content</item>
@@ -46,4 +51,8 @@
     <string name="empty_question">No Question Available</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="empty_related_content">No Related Content Available</string>
+
+    <string name="filter_by_stage">Filter By Stage</string>
+    <string name="filter_by_tag">Filter By Tags</string>
+    <string name="menu_filter">Filter</string>
 </resources>

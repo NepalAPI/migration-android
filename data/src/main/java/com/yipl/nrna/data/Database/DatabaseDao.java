@@ -74,11 +74,13 @@ public class DatabaseDao {
         post.setLanguage(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_LANGUAGE)));
         post.setTags(new Gson().fromJson(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TAGS)),
                 new TypeToken<List<String>>() {
-                }.getType()));
+                    }.getType()));
         post.setSource(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_SOURCE)));
         post.setDescription(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_DESCRIPTION)));
         post.setTitle(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_POST.COLUMN_TITLE)));
-
+        post.setStage(new Gson().fromJson(cursor.getString(cursor.getColumnIndex(TABLE_POST.COLUMN_STAGE)),
+                new TypeToken<List<String>>() {
+                }.getType()));
         return post;
     }
 
@@ -93,7 +95,7 @@ public class DatabaseDao {
         }.getType()));
         question.setLanguage(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_LANGUAGE)));
         question.setTitle(cursor.getString(cursor.getColumnIndex(MyConstants.DATABASE.TABLE_QUESTION.COLUMN_QUESTION)));
-
+        question.setStage(cursor.getString(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_STAGE)));
         return question;
     }
 

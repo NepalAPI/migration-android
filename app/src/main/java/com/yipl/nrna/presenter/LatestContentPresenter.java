@@ -75,6 +75,7 @@ public class LatestContentPresenter implements Presenter {
             Logger.e("LatestContentSubscriber_onError", "factory_message: " + ErrorMessageFactory
                     .create(mView.getContext(), new DefaultErrorBundle((Exception) e)
                             .getException()));
+            e.printStackTrace();
             LatestContentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));
             LatestContentPresenter.this.mView.showRetryView();

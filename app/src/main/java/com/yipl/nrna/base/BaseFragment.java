@@ -20,6 +20,7 @@ public abstract class BaseFragment extends Fragment {
     Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
         ButterKnife.bind(this, view);
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -31,5 +32,11 @@ public abstract class BaseFragment extends Fragment {
 
     public void showNewContentInfo() {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((BaseActivity) getActivity()).getPreferences().removeFilterChoices();
     }
 }

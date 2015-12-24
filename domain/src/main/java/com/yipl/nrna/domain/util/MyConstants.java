@@ -48,6 +48,9 @@ public class MyConstants {
         public static final String PREF_NAME = "nrna_app_preferences";
 
         public static final String LAST_UPDATE_STAMP = "last_update_stamp";
+
+        public static final String TAG_FILTER_CHOICES = "tag_filter_choices";
+        public static final String STAGE_FILTER_CHOICES = "stage_filter_choices";
     }
 
     public static final class Language{
