@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -176,21 +175,23 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     public void renderLatestAudios(final List<Post> pAudios) {
         if (pAudios != null) {
             mAudioList.removeAllViews();
-            for (Post audio : pAudios) {
+            for (int i = 0; i < pAudios.size(); i++) {
                 AudioDataBinding audioDataBinding = DataBindingUtil.inflate
                         (LayoutInflater.from(getContext()), R.layout.list_item_audio, mAudioList,
                                 false);
-                audioDataBinding.setAudio(audio);
+                audioDataBinding.setAudio(pAudios.get(i));
                 View view = audioDataBinding.getRoot();
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
                         .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.setMargins(0, 0, 0, getResources().getDimensionPixelOffset(R.dimen.spacing_small));
                 view.setLayoutParams(params);
+                final int selectionIndex = i;
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getContext(), AudioDetailActivity.class);
                         intent.putExtra(MyConstants.Extras.KEY_AUDIO_LIST, (Serializable) pAudios);
+                        intent.putExtra(MyConstants.Extras.KEY_AUDIO_SELECTION, selectionIndex);
                         startActivity(intent);
                     }
                 });

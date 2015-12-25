@@ -55,4 +55,6 @@ dependencies {
     compile appDependencies.stetho
     compile appDependencies.fresco
     compile appDependencies.facebookSdk
+    compile appDependencies.iconics
+    compile appDependencies.iconicsGoogle
 }

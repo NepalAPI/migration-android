@@ -90,6 +90,7 @@ public class MainActivity extends BaseActivity implements
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.main_content, new HomeFragment(), "home_fragment")
                 .commit();
+        mMainContent.invalidate();
 
         fetchLatestContent();
     }
@@ -198,6 +199,7 @@ public class MainActivity extends BaseActivity implements
                         .commit();
                 break;
         }
+        mMainContent.invalidate();
     }
 
     @Override

@@ -181,9 +181,13 @@ public class MediaService extends Service implements
     }
 
     public long[] getSongLengths() {
-        if (mIsMediaValid) {
-            return new long[]{mPlayer.getCurrentPosition(), mPlayer.getDuration()};
-        } else {
+        try {
+            if (mIsMediaValid) {
+                return new long[]{mPlayer.getCurrentPosition(), mPlayer.getDuration()};
+            } else {
+                return null;
+            }
+        } catch (IllegalStateException e) {
             return null;
         }
     }

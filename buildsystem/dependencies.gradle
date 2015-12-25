@@ -27,6 +27,9 @@ ext {
     frescoVersion = '0.5.3'
     picassoVersion = '2.5.2'
     facebookSdkVersion  = '4.7.0'
+    iconicsVersion = '2.5.2@aar'
+    iconicsGoogleVersion = '2.1.0.1.original@aar'
+
     //Testing
     robolectricVersion = '3.0'
     jUnitVersion = '4.12'
@@ -55,7 +58,9 @@ ext {
             stetho:             "com.facebook.stetho:stetho:${stethoVersion}",
             fresco:             "com.facebook.fresco:fresco:${frescoVersion}",
             picasso:            "com.squareup.picasso:picasso:${picassoVersion}",
-            facebookSdk:        "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}"
+            facebookSdk:        "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}",
+            iconics:            "com.mikepenz:iconics-core:${iconicsVersion}",
+            iconicsGoogle:      "com.mikepenz:google-material-typeface:${iconicsGoogleVersion}",
     ]
 
     appTestDependencies = [
