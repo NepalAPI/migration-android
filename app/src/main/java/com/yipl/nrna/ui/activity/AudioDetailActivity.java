@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.FacebookActivity;
 import com.yipl.nrna.domain.model.Post;
@@ -46,7 +52,7 @@ public class AudioDetailActivity extends FacebookActivity implements
     @Bind(R.id.prev)
     ImageView prev;
     @Bind(R.id.play)
-    ImageView play;
+    FloatingActionButton fab;
     @Bind(R.id.next)
     ImageView next;
     @Bind(R.id.seekbar)
@@ -55,6 +61,8 @@ public class AudioDetailActivity extends FacebookActivity implements
     TextView title;
     @Bind(R.id.description)
     TextView description;
+    @Bind(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbar;
 
     private MediaService mService;
     private Intent mPlayIntent;
@@ -64,6 +72,8 @@ public class AudioDetailActivity extends FacebookActivity implements
     private Handler seekbarHandler = new Handler();
     private MediaReceiver mediaReceiver;
     private IntentFilter receiverFilter;
+
+    IconicsDrawable playIcon, pauseIcon;
     //connect to the service
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -122,13 +132,44 @@ public class AudioDetailActivity extends FacebookActivity implements
         getToolbar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        pauseIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_pause)
+                .color(Color.WHITE)
+                .sizeDp(14);
+        playIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_play_arrow)
+                .color(Color.WHITE)
+                .sizeDp(14);
+
+        fab.setImageDrawable(pauseIcon);
+        prev.setImageDrawable(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_skip_previous)
+                .color(Color.WHITE)
+                .sizeDp(14));
+        next.setImageDrawable(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_skip_next)
+                .color(Color.WHITE)
+                .sizeDp(14));
+
         mediaReceiver = new MediaReceiver(this);
         receiverFilter = new IntentFilter();
 
         prev.setOnClickListener(this);
-        play.setOnClickListener(this);
+        fab.setOnClickListener(this);
         next.setOnClickListener(this);
         seekbar.setOnSeekBarChangeListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.audio_detail, menu);
+
+        menu.findItem(R.id.action_download).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon
+                .gmd_cloud_download)
+                .color(getResources().getColor(R.color.black_alpha_55))
+                .actionBar());
+        menu.findItem(R.id.action_share).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon
+                .gmd_share).color(getResources().getColor(R.color.black_alpha_55))
+                .actionBar());
+
+        return true;
     }
 
     @Override
@@ -146,26 +187,26 @@ public class AudioDetailActivity extends FacebookActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-        // Unbind from the service
-        if (mMusicBound) {
-            unbindService(mConnection);
-            mMusicBound = false;
-        }
     }
 
     @Override
     protected void onDestroy() {
         stopService(mPlayIntent);
+        // Unbind from the service
+        if (mMusicBound) {
+            unbindService(mConnection);
+            mMusicBound = false;
+        }
         mService = null;
         super.onDestroy();
     }
 
     @Override
     public void onPause() {
-        super.onPause();
         seekbar.removeCallbacks(updateSeekTime);
         if (mediaReceiver != null)
             unregisterReceiver(mediaReceiver);
+        super.onPause();
     }
 
     @Override
@@ -271,9 +312,9 @@ public class AudioDetailActivity extends FacebookActivity implements
     @Override
     public void playStatusChanged(boolean pIsPlaying) {
         if (pIsPlaying) {
-            play.setImageResource(android.R.drawable.ic_media_pause);
+            fab.setImageDrawable(pauseIcon);
         } else {
-            play.setImageResource(android.R.drawable.ic_media_play);
+            fab.setImageDrawable(playIcon);
         }
     }
 
@@ -284,7 +325,7 @@ public class AudioDetailActivity extends FacebookActivity implements
 
     private void disablePlayerControls() {
         bufferingText.setVisibility(View.VISIBLE);
-        play.setEnabled(false);
+        fab.setEnabled(false);
         next.setEnabled(false);
         prev.setEnabled(false);
         seekbar.setEnabled(false);
@@ -292,7 +333,7 @@ public class AudioDetailActivity extends FacebookActivity implements
 
     private void enablePlayerControls() {
         bufferingText.setVisibility(View.GONE);
-        play.setEnabled(true);
+        fab.setEnabled(true);
         next.setEnabled(true);
         prev.setEnabled(true);
         seekbar.setEnabled(true);
