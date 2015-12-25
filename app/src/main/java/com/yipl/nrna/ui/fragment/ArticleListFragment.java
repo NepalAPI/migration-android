@@ -1,6 +1,7 @@
 package com.yipl.nrna.ui.fragment;
 
 import android.app.DialogFragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
@@ -173,7 +176,7 @@ public class ArticleListFragment extends ContentListFragment implements ArticleL
 
     @Override
     public void hideLoadingView() {
-        mProgressBar.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -203,7 +206,7 @@ public class ArticleListFragment extends ContentListFragment implements ArticleL
 
     @Override
     public void hideEmptyView() {
-        tvNoArticle.setVisibility(View.INVISIBLE);
+        tvNoArticle.setVisibility(View.GONE);
     }
 
 

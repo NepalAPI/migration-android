@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="VideoGridDataBinding">
+        <variable
+            name="video"
+            type="com.yipl.nrna.domain.model.Post"/>
+    </data>
+<LinearLayout
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingBottom="@dimen/video_grid_padding_bottom"
+              android:background="@drawable/round_corner_bg"
+              xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/thumbnailGrid"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/grid_video_image_height"
+        android:layout_centerVertical="true"
+        app:imageUrl="@{video.getData().getThumbnail()}"
+        fresco:actualImageScaleType="centerCrop"
+        fresco:backgroundImage="@color/colorAccent"
+        fresco:progressBarImageScaleType="centerInside"
+        fresco:roundedCornerRadius="@dimen/round_corner"/>
+    <TextView
+        android:id="@+id/titleGrid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@{video.getTitle()}"
+        android:layout_marginLeft="@dimen/video_grid_title_margin_left"
+        android:layout_marginRight="@dimen/video_grid_title_margin_right"
+        android:layout_marginTop="@dimen/video_grid_title_margin_top"
+        android:textColor="@color/text_color_primary"
+        tools:text="My experience on applying for citizenship."
+        />
+    <TextView
+        android:id="@+id/timeGrid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/video_grid_time_margin_top"
+        android:layout_marginLeft="@dimen/video_grid_time_margin_left"
+        android:textColor="@color/text_color_primary"
+        app:mediaDuration="@{video.getData().getDuration()}"
+        android:alpha="0.69"
+        tools:text="2:15"
+        />
+</LinearLayout>
+    </layout>

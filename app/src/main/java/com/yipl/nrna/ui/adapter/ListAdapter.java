@@ -14,6 +14,7 @@ import com.yipl.nrna.databinding.AudioDataBinding;
 import com.yipl.nrna.databinding.CountryDataBinding;
 import com.yipl.nrna.databinding.QuestionDataBinding;
 import com.yipl.nrna.databinding.VideoDataBinding;
+import com.yipl.nrna.databinding.VideoGridDataBinding;
 import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Country;
 import com.yipl.nrna.domain.model.Post;
@@ -39,7 +40,7 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
     private final LayoutInflater mLayoutInflater;
     List<T> mDataCollection;
     ListClickCallbackInterface mListener;
-
+    Boolean mIsGrid = false;
 
     public ListAdapter(Context pContext, ListClickCallbackInterface pListener) {
         this.mLayoutInflater = (LayoutInflater) pContext.getSystemService(Context
@@ -59,6 +60,12 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
         notifyDataSetChanged();
     }
 
+    public void setDataCollection(List<T> pDataCollection, boolean isGrid) {
+        mDataCollection = pDataCollection;
+        mIsGrid = true;
+        notifyDataSetChanged();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
@@ -75,9 +82,16 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                 viewHolder = new AudioViewHolder(aBinding);
                 break;
             case TYPE_VIDEO:
-                VideoDataBinding vBinding = DataBindingUtil.inflate(mLayoutInflater, R.layout
-                        .list_item_video, parent, false);
-                viewHolder = new VideoViewHolder(vBinding);
+                if(mIsGrid) {
+                    VideoGridDataBinding vGridBinding = DataBindingUtil.inflate(mLayoutInflater, R.layout
+                            .video_gidview_list, parent, false);
+                    viewHolder = new VideoViewHolder(vGridBinding);
+                }else {
+                    VideoDataBinding vBinding = DataBindingUtil.inflate(mLayoutInflater, R.layout
+                            .list_item_video, parent, false);
+                    viewHolder = new VideoViewHolder(vBinding);
+                }
+
                 break;
             case TYPE_TEXT:
                 ArticleDataBinding articleBinding = DataBindingUtil.inflate(mLayoutInflater, R.layout
@@ -105,7 +119,10 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                 break;
             default:
             case TYPE_VIDEO:
-                ((VideoViewHolder) holder).mBinding.setVideo((Post) mDataCollection.get(position));
+                if(mIsGrid)
+                    ((VideoViewHolder) holder).mGridBinding.setVideo((Post) mDataCollection.get(position));
+                else
+                    ((VideoViewHolder) holder).mBinding.setVideo((Post) mDataCollection.get(position));
                 break;
             case TYPE_TEXT:
                 ((ArticleViewHolder) holder).mBinding.setArticle((Post) mDataCollection.get
@@ -181,6 +198,7 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
     public class VideoViewHolder extends RecyclerView.ViewHolder {
 
         public VideoDataBinding mBinding;
+        public VideoGridDataBinding mGridBinding;
 
         public VideoViewHolder(VideoDataBinding binding) {
             super(binding.getRoot());
@@ -190,6 +208,18 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                 @Override
                 public void onClick(View view) {
                     mListener.onListItemSelected(mBinding.getVideo());
+                }
+            });
+        }
+
+        public VideoViewHolder(VideoGridDataBinding binding) {
+            super(binding.getRoot());
+            ButterKnife.bind(this, binding.getRoot());
+            this.mGridBinding = binding;
+            mGridBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onListItemSelected(mGridBinding.getVideo());
                 }
             });
         }
