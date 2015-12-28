@@ -27,6 +27,16 @@ public class LatestContentRepository implements IRepository<LatestContent> {
     }
 
     @Override
+    public Observable<LatestContent> getSingle(Long pLastUpdateStamp) {
+        RestDataStore restDataStore = mDataStoreFactory.createRestDataStore();
+
+        restDataStore.getLatestContents(pLastUpdateStamp);
+        return restDataStore.getLatestContents(pLastUpdateStamp)
+                .map(pLatestContentEntity -> mDataMapper.transformLatestContent
+                        (pLatestContentEntity));
+    }
+
+    @Override
     public Observable<List<LatestContent>> getListByStage(int pLimit, String pType) {
         throw new UnsupportedOperationException();
     }
@@ -42,22 +52,17 @@ public class LatestContentRepository implements IRepository<LatestContent> {
     }
 
     @Override
-    public Observable<LatestContent> getSingle(Long pLastUpdateStamp) {
-        RestDataStore restDataStore = mDataStoreFactory.createRestDataStore();
-
-        restDataStore.getLatestContents(pLastUpdateStamp);
-        return restDataStore.getLatestContents(pLastUpdateStamp)
-                .map(pLatestContentEntity -> mDataMapper.transformLatestContent
-                        (pLatestContentEntity));
-    }
-
-    @Override
     public Observable<List<LatestContent>> getListByQuestionAndType(Long pId) {
         return null;
     }
 
     @Override
     public Observable<List<LatestContent>> getListByCountry(Long pId) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<LatestContent>> getListByAnswer(Long pId, int pLimit) {
         return null;
     }
 }

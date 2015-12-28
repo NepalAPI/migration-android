@@ -18,24 +18,33 @@ public class GetPostListUseCase extends UseCase<List<Post>> {
     private final int mLimit;
     private final MyConstants.PostType mType;
     private final MyConstants.Stage mStage;
-    private final Long mCountryId;
+    private final Long mId;
+    private final MyConstants.DataParent mDataParent;
 
     @Inject
-    public GetPostListUseCase(int pLimit, Long pCountryId,MyConstants.PostType pType, MyConstants.Stage pStage,
-                              IRepository pRepository, ThreadExecutor pThreadExecutor, PostExecutionThread
-                                      pPostExecutionThread) {
+    public GetPostListUseCase(int pLimit, Long pId, MyConstants.DataParent pDataParent,
+                              MyConstants.PostType pType, MyConstants.Stage pStage,
+                              IRepository pRepository, ThreadExecutor pThreadExecutor,
+                              PostExecutionThread pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
         mRepository = pRepository;
         mLimit = pLimit;
         mType = pType;
         mStage = pStage;
-        mCountryId = pCountryId;
+        mId = pId;
+        mDataParent = pDataParent;
     }
 
     @Override
     protected Observable<List<Post>> buildUseCaseObservable() {
-        if(mCountryId != null){
-            return mRepository.getListByCountry(mCountryId);
+        if (mId != null) {
+            if (mDataParent == MyConstants.DataParent.QUESTION) {
+                return mRepository.getListByQuestionAndType(mId);
+            } else if (mDataParent == MyConstants.DataParent.ANSWER) {
+                return mRepository.getListByAnswer(mId, mLimit);
+            } else {
+                return mRepository.getListByCountry(mId);
+            }
         }
         if (mType == null && mStage == null) {
             return mRepository.getList(mLimit);

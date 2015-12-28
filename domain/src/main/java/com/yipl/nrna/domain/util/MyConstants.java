@@ -5,6 +5,15 @@ package com.yipl.nrna.domain.util;
  */
 public class MyConstants {
 
+    public enum DataParent {
+        COUNTRY,
+        QUESTION,
+        ANSWER,
+        POST
+    }
+
+    ;
+
     public enum Stage {
         PRE_APPLICATION,
         APPLICATION,
@@ -53,7 +62,7 @@ public class MyConstants {
         public static final String STAGE_FILTER_CHOICES = "stage_filter_choices";
     }
 
-    public static final class Language{
+    public static final class Language {
         public static final int ENGLISH = 0;
         public static final int NEPALI = 1;
     }
@@ -79,9 +88,10 @@ public class MyConstants {
         public static final int TYPE_VIDEO = 2;
         public static final int TYPE_TEXT = 3;
         public static final int TYPE_COUNTRY = 4;
+        public static final int TYPE_ANSWER = 5;
     }
 
-    public static final class VideoAdapterType{
+    public static final class VideoAdapterType {
         public static final int TYPE_LIST = 0;
         public static final int TYPE_GRID = 1;
     }
@@ -212,26 +222,58 @@ public class MyConstants {
                     " );";
         }
 
-        public static class TABLE_POST_COUNTRY{
+        public static class TABLE_ANSWER {
+
+            public static String TABLE_NAME = "tbl_answer";
+            public static String COLUMN_ID = "id";
+            public static String COLUMN_UPDATED_AT = "updated_date";
+            public static String COLUMN_CREATED_AT = "created_date";
+            public static String COLUMN_TITLE = "title";
+            public static String COLUMN_QUESTION_ID = "question_id";
+
+            public static String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( " +
+                    COLUMN_ID + TYPE_INTEGER + " PRIMARY KEY" + COMMA +
+                    COLUMN_UPDATED_AT + TYPE_INTEGER + COMMA +
+                    COLUMN_CREATED_AT + TYPE_INTEGER + COMMA +
+                    COLUMN_TITLE + TYPE_TEXT + COMMA +
+                    COLUMN_QUESTION_ID + TYPE_INTEGER +
+                    " );";
+        }
+
+        public static class TABLE_POST_ANSWER {
+
+            public static String TABLE_NAME = "tbl_post_answer";
+            public static String COLUMN_ID = "id";
+            public static String COLUMN_POST_ID = "post_id";
+            public static String COLUMN_ANSWER_ID = "answer_id";
+
+            public static String CREATE_TABLE = "Create table " + TABLE_NAME + "( " +
+                    COLUMN_ID + TYPE_INTEGER + " primary key AUTOINCREMENT" + COMMA +
+                    COLUMN_POST_ID + TYPE_INTEGER + COMMA +
+                    COLUMN_ANSWER_ID + TYPE_INTEGER +
+                    " );";
+        }
+
+        public static class TABLE_POST_COUNTRY {
 
             public static String TABLE_NAME = "tbl_post_country";
             public static String COLUMN_ID = "id";
             public static String COLUMN_POST_ID = "post_id";
             public static String COLUMN_COUNTRY_ID = "country_id";
 
-            public static String CREATE_TABLE_POST_COUNTRY = "Create table " + TABLE_NAME + "( "+
+            public static String CREATE_TABLE_POST_COUNTRY = "Create table " + TABLE_NAME + "( " +
                     COLUMN_ID + TYPE_INTEGER + " primary key AUTOINCREMENT" + COMMA +
-                    COLUMN_POST_ID + TYPE_INTEGER +COMMA +
+                    COLUMN_POST_ID + TYPE_INTEGER + COMMA +
                     COLUMN_COUNTRY_ID + TYPE_INTEGER +
                     " );";
         }
 
-        public static class TABLE_TAGS{
+        public static class TABLE_TAGS {
             public static String TABLE_NAME = "tbl_tags";
             public static String COLUUMN_ID = "id";
             public static String COLUMN_TAG = "tag";
 
-            public static String CREATE_TABLE_TAGS = "Create table " + TABLE_NAME + "( "+
+            public static String CREATE_TABLE_TAGS = "Create table " + TABLE_NAME + "( " +
                     COLUUMN_ID + TYPE_INTEGER + " primary key AUTOINCREMENT " + COMMA +
                     COLUMN_TAG + TYPE_TEXT + " UNIQUE " +
                     " );";

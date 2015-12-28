@@ -3,8 +3,8 @@ package com.yipl.nrna.di.module;
 import android.content.Context;
 
 import com.yipl.nrna.MyApplication;
-import com.yipl.nrna.data.Database.DatabaseDao;
-import com.yipl.nrna.data.Database.DatabaseHelper;
+import com.yipl.nrna.data.database.DatabaseDao;
+import com.yipl.nrna.data.database.DatabaseHelper;
 import com.yipl.nrna.data.executor.JobExecutor;
 import com.yipl.nrna.domain.executor.PostExecutionThread;
 import com.yipl.nrna.domain.executor.ThreadExecutor;

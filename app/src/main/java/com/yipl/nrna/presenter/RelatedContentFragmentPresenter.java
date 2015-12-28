@@ -5,7 +5,6 @@ import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.exception.ErrorMessageFactory;
-import com.yipl.nrna.ui.fragment.country.RelatedContentFragment;
 import com.yipl.nrna.ui.interfaces.MvpView;
 import com.yipl.nrna.ui.interfaces.RelatedContentFragmentView;
 import com.yipl.nrna.util.Logger;
@@ -24,7 +23,7 @@ public class RelatedContentFragmentPresenter implements Presenter {
     RelatedContentFragmentView mView;
 
     @Inject
-    public RelatedContentFragmentPresenter(@Named("postList") UseCase pUseCase){
+    public RelatedContentFragmentPresenter(@Named("postList") UseCase pUseCase) {
         mUseCase = pUseCase;
     }
 
@@ -48,6 +47,11 @@ public class RelatedContentFragmentPresenter implements Presenter {
         loadAllPost();
     }
 
+    @Override
+    public void attachView(MvpView view) {
+        mView = (RelatedContentFragmentView) view;
+    }
+
     private void loadAllPost() {
         mView.hideRetryView();
         mView.showLoadingView();
@@ -56,11 +60,6 @@ public class RelatedContentFragmentPresenter implements Presenter {
 
     private void getAllPost() {
         mUseCase.execute(new PostSubscriber());
-    }
-
-    @Override
-    public void attachView(MvpView view) {
-        mView = (RelatedContentFragmentView) view;
     }
 
     private final class PostSubscriber extends DefaultSubscriber<List<Post>> {

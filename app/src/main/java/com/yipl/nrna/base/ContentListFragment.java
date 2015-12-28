@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.yipl.nrna.R;
-import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.fragment.FilterDialogFragment;
@@ -37,7 +36,7 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_filter){
+        if (item.getItemId() == R.id.action_filter) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             Fragment prev = getChildFragmentManager().findFragmentByTag("dialog");
             if (prev != null) {
@@ -46,7 +45,7 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
             ft.addToBackStack(null);
 
             FilterDialogFragment newFragment = FilterDialogFragment.newInstance();
-            newFragment.setTargetFragment(this,0);
+            newFragment.setTargetFragment(this, 0);
             newFragment.show(ft, "dialog");
             return true;
         }
@@ -55,13 +54,13 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
 
     @Override
     public void filterContentList(List<String> pStageFilter, List<String> pTagFilter) {
-        if(pStageFilter.isEmpty() && pTagFilter.isEmpty()){
+        if (pStageFilter.isEmpty() && pTagFilter.isEmpty()) {
             mListAdapter.setDataCollection(mPosts);
             return;
         }
         List<Post> filteredPost = new ArrayList<>();
-        if(pTagFilter.isEmpty()) {
-            for(Post post:mPosts){
+        if (pTagFilter.isEmpty()) {
+            for (Post post : mPosts) {
                 if (post.getStage() != null && post.getStage().containsAll(pStageFilter)) {
                     filteredPost.add(post);
                 }
@@ -69,8 +68,8 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
             mListAdapter.setDataCollection(filteredPost);
             return;
         }
-        if(pStageFilter.isEmpty()){
-            for(Post post:mPosts){
+        if (pStageFilter.isEmpty()) {
+            for (Post post : mPosts) {
                 if (post.getTags() != null && post.getTags().containsAll(pTagFilter)) {
                     filteredPost.add(post);
                 }
@@ -79,7 +78,7 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
             return;
         }
 
-        for(Post post:mPosts){
+        for (Post post : mPosts) {
             if (post.getStage() != null && post.getStage().containsAll(pStageFilter) &&
                     post.getTags() != null && post.getTags().containsAll(pTagFilter)) {
                 filteredPost.add(post);

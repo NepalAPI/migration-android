@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
-import com.yipl.nrna.data.Database.DatabaseHelper;
+import com.yipl.nrna.data.database.DatabaseHelper;
 import com.yipl.nrna.di.component.ApplicationComponent;
 import com.yipl.nrna.di.component.DaggerApplicationComponent;
 import com.yipl.nrna.di.module.ApplicationModule;

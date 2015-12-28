@@ -1,4 +1,4 @@
-package com.yipl.nrna.data.Database;
+package com.yipl.nrna.data.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,9 +12,7 @@ import com.yipl.nrna.domain.util.MyConstants;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    Context context;
     private SQLiteDatabase db;
-
 
     public DatabaseHelper(Context context) {
         super(context, MyConstants.DATABASE.DBINFO.DATABASE_NAME, null, MyConstants.DATABASE.DBINFO.DB_VERSION);
@@ -27,9 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void close() {
-
         db.close();
-
     }
 
     @Override
@@ -38,6 +34,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(MyConstants.DATABASE.TABLE_POST.CREATE_TABLE_POST);
         db.execSQL(MyConstants.DATABASE.TABLE_QUESTION.CREATE_TABLE_QUESTION);
         db.execSQL(MyConstants.DATABASE.TABLE_POST_QUESTION.CREATE_TABLE_POST_QUESTION);
+        db.execSQL(MyConstants.DATABASE.TABLE_ANSWER.CREATE_TABLE);
+        db.execSQL(MyConstants.DATABASE.TABLE_POST_ANSWER.CREATE_TABLE);
         db.execSQL(MyConstants.DATABASE.TABLE_COUNTRY.CREATE_TABLE_COUNTRY);
         db.execSQL(MyConstants.DATABASE.TABLE_POST_COUNTRY.CREATE_TABLE_POST_COUNTRY);
         db.execSQL(MyConstants.DATABASE.TABLE_TAGS.CREATE_TABLE_TAGS);
@@ -46,5 +44,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
     }
 }

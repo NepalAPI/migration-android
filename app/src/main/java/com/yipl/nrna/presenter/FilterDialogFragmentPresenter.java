@@ -22,7 +22,7 @@ public class FilterDialogFragmentPresenter implements Presenter {
     UseCase mUseCase;
 
     @Inject
-    FilterDialogFragmentPresenter(@Named("tagList") UseCase pUseCase){
+    FilterDialogFragmentPresenter(@Named("tagList") UseCase pUseCase) {
         mUseCase = pUseCase;
     }
 
@@ -46,6 +46,11 @@ public class FilterDialogFragmentPresenter implements Presenter {
         loadTags();
     }
 
+    @Override
+    public void attachView(MvpView view) {
+        mView = (FilterDialogFragmentView) view;
+    }
+
     private void loadTags() {
         mView.showLoadingView();
         mView.hideRetryView();
@@ -56,12 +61,7 @@ public class FilterDialogFragmentPresenter implements Presenter {
         mUseCase.execute(new TagSubscriber());
     }
 
-    @Override
-    public void attachView(MvpView view) {
-        mView = (FilterDialogFragmentView) view;
-    }
-
-    private final class TagSubscriber extends DefaultSubscriber<List<String>>{
+    private final class TagSubscriber extends DefaultSubscriber<List<String>> {
         @Override
         public void onCompleted() {
             FilterDialogFragmentPresenter.this.mView.hideLoadingView();

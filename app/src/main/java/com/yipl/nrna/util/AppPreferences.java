@@ -34,31 +34,31 @@ public class AppPreferences {
         editor.commit();
     }
 
-    public void setFilterTagChoices(List<String> pTagChoices){
+    public List<String> getFilterTagChoices() {
+        Set<String> set = pref.getStringSet(TAG_FILTER_CHOICES, new HashSet<String>());
+        return new ArrayList<>(set);
+    }
+
+    public void setFilterTagChoices(List<String> pTagChoices) {
         Set<String> set = new HashSet<String>();
         set.addAll(pTagChoices);
         editor.putStringSet(TAG_FILTER_CHOICES, set);
         editor.commit();
     }
 
-    public List<String> getFilterTagChoices(){
-        Set<String> set = pref.getStringSet(TAG_FILTER_CHOICES, new HashSet<String>());
+    public List<String> getFilterStageChoices() {
+        Set<String> set = pref.getStringSet(STAGE_FILTER_CHOICES, new HashSet<String>());
         return new ArrayList<>(set);
     }
 
-    public void setFilterStageChoices(List<String> pStageChoices){
+    public void setFilterStageChoices(List<String> pStageChoices) {
         Set<String> set = new HashSet<String>();
         set.addAll(pStageChoices);
         editor.putStringSet(STAGE_FILTER_CHOICES, set);
         editor.commit();
     }
 
-    public List<String> getFilterStageChoices(){
-        Set<String> set = pref.getStringSet(STAGE_FILTER_CHOICES, new HashSet<String>());
-        return new ArrayList<>(set);
-    }
-
-    public void removeFilterChoices(){
+    public void removeFilterChoices() {
         editor.remove(STAGE_FILTER_CHOICES);
         editor.remove(TAG_FILTER_CHOICES);
         editor.commit();

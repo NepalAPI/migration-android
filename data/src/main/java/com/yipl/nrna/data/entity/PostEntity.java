@@ -15,6 +15,8 @@ public class PostEntity {
     Long updatedAt;
     @SerializedName("question_ids")
     List<Long> questionIdList;
+    @SerializedName("answer_ids")
+    List<Long> answerIdList;
     //// TODO: 12/21/2015 change serialized name as per api
     @SerializedName("country_ids")
     List<Long> countryIdList;
@@ -57,6 +59,14 @@ public class PostEntity {
 
     public void setQuestionIdList(List<Long> pQuestionIdList) {
         questionIdList = pQuestionIdList;
+    }
+
+    public List<Long> getAnswerIdList() {
+        return answerIdList;
+    }
+
+    public void setAnswerIdList(List<Long> pAnswerIdList) {
+        answerIdList = pAnswerIdList;
     }
 
     public List<String> getTags() {
@@ -123,7 +133,11 @@ public class PostEntity {
         stage = pStage;
     }
 
-    public List<Long> getCountryIdList(){ return this.countryIdList; }
+    public List<Long> getCountryIdList() {
+        return this.countryIdList;
+    }
 
-    public void setCountryIdList(List<Long> pQuestionIdList){ this.questionIdList = pQuestionIdList; }
+    public void setCountryIdList(List<Long> pQuestionIdList) {
+        this.questionIdList = pQuestionIdList;
+    }
 }

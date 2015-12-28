@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
-import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.base.ContentListFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
@@ -75,6 +74,12 @@ public class AudioListFragment extends ContentListFragment implements AudioListV
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    @Override
     public void showNewContentInfo() {
         Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
                 .LENGTH_INDEFINITE)
@@ -112,12 +117,6 @@ public class AudioListFragment extends ContentListFragment implements AudioListV
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
     }
 
     private void loadAudioList() {

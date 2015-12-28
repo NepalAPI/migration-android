@@ -27,6 +27,12 @@ public class VideoRepository implements IRepository<Post> {
     }
 
     @Override
+    public Observable<Post> getSingle(Long pId) {
+        return mDataStoreFactory.createDBDataStore().getPostById(pId)
+                .map(pPostEntity -> mDataMapper.transformPost(pPostEntity));
+    }
+
+    @Override
     public Observable<List<Post>> getListByStage(int pLimit, String pType) {
         return null;
     }
@@ -42,12 +48,6 @@ public class VideoRepository implements IRepository<Post> {
     }
 
     @Override
-    public Observable<Post> getSingle(Long pId) {
-        return mDataStoreFactory.createDBDataStore().getPostById(pId)
-                .map(pPostEntity -> mDataMapper.transformPost(pPostEntity));
-    }
-
-    @Override
     public Observable<List<Post>> getListByQuestionAndType(Long pId) {
         return mDataStoreFactory.createDBDataStore().getPostByQuestionAndType(pId, "video").map(
                 postEntities -> mDataMapper.transformPost(postEntities)
@@ -56,6 +56,11 @@ public class VideoRepository implements IRepository<Post> {
 
     @Override
     public Observable<List<Post>> getListByCountry(Long pId) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Post>> getListByAnswer(Long pId, int pLimit) {
         return null;
     }
 }

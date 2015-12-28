@@ -19,7 +19,6 @@ import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
-import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.presenter.QuestionListFragmentPresenter;
 import com.yipl.nrna.ui.adapter.ListAdapter;
@@ -76,27 +75,9 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_filter, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_filter){
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment prev = getChildFragmentManager().findFragmentByTag("dialog");
-            if (prev != null) {
-                ft.remove(prev);
-            }
-            ft.addToBackStack(null);
-
-            FilterDialogFragment newFragment = FilterDialogFragment.newInstance();
-            newFragment.setTargetFragment(this,0);
-            newFragment.show(ft, "dialog");
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
     }
 
     @Override
@@ -124,9 +105,27 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_filter, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_filter) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            Fragment prev = getChildFragmentManager().findFragmentByTag("dialog");
+            if (prev != null) {
+                ft.remove(prev);
+            }
+            ft.addToBackStack(null);
+
+            FilterDialogFragment newFragment = FilterDialogFragment.newInstance();
+            newFragment.setTargetFragment(this, 0);
+            newFragment.show(ft, "dialog");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initialize() {
@@ -198,13 +197,13 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
 
     @Override
     public void filterContentList(List<String> pStageFilter, List<String> pTagFilter) {
-        if(pStageFilter.isEmpty() && pTagFilter.isEmpty()){
+        if (pStageFilter.isEmpty() && pTagFilter.isEmpty()) {
             mListAdapter.setDataCollection(mQuestions);
             return;
         }
         List<Question> filteredQuestion = new ArrayList<>();
-        if(pTagFilter.isEmpty()) {
-            for(Question question: mQuestions){
+        if (pTagFilter.isEmpty()) {
+            for (Question question : mQuestions) {
                 if (question.getStage() != null && pStageFilter.contains(question.getStage())) {
                     filteredQuestion.add(question);
                 }
@@ -212,8 +211,8 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
             mListAdapter.setDataCollection(filteredQuestion);
             return;
         }
-        if(pStageFilter.isEmpty()){
-            for(Question question: mQuestions){
+        if (pStageFilter.isEmpty()) {
+            for (Question question : mQuestions) {
                 if (question.getTags() != null && question.getTags().containsAll(pTagFilter)) {
                     filteredQuestion.add(question);
                 }
@@ -222,7 +221,7 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
             return;
         }
 
-        for(Question question: mQuestions){
+        for (Question question : mQuestions) {
             if (question.getStage() != null && pStageFilter.contains(question.getStage()) &&
                     question.getTags() != null && question.getTags().containsAll(pTagFilter)) {
                 filteredQuestion.add(question);

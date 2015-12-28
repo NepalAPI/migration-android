@@ -10,6 +10,7 @@ public class LatestContentEntity {
     List<QuestionEntity> questions;
     List<PostEntity> posts;
     List<CountryEntity> countries;
+    List<AnswerEntity> answers;
 
     public MetaEntity getMeta() {
         return meta;
@@ -41,5 +42,13 @@ public class LatestContentEntity {
 
     public void setCountries(List<CountryEntity> pCountries) {
         countries = pCountries;
+    }
+
+    public List<AnswerEntity> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<AnswerEntity> pAnswers) {
+        answers = pAnswers;
     }
 }

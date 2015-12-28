@@ -50,7 +50,7 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
 
     FilterDialogCallbackInterface mCallbackInterface;
 
-    public FilterDialogFragment(){
+    public FilterDialogFragment() {
 
     }
 
@@ -62,13 +62,8 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.dialog_frgment_filter, container, false);
+        View v = inflater.inflate(R.layout.dialog_frgment_filter, container, false);
         return v;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -77,6 +72,35 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
         ButterKnife.bind(this, view);
         initialize();
         loadTags();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.resume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.pause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     private void initialize() {
@@ -104,8 +128,8 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
     @Override
     public void renderTags(List<String> tagsList) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        if(tagsList != null){
-            for(String tag:tagsList){
+        if (tagsList != null) {
+            for (String tag : tagsList) {
                 CheckBox checkBox = new CheckBox(getContext());
                 checkBox.setText(tag);
                 tagCheckbox.add(checkBox);
@@ -118,7 +142,7 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
     private void restoreLastChoices() {
         List<String> lastTagChoices = ((BaseActivity) getActivity()).getPreferences().getFilterTagChoices();
         List<String> lastStageChoices = ((BaseActivity) getActivity()).getPreferences().getFilterStageChoices();
-        if(lastStageChoices != null) {
+        if (lastStageChoices != null) {
             for (String choice : lastTagChoices) {
                 for (CheckBox checkBox : tagCheckbox) {
                     if (choice.equals(checkBox.getText().toString()))
@@ -126,7 +150,7 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
                 }
             }
         }
-        if(lastTagChoices != null) {
+        if (lastTagChoices != null) {
             for (String choice : lastStageChoices) {
                 for (CheckBox checkBox : stageCheckbox) {
                     if (choice.equals(checkBox.getText().toString()))
@@ -135,30 +159,6 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
             }
         }
 
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mPresenter.pause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.resume();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
     }
 
     @Override
@@ -203,17 +203,17 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.btnFilter:
                 List<String> tagFilter = new ArrayList<>();
                 List<String> stageFilter = new ArrayList<>();
-                for(CheckBox checkBox:stageCheckbox){
-                    if(checkBox.isChecked()){
+                for (CheckBox checkBox : stageCheckbox) {
+                    if (checkBox.isChecked()) {
                         stageFilter.add(checkBox.getText().toString());
                     }
                 }
-                for (CheckBox checkBox:tagCheckbox){
-                    if(checkBox.isChecked()){
+                for (CheckBox checkBox : tagCheckbox) {
+                    if (checkBox.isChecked()) {
                         tagFilter.add(checkBox.getText().toString());
                     }
                 }
