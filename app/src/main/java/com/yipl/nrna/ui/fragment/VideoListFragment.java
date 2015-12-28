@@ -3,9 +3,11 @@ package com.yipl.nrna.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.VideoListFragmentPresenter;
+import com.yipl.nrna.ui.CustomRecyclerViewItemDecoration;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.VideoListView;
@@ -46,10 +49,12 @@ public class VideoListFragment extends ContentListFragment implements VideoListV
     @Bind(R.id.data_container)
     RelativeLayout mContainer;
 
+    Integer mType = MyConstants.VideoAdapterType.TYPE_LIST;
     private Long mQuestionId = Long.MIN_VALUE;
 
     public VideoListFragment() {
         super();
+        mType = MyConstants.VideoAdapterType.TYPE_GRID;
     }
 
     public static VideoListFragment newInstance(Long pId) {
@@ -124,6 +129,12 @@ public class VideoListFragment extends ContentListFragment implements VideoListV
     }
 
     private void setUpAdapter() {
+        if (mType == MyConstants.VideoAdapterType.TYPE_LIST) {
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        } else {
+            mRecyclerView.addItemDecoration(new CustomRecyclerViewItemDecoration());
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2 , GridLayoutManager.VERTICAL, false));
+        }
         mListAdapter = new ListAdapter<Post>(getContext(), new ArrayList<Post>(), (ListClickCallbackInterface) getActivity());
         mRecyclerView.setAdapter(mListAdapter);
     }
@@ -145,7 +156,6 @@ public class VideoListFragment extends ContentListFragment implements VideoListV
         }
         mPresenter.attachView(this);
         tvNoVideo.setVisibility(View.GONE);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -191,6 +201,6 @@ public class VideoListFragment extends ContentListFragment implements VideoListV
     @Override
     public void renderVideoList(List<Post> pVideos) {
         mPosts = pVideos;
-        mListAdapter.setDataCollection(pVideos);
+        mListAdapter.setDataCollection(pVideos, mType == MyConstants.VideoAdapterType.TYPE_GRID);
     }
 }

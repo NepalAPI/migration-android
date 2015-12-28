@@ -1,11 +1,14 @@
 package com.yipl.nrna.base;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.yipl.nrna.R;
 import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Post;
@@ -28,6 +31,8 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_filter, menu);
+        menu.findItem(R.id.action_filter).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_filter_list)
+                .color(Color.WHITE).actionBar());
     }
 
     @Override

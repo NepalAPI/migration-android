@@ -49,6 +49,8 @@
     <string name="empty_info">%1$s चरणको कुनै जानकारी उपलब्ध छैन</string>
     <string name="empty_question">कुनै प्रश्नहर उपलब्ध छैन</string>
     <string name="empty_related_content">सम्बन्धित सामग्री उपलब्ध छैन</string>
+    <string name="empty_article">No Articles Available</string>
+
 
     <string name="filter_by_stage">Filter By Stage</string>
     <string name="filter_by_tag">Filter By Tags</string>

@@ -81,6 +81,11 @@ public class MyConstants {
         public static final int TYPE_COUNTRY = 4;
     }
 
+    public static final class VideoAdapterType{
+        public static final int TYPE_LIST = 0;
+        public static final int TYPE_GRID = 1;
+    }
+
     public static class Media {
         public static final String ACTION_MEDIA_BUFFER_START = "media.action.BUFFER_START";
         public static final String ACTION_MEDIA_BUFFER_STOP = "media.action.BUFFER_START";
@@ -102,6 +107,7 @@ public class MyConstants {
         public static final String KEY_ID = "key_id";
         public static final String KEY_STAGE = "key_stage";
         public static final String KEY_TITLE = "key_title";
+        public static final String KEY_VIDEO_LIST = "key_video-list";
     }
 
     public static class DATABASE {
