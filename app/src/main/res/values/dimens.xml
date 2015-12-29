@@ -15,8 +15,11 @@
     <dimen name="spacing_big">36dp</dimen>
     <dimen name="spacing_medium">25dp</dimen>
     <dimen name="spacing_standard">16dp</dimen>
+    <dimen name="spacing_small_standard">12dp</dimen>
     <dimen name="spacing_small">10dp</dimen>
     <dimen name="spacing_xsmall">5dp</dimen>
+    <dimen name="spacing_xxsmall">2dp</dimen>
+    <dimen name="spacing_normal">8dp</dimen>
 
     <dimen name="appbar_content_margin_top">60dp</dimen>
 
@@ -46,11 +49,7 @@
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="video_grid_padding_bottom">11dp</dimen>
     <dimen name="round_corner">5dp</dimen>
-    <dimen name="video_grid_title_margin_left">11dp</dimen>
-    <dimen name="video_grid_title_margin_right">10dp</dimen>
-    <dimen name="video_grid_time_margin_top">3dp</dimen>
-    <dimen name="video_grid_time_margin_left">12dp</dimen>
-    <dimen name="video_grid_title_margin_top">12dp</dimen>
     <dimen name="video_grid_width">160dp</dimen>
     <dimen name="grid_video_image_height">127dp</dimen>
+    <dimen name="list_text_margin_standard">12dp</dimen>
 </resources>

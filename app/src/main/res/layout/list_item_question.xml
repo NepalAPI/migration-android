@@ -18,17 +18,18 @@
             android:id="@+id/content_art"
             android:layout_width="@dimen/content_art_size"
             android:layout_height="@dimen/content_art_size"
-            android:layout_centerVertical="true"
-            android:padding="@dimen/spacing_small"
-            android:src="@drawable/ic_menu_gallery"/>
+            android:src="@drawable/ic_article"
+            android:background="@drawable/round_bg"
+            android:scaleType="centerInside"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/content_art"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/spacing_standard"
-            >
+            android:paddingLeft="@dimen/spacing_standard">
 
             <TextView
                 android:id="@+id/image_caption"
@@ -36,8 +37,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/text_margin"
                 android:text="@{question.getTitle()}"
-                tools:text="How to get passport?"
-                />
+                tools:text="How to get passport?"/>
 
             <View
                 android:layout_width="match_parent"
