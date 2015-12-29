@@ -13,6 +13,7 @@ public class Post extends BaseModel {
     Long mCreatedAt;
     Long mUpdatedAt;
     List<Long> mQuestionIdList;
+    List<Long> mAnswerIdList;
     List<String> mTags;
     String mLanguage;
     String mSource;
@@ -66,6 +67,14 @@ public class Post extends BaseModel {
 
     public void setQuestionIdList(List<Long> pQuestionIdList) {
         mQuestionIdList = pQuestionIdList;
+    }
+
+    public List<Long> getAnswerIdList() {
+        return mAnswerIdList;
+    }
+
+    public void setAnswerIdList(List<Long> pAnswerIdList) {
+        mAnswerIdList = pAnswerIdList;
     }
 
     public List<String> getTags() {

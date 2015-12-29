@@ -63,7 +63,7 @@ public class AudioDetailActivity extends FacebookActivity implements
     TextView description;
     @Bind(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
-
+    IconicsDrawable playIcon, pauseIcon;
     private MediaService mService;
     private Intent mPlayIntent;
     private boolean mMusicBound = false;
@@ -72,8 +72,6 @@ public class AudioDetailActivity extends FacebookActivity implements
     private Handler seekbarHandler = new Handler();
     private MediaReceiver mediaReceiver;
     private IntentFilter receiverFilter;
-
-    IconicsDrawable playIcon, pauseIcon;
     //connect to the service
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -98,7 +96,7 @@ public class AudioDetailActivity extends FacebookActivity implements
                 long[] lengths = mService.getSongLengths();
                 if (lengths != null) {
                     Logger.e("AudioDetailActivity_updateSeekTime", "lengths: " + lengths[0] + "/" +
-                            lengths[1] );
+                            lengths[1]);
                     currentTime.setText(MediaHelper.getFormattedTime(lengths[0]));
                     totalTime.setText(MediaHelper.getFormattedTime(lengths[1]));
                     int progress = MediaHelper.getProgressPercentage(lengths[0], lengths[1]);

@@ -16,7 +16,7 @@ public class GetTagListUseCase extends UseCase<String> {
     private final IRepository mIRepository;
 
     @Inject
-    public GetTagListUseCase(IRepository pIRepository,ThreadExecutor pThreadExecutor, PostExecutionThread pPostExecutionThread) {
+    public GetTagListUseCase(IRepository pIRepository, ThreadExecutor pThreadExecutor, PostExecutionThread pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
         mIRepository = pIRepository;
     }

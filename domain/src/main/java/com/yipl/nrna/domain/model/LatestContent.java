@@ -8,6 +8,7 @@ import java.util.List;
 public class LatestContent extends BaseModel {
     List<Question> mQuestions;
     List<Post> mPosts;
+    List<Answer> mAnswers;
 
     public List<Question> getQuestions() {
         return mQuestions;
@@ -23,5 +24,13 @@ public class LatestContent extends BaseModel {
 
     public void setPosts(List<Post> pPosts) {
         mPosts = pPosts;
+    }
+
+    public List<Answer> getAnswers() {
+        return mAnswers;
+    }
+
+    public void setAnswers(List<Answer> pAnswers) {
+        mAnswers = pAnswers;
     }
 }

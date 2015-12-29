@@ -2,9 +2,10 @@ package com.yipl.nrna.di.module;
 
 import android.content.Context;
 
-import com.yipl.nrna.data.Database.DatabaseDao;
+import com.yipl.nrna.data.database.DatabaseDao;
 import com.yipl.nrna.data.di.PerActivity;
 import com.yipl.nrna.data.entity.mapper.DataMapper;
+import com.yipl.nrna.data.repository.AnswerRepository;
 import com.yipl.nrna.data.repository.ArticleRepository;
 import com.yipl.nrna.data.repository.AudioRepository;
 import com.yipl.nrna.data.repository.CountryRepository;
@@ -16,6 +17,7 @@ import com.yipl.nrna.data.repository.VideoRepository;
 import com.yipl.nrna.data.repository.datasource.DataStoreFactory;
 import com.yipl.nrna.domain.executor.PostExecutionThread;
 import com.yipl.nrna.domain.executor.ThreadExecutor;
+import com.yipl.nrna.domain.interactor.GetAnswerListUseCase;
 import com.yipl.nrna.domain.interactor.GetArticleDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetArticleListUseCase;
 import com.yipl.nrna.domain.interactor.GetAudioDetailUseCase;
@@ -32,6 +34,7 @@ import com.yipl.nrna.domain.interactor.GetVideoDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetVideoListUseCase;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.repository.IRepository;
+import com.yipl.nrna.domain.repository.QRepository;
 import com.yipl.nrna.domain.util.MyConstants;
 
 import javax.inject.Named;
@@ -44,10 +47,12 @@ import dagger.Provides;
  */
 @Module
 public class DataModule {
+
     private long mLastUpdateStamp = Long.MIN_VALUE;
     private long mId = Long.MIN_VALUE;
     private MyConstants.PostType mPostType = null;
     private MyConstants.Stage mStage = null;
+    private MyConstants.DataParent mDataParent = null;
     private int mLimit = -1;
 
     public DataModule() {
@@ -55,6 +60,11 @@ public class DataModule {
 
     public DataModule(long pId) {
         mId = pId;
+    }
+
+    public DataModule(long pId, MyConstants.DataParent pDataParent) {
+        mId = pId;
+        mDataParent = pDataParent;
     }
 
     public DataModule(long pLastUpdateStamp, int flag) {
@@ -113,7 +123,8 @@ public class DataModule {
     UseCase providePostListUseCase(@Named("post") IRepository pDataRepository, ThreadExecutor
             pThreadExecutor,
                                    PostExecutionThread pPostExecutionThread) {
-        return new GetPostListUseCase(mLimit,mId, mPostType, mStage, pDataRepository, pThreadExecutor,
+        return new GetPostListUseCase(mLimit, mId, mDataParent, mPostType, mStage, pDataRepository,
+                pThreadExecutor,
                 pPostExecutionThread);
     }
 
@@ -124,6 +135,24 @@ public class DataModule {
                                      ThreadExecutor pThreadExecutor, PostExecutionThread
                                              pPostExecutionThread) {
         return new GetPostDetailUseCase(mId, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("answer")
+    QRepository provideAnswerDataRepository(DataStoreFactory pDataStoreFactory, DataMapper
+            pDataMapper) {
+        return new AnswerRepository(pDataStoreFactory, pDataMapper);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("answerList")
+    UseCase provideAnswerListUseCase(@Named("answer") QRepository pDataRepository,
+                                     ThreadExecutor pThreadExecutor, PostExecutionThread
+                                             pPostExecutionThread) {
+        return new GetAnswerListUseCase(mLimit, mId, pDataRepository, pThreadExecutor,
                 pPostExecutionThread);
     }
 
@@ -279,7 +308,7 @@ public class DataModule {
     @Provides
     @PerActivity
     @Named("tag")
-    IRepository provideTagDataRepository(DataStoreFactory pDataStoreFactory, DataMapper pDataMapper){
+    IRepository provideTagDataRepository(DataStoreFactory pDataStoreFactory, DataMapper pDataMapper) {
         return new TagRepository(pDataStoreFactory, pDataMapper);
     }
 
@@ -288,7 +317,7 @@ public class DataModule {
     @Named("tagList")
     UseCase provideTagListUseCase(@Named("tag") IRepository pTagRepository,
                                   ThreadExecutor pThreadExecutor,
-                                  PostExecutionThread pPostExecutionThread){
+                                  PostExecutionThread pPostExecutionThread) {
         return new GetTagListUseCase(pTagRepository, pThreadExecutor, pPostExecutionThread);
     }
 

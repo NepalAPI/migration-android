@@ -4,9 +4,14 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.yipl.nrna.R;
+import com.yipl.nrna.ui.fragment.AnswerListFragment;
 import com.yipl.nrna.ui.fragment.ArticleListFragment;
 import com.yipl.nrna.ui.fragment.AudioListFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
@@ -16,18 +21,21 @@ import com.yipl.nrna.ui.fragment.VideoListFragment;
  */
 public class QuestionAnswerPagerAdapter extends FragmentPagerAdapter {
 
+    private final int[] imageResId = {
+            R.drawable.ic_tab_document,
+            R.drawable.ic_tab_document,
+            R.drawable.ic_tab_document,
+            R.drawable.ic_tab_document
+    };
+    private final String[] tabTitles;
     Context mContext;
     Long mQuestionId;
-    private int[] imageResId = {
-            R.drawable.ic_menu_camera,
-            R.drawable.ic_menu_gallery,
-            R.drawable.ic_menu_send
-    };
 
     public QuestionAnswerPagerAdapter(FragmentManager fm, Context pContext, Long pId) {
         super(fm);
         mContext = pContext;
         mQuestionId = pId;
+        tabTitles = mContext.getResources().getStringArray(R.array.question_tabs);
     }
 
     @Override
@@ -35,15 +43,19 @@ public class QuestionAnswerPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment;
         switch (position) {
             case 0:
-            default:
-                fragment = AudioListFragment.newInstance(mQuestionId);
+                fragment = AnswerListFragment.newInstance(mQuestionId);
                 break;
             case 1:
-                fragment = VideoListFragment.newInstance(mQuestionId);
+                fragment = AudioListFragment.newInstance(mQuestionId);
                 break;
             case 2:
+                fragment = VideoListFragment.newInstance(mQuestionId);
+                break;
+            case 3:
                 fragment = ArticleListFragment.newInstance(mQuestionId);
                 break;
+            default:
+                throw new IllegalArgumentException("Invalid index...");
         }
         return fragment;
     }
@@ -55,36 +67,20 @@ public class QuestionAnswerPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        // Generate title based on item position
-        // return tabTitles[position];
+        return tabTitles[position];
+    }
 
-        // getDrawable(int i) is deprecated, use getDrawable(int i, Theme theme) for min SDK >=21
-        // or ContextCompat.getDrawable(Context context, int id) if you want support for older versions.
-//         Drawable image = context.getResources().getDrawable(iconIds[position], context.getTheme());
-//         Drawable image = context.getResources().getDrawable(imageResId[position]);
-
-//        Drawable image = ContextCompat.getDrawable(mContext, imageResId[position]);
-//        image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
-//        SpannableString sb = new SpannableString("\n");
-//        ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
-//        sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//
-//        return sb;
-
-        switch (position) {
-            case 0:
-            default:
-                return "Audio";
-            case 1:
-                return "Video";
-            case 2:
-                return "Article";
-        }
-
+    public View getTabView(int position) {
+        View tabView = LayoutInflater.from(mContext).inflate(R.layout.custom_tab, null);
+        TextView title = (TextView) tabView.findViewById(R.id.tab_title);
+        title.setText(getPageTitle(position));
+        ImageView icon = (ImageView) tabView.findViewById(R.id.tab_icon);
+        icon.setImageResource(imageResId[position]);
+        return tabView;
     }
 }

@@ -72,6 +72,12 @@ public class InfoCenterContentFragment extends BaseFragment implements
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    @Override
     public void showNewContentInfo() {
         Snackbar.make(mContainer, "", Snackbar.LENGTH_INDEFINITE)
                 .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
@@ -108,12 +114,6 @@ public class InfoCenterContentFragment extends BaseFragment implements
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
     }
 
     private void initialize() {

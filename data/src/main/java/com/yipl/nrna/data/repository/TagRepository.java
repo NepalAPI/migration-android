@@ -6,8 +6,6 @@ import com.yipl.nrna.domain.repository.IRepository;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import rx.Observable;
 
 /**
@@ -18,7 +16,7 @@ public class TagRepository implements IRepository<String> {
     DataStoreFactory mDataStoreFactory;
     DataMapper mDataMapper;
 
-    public TagRepository(DataStoreFactory pDataStoreFactory, DataMapper pDataMapper){
+    public TagRepository(DataStoreFactory pDataStoreFactory, DataMapper pDataMapper) {
         mDataStoreFactory = pDataStoreFactory;
         mDataMapper = pDataMapper;
     }
@@ -26,6 +24,11 @@ public class TagRepository implements IRepository<String> {
     @Override
     public Observable<List<String>> getList(int pLimit) {
         return mDataStoreFactory.createDBDataStore().getTags().asObservable();
+    }
+
+    @Override
+    public Observable<String> getSingle(Long id) {
+        return null;
     }
 
     @Override
@@ -44,17 +47,17 @@ public class TagRepository implements IRepository<String> {
     }
 
     @Override
-    public Observable<String> getSingle(Long id) {
-        return null;
-    }
-
-    @Override
     public Observable<List<String>> getListByQuestionAndType(Long pId) {
         return null;
     }
 
     @Override
     public Observable<List<String>> getListByCountry(Long pId) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<String>> getListByAnswer(Long pId, int pLimit) {
         return null;
     }
 }

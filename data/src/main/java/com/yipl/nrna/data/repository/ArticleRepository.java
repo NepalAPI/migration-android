@@ -30,6 +30,13 @@ public class ArticleRepository implements IRepository<Post> {
     }
 
     @Override
+    public Observable<Post> getSingle(Long pId) {
+        return mDataStoreFactory.createDBDataStore().getPostById(pId).map(
+                postEntity -> mDataMapper.transformPost(postEntity)
+        );
+    }
+
+    @Override
     public Observable<List<Post>> getListByStage(int pLimit, String pType) {
         return null;
     }
@@ -45,13 +52,6 @@ public class ArticleRepository implements IRepository<Post> {
     }
 
     @Override
-    public Observable<Post> getSingle(Long pId) {
-        return mDataStoreFactory.createDBDataStore().getPostById(pId).map(
-                postEntity -> mDataMapper.transformPost(postEntity)
-        );
-    }
-
-    @Override
     public Observable<List<Post>> getListByQuestionAndType(Long pId) {
         return mDataStoreFactory.createDBDataStore().getPostByQuestionAndType(pId, "text").map(
                 postEntities -> mDataMapper.transformPost(postEntities)
@@ -60,6 +60,11 @@ public class ArticleRepository implements IRepository<Post> {
 
     @Override
     public Observable<List<Post>> getListByCountry(Long pId) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Post>> getListByAnswer(Long pId, int pLimit) {
         return null;
     }
 }

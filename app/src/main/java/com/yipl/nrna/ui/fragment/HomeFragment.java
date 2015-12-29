@@ -102,6 +102,12 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    @Override
     public void showNewContentInfo() {
         Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
                 .LENGTH_INDEFINITE)
@@ -135,12 +141,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
     }
 
     private void initialize() {

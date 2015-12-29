@@ -1,10 +1,10 @@
 package com.yipl.nrna.data.repository.datasource;
 
-import com.yipl.nrna.data.Database.DatabaseDao;
+import com.yipl.nrna.data.database.DatabaseDao;
+import com.yipl.nrna.data.entity.AnswerEntity;
 import com.yipl.nrna.data.entity.CountryEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
-import com.yipl.nrna.domain.model.Post;
 
 import java.util.List;
 
@@ -48,6 +48,18 @@ public class DBDataStore implements IDataStore {
         return database.getPostByQuestionAndType(pQId, pType);
     }
 
+    public Observable<List<PostEntity>> getPostByAnswer(Long pAnswerId, int pLimit) {
+        return database.getPostByAnswer(pAnswerId, pLimit);
+    }
+
+    public Observable<List<AnswerEntity>> getAllAnswers(int limit) {
+        return database.getAllAnswers(limit);
+    }
+
+    public Observable<List<AnswerEntity>> getAllAnswersByQuestion(Long pQuestionId, int pLimit) {
+        return database.getAnswersByQuestion(pQuestionId, pLimit);
+    }
+
     public Observable<List<CountryEntity>> getAllCountries(int pLimit) {
         return database.getAllCountries(pLimit);
     }
@@ -56,11 +68,11 @@ public class DBDataStore implements IDataStore {
         return database.getCountryById(pId);
     }
 
-    public Observable<List<PostEntity>> getPostByCountry(Long pId){
+    public Observable<List<PostEntity>> getPostByCountry(Long pId) {
         return database.getPostByCountry(pId);
     }
 
-    public Observable<List<String>> getTags(){
+    public Observable<List<String>> getTags() {
         return database.getTags();
     }
 

@@ -82,11 +82,11 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                 viewHolder = new AudioViewHolder(aBinding);
                 break;
             case TYPE_VIDEO:
-                if(mIsGrid) {
+                if (mIsGrid) {
                     VideoGridDataBinding vGridBinding = DataBindingUtil.inflate(mLayoutInflater, R.layout
                             .video_gidview_list, parent, false);
                     viewHolder = new VideoViewHolder(vGridBinding);
-                }else {
+                } else {
                     VideoDataBinding vBinding = DataBindingUtil.inflate(mLayoutInflater, R.layout
                             .list_item_video, parent, false);
                     viewHolder = new VideoViewHolder(vBinding);
@@ -117,9 +117,8 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
             case TYPE_AUDIO:
                 ((AudioViewHolder) holder).mBinding.setAudio((Post) mDataCollection.get(position));
                 break;
-            default:
             case TYPE_VIDEO:
-                if(mIsGrid)
+                if (mIsGrid)
                     ((VideoViewHolder) holder).mGridBinding.setVideo((Post) mDataCollection.get(position));
                 else
                     ((VideoViewHolder) holder).mBinding.setVideo((Post) mDataCollection.get(position));
@@ -132,6 +131,8 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                 ((CountryViewHolder) holder).mBinding.setCountry((Country) mDataCollection.get
                         (position));
                 break;
+            default:
+                throw new IllegalArgumentException();
         }
     }
 

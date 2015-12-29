@@ -105,7 +105,7 @@ public class MainActivity extends BaseActivity implements
         mLatestContentPresenter.attachView(this);
     }
 
-    private void initLanguage(){
+    private void initLanguage() {
         Utils.setLanguage(MyConstants.Language.NEPALI, getContext());
     }
 

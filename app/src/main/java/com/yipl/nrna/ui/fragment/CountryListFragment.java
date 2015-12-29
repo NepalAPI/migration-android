@@ -69,6 +69,12 @@ public class CountryListFragment extends BaseFragment implements CountryListView
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    @Override
     public void showNewContentInfo() {
         Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
                 .LENGTH_INDEFINITE)
@@ -102,12 +108,6 @@ public class CountryListFragment extends BaseFragment implements CountryListView
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
     }
 
     private void loadCountryList() {

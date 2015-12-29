@@ -1,27 +1,17 @@
 package com.yipl.nrna.ui.fragment;
 
-import android.app.DialogFragment;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.iconics.IconicsDrawable;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
-import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.base.ContentListFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
@@ -30,11 +20,9 @@ import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.ArticleListFragmentPresenter;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.ArticleListView;
-import com.yipl.nrna.ui.interfaces.FilterDialogCallbackInterface;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -87,6 +75,12 @@ public class ArticleListFragment extends ContentListFragment implements ArticleL
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    @Override
     public void showNewContentInfo() {
         Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
                 .LENGTH_INDEFINITE)
@@ -125,14 +119,6 @@ public class ArticleListFragment extends ContentListFragment implements ArticleL
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
-    }
-
-
 
     private void loadArticleList() {
         mPresenter.initialize();

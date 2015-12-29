@@ -3,7 +3,7 @@ package com.yipl.nrna.data.repository.datasource;
 import android.content.Context;
 
 import com.yipl.nrna.data.BuildConfig;
-import com.yipl.nrna.data.Database.DatabaseDao;
+import com.yipl.nrna.data.database.DatabaseDao;
 import com.yipl.nrna.data.di.DaggerNetworkComponent;
 import com.yipl.nrna.data.di.NetworkComponent;
 import com.yipl.nrna.data.di.NetworkModule;

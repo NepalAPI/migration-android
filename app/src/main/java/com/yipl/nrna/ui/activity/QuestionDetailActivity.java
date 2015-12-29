@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
@@ -32,6 +33,8 @@ public class QuestionDetailActivity extends BaseActivity implements ListClickCal
     ViewPager mViewPager;
     @Bind(R.id.tabs)
     TabLayout mTabs;
+    @Bind(R.id.title)
+    TextView mTitle;
 
     Long mId;
     QuestionAnswerPagerAdapter mAdapter;
@@ -46,17 +49,22 @@ public class QuestionDetailActivity extends BaseActivity implements ListClickCal
         super.onCreate(savedInstanceState);
         initialize();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             Logger.d(bundle.getLong(MyConstants.Extras.KEY_ID) + "/" + bundle.getString(MyConstants.Extras.KEY_TITLE));
             mId = bundle.getLong(MyConstants.Extras.KEY_ID);
-            getSupportActionBar().setTitle(bundle.getString(MyConstants.Extras.KEY_TITLE));
+            mTitle.setText(bundle.getString(MyConstants.Extras.KEY_TITLE));
         }
         mAdapter = new QuestionAnswerPagerAdapter(getSupportFragmentManager(), this, mId);
         mViewPager.setAdapter(mAdapter);
 
         mTabs.setupWithViewPager(mViewPager);
+        for (int i = 0; i < mTabs.getTabCount(); i++) {
+            TabLayout.Tab tab = mTabs.getTabAt(i);
+            tab.setCustomView(mAdapter.getTabView(i));
+        }
     }
 
     @Override

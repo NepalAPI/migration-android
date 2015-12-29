@@ -11,7 +11,7 @@ public class CustomRecyclerViewItemDecoration extends RecyclerView.ItemDecoratio
 
     private final int mSpace = 8;
 
-    public CustomRecyclerViewItemDecoration(){
+    public CustomRecyclerViewItemDecoration() {
 
     }
 
@@ -20,7 +20,7 @@ public class CustomRecyclerViewItemDecoration extends RecyclerView.ItemDecoratio
         if (parent.getChildAdapterPosition(view) < parent.getAdapter().getItemCount() - 2) {
             outRect.bottom = mSpace;
         }
-        if(parent.getChildAdapterPosition(view)%2==0){
+        if (parent.getChildAdapterPosition(view) % 2 == 0) {
             outRect.right = mSpace;
         }
     }

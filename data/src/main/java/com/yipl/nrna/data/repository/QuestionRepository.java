@@ -29,6 +29,13 @@ public class QuestionRepository implements IRepository<Question> {
     }
 
     @Override
+    public Observable<Question> getSingle(Long pId) {
+        //// TODO: 12/9/15
+        return Observable.empty();
+
+    }
+
+    @Override
     public Observable<List<Question>> getListByStage(int pLimit, String pType) {
         return null;
     }
@@ -44,19 +51,17 @@ public class QuestionRepository implements IRepository<Question> {
     }
 
     @Override
-    public Observable<Question> getSingle(Long pId) {
-        //// TODO: 12/9/15
-        return Observable.empty();
-
-    }
-
-    @Override
     public Observable<List<Question>> getListByQuestionAndType(Long pId) {
         return null;
     }
 
     @Override
     public Observable<List<Question>> getListByCountry(Long pId) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Question>> getListByAnswer(Long pId, int pLimit) {
         return null;
     }
 }

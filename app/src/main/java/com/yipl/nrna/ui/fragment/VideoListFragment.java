@@ -7,7 +7,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -79,6 +78,12 @@ public class VideoListFragment extends ContentListFragment implements VideoListV
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    @Override
     public void showNewContentInfo() {
         Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
                 .LENGTH_INDEFINITE)
@@ -118,12 +123,6 @@ public class VideoListFragment extends ContentListFragment implements VideoListV
         ButterKnife.unbind(this);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
-    }
-
     private void loadVideoList() {
         mPresenter.initialize();
     }
@@ -133,7 +132,7 @@ public class VideoListFragment extends ContentListFragment implements VideoListV
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         } else {
             mRecyclerView.addItemDecoration(new CustomRecyclerViewItemDecoration());
-            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2 , GridLayoutManager.VERTICAL, false));
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
         }
         mListAdapter = new ListAdapter<Post>(getContext(), new ArrayList<Post>(), (ListClickCallbackInterface) getActivity());
         mRecyclerView.setAdapter(mListAdapter);

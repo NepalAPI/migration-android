@@ -18,7 +18,6 @@ import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.RelatedContentFragmentPresenter;
-import com.yipl.nrna.ui.activity.CountryDetailActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.RelatedContentFragmentView;
@@ -48,7 +47,7 @@ public class RelatedContentFragment extends BaseFragment implements RelatedConte
     private ListAdapter<Post> mListAdapter;
     private long mQuestionId;
 
-    public RelatedContentFragment(){
+    public RelatedContentFragment() {
 
     }
 
@@ -77,8 +76,8 @@ public class RelatedContentFragment extends BaseFragment implements RelatedConte
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle =getArguments();
-        if(bundle!= null){
+        Bundle bundle = getArguments();
+        if (bundle != null) {
             mQuestionId = bundle.getLong(MyConstants.Extras.KEY_ID);
         }
     }

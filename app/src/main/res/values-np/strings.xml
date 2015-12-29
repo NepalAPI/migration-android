@@ -20,6 +20,13 @@
     <string name="latest_videos">नवीनतम भिडियोहरु</string>
     <string name="latest_articles">नवीनतम लेखहरु</string>
 
+    <string-array name="question_tabs">
+        <item>All</item>
+        <item>Audio</item>
+        <item>Video</item>
+        <item>Articles</item>
+    </string-array>
+
     <string-array name="stages">
         <item>पूर्व- आवेदन</item>
         <item>आवेदन</item>
@@ -46,6 +53,8 @@
     <string name="empty_audio">कुनै अडियोहरु / पोडकास्टहर उपलब्ध छैन</string>
     <string name="empty_video">कुनै भिडियोहरु उपलब्ध छैन</string>
     <string name="empty_country">कुनै देशहरु उपलब्ध छैन</string>
+    <string name="empty_answer">कुनै Answer उपलब्ध छैन</string>
+    <string name="empty_post">कुनै Post उपलब्ध छैन</string>
     <string name="empty_info">%1$s चरणको कुनै जानकारी उपलब्ध छैन</string>
     <string name="empty_question">कुनै प्रश्नहर उपलब्ध छैन</string>
     <string name="empty_related_content">सम्बन्धित सामग्री उपलब्ध छैन</string>

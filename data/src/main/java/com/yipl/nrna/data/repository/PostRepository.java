@@ -27,6 +27,12 @@ public class PostRepository implements IRepository<Post> {
     }
 
     @Override
+    public Observable<Post> getSingle(Long pId) {
+        //// TODO: 12/9/15
+        return Observable.empty();
+    }
+
+    @Override
     public Observable<List<Post>> getListByStage(int pLimit, String pStage) {
         return mDataStoreFactory.createDBDataStore()
                 .getPostByStage(pLimit, pStage)
@@ -48,21 +54,19 @@ public class PostRepository implements IRepository<Post> {
     }
 
     @Override
-    public Observable<Post> getSingle(Long pId) {
-        //// TODO: 12/9/15
-        return Observable.empty();
-    }
-
-    @Override
     public Observable<List<Post>> getListByQuestionAndType(Long pId) {
         return null;
     }
 
-   @Override
+    @Override
     public Observable<List<Post>> getListByCountry(Long pId) {
         return mDataStoreFactory.createDBDataStore().getPostByCountry(pId).map(
-                pPostEntities -> mDataMapper.transformPost(pPostEntities)
-        );
+                pPostEntities -> mDataMapper.transformPost(pPostEntities));
     }
 
+    @Override
+    public Observable<List<Post>> getListByAnswer(Long pId, int pLimit) {
+        return mDataStoreFactory.createDBDataStore().getPostByAnswer(pId, pLimit)
+                .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
+    }
 }

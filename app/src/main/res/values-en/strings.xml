@@ -21,6 +21,13 @@
     <string name="latest_videos">latest videos</string>
     <string name="latest_articles">latest articles</string>
 
+    <string-array name="question_tabs">
+        <item>All</item>
+        <item>Audio</item>
+        <item>Video</item>
+        <item>Articles</item>
+    </string-array>
+
     <string-array name="stages">
         <item>Pre-application</item>
         <item>Application</item>
@@ -48,6 +55,8 @@
     <string name="empty_video">No Videos Available</string>
     <string name="empty_article">No Articles Available</string>
     <string name="empty_country">No Countries Available</string>
+    <string name="empty_answer">No Answers Available</string>
+    <string name="empty_post">No Posts Available</string>
     <string name="empty_info">No information available for %1$s stage.</string>
     <string name="empty_question">No Question Available</string>
     <string name="section_format">Hello World from section: %1$d</string>

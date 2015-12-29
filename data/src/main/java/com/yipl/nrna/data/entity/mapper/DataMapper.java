@@ -1,11 +1,13 @@
 package com.yipl.nrna.data.entity.mapper;
 
 import com.yipl.nrna.data.di.PerActivity;
+import com.yipl.nrna.data.entity.AnswerEntity;
 import com.yipl.nrna.data.entity.CountryEntity;
 import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.data.entity.PostDataEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
+import com.yipl.nrna.domain.model.Answer;
 import com.yipl.nrna.domain.model.Country;
 import com.yipl.nrna.domain.model.LatestContent;
 import com.yipl.nrna.domain.model.Post;
@@ -30,6 +32,7 @@ public class DataMapper {
             latestContent = new LatestContent();
             latestContent.setQuestions(transformQuestion(pEntity.getQuestions()));
             latestContent.setPosts(transformPost(pEntity.getPosts()));
+            latestContent.setAnswers(transformAnswer(pEntity.getAnswers()));
         }
         return latestContent;
     }
@@ -74,6 +77,7 @@ public class DataMapper {
             post.setUpdatedAt(pEntity.getUpdatedAt());
             post.setCreatedAt(pEntity.getCreatedAt());
             post.setQuestionIdList(pEntity.getQuestionIdList());
+            post.setAnswerIdList(pEntity.getAnswerIdList());
             post.setTags(pEntity.getTags());
             post.setData(transformPostData(pEntity.getData()));
             post.setStage(pEntity.getStage());
@@ -92,6 +96,31 @@ public class DataMapper {
             }
         }
         return postList;
+    }
+
+    public Answer transformAnswer(AnswerEntity pEntity) {
+        if (pEntity != null) {
+            Answer answer = new Answer();
+            answer.setId(pEntity.getId());
+            answer.setTitle(pEntity.getTitle());
+            answer.setCreatedAt(pEntity.getCreatedAt());
+            answer.setUpdatedAt(pEntity.getUpdatedAt());
+            answer.setQuestionId(pEntity.getQuestionId());
+            return answer;
+        }
+        return null;
+    }
+
+    public List<Answer> transformAnswer(List<AnswerEntity> pEntities) {
+        List<Answer> answerList = new ArrayList<>();
+        if (pEntities != null) {
+            for (AnswerEntity entity : pEntities) {
+                Answer answer = transformAnswer(entity);
+                if (answer != null)
+                    answerList.add(answer);
+            }
+        }
+        return answerList;
     }
 
     public Country transformCountry(CountryEntity pCountry) {
