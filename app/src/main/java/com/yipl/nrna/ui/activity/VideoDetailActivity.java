@@ -18,20 +18,21 @@ import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
-import com.yipl.nrna.presenter.VideoDetailActivityPresenter;
+import com.yipl.nrna.presenter.PostDetailPresenter;
 import com.yipl.nrna.ui.adapter.CountryInfoPagerAdapter;
-import com.yipl.nrna.ui.interfaces.VideoDetailActivityView;
+import com.yipl.nrna.ui.interfaces.PostDetailView;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 
-public class VideoDetailActivity extends FacebookActivity implements VideoDetailActivityView {
+public class VideoDetailActivity extends FacebookActivity implements PostDetailView {
 
     public Post mVideo;
     Long mId;
     @Inject
-    VideoDetailActivityPresenter mPresenter;
+    PostDetailPresenter mPresenter;
+
     @Bind(R.id.data_container)
     CoordinatorLayout mDataContainer;
     @Bind(R.id.image)
@@ -85,7 +86,7 @@ public class VideoDetailActivity extends FacebookActivity implements VideoDetail
     }
 
     @Override
-    public void renderVideoDetail(Post pVideo) {
+    public void renderPostDetail(Post pVideo) {
         mVideo = pVideo;
         getSupportActionBar().setTitle(mVideo.getTitle());
         mImage.setImageURI(Uri.parse(mVideo.getData().getThumbnail()));

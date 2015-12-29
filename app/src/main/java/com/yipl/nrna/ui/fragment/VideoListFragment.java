@@ -18,11 +18,11 @@ import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
-import com.yipl.nrna.presenter.VideoListFragmentPresenter;
+import com.yipl.nrna.presenter.PostListPresenter;
 import com.yipl.nrna.ui.CustomRecyclerViewItemDecoration;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
-import com.yipl.nrna.ui.interfaces.VideoListView;
+import com.yipl.nrna.ui.interfaces.PostListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +35,11 @@ import butterknife.ButterKnife;
 /**
  * Created by Nirazan-PC on 12/14/2015.
  */
-public class VideoListFragment extends ContentListFragment implements VideoListView {
+public class VideoListFragment extends ContentListFragment implements PostListView {
 
     @Inject
-    VideoListFragmentPresenter mPresenter;
+    PostListPresenter mPresenter;
+
     @Bind(R.id.recylerViewVideoList)
     RecyclerView mRecyclerView;
     @Bind(R.id.tvNoVideo)
@@ -141,13 +142,14 @@ public class VideoListFragment extends ContentListFragment implements VideoListV
     private void initialize() {
         if (mQuestionId != Long.MIN_VALUE) {
             DaggerDataComponent.builder()
-                    .dataModule(new DataModule(mQuestionId))
+                    .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION, MyConstants.PostType.VIDEO))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()
                     .inject(this);
         } else {
             DaggerDataComponent.builder()
+                    .dataModule(new DataModule(MyConstants.PostType.VIDEO))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()
@@ -198,7 +200,7 @@ public class VideoListFragment extends ContentListFragment implements VideoListV
     }
 
     @Override
-    public void renderVideoList(List<Post> pVideos) {
+    public void renderPostList(List<Post> pVideos) {
         mPosts = pVideos;
         mListAdapter.setDataCollection(pVideos, mType == MyConstants.VideoAdapterType.TYPE_GRID);
     }

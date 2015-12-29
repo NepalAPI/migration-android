@@ -3,13 +3,13 @@ package com.yipl.nrna.data.repository;
 import com.yipl.nrna.data.entity.mapper.DataMapper;
 import com.yipl.nrna.data.repository.datasource.DataStoreFactory;
 import com.yipl.nrna.domain.model.Question;
-import com.yipl.nrna.domain.repository.IRepository;
+import com.yipl.nrna.domain.repository.IBaseRepository;
 
 import java.util.List;
 
 import rx.Observable;
 
-public class QuestionRepository implements IRepository<Question> {
+public class QuestionRepository implements IBaseRepository<Question> {
 
     private final DataStoreFactory mDataStoreFactory;
     private final DataMapper mDataMapper;
@@ -22,46 +22,13 @@ public class QuestionRepository implements IRepository<Question> {
     @Override
 
     public Observable<List<Question>> getList(int pLimit) {
-
-        return mDataStoreFactory.createDBDataStore().getAllQuestion(pLimit).map(
+        return mDataStoreFactory.createDBDataStore().getAllQuestion(null, pLimit).map(
                 questionEntities -> mDataMapper.transformQuestion(questionEntities)
         );
     }
 
     @Override
     public Observable<Question> getSingle(Long pId) {
-        //// TODO: 12/9/15
-        return Observable.empty();
-
-    }
-
-    @Override
-    public Observable<List<Question>> getListByStage(int pLimit, String pType) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<Question>> getListByType(int pLimit, String pType) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<Question>> getListByStageAndType(int pLimit, String pType, String pStage) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<Question>> getListByQuestionAndType(Long pId) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<Question>> getListByCountry(Long pId) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<Question>> getListByAnswer(Long pId, int pLimit) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

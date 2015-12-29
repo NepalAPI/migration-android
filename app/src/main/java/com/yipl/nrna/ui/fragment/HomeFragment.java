@@ -9,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -181,10 +180,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
                                 false);
                 audioDataBinding.setAudio(pAudios.get(i));
                 View view = audioDataBinding.getRoot();
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
-                        .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.setMargins(0, 0, 0, getResources().getDimensionPixelOffset(R.dimen.spacing_small));
-                view.setLayoutParams(params);
+
                 final int selectionIndex = i;
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -210,10 +206,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
                                 false);
                 videoDataBinding.setVideo(video);
                 View view = videoDataBinding.getRoot();
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
-                        .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.setMargins(0, 0, 0, getResources().getDimensionPixelOffset(R.dimen.spacing_small));
-                view.setLayoutParams(params);
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -240,10 +232,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
                                 false);
                 articleDataBinding.setArticle(article);
                 View view = articleDataBinding.getRoot();
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup
-                        .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.setMargins(0, 0, 0, getResources().getDimensionPixelOffset(R.dimen.spacing_small));
-                view.setLayoutParams(params);
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override

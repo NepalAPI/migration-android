@@ -4,14 +4,13 @@ import com.yipl.nrna.data.entity.mapper.DataMapper;
 import com.yipl.nrna.data.repository.datasource.DataStoreFactory;
 import com.yipl.nrna.data.repository.datasource.RestDataStore;
 import com.yipl.nrna.domain.model.LatestContent;
-import com.yipl.nrna.domain.repository.IRepository;
+import com.yipl.nrna.domain.repository.IBaseRepository;
 
 import java.util.List;
 
 import rx.Observable;
 
-public class LatestContentRepository implements IRepository<LatestContent> {
-    private static final String TAG = "LatestContentRepository";
+public class LatestContentRepository implements IBaseRepository<LatestContent> {
 
     private final DataStoreFactory mDataStoreFactory;
     private final DataMapper mDataMapper;
@@ -34,35 +33,5 @@ public class LatestContentRepository implements IRepository<LatestContent> {
         return restDataStore.getLatestContents(pLastUpdateStamp)
                 .map(pLatestContentEntity -> mDataMapper.transformLatestContent
                         (pLatestContentEntity));
-    }
-
-    @Override
-    public Observable<List<LatestContent>> getListByStage(int pLimit, String pType) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Observable<List<LatestContent>> getListByType(int pLimit, String pType) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Observable<List<LatestContent>> getListByStageAndType(int pLimit, String pType, String pStage) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Observable<List<LatestContent>> getListByQuestionAndType(Long pId) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<LatestContent>> getListByCountry(Long pId) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<LatestContent>> getListByAnswer(Long pId, int pLimit) {
-        return null;
     }
 }

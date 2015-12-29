@@ -9,7 +9,10 @@ import android.widget.TextView;
 public class BindingUtil {
     @BindingAdapter("bind:imageUrl")
     public static void setImage(ImageView pView, String url) {
-        pView.setImageURI(Uri.parse(url));
+        try {
+            pView.setImageURI(Uri.parse(url));
+        } catch (NullPointerException e) {
+        }
     }
 
     @BindingAdapter("bind:mediaDuration")

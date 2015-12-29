@@ -22,51 +22,59 @@ public class PostRepository implements IRepository<Post> {
     @Override
     public Observable<List<Post>> getList(int pLimit) {
         return mDataStoreFactory.createDBDataStore()
-                .getAllPosts(pLimit)
+                .getAllPosts(null, null, pLimit)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
     }
 
     @Override
     public Observable<Post> getSingle(Long pId) {
-        //// TODO: 12/9/15
-        return Observable.empty();
+        return mDataStoreFactory.createDBDataStore()
+                .getPostById(pId)
+                .map(pPostEntity -> mDataMapper.transformPost(pPostEntity));
     }
 
     @Override
-    public Observable<List<Post>> getListByStage(int pLimit, String pStage) {
+    public Observable<List<Post>> getListByStage(String pStage, int pLimit) {
         return mDataStoreFactory.createDBDataStore()
-                .getPostByStage(pLimit, pStage)
+                .getAllPosts(pStage, null, pLimit)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities)
                 );
     }
 
     @Override
-    public Observable<List<Post>> getListByType(int pLimit, String pType) {
+    public Observable<List<Post>> getListByType(String pType, int pLimit) {
         return mDataStoreFactory.createDBDataStore()
-                .getPostByType(pLimit, pType)
+                .getAllPosts(null, pType, pLimit)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities)
                 );
     }
 
     @Override
-    public Observable<List<Post>> getListByStageAndType(int pLimit, String pType, String pStage) {
-        return null;
+    public Observable<List<Post>> getListByStageAndType(String pStage, String pType, int pLimit) {
+        return mDataStoreFactory.createDBDataStore()
+                .getAllPosts(pStage, pType, pLimit)
+                .map(pPostEntities -> mDataMapper.transformPost(pPostEntities)
+                );
     }
 
     @Override
-    public Observable<List<Post>> getListByQuestionAndType(Long pId) {
-        return null;
+    public Observable<List<Post>> getListByQuestion(Long pQuestionId, String pStage, String pType, int pLimit) {
+        return mDataStoreFactory.createDBDataStore()
+                .getPostByQuestion(pQuestionId, pStage, pType, pLimit)
+                .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
     }
 
     @Override
-    public Observable<List<Post>> getListByCountry(Long pId) {
-        return mDataStoreFactory.createDBDataStore().getPostByCountry(pId).map(
-                pPostEntities -> mDataMapper.transformPost(pPostEntities));
+    public Observable<List<Post>> getListByCountry(Long pId, String pStage, String pType, int pLimit) {
+        return mDataStoreFactory.createDBDataStore()
+                .getPostByCountry(pId, pStage, pType, pLimit)
+                .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
     }
 
     @Override
-    public Observable<List<Post>> getListByAnswer(Long pId, int pLimit) {
-        return mDataStoreFactory.createDBDataStore().getPostByAnswer(pId, pLimit)
+    public Observable<List<Post>> getListByAnswer(Long pAnswerId, String pStage, String pType, int pLimit) {
+        return mDataStoreFactory.createDBDataStore()
+                .getPostByAnswer(pAnswerId, pStage, pType, pLimit)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
     }
 }

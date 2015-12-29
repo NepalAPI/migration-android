@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
-import com.yipl.nrna.di.component.DaggerDataComponent;
-import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
@@ -47,7 +45,6 @@ public class QuestionDetailActivity extends BaseActivity implements ListClickCal
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initialize();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("");
 
@@ -73,15 +70,6 @@ public class QuestionDetailActivity extends BaseActivity implements ListClickCal
             finish();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void initialize() {
-        DaggerDataComponent.builder()
-                .activityModule(getActivityModule())
-                .dataModule(new DataModule())
-                .applicationComponent(getApplicationComponent())
-                .build()
-                .inject(this);
     }
 
     @Override

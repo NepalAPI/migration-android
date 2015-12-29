@@ -17,10 +17,10 @@ import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
-import com.yipl.nrna.presenter.AudioListFragmentPresenter;
+import com.yipl.nrna.presenter.PostListPresenter;
 import com.yipl.nrna.ui.adapter.ListAdapter;
-import com.yipl.nrna.ui.interfaces.AudioListView;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
+import com.yipl.nrna.ui.interfaces.PostListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +33,10 @@ import butterknife.ButterKnife;
 /**
  * Created by Nirazan-PC on 12/11/2015.
  */
-public class AudioListFragment extends ContentListFragment implements AudioListView {
+public class AudioListFragment extends ContentListFragment implements PostListView {
 
     @Inject
-    AudioListFragmentPresenter mPresenter;
+    PostListPresenter mPresenter;
 
     @Bind(R.id.recylerViewAudioList)
     RecyclerView mRecyclerView;
@@ -131,13 +131,15 @@ public class AudioListFragment extends ContentListFragment implements AudioListV
     private void initialize() {
         if (mQuestionId != Long.MIN_VALUE) {
             DaggerDataComponent.builder()
-                    .dataModule(new DataModule(mQuestionId))
+                    .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION,
+                            MyConstants.PostType.AUDIO))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()
                     .inject(this);
         } else {
             DaggerDataComponent.builder()
+                    .dataModule(new DataModule(MyConstants.PostType.AUDIO))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()
@@ -189,7 +191,7 @@ public class AudioListFragment extends ContentListFragment implements AudioListV
     }
 
     @Override
-    public void renderAudiolist(List<Post> pAudios) {
+    public void renderPostList(List<Post> pAudios) {
         if (pAudios != null) {
             mPosts = pAudios;
             tvNoAudio.setVisibility(View.GONE);

@@ -37,24 +37,28 @@ public class GetPostListUseCase extends UseCase<List<Post>> {
 
     @Override
     protected Observable<List<Post>> buildUseCaseObservable() {
-        if (mId != null) {
+        if (mId != Long.MIN_VALUE) {
             if (mDataParent == MyConstants.DataParent.QUESTION) {
-                return mRepository.getListByQuestionAndType(mId);
+                return mRepository.getListByQuestion(mId, MyConstants.Stage.toString
+                        (mStage), MyConstants.PostType.toString(mType), mLimit);
             } else if (mDataParent == MyConstants.DataParent.ANSWER) {
-                return mRepository.getListByAnswer(mId, mLimit);
+                return mRepository.getListByAnswer(mId, MyConstants.Stage.toString
+                        (mStage), MyConstants.PostType.toString(mType), mLimit);
             } else {
-                return mRepository.getListByCountry(mId);
+                return mRepository.getListByCountry(mId, MyConstants.Stage.toString
+                        (mStage), MyConstants.PostType.toString(mType), mLimit);
             }
-        }
-        if (mType == null && mStage == null) {
-            return mRepository.getList(mLimit);
-        } else if (mType != null) {
-            return mRepository.getListByType(mLimit, MyConstants.PostType.toString(mType));
-        } else if (mStage != null) {
-            return mRepository.getListByStage(mLimit, MyConstants.Stage.toString(mStage));
         } else {
-            return mRepository.getListByStageAndType(mLimit, MyConstants.PostType.toString(mType),
-                    MyConstants.Stage.toString(mStage));
+            if (mType == null && mStage == null) {
+                return mRepository.getList(mLimit);
+            } else if (mType != null) {
+                return mRepository.getListByType(MyConstants.PostType.toString(mType), mLimit);
+            } else if (mStage != null) {
+                return mRepository.getListByStage(MyConstants.Stage.toString(mStage), mLimit);
+            } else {
+                return mRepository.getListByStageAndType(MyConstants.Stage.toString(mStage),
+                        MyConstants.PostType.toString(mType), mLimit);
+            }
         }
     }
 }

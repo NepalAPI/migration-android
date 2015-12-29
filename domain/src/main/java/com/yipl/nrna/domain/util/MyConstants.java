@@ -21,17 +21,20 @@ public class MyConstants {
         DESTINATION_COUNTRY;
 
         public static String toString(Stage pStage) {
-            switch (pStage) {
-                default:
-                case PRE_APPLICATION:
-                    return DataInfo.STAGE_PRE_APPLICATION;
-                case APPLICATION:
-                    return DataInfo.STAGE_APPLICATION;
-                case WORK_PERMIT:
-                    return DataInfo.STAGE_WORK_PERMIT;
-                case DESTINATION_COUNTRY:
-                    return DataInfo.STAGE_DESTINATION_COUNTRY;
-            }
+            if (pStage != null)
+                switch (pStage) {
+                    default:
+                    case PRE_APPLICATION:
+                        return DataInfo.STAGE_PRE_APPLICATION;
+                    case APPLICATION:
+                        return DataInfo.STAGE_APPLICATION;
+                    case WORK_PERMIT:
+                        return DataInfo.STAGE_WORK_PERMIT;
+                    case DESTINATION_COUNTRY:
+                        return DataInfo.STAGE_DESTINATION_COUNTRY;
+                }
+            else
+                return null;
         }
     }
 
@@ -41,15 +44,18 @@ public class MyConstants {
         TEXT;
 
         public static String toString(PostType pType) {
-            switch (pType) {
-                default:
-                case AUDIO:
-                    return DataInfo.TYPE_AUDIO;
-                case VIDEO:
-                    return DataInfo.TYPE_VIDEO;
-                case TEXT:
-                    return DataInfo.TYPE_TEXT;
-            }
+            if (pType != null)
+                switch (pType) {
+                    default:
+                    case AUDIO:
+                        return DataInfo.TYPE_AUDIO;
+                    case VIDEO:
+                        return DataInfo.TYPE_VIDEO;
+                    case TEXT:
+                        return DataInfo.TYPE_TEXT;
+                }
+            else
+                return null;
         }
     }
 
