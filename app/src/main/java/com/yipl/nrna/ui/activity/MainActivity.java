@@ -85,14 +85,17 @@ public class MainActivity extends BaseActivity implements
         mNavigationView.setNavigationItemSelectedListener(this);
         mNavigationView.setItemIconTintList(Utils.getIconColorTint(getResources().getColor(R.color
                 .white_alpha_70), Color.WHITE));
-
-        getSupportActionBar().setTitle(getString(R.string.title_home));
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.main_content, new HomeFragment(), "home_fragment")
-                .commit();
-        mMainContent.invalidate();
-
-        fetchLatestContent();
+        if (savedInstanceState == null) {
+            getSupportActionBar().setTitle(getString(R.string.title_home));
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.main_content, new HomeFragment(), "home_fragment")
+                    .commit();
+            mMainContent.invalidate();
+            fetchLatestContent();
+        }
+        else {
+            getSupportActionBar().setTitle(savedInstanceState.getCharSequence(MyConstants.Extras.KEY_TITLE));
+        }
     }
 
     private void initialize() {
@@ -299,5 +302,11 @@ public class MainActivity extends BaseActivity implements
         intent.putExtra(MyConstants.Extras.KEY_AUDIO_LIST, (Serializable) pAudios);
         intent.putExtra(MyConstants.Extras.KEY_AUDIO_SELECTION, index);
         startActivity(intent);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putCharSequence(MyConstants.Extras.KEY_TITLE, getSupportActionBar().getTitle());
+        super.onSaveInstanceState(outState);
     }
 }

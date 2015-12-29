@@ -12,8 +12,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_small">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/content_art"
@@ -22,12 +21,14 @@
             android:src="@drawable/ic_article"
             android:background="@drawable/round_bg"
             android:scaleType="centerInside"
-            />
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/spacing_standard"
+            android:paddingTop="@dimen/spacing_standard"
             android:orientation="vertical">
 
             <TextView
@@ -36,12 +37,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{article.getTitle()}"
+                android:singleLine="true"
+                android:textSize="@dimen/text_big"
                 tools:text="नेपाल सरकारबाट संस्थागत रुपमा बैदेशिक रोजगारका लाशग खल्ुला गररएका देिहरुको नामावली"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_standard"
                 android:background="@color/divider"/>
         </LinearLayout>
     </LinearLayout>

@@ -27,12 +27,13 @@
         fresco:roundedCornerRadius="@dimen/round_corner"/>
     <TextView
         android:id="@+id/titleGrid"
+        style="@style/post_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@{video.getTitle()}"
-        android:layout_marginLeft="@dimen/video_grid_title_margin_left"
-        android:layout_marginRight="@dimen/video_grid_title_margin_right"
-        android:layout_marginTop="@dimen/video_grid_title_margin_top"
+        android:layout_marginLeft="@dimen/spacing_small"
+        android:layout_marginRight="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_small_standard"
         android:textColor="@color/text_color_primary"
         tools:text="My experience on applying for citizenship."
         />
@@ -40,11 +41,10 @@
         android:id="@+id/timeGrid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/video_grid_time_margin_top"
-        android:layout_marginLeft="@dimen/video_grid_time_margin_left"
-        android:textColor="@color/text_color_primary"
+        android:layout_marginTop="@dimen/spacing_xxsmall"
+        android:layout_marginLeft="@dimen/spacing_small_standard"
+        style="@style/post_duration"
         app:mediaDuration="@{video.getData().getDuration()}"
-        android:alpha="0.69"
         tools:text="2:15"
         />
 </LinearLayout>

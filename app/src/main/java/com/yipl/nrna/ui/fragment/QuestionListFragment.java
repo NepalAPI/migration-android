@@ -1,5 +1,6 @@
 package com.yipl.nrna.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -7,14 +8,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
@@ -74,10 +79,44 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
         loadQuestionList();
     }
 
+    @Nullable
     @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+
     public void onDestroy() {
         super.onDestroy();
         mPresenter.destroy();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_filter, menu);
+        menu.findItem(R.id.action_filter).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_filter_list)
+                .color(Color.WHITE).actionBar());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_filter){
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            Fragment prev = getChildFragmentManager().findFragmentByTag("dialog");
+            if (prev != null) {
+                ft.remove(prev);
+            }
+            ft.addToBackStack(null);
+
+            FilterDialogFragment newFragment = FilterDialogFragment.newInstance();
+            newFragment.setTargetFragment(this,0);
+            newFragment.show(ft, "dialog");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -103,31 +142,7 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
         super.onPause();
         mPresenter.pause();
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_filter, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_filter) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment prev = getChildFragmentManager().findFragmentByTag("dialog");
-            if (prev != null) {
-                ft.remove(prev);
-            }
-            ft.addToBackStack(null);
-
-            FilterDialogFragment newFragment = FilterDialogFragment.newInstance();
-            newFragment.setTargetFragment(this, 0);
-            newFragment.show(ft, "dialog");
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
+   
     private void initialize() {
         DaggerDataComponent.builder()
                 .activityModule(((BaseActivity) getActivity()).getActivityModule())
@@ -229,6 +244,5 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
         }
         mListAdapter.setDataCollection(filteredQuestion);
         return;
-
     }
 }

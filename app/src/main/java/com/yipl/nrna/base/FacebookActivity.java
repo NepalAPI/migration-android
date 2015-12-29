@@ -44,7 +44,6 @@ public abstract class FacebookActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.share, menu);
-
         menu.findItem(R.id.action_share).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon
                 .gmd_share).color(Color.WHITE)
                 .actionBar());

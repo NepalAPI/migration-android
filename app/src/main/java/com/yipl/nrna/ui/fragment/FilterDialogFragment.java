@@ -1,5 +1,6 @@
 package com.yipl.nrna.ui.fragment;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -132,6 +133,8 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
             for (String tag : tagsList) {
                 CheckBox checkBox = new CheckBox(getContext());
                 checkBox.setText(tag);
+                int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
+                checkBox.setButtonDrawable(id);
                 tagCheckbox.add(checkBox);
                 tagsContainer.addView(checkBox, params);
             }
