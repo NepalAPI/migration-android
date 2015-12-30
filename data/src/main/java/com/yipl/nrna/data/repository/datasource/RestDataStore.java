@@ -5,8 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-import com.yipl.nrna.data.database.DatabaseDao;
 import com.yipl.nrna.data.api.ApiRequest;
+import com.yipl.nrna.data.database.DatabaseDao;
 import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.data.exception.NetworkConnectionException;
 

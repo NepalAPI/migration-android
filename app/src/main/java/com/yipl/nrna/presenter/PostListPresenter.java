@@ -5,8 +5,8 @@ import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.exception.ErrorMessageFactory;
-import com.yipl.nrna.ui.interfaces.ArticleListView;
 import com.yipl.nrna.ui.interfaces.MvpView;
+import com.yipl.nrna.ui.interfaces.PostListView;
 import com.yipl.nrna.util.Logger;
 
 import java.util.List;
@@ -17,14 +17,14 @@ import javax.inject.Named;
 /**
  * Created by Nirazan-PC on 12/14/2015.
  */
-public class ArticleListFragmentPresenter implements Presenter {
+public class PostListPresenter implements Presenter {
 
-    UseCase mArticleUseCase;
-    ArticleListView mView;
+    UseCase mUseCase;
+    PostListView mView;
 
     @Inject
-    public ArticleListFragmentPresenter(@Named("articleList") UseCase pArticleUseCase) {
-        mArticleUseCase = pArticleUseCase;
+    public PostListPresenter(@Named("postList") UseCase pUseCase) {
+        mUseCase = pUseCase;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ArticleListFragmentPresenter implements Presenter {
 
     @Override
     public void destroy() {
-        mArticleUseCase.unSubscribe();
+        mUseCase.unSubscribe();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ArticleListFragmentPresenter implements Presenter {
 
     @Override
     public void attachView(MvpView view) {
-        mView = (ArticleListView) view;
+        mView = (PostListView) view;
     }
 
 
@@ -61,36 +61,36 @@ public class ArticleListFragmentPresenter implements Presenter {
     }
 
     private void getArticleList() {
-        this.mArticleUseCase.execute(new ArticleSubscriber());
+        this.mUseCase.execute(new ArticleSubscriber());
     }
 
     private final class ArticleSubscriber extends DefaultSubscriber<List<Post>> {
 
         @Override
         public void onCompleted() {
-            ArticleListFragmentPresenter.this.mView.hideLoadingView();
+            PostListPresenter.this.mView.hideLoadingView();
         }
 
         @Override
         public void onError(Throwable e) {
-            ArticleListFragmentPresenter.this.mView.hideLoadingView();
-            ArticleListFragmentPresenter.this.mView.showEmptyView();
+            PostListPresenter.this.mView.hideLoadingView();
+            PostListPresenter.this.mView.showEmptyView();
             Logger.e("ArticleSubscriber_onError", e.getLocalizedMessage());
             e.printStackTrace();
-            ArticleListFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
+            PostListPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));
-            ArticleListFragmentPresenter.this.mView.showRetryView();
+            PostListPresenter.this.mView.showRetryView();
         }
 
         @Override
         public void onNext(List<Post> pPosts) {
             if (pPosts.isEmpty()) {
-                ArticleListFragmentPresenter.this.mView.showEmptyView();
+                PostListPresenter.this.mView.showEmptyView();
             } else {
-                ArticleListFragmentPresenter.this.mView.hideEmptyView();
-                ArticleListFragmentPresenter.this.mView.renderArticleList(pPosts);
+                PostListPresenter.this.mView.hideEmptyView();
+                PostListPresenter.this.mView.renderPostList(pPosts);
             }
-            ArticleListFragmentPresenter.this.mView.hideLoadingView();
+            PostListPresenter.this.mView.hideLoadingView();
         }
     }
 

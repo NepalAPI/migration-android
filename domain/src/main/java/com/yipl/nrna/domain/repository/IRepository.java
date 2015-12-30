@@ -5,15 +5,16 @@ import java.util.List;
 import rx.Observable;
 
 public interface IRepository<T> extends IBaseRepository<T> {
-    Observable<List<T>> getListByStage(int pLimit, String pType);
+    Observable<List<T>> getListByStage(String pType, int pLimit);
 
-    Observable<List<T>> getListByType(int pLimit, String pType);
+    Observable<List<T>> getListByType(String pType, int pLimit);
 
-    Observable<List<T>> getListByStageAndType(int pLimit, String pType, String pStage);
+    Observable<List<T>> getListByStageAndType(String pStage, String pType, int pLimit);
 
-    Observable<List<T>> getListByQuestionAndType(Long pId);
+    Observable<List<T>> getListByQuestion(Long pQuestionId, String pStage, String pType, int
+            pLimit);
 
-    Observable<List<T>> getListByCountry(Long pId);
+    Observable<List<T>> getListByCountry(Long pId, String pStage, String pType, int pLimit);
 
-    Observable<List<T>> getListByAnswer(Long pId, int pLimit);
+    Observable<List<T>> getListByAnswer(Long pId, String pStage, String pType, int pLimit);
 }

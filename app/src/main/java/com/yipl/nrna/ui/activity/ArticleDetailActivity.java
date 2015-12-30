@@ -12,18 +12,18 @@ import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
-import com.yipl.nrna.presenter.ArticleDetailActivityPresenter;
-import com.yipl.nrna.ui.interfaces.ArticleDetailActivityView;
+import com.yipl.nrna.presenter.PostDetailPresenter;
+import com.yipl.nrna.ui.interfaces.PostDetailView;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 
-public class ArticleDetailActivity extends FacebookActivity implements ArticleDetailActivityView {
+public class ArticleDetailActivity extends FacebookActivity implements PostDetailView {
 
     Long mId;
     @Inject
-    ArticleDetailActivityPresenter mPresenter;
+    PostDetailPresenter mPresenter;
 
     @Bind(R.id.tvTitle)
     TextView tvTitle;
@@ -63,7 +63,7 @@ public class ArticleDetailActivity extends FacebookActivity implements ArticleDe
     }
 
     @Override
-    public void renderArticleDetail(Post post) {
+    public void renderPostDetail(Post post) {
         mPost = post;
         tvTitle.setText(post.getTitle());
         webContent.loadDataWithBaseURL(null, post.getData().getContent(), "text/html", "utf-8",

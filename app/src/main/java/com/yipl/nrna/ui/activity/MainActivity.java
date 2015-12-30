@@ -92,8 +92,7 @@ public class MainActivity extends BaseActivity implements
                     .commit();
             mMainContent.invalidate();
             fetchLatestContent();
-        }
-        else {
+        } else {
             getSupportActionBar().setTitle(savedInstanceState.getCharSequence(MyConstants.Extras.KEY_TITLE));
         }
     }
@@ -132,6 +131,12 @@ public class MainActivity extends BaseActivity implements
     public void onResume() {
         super.onResume();
         mLatestContentPresenter.resume();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putCharSequence(MyConstants.Extras.KEY_TITLE, getSupportActionBar().getTitle());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -302,11 +307,5 @@ public class MainActivity extends BaseActivity implements
         intent.putExtra(MyConstants.Extras.KEY_AUDIO_LIST, (Serializable) pAudios);
         intent.putExtra(MyConstants.Extras.KEY_AUDIO_SELECTION, index);
         startActivity(intent);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putCharSequence(MyConstants.Extras.KEY_TITLE, getSupportActionBar().getTitle());
-        super.onSaveInstanceState(outState);
     }
 }

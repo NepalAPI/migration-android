@@ -34,7 +34,7 @@ public class AnswerRepository implements QRepository<Answer> {
     @Override
     public Observable<List<Answer>> getListByQuestion(Long pQuestionId, int pLimit) {
         return mDataStoreFactory.createDBDataStore()
-                .getAllAnswersByQuestion(pQuestionId, pLimit)
+                .getAnswersByQuestion(pQuestionId, pLimit)
                 .map(pAnswerEntities -> mDataMapper.transformAnswer(pAnswerEntities));
     }
 

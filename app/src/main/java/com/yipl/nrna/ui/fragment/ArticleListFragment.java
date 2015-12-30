@@ -17,10 +17,10 @@ import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
-import com.yipl.nrna.presenter.ArticleListFragmentPresenter;
+import com.yipl.nrna.presenter.PostListPresenter;
 import com.yipl.nrna.ui.adapter.ListAdapter;
-import com.yipl.nrna.ui.interfaces.ArticleListView;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
+import com.yipl.nrna.ui.interfaces.PostListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +33,10 @@ import butterknife.ButterKnife;
 /**
  * Created by Nirazan-PC on 12/14/2015.
  */
-public class ArticleListFragment extends ContentListFragment implements ArticleListView {
+public class ArticleListFragment extends ContentListFragment implements PostListView {
 
     @Inject
-    ArticleListFragmentPresenter mPresenter;
+    PostListPresenter mPresenter;
 
     @Bind(R.id.recyclerViewArticleList)
     RecyclerView mRecyclerView;
@@ -132,13 +132,15 @@ public class ArticleListFragment extends ContentListFragment implements ArticleL
     private void initialize() {
         if (mQuestionId != Long.MIN_VALUE) {
             DaggerDataComponent.builder()
-                    .dataModule(new DataModule(mQuestionId))
+                    .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION,
+                            MyConstants.PostType.TEXT))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()
                     .inject(this);
         } else {
             DaggerDataComponent.builder()
+                    .dataModule(new DataModule(MyConstants.PostType.TEXT))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()
@@ -150,7 +152,7 @@ public class ArticleListFragment extends ContentListFragment implements ArticleL
     }
 
     @Override
-    public void renderArticleList(List<Post> pPosts) {
+    public void renderPostList(List<Post> pPosts) {
         mPosts = pPosts;
         mListAdapter.setDataCollection(pPosts);
     }

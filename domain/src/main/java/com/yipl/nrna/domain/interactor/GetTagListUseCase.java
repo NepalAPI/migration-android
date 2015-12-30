@@ -2,7 +2,7 @@ package com.yipl.nrna.domain.interactor;
 
 import com.yipl.nrna.domain.executor.PostExecutionThread;
 import com.yipl.nrna.domain.executor.ThreadExecutor;
-import com.yipl.nrna.domain.repository.IRepository;
+import com.yipl.nrna.domain.repository.IBaseRepository;
 
 import javax.inject.Inject;
 
@@ -13,10 +13,11 @@ import rx.Observable;
  */
 public class GetTagListUseCase extends UseCase<String> {
 
-    private final IRepository mIRepository;
+    private final IBaseRepository mIRepository;
 
     @Inject
-    public GetTagListUseCase(IRepository pIRepository, ThreadExecutor pThreadExecutor, PostExecutionThread pPostExecutionThread) {
+    public GetTagListUseCase(IBaseRepository pIRepository, ThreadExecutor pThreadExecutor,
+                             PostExecutionThread pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
         mIRepository = pIRepository;
     }

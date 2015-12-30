@@ -24,39 +24,38 @@ public class DBDataStore implements IDataStore {
         this.database = database;
     }
 
-    public Observable<List<PostEntity>> getAllPosts(int limit) {
-        return database.getAllPosts(limit);
-    }
-
-    public Observable<List<PostEntity>> getPostByType(int pLimit, String pType) {
-        return database.getPostByType(pLimit, pType);
-    }
-
-    public Observable<List<PostEntity>> getPostByStage(int pLimit, String pStage) {
-        return database.getPostByStage(pLimit, pStage);
-    }
-
     public Observable<PostEntity> getPostById(Long pId) {
         return database.getPostById(pId);
     }
 
-    public Observable<List<QuestionEntity>> getAllQuestion(int limit) {
-        return database.getAllQuestions(limit);
+    public Observable<List<PostEntity>> getAllPosts(String pStage, String pType, int pLimit) {
+        return database.getAllPosts(pStage, pType, pLimit);
     }
 
-    public Observable<List<PostEntity>> getPostByQuestionAndType(Long pQId, String pType) {
-        return database.getPostByQuestionAndType(pQId, pType);
+    public Observable<List<PostEntity>> getPostByQuestion(Long pQuestionId, String pStage, String
+            pType, int pLimit) {
+        return database.getPostByQuestion(pQuestionId, pStage, pType, pLimit);
     }
 
-    public Observable<List<PostEntity>> getPostByAnswer(Long pAnswerId, int pLimit) {
-        return database.getPostByAnswer(pAnswerId, pLimit);
+    public Observable<List<PostEntity>> getPostByAnswer(Long pAnswerId, String pStage, String
+            pType, int pLimit) {
+        return database.getPostByAnswer(pAnswerId, pStage, pType, pLimit);
+    }
+
+    public Observable<List<PostEntity>> getPostByCountry(Long pCountryId, String pStage, String
+            pType, int pLimit) {
+        return database.getPostByCountry(pCountryId, pStage, pType, pLimit);
+    }
+
+    public Observable<List<QuestionEntity>> getAllQuestion(String pStage, int pLimit) {
+        return database.getAllQuestions(pStage, pLimit);
     }
 
     public Observable<List<AnswerEntity>> getAllAnswers(int limit) {
         return database.getAllAnswers(limit);
     }
 
-    public Observable<List<AnswerEntity>> getAllAnswersByQuestion(Long pQuestionId, int pLimit) {
+    public Observable<List<AnswerEntity>> getAnswersByQuestion(Long pQuestionId, int pLimit) {
         return database.getAnswersByQuestion(pQuestionId, pLimit);
     }
 
@@ -66,10 +65,6 @@ public class DBDataStore implements IDataStore {
 
     public Observable<CountryEntity> getCountryById(long pId) {
         return database.getCountryById(pId);
-    }
-
-    public Observable<List<PostEntity>> getPostByCountry(Long pId) {
-        return database.getPostByCountry(pId);
     }
 
     public Observable<List<String>> getTags() {

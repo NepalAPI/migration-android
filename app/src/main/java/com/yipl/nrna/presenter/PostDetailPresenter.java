@@ -3,8 +3,8 @@ package com.yipl.nrna.presenter;
 import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.model.Post;
-import com.yipl.nrna.ui.interfaces.ArticleDetailActivityView;
 import com.yipl.nrna.ui.interfaces.MvpView;
+import com.yipl.nrna.ui.interfaces.PostDetailView;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -12,14 +12,14 @@ import javax.inject.Named;
 /**
  * Created by Nirazan-PC on 12/14/2015.
  */
-public class ArticleDetailActivityPresenter implements Presenter {
+public class PostDetailPresenter implements Presenter {
 
-    UseCase mArticleDetailUseCase;
-    ArticleDetailActivityView mView;
+    UseCase mUseCase;
+    PostDetailView mView;
 
     @Inject
-    public ArticleDetailActivityPresenter(@Named("articleDetails") UseCase pArticleUseCase) {
-        mArticleDetailUseCase = pArticleUseCase;
+    public PostDetailPresenter(@Named("postDetails") UseCase pUseCase) {
+        mUseCase = pUseCase;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ArticleDetailActivityPresenter implements Presenter {
 
     @Override
     public void destroy() {
-        mArticleDetailUseCase.unSubscribe();
+        mUseCase.unSubscribe();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ArticleDetailActivityPresenter implements Presenter {
 
     @Override
     public void attachView(MvpView view) {
-        mView = (ArticleDetailActivityView) view;
+        mView = (PostDetailView) view;
     }
 
     private void loadArticle() {
@@ -52,26 +52,26 @@ public class ArticleDetailActivityPresenter implements Presenter {
     }
 
     private void getArticle() {
-        this.mArticleDetailUseCase.execute(new ArticleDetailSubscriber());
+        this.mUseCase.execute(new ArticleDetailSubscriber());
     }
 
     private final class ArticleDetailSubscriber extends DefaultSubscriber<Post> {
         @Override
         public void onCompleted() {
-            ArticleDetailActivityPresenter.this.mView.hideLoadingView();
+            PostDetailPresenter.this.mView.hideLoadingView();
         }
 
         @Override
         public void onError(Throwable e) {
-            ArticleDetailActivityPresenter.this.mView.hideLoadingView();
-            ArticleDetailActivityPresenter.this.mView.showErrorView(e.getLocalizedMessage());
-            ArticleDetailActivityPresenter.this.mView.showRetryView();
+            PostDetailPresenter.this.mView.hideLoadingView();
+            PostDetailPresenter.this.mView.showErrorView(e.getLocalizedMessage());
+            PostDetailPresenter.this.mView.showRetryView();
             e.printStackTrace();
         }
 
         @Override
         public void onNext(Post pPost) {
-            ArticleDetailActivityPresenter.this.mView.renderArticleDetail(pPost);
+            PostDetailPresenter.this.mView.renderPostDetail(pPost);
         }
     }
 

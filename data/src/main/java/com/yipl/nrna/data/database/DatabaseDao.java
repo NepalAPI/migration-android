@@ -3,7 +3,6 @@ package com.yipl.nrna.data.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -118,29 +117,6 @@ public class DatabaseDao {
         return question;
     }
 
-    public Observable<List<PostEntity>> getAllPosts(int pLimit) {
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        String query = "Select * from " +
-                TABLE_POST.TABLE_NAME +
-                " order by " + TABLE_POST.COLUMN_UPDATED_AT +
-                " DESC LIMIT " + pLimit;
-        Cursor cursor = db.rawQuery(query, null);
-
-        Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
-            @Override
-            public List<PostEntity> call() throws Exception {
-                List<PostEntity> posts = new ArrayList<PostEntity>();
-                while (cursor.moveToNext()) {
-                    posts.add(mapCursorToPostEntity(cursor));
-                }
-                cursor.close();
-                return posts;
-            }
-        };
-        return makeObservable(c);
-    }
-
     public Observable<PostEntity> getPostById(Long pId) {
         String query = "Select * from " +
                 TABLE_POST.TABLE_NAME +
@@ -163,12 +139,23 @@ public class DatabaseDao {
         return makeObservable(callable);
     }
 
-    public Observable<List<PostEntity>> getPostByType(int pLimit, String type) {
+    public Observable<List<PostEntity>> getAllPosts(String pStage, String pType, int pLimit) {
+        SQLiteDatabase db = helper.getWritableDatabase();
         String query = "Select * from " +
-                TABLE_POST.TABLE_NAME + " where " +
-                TABLE_POST.COLUMN_TYPE + " = '" + type + "'" +
-                " order by " + TABLE_POST.COLUMN_UPDATED_AT +
-                " DESC Limit " + pLimit;
+                TABLE_POST.TABLE_NAME;
+        if (pStage != null || pType != null) {
+            query += " where ";
+            if (pType != null) {
+                query += TABLE_POST.COLUMN_TYPE + " = '" + pType + "'";
+                if (pStage != null)
+                    query += " and ";
+            }
+            if (pStage != null) {
+                query += TABLE_POST.COLUMN_STAGE + " = '" + pStage + "'";
+            }
+        }
+        query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
+                " DESC LIMIT " + pLimit;
         Cursor cursor = db.rawQuery(query, null);
 
         Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
@@ -182,18 +169,33 @@ public class DatabaseDao {
                 return posts;
             }
         };
-
         return makeObservable(c);
     }
 
-    public Observable<List<PostEntity>> getPostByStage(int pLimit, String pStage) {
-        String query = "Select * from " +
-                TABLE_POST.TABLE_NAME + " where " +
-                TABLE_POST.COLUMN_STAGE + " = '" + pStage + "'" +
-                " order by " + TABLE_POST.COLUMN_UPDATED_AT +
-                " DESC Limit " + pLimit;
-        Cursor cursor = db.rawQuery(query, null);
+    public Observable<List<PostEntity>> getPostByQuestion(Long pQuestionId, String pStage, String
+            pType, int pLimit) {
+        String query = "Select p.*" +
+                " from " + TABLE_POST.TABLE_NAME + " p join " +
+                TABLE_POST_QUESTION.TABLE_NAME + " pq on p." + TABLE_POST.COLUMN_ID +
+                " = pq." + TABLE_POST_QUESTION.COLUMN_POST_ID + " join " + TABLE_QUESTION.TABLE_NAME +
+                " q on q." + TABLE_QUESTION.COLUMN_ID + " = pq." + TABLE_POST_QUESTION.COLUMN_QUESTION_ID +
+                " where q." + TABLE_QUESTION.COLUMN_ID + " = " + pQuestionId;
 
+        if (pStage != null || pType != null) {
+            query += " and ";
+            if (pType != null) {
+                query += TABLE_POST.COLUMN_TYPE + " = '" + pType + "'";
+                if (pStage != null)
+                    query += " and ";
+            }
+            if (pStage != null) {
+                query += TABLE_POST.COLUMN_STAGE + " = '" + pStage + "'";
+            }
+        }
+        query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
+                " DESC LIMIT " + pLimit;
+
+        Cursor cursor = db.rawQuery(query, null);
         Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
             @Override
             public List<PostEntity> call() throws Exception {
@@ -205,17 +207,32 @@ public class DatabaseDao {
                 return posts;
             }
         };
-
         return makeObservable(c);
+
     }
 
-    public Observable<List<PostEntity>> getPostByCountry(Long countryId) {
+    public Observable<List<PostEntity>> getPostByCountry(Long countryId, String pStage, String
+            pType, int pLimit) {
 
         String query = "Select p.* from " +
                 TABLE_POST.TABLE_NAME + " p join " + TABLE_POST_COUNTRY.TABLE_NAME +
                 " pc on p." + TABLE_POST.COLUMN_ID + " = pc." + TABLE_POST_COUNTRY.COLUMN_POST_ID +
                 " join " + TABLE_COUNTRY.TABLE_NAME + " c on c." + TABLE_COUNTRY.COLUMN_ID + " = pc." +
-                TABLE_POST_COUNTRY.COLUMN_COUNTRY_ID + " where c." + TABLE_COUNTRY.COLUMN_ID + " = " + countryId;
+                TABLE_POST_COUNTRY.COLUMN_COUNTRY_ID + " where c." + TABLE_COUNTRY.COLUMN_ID + " " +
+                "= " + countryId;
+        if (pStage != null || pType != null) {
+            query += " and ";
+            if (pType != null) {
+                query += TABLE_POST.COLUMN_TYPE + " = '" + pType + "'";
+                if (pStage != null)
+                    query += " and ";
+            }
+            if (pStage != null) {
+                query += TABLE_POST.COLUMN_STAGE + " = '" + pStage + "'";
+            }
+        }
+        query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
+                " DESC LIMIT " + pLimit;
 
         Cursor cursor = db.rawQuery(query, null);
         Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
@@ -232,47 +249,44 @@ public class DatabaseDao {
         return makeObservable(c);
     }
 
-    public Observable<List<QuestionEntity>> getAllQuestions(int pLimit) {
-
-        String query = "Select * from " +
-                TABLE_QUESTION.TABLE_NAME +
-                " order by " + TABLE_QUESTION.COlUMN_UPDATED_AT +
+    public Observable<List<PostEntity>> getPostByAnswer(Long pAnswerId, String pStage, String
+            pType, int pLimit) {
+        String query = "Select p.*" +
+                " from " + TABLE_POST.TABLE_NAME + " p join " +
+                TABLE_POST_ANSWER.TABLE_NAME + " pa on p." + MyConstants
+                .DATABASE.TABLE_POST.COLUMN_ID + " = pa." + MyConstants.DATABASE
+                .TABLE_POST_ANSWER.COLUMN_POST_ID + " join " + TABLE_ANSWER
+                .TABLE_NAME + " a on a." + TABLE_ANSWER.COLUMN_ID + " = pa."
+                + TABLE_POST_ANSWER.COLUMN_ANSWER_ID +
+                " where a." + TABLE_ANSWER.COLUMN_ID + " = " + pAnswerId;
+        if (pStage != null || pType != null) {
+            query += " and ";
+            if (pType != null) {
+                query += TABLE_POST.COLUMN_TYPE + " = '" + pType + "'";
+                if (pStage != null)
+                    query += " and ";
+            }
+            if (pStage != null) {
+                query += TABLE_POST.COLUMN_STAGE + " = '" + pStage + "'";
+            }
+        }
+        query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
                 " DESC LIMIT " + pLimit;
+
         Cursor cursor = db.rawQuery(query, null);
-        Callable<List<QuestionEntity>> callable = new Callable<List<QuestionEntity>>() {
+        Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
             @Override
-            public List<QuestionEntity> call() throws Exception {
-                List<QuestionEntity> questions = new ArrayList<>();
+            public List<PostEntity> call() throws Exception {
+                List<PostEntity> posts = new ArrayList<PostEntity>();
                 while (cursor.moveToNext()) {
-                    questions.add(mapCursorToQuestionEntity(cursor));
+                    posts.add(mapCursorToPostEntity(cursor));
                 }
                 cursor.close();
-                return questions;
+                return posts;
             }
         };
-        return makeObservable(callable);
-    }
+        return makeObservable(c);
 
-    public Observable<List<QuestionEntity>> getQuestionByStage(String mStage) {
-
-        String query = "Select * from " +
-                TABLE_QUESTION.TABLE_NAME +
-                " where " + TABLE_QUESTION.COLUMN_STAGE + " = '" + mStage +
-                " order by " + TABLE_QUESTION.COlUMN_UPDATED_AT +
-                " DESC ;";
-        Cursor cursor = db.rawQuery(query, null);
-        Callable<List<QuestionEntity>> callable = new Callable<List<QuestionEntity>>() {
-            @Override
-            public List<QuestionEntity> call() throws Exception {
-                List<QuestionEntity> questions = new ArrayList<>();
-                while (cursor.moveToNext()) {
-                    questions.add(mapCursorToQuestionEntity(cursor));
-                }
-                cursor.close();
-                return questions;
-            }
-        };
-        return makeObservable(callable);
     }
 
     public Observable<QuestionEntity> getQuestionById(int pId) {
@@ -295,55 +309,28 @@ public class DatabaseDao {
         return makeObservable(callable);
     }
 
-    public Observable<List<PostEntity>> getPostByQuestionAndType(Long pId, String pType) {
+    public Observable<List<QuestionEntity>> getAllQuestions(String pStage, int pLimit) {
 
-
-        String query = "Select p.*" +
-                " from " + TABLE_POST.TABLE_NAME + " p join " +
-                TABLE_POST_QUESTION.TABLE_NAME + " pq on p." + TABLE_POST.COLUMN_ID +
-                " = pq." + TABLE_POST_QUESTION.COLUMN_POST_ID + " join " + TABLE_QUESTION.TABLE_NAME +
-                " q on q." + TABLE_QUESTION.COLUMN_ID + " = pq." + TABLE_POST_QUESTION.COLUMN_QUESTION_ID +
-                " where q." + TABLE_QUESTION.COLUMN_ID + " = " + pId;
-
-        if (pType != null || !pType.isEmpty()) {
-            query += " and type = '" + pType + "'";
-        }
-
-        Cursor cursor = db.rawQuery(query, null);
-        Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
-            @Override
-            public List<PostEntity> call() throws Exception {
-                List<PostEntity> posts = new ArrayList<PostEntity>();
-                while (cursor.moveToNext()) {
-                    posts.add(mapCursorToPostEntity(cursor));
-                }
-                cursor.close();
-                return posts;
-            }
-        };
-        return makeObservable(c);
-
-    }
-
-    public Observable<List<CountryEntity>> getAllCountries(int pLimit) {
         String query = "Select * from " +
-                TABLE_COUNTRY.TABLE_NAME +
-                " order by " + TABLE_COUNTRY.COlUMN_UPDATED_AT +
+                TABLE_QUESTION.TABLE_NAME;
+        if (pStage != null) {
+            query += TABLE_QUESTION.COLUMN_STAGE + " = '" + pStage + "'";
+        }
+        query += " order by " + TABLE_QUESTION.COlUMN_UPDATED_AT +
                 " DESC LIMIT " + pLimit;
         Cursor cursor = db.rawQuery(query, null);
-
-        Callable<List<CountryEntity>> c = new Callable<List<CountryEntity>>() {
+        Callable<List<QuestionEntity>> callable = new Callable<List<QuestionEntity>>() {
             @Override
-            public List<CountryEntity> call() throws Exception {
-                List<CountryEntity> countryList = new ArrayList<>();
+            public List<QuestionEntity> call() throws Exception {
+                List<QuestionEntity> questions = new ArrayList<>();
                 while (cursor.moveToNext()) {
-                    countryList.add(mapCursorToCountryEntity(cursor));
+                    questions.add(mapCursorToQuestionEntity(cursor));
                 }
                 cursor.close();
-                return countryList;
+                return questions;
             }
         };
-        return makeObservable(c);
+        return makeObservable(callable);
     }
 
     public Observable<CountryEntity> getCountryById(Long pId) {
@@ -366,6 +353,27 @@ public class DatabaseDao {
         };
 
         return makeObservable(callable);
+    }
+
+    public Observable<List<CountryEntity>> getAllCountries(int pLimit) {
+        String query = "Select * from " +
+                TABLE_COUNTRY.TABLE_NAME +
+                " order by " + TABLE_COUNTRY.COlUMN_UPDATED_AT +
+                " DESC LIMIT " + pLimit;
+        Cursor cursor = db.rawQuery(query, null);
+
+        Callable<List<CountryEntity>> c = new Callable<List<CountryEntity>>() {
+            @Override
+            public List<CountryEntity> call() throws Exception {
+                List<CountryEntity> countryList = new ArrayList<>();
+                while (cursor.moveToNext()) {
+                    countryList.add(mapCursorToCountryEntity(cursor));
+                }
+                cursor.close();
+                return countryList;
+            }
+        };
+        return makeObservable(c);
     }
 
     public Observable<List<String>> getTags() {
@@ -426,34 +434,6 @@ public class DatabaseDao {
             }
         };
         return makeObservable(c);
-    }
-
-    public Observable<List<PostEntity>> getPostByAnswer(Long pAnswerId, int pLimit) {
-        String query = "Select p.*" +
-                " from " + TABLE_POST.TABLE_NAME + " p join " +
-                TABLE_POST_ANSWER.TABLE_NAME + " pa on p." + MyConstants
-                .DATABASE.TABLE_POST.COLUMN_ID + " = pa." + MyConstants.DATABASE
-                .TABLE_POST_ANSWER.COLUMN_POST_ID + " join " + TABLE_ANSWER
-                .TABLE_NAME + " a on a." + TABLE_ANSWER.COLUMN_ID + " = pa."
-                + TABLE_POST_ANSWER.COLUMN_ANSWER_ID +
-                " where a." + TABLE_ANSWER.COLUMN_ID + " = " + pAnswerId +
-                " order by " + TABLE_ANSWER.COLUMN_UPDATED_AT +
-                " DESC LIMIT " + pLimit;
-        Log.e("myLog-DB", query);
-        Cursor cursor = db.rawQuery(query, null);
-        Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
-            @Override
-            public List<PostEntity> call() throws Exception {
-                List<PostEntity> posts = new ArrayList<PostEntity>();
-                while (cursor.moveToNext()) {
-                    posts.add(mapCursorToPostEntity(cursor));
-                }
-                cursor.close();
-                return posts;
-            }
-        };
-        return makeObservable(c);
-
     }
 
     /*======= Save Operations ==========*/
