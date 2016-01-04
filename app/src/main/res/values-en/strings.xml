@@ -65,4 +65,9 @@
     <string name="filter_by_stage">Filter By Stage</string>
     <string name="filter_by_tag">Filter By Tags</string>
     <string name="menu_filter">Filter</string>
+
+    <string name="download_start">Downloading %1$s</string>
+    <string name="download_success">%1$s downloaded successfully</string>
+    <string name="download_already">%1$s already downloaded</string>
+
 </resources>

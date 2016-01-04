@@ -210,5 +210,4 @@ public class AnswerListFragment extends BaseFragment implements
         tvNoArticle.setVisibility(View.INVISIBLE);
     }
 
-
 }

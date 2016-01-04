@@ -12,7 +12,6 @@ public class MediaReceiver extends BroadcastReceiver {
 
     AudioDetailActivityView mListener = null;
 
-
     public MediaReceiver(AudioDetailActivityView pListener) {
         mListener = pListener;
     }

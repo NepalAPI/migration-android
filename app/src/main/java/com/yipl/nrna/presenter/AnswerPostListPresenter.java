@@ -52,7 +52,6 @@ public class AnswerPostListPresenter implements Presenter {
         mView = (PostListView) view;
     }
 
-
     private void loadArticleList() {
         mView.hideRetryView();
         mView.showLoadingView();

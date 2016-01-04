@@ -52,7 +52,6 @@ public class AnswerListFragmentPresenter implements Presenter {
         mView = (AnswerListView) view;
     }
 
-
     private void loadAnswerList() {
         mView.hideRetryView();
         mView.showLoadingView();

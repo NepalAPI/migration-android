@@ -11,7 +11,6 @@ public class PostData implements Serializable {
     String thumbnail;
     String duration;
 
-
     public String getMediaUrl() {
         return mediaUrl;
     }

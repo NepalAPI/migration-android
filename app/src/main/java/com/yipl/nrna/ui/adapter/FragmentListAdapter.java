@@ -1,6 +1,5 @@
 package com.yipl.nrna.ui.adapter;
 
-
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +29,6 @@ public class FragmentListAdapter<T extends BaseModel> extends RecyclerView.Adapt
     private final Context mContext;
     List<T> mDataCollection;
     ListClickCallbackInterface mListener;
-
 
     public FragmentListAdapter(Context pContext, ListClickCallbackInterface pListener) {
         mContext = pContext;

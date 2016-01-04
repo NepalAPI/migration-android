@@ -1,6 +1,5 @@
 package com.yipl.nrna.ui.fragment;
 
-
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;

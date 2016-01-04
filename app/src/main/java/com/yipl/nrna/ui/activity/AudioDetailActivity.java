@@ -7,10 +7,12 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,9 +34,23 @@ import com.yipl.nrna.media.MediaService.MusicBinder;
 import com.yipl.nrna.ui.interfaces.AudioDetailActivityView;
 import com.yipl.nrna.util.Logger;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 import butterknife.Bind;
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class AudioDetailActivity extends FacebookActivity implements
         AudioDetailActivityView,
@@ -72,6 +88,8 @@ public class AudioDetailActivity extends FacebookActivity implements
     private Handler seekbarHandler = new Handler();
     private MediaReceiver mediaReceiver;
     private IntentFilter receiverFilter;
+    private Post mAudio;
+    private Subscription mSubscription;
     //connect to the service
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -178,6 +196,9 @@ public class AudioDetailActivity extends FacebookActivity implements
             showShareDialog(mService.getCurrentTrack());
         } else if (item.getItemId() == android.R.id.home) {
             finish();
+        }
+        else if(item.getItemId() == R.id.action_download){
+            downloadAudio();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -303,6 +324,7 @@ public class AudioDetailActivity extends FacebookActivity implements
 
     @Override
     public void onMediaChanged(Post pTrack) {
+        mAudio = pTrack;
         updateView(pTrack);
         seekbarHandler.removeCallbacks(updateSeekTime);
     }
@@ -340,5 +362,87 @@ public class AudioDetailActivity extends FacebookActivity implements
     private void updateSeekBar() {
         seekbarHandler.removeCallbacks(updateSeekTime);
         seekbarHandler.postDelayed(updateSeekTime, 100);
+    }
+
+    public void downloadAudio(){
+        mSubscription =  downloadFileObservable(getFile()).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DownloadObserver());
+    }
+
+    private Observable<String> downloadFileObservable(final File file) {
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> pSubscriber) {
+
+                if (!file.exists()) {
+                    try {
+
+                        Snackbar.make(playerControls,
+                                getResources().getString(R.string.download_start, file.getName()), Snackbar.LENGTH_SHORT)
+                                .show();
+                        URL url = new URL(mAudio.getData().getMediaUrl());
+                        URLConnection urlConnection = url.openConnection();
+                        urlConnection.connect();
+                        InputStream input = new BufferedInputStream(url.openStream());
+                        OutputStream output = new FileOutputStream(file);
+                        int lengthOfFile = urlConnection.getContentLength();
+
+                        byte data[] = new byte[1024];
+                        long total = 0;
+                        int count = 0;
+                        while ((count = input.read(data)) != -1) {
+                            total += count;
+                            Logger.e("downloaded: " + (int) ((total * 100) / lengthOfFile));
+                            output.write(data, 0, count);
+                        }
+                        output.flush();
+                        output.close();
+                        input.close();
+                        pSubscriber.onNext(getResources().getString(R.string.download_success,file.getName()));
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                        pSubscriber.onError(e);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        pSubscriber.onError(e);
+                    }
+                }
+                else{
+                        pSubscriber.onNext(getResources().getString(R.string.download_already,file.getName()));
+                }
+            }
+        });
+    }
+
+    public File getFile(){
+        File saveDir = new File(Environment.getExternalStorageDirectory(), getResources().getString(R.string.app_name));
+        if(!saveDir.exists()){
+            saveDir.mkdir();
+        }
+        String url = mAudio.getData().getMediaUrl();
+        File audio = new File(saveDir, url.substring(url.lastIndexOf("/")+1));
+        return audio;
+    }
+
+    private class DownloadObserver extends Subscriber<String>{
+
+        @Override
+        public void onCompleted() {
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Snackbar.make(playerControls, e.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
+            Logger.e(e.getLocalizedMessage());
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onNext(String msg) {
+            Snackbar.make(playerControls,msg, Snackbar.LENGTH_SHORT).show();
+            Logger.e(msg);
+            mSubscription.unsubscribe();
+        }
     }
 }

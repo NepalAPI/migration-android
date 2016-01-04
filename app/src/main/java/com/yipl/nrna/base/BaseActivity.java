@@ -13,7 +13,6 @@ import com.yipl.nrna.util.AppPreferences;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)

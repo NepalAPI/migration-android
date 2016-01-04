@@ -1,6 +1,5 @@
 package com.yipl.nrna.domain.model;
 
-
 import com.yipl.nrna.domain.util.MyConstants;
 
 import java.util.ArrayList;

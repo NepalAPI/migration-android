@@ -197,5 +197,4 @@ public class ArticleListFragment extends ContentListFragment implements PostList
         tvNoArticle.setVisibility(View.GONE);
     }
 
-
 }

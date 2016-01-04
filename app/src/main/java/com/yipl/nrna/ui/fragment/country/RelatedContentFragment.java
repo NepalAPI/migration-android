@@ -33,7 +33,6 @@ import butterknife.Bind;
  */
 public class RelatedContentFragment extends BaseFragment implements RelatedContentFragmentView {
 
-
     @Inject
     RelatedContentFragmentPresenter mPresenter;
     @Bind(R.id.relatedContentList)
@@ -63,7 +62,6 @@ public class RelatedContentFragment extends BaseFragment implements RelatedConte
     public int getLayout() {
         return R.layout.fragment_related_content;
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

@@ -17,5 +17,4 @@ public interface NetworkComponent {
 
     DataMapper getDataMapper();
 
-
 }

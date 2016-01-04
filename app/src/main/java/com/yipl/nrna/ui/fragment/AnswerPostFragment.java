@@ -1,6 +1,5 @@
 package com.yipl.nrna.ui.fragment;
 
-
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -41,7 +40,6 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 
 public class AnswerPostFragment extends BaseFragment implements PostListView {
 
