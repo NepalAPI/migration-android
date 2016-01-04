@@ -3,6 +3,7 @@ package com.yipl.nrna.data.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -151,11 +152,12 @@ public class DatabaseDao {
                     query += " and ";
             }
             if (pStage != null) {
-                query += TABLE_POST.COLUMN_STAGE + " = '" + pStage + "'";
+                query += TABLE_POST.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
             }
         }
         query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
                 " DESC LIMIT " + pLimit;
+        Log.e("query :", query);
         Cursor cursor = db.rawQuery(query, null);
 
         Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
@@ -189,7 +191,7 @@ public class DatabaseDao {
                     query += " and ";
             }
             if (pStage != null) {
-                query += TABLE_POST.COLUMN_STAGE + " = '" + pStage + "'";
+                query += TABLE_POST.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
             }
         }
         query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
@@ -228,7 +230,7 @@ public class DatabaseDao {
                     query += " and ";
             }
             if (pStage != null) {
-                query += TABLE_POST.COLUMN_STAGE + " = '" + pStage + "'";
+                query += TABLE_POST.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
             }
         }
         query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
@@ -267,7 +269,7 @@ public class DatabaseDao {
                     query += " and ";
             }
             if (pStage != null) {
-                query += TABLE_POST.COLUMN_STAGE + " = '" + pStage + "'";
+                query += TABLE_POST.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
             }
         }
         query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
@@ -314,7 +316,7 @@ public class DatabaseDao {
         String query = "Select * from " +
                 TABLE_QUESTION.TABLE_NAME;
         if (pStage != null) {
-            query += TABLE_QUESTION.COLUMN_STAGE + " = '" + pStage + "'";
+            query += TABLE_QUESTION.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
         }
         query += " order by " + TABLE_QUESTION.COlUMN_UPDATED_AT +
                 " DESC LIMIT " + pLimit;

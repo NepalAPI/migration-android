@@ -17,11 +17,11 @@ import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
-import com.yipl.nrna.presenter.InfoCenterFragmentPresenter;
+import com.yipl.nrna.presenter.PostListPresenter;
 import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
-import com.yipl.nrna.ui.interfaces.InfoCenterContentFragmentView;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
+import com.yipl.nrna.ui.interfaces.PostListView;
 
 import java.util.List;
 
@@ -31,10 +31,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class InfoCenterContentFragment extends BaseFragment implements
-        InfoCenterContentFragmentView {
+        PostListView {
 
     @Inject
-    InfoCenterFragmentPresenter mPresenter;
+    PostListPresenter mPresenter;
+
     @Bind(R.id.postList)
     RecyclerView mRecyclerView;
     @Bind(R.id.tvNoInformation)
@@ -139,7 +140,7 @@ public class InfoCenterContentFragment extends BaseFragment implements
     }
 
     @Override
-    public void renderPosts(List<Post> pPosts) {
+    public void renderPostList(List<Post> pPosts) {
         if (pPosts != null)
             mListAdapter.setDataCollection(pPosts);
     }
