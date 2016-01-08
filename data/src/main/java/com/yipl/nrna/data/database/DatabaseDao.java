@@ -33,7 +33,6 @@ import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_POST_QUESTION
 import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_QUESTION;
 import static com.yipl.nrna.domain.util.MyConstants.DATABASE.TABLE_TAGS;
 
-
 /**
  * Created by Nirazan-PC on 12/9/2015.
  */
@@ -312,7 +311,6 @@ public class DatabaseDao {
     }
 
     public Observable<List<QuestionEntity>> getAllQuestions(String pStage, int pLimit) {
-
         String query = "Select * from " +
                 TABLE_QUESTION.TABLE_NAME;
         if (pStage != null) {
@@ -333,6 +331,7 @@ public class DatabaseDao {
             }
         };
         return makeObservable(callable);
+
     }
 
     public Observable<CountryEntity> getCountryById(Long pId) {

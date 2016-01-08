@@ -1,6 +1,5 @@
 package com.yipl.nrna.data.executor;
 
-
 import com.yipl.nrna.domain.executor.ThreadExecutor;
 
 import java.util.concurrent.BlockingQueue;

@@ -123,7 +123,10 @@ public class MyConstants {
         public static final String KEY_ID = "key_id";
         public static final String KEY_STAGE = "key_stage";
         public static final String KEY_TITLE = "key_title";
-        public static final String KEY_VIDEO_LIST = "key_video-list";
+        public static final String KEY_FILTERED_LIST = "key_filtered_list";
+        public static final String KEY_LIST = "key_list";
+
+        public static final String INTENT_FILTER = "filter_intent";
     }
 
     public static class DATABASE {

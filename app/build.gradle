@@ -44,6 +44,7 @@ dependencies {
     compile appDependencies.appCompatv7
     compile appDependencies.palette
     compile appDependencies.designSupport
+    compile appDependencies.cardView
 
     compile appDependencies.butterKnife
     apt appDependencies.daggerCompiler

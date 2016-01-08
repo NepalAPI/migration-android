@@ -50,7 +50,6 @@ public abstract class FacebookActivity extends BaseActivity {
         return true;
     }
 
-
     private void initialize() {
         mCallback = CallbackManager.Factory.create();
         mFbCallBack = new FacebookCallback<Sharer.Result>() {

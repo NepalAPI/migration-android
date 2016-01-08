@@ -217,7 +217,6 @@ public class DataModule {
         return new CountryRepository(pDataStoreFactory, pDataMapper);
     }
 
-
     @Provides
     @PerActivity
     @Named("questionList")

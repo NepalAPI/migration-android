@@ -1,6 +1,5 @@
 package com.yipl.nrna.presenter;
 
-
 import com.yipl.nrna.ui.interfaces.MvpView;
 
 public interface Presenter {

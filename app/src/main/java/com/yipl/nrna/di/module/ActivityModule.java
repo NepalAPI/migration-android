@@ -1,6 +1,5 @@
 package com.yipl.nrna.di.module;
 
-
 import android.app.Activity;
 
 import com.yipl.nrna.data.di.PerActivity;

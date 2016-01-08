@@ -35,8 +35,6 @@ import butterknife.ButterKnife;
  */
 public class AudioListFragment extends ContentListFragment implements PostListView {
 
-    @Inject
-    PostListPresenter mPresenter;
 
     @Bind(R.id.recylerViewAudioList)
     RecyclerView mRecyclerView;
@@ -70,14 +68,20 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
         super.onActivityCreated(savedInstanceState);
         initialize();
         setUpAdapter();
-        loadAudioList();
+        if(savedInstanceState!=null){
+            List<Post> postList = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_FILTERED_LIST);
+            mListAdapter.setDataCollection(postList);
+            mPosts = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_LIST);
+        }
+        else
+            loadAudioList();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
-    }
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        mPresenter.destroy();
+//    }
 
     @Override
     public void showNewContentInfo() {

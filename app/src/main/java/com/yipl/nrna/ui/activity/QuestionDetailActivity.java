@@ -3,12 +3,14 @@ package com.yipl.nrna.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
+import com.yipl.nrna.base.ContentListFragment;
 import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
@@ -56,7 +58,7 @@ public class QuestionDetailActivity extends BaseActivity implements ListClickCal
         }
         mAdapter = new QuestionAnswerPagerAdapter(getSupportFragmentManager(), this, mId);
         mViewPager.setAdapter(mAdapter);
-
+        mViewPager.setOffscreenPageLimit(3);
         mTabs.setupWithViewPager(mViewPager);
         for (int i = 0; i < mTabs.getTabCount(); i++) {
             TabLayout.Tab tab = mTabs.getTabAt(i);

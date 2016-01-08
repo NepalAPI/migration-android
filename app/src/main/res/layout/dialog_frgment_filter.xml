@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"/>
+<RelativeLayout
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:padding="@dimen/spacing_standard">
     <ProgressBar
         android:id="@+id/tagProgressBar"
@@ -56,6 +61,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/filter_by_tag"
             />
 
@@ -79,3 +85,4 @@
             android:text="Cancel"/>
     </LinearLayout>
 </RelativeLayout>
+    </ScrollView>

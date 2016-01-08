@@ -41,7 +41,6 @@ public class ApplicationModule {
         return uiThread;
     }
 
-
     @Provides
     @Singleton
     DatabaseHelper provideDatabaseHelper(Context context) {

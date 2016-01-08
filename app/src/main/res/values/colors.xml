@@ -16,4 +16,6 @@
 
     <color name="pager_indicator_inactive">#33ffffff</color>
     <color name="pager_indicator_active">#ffffff</color>
+
+    <color name="list_background">#cccccc</color>
 </resources>

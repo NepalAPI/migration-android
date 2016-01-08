@@ -5,7 +5,6 @@ import android.content.Context;
 import com.yipl.nrna.R;
 import com.yipl.nrna.data.exception.NetworkConnectionException;
 
-
 public class ErrorMessageFactory {
 
     private ErrorMessageFactory() {

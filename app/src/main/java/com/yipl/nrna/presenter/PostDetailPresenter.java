@@ -75,5 +75,4 @@ public class PostDetailPresenter implements Presenter {
         }
     }
 
-
 }

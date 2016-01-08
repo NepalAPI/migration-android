@@ -71,13 +71,13 @@ public class ArticleListFragment extends ContentListFragment implements PostList
         super.onActivityCreated(savedInstanceState);
         initialize();
         setUpAdapter();
-        loadArticleList();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
+        if(savedInstanceState!=null){
+            List<Post> postList = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_FILTERED_LIST);
+            mListAdapter.setDataCollection(postList);
+            mPosts = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_LIST);
+        }
+        else
+            loadArticleList();
     }
 
     @Override
@@ -196,6 +196,5 @@ public class ArticleListFragment extends ContentListFragment implements PostList
     public void hideEmptyView() {
         tvNoArticle.setVisibility(View.GONE);
     }
-
 
 }

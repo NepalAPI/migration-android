@@ -24,13 +24,16 @@ import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
+import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
+import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.QuestionListFragmentPresenter;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.FilterDialogCallbackInterface;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.QuestionListFragmentView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,14 +86,20 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
         super.onActivityCreated(savedInstanceState);
         initialize();
         setUpAdapter();
-        loadQuestionList();
+        if(savedInstanceState!=null){
+            List<Question> questionList = (List<Question>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_FILTERED_LIST);
+            mQuestions = (List<Question>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_LIST);
+            mListAdapter.setDataCollection(questionList);
+        }
+        else
+            loadQuestionList();
     }
 
     @Override
-
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.destroy();
+        if(mPresenter!=null)
+            mPresenter.destroy();
     }
 
     @Override
@@ -210,7 +219,6 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
         tvNoQuestion.setVisibility(View.GONE);
     }
 
-    @Override
     public void filterContentList(List<String> pStageFilter, List<String> pTagFilter) {
         if (pStageFilter.isEmpty() && pTagFilter.isEmpty()) {
             mListAdapter.setDataCollection(mQuestions);
@@ -243,6 +251,13 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
             }
         }
         mListAdapter.setDataCollection(filteredQuestion);
-        return;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(MyConstants.Extras.KEY_FILTERED_LIST, (Serializable)mListAdapter.getDataCollection());
+        outState.putSerializable(MyConstants.Extras.KEY_LIST, (Serializable) mQuestions);
+        super.onSaveInstanceState(outState);
+    }
+
 }

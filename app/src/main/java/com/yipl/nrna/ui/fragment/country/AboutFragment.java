@@ -1,6 +1,5 @@
 package com.yipl.nrna.ui.fragment.country;
 
-
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;

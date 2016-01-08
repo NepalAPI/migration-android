@@ -1,6 +1,5 @@
 package com.yipl.nrna.base;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,13 +26,15 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState == null){
+            ((BaseActivity) getActivity()).getPreferences().removeFilterChoices();
+        }
         //setRetainInstance(true);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ((BaseActivity) getActivity()).getPreferences().removeFilterChoices();
     }
 
     public void showNewContentInfo() {

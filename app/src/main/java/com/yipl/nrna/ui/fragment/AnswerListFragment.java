@@ -81,7 +81,8 @@ public class AnswerListFragment extends BaseFragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.destroy();
+        if(mPresenter!=null)
+            mPresenter.destroy();
     }
 
     @Override
@@ -209,6 +210,5 @@ public class AnswerListFragment extends BaseFragment implements
     public void hideEmptyView() {
         tvNoArticle.setVisibility(View.INVISIBLE);
     }
-
 
 }

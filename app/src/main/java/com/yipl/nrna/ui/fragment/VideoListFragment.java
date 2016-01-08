@@ -37,8 +37,6 @@ import butterknife.ButterKnife;
  */
 public class VideoListFragment extends ContentListFragment implements PostListView {
 
-    @Inject
-    PostListPresenter mPresenter;
 
     @Bind(R.id.recylerViewVideoList)
     RecyclerView mRecyclerView;
@@ -75,13 +73,13 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
         super.onActivityCreated(savedInstanceState);
         initialize();
         setUpAdapter();
-        loadVideoList();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
+        if(savedInstanceState!=null){
+            List<Post> postList = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_FILTERED_LIST);
+            mPosts = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_LIST);
+            mListAdapter.setDataCollection(postList,  mType == MyConstants.VideoAdapterType.TYPE_GRID);
+        }
+        else
+            loadVideoList();
     }
 
     @Override
@@ -117,6 +115,8 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
         super.onPause();
         mPresenter.pause();
     }
+
+
 
     @Override
     public void onDestroyView() {
@@ -203,5 +203,8 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
     public void renderPostList(List<Post> pVideos) {
         mPosts = pVideos;
         mListAdapter.setDataCollection(pVideos, mType == MyConstants.VideoAdapterType.TYPE_GRID);
+        List<String> lastTagChoices = ((BaseActivity) getActivity()).getPreferences().getFilterTagChoices();
+        List<String> lastStageChoices = ((BaseActivity) getActivity()).getPreferences().getFilterStageChoices();
+        filterContentList(lastStageChoices, lastTagChoices);
     }
 }
