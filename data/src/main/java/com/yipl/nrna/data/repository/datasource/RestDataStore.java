@@ -7,13 +7,20 @@ import android.util.Log;
 
 import com.yipl.nrna.data.api.ApiRequest;
 import com.yipl.nrna.data.database.DatabaseDao;
+import com.yipl.nrna.data.entity.DeletedContentEntity;
 import com.yipl.nrna.data.entity.LatestContentEntity;
+import com.yipl.nrna.data.entity.DeletedContentDataEntity;
 import com.yipl.nrna.data.exception.NetworkConnectionException;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.logging.Logger;
 
 import retrofit.Response;
+import rx.Notification;
 import rx.Observable;
+import rx.functions.Action0;
+import rx.functions.Action1;
 
 public class RestDataStore implements IDataStore {
 
@@ -33,6 +40,16 @@ public class RestDataStore implements IDataStore {
             return mApiRequest.getLatestContents(pLastUpdatedStamp)
                     .doOnNext(pLatestContentEntity -> mDatabase.insertUpdate(pLatestContentEntity));
         } else {
+            return Observable.error(new NetworkConnectionException());
+        }
+    }
+
+    public Observable<DeletedContentDataEntity> getDeletedContent(long pLastUpdatedStamp){
+        if(isThereInternetConnection()){
+            return mApiRequest.getDeletedContent(pLastUpdatedStamp)
+                    .doOnNext(pDeletedContentDataEntity -> mDatabase.deleteContents(pDeletedContentDataEntity));
+        }
+        else{
             return Observable.error(new NetworkConnectionException());
         }
     }

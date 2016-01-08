@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -33,6 +34,7 @@ import com.yipl.nrna.ui.interfaces.HomeFragmentView;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
@@ -107,6 +109,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
 
     @Override
     public void showNewContentInfo() {
+        Log.e("cnackbar_show", " called");
         Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
                 .LENGTH_INDEFINITE)
                 .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
