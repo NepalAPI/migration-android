@@ -1,5 +1,8 @@
 package com.yipl.nrna.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -8,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +25,7 @@ import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
+import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.FilterDialogFragmentPresenter;
 import com.yipl.nrna.ui.interfaces.FilterDialogCallbackInterface;
 import com.yipl.nrna.ui.interfaces.FilterDialogFragmentView;
@@ -232,7 +237,8 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
                 }
                 ((BaseActivity) getActivity()).getPreferences().setFilterTagChoices(tagFilter);
                 ((BaseActivity) getActivity()).getPreferences().setFilterStageChoices(stageFilter);
-                mCallbackInterface.filterContentList(stageFilter, tagFilter);
+                Intent intent = new Intent(MyConstants.Extras.INTENT_FILTER);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
                 this.dismiss();
                 break;
             case R.id.btnCancel:

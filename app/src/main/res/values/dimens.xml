@@ -20,6 +20,7 @@
     <dimen name="spacing_xsmall">5dp</dimen>
     <dimen name="spacing_xxsmall">2dp</dimen>
     <dimen name="spacing_normal">8dp</dimen>
+    <dimen name="negative_spacing_large">-42dp</dimen>
 
     <dimen name="appbar_content_margin_top">60dp</dimen>
 
@@ -52,4 +53,5 @@
     <dimen name="video_grid_width">160dp</dimen>
     <dimen name="grid_video_image_height">127dp</dimen>
     <dimen name="list_text_margin_standard">12dp</dimen>
+    <dimen name="land_listview_width">360dp</dimen>
 </resources>

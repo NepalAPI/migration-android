@@ -59,6 +59,10 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
         notifyDataSetChanged();
     }
 
+    public List<T> getDataCollection(){
+        return mDataCollection;
+    }
+
     public void setDataCollection(List<T> pDataCollection, boolean isGrid) {
         mDataCollection = pDataCollection;
         mIsGrid = true;
