@@ -7,6 +7,7 @@ import com.yipl.nrna.data.di.PerActivity;
 import com.yipl.nrna.data.entity.mapper.DataMapper;
 import com.yipl.nrna.data.repository.AnswerRepository;
 import com.yipl.nrna.data.repository.CountryRepository;
+import com.yipl.nrna.data.repository.CountryUpdateRepository;
 import com.yipl.nrna.data.repository.LatestContentRepository;
 import com.yipl.nrna.data.repository.PostRepository;
 import com.yipl.nrna.data.repository.QuestionRepository;
@@ -24,7 +25,9 @@ import com.yipl.nrna.domain.interactor.GetPostListUseCase;
 import com.yipl.nrna.domain.interactor.GetQuestionDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetQuestionListUseCase;
 import com.yipl.nrna.domain.interactor.GetTagListUseCase;
+import com.yipl.nrna.domain.interactor.GetUpdateListUseCase;
 import com.yipl.nrna.domain.interactor.UseCase;
+import com.yipl.nrna.domain.repository.CRepository;
 import com.yipl.nrna.domain.repository.IBaseRepository;
 import com.yipl.nrna.domain.repository.IRepository;
 import com.yipl.nrna.domain.repository.QRepository;
@@ -184,6 +187,24 @@ public class DataModule {
     QRepository provideAnswerDataRepository(DataStoreFactory pDataStoreFactory, DataMapper
             pDataMapper) {
         return new AnswerRepository(pDataStoreFactory, pDataMapper);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("updateList")
+    UseCase provideUpdateListUseCase(@Named("update") CRepository pDataRepository,
+                                     ThreadExecutor pThreadExecutor, PostExecutionThread
+                                             pPostExecutionThread) {
+        return new GetUpdateListUseCase(mLimit, mId, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("update")
+    CRepository provideUpdatesDataRepository(DataStoreFactory pDataStoreFactory, DataMapper
+            pDataMapper) {
+        return new CountryUpdateRepository(pDataStoreFactory, pDataMapper);
     }
 
     @Provides

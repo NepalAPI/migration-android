@@ -9,6 +9,7 @@ public class LatestContent extends BaseModel {
     List<Question> mQuestions;
     List<Post> mPosts;
     List<Answer> mAnswers;
+    List<CountryUpdate> mUpdates;
 
     public List<Question> getQuestions() {
         return mQuestions;
@@ -32,5 +33,13 @@ public class LatestContent extends BaseModel {
 
     public void setAnswers(List<Answer> pAnswers) {
         mAnswers = pAnswers;
+    }
+
+    public List<CountryUpdate> getUpdates() {
+        return mUpdates;
+    }
+
+    public void setUpdates(List<CountryUpdate> pUpdates) {
+        mUpdates = pUpdates;
     }
 }

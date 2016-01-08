@@ -3,6 +3,7 @@ package com.yipl.nrna.data.repository.datasource;
 import com.yipl.nrna.data.database.DatabaseDao;
 import com.yipl.nrna.data.entity.AnswerEntity;
 import com.yipl.nrna.data.entity.CountryEntity;
+import com.yipl.nrna.data.entity.CountryUpdateEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
 
@@ -59,6 +60,10 @@ public class DBDataStore implements IDataStore {
         return database.getAnswersByQuestion(pQuestionId, pLimit);
     }
 
+    public Observable<List<CountryUpdateEntity>> getUpdatesByCountry(Long pCountryId, int pLimit) {
+        return database.getUpdatesByCountry(pCountryId, pLimit);
+    }
+
     public Observable<List<CountryEntity>> getAllCountries(int pLimit) {
         return database.getAllCountries(pLimit);
     }
@@ -72,3 +77,4 @@ public class DBDataStore implements IDataStore {
     }
 
 }
+

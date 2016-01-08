@@ -3,12 +3,14 @@ package com.yipl.nrna.data.entity.mapper;
 import com.yipl.nrna.data.di.PerActivity;
 import com.yipl.nrna.data.entity.AnswerEntity;
 import com.yipl.nrna.data.entity.CountryEntity;
+import com.yipl.nrna.data.entity.CountryUpdateEntity;
 import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.data.entity.PostDataEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
 import com.yipl.nrna.domain.model.Answer;
 import com.yipl.nrna.domain.model.Country;
+import com.yipl.nrna.domain.model.CountryUpdate;
 import com.yipl.nrna.domain.model.LatestContent;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.PostData;
@@ -33,6 +35,7 @@ public class DataMapper {
             latestContent.setQuestions(transformQuestion(pEntity.getQuestions()));
             latestContent.setPosts(transformPost(pEntity.getPosts()));
             latestContent.setAnswers(transformAnswer(pEntity.getAnswers()));
+            latestContent.setUpdates(transformCountryUpdate(pEntity.getUpdates()));
         }
         return latestContent;
     }
@@ -134,6 +137,31 @@ public class DataMapper {
             country.setName(pCountry.getName());
             country.setCode(pCountry.getCode());
             return country;
+        }
+        return null;
+    }
+
+    public List<CountryUpdate> transformCountryUpdate(List<CountryUpdateEntity> pEntities) {
+        List<CountryUpdate> updates = new ArrayList<>();
+        if (pEntities != null) {
+            for (CountryUpdateEntity entity : pEntities) {
+                CountryUpdate update = transformCountryUpdate(entity);
+                if (update != null)
+                    updates.add(update);
+            }
+        }
+        return updates;
+    }
+
+    public CountryUpdate transformCountryUpdate(CountryUpdateEntity pUpdate) {
+        if (pUpdate != null) {
+            CountryUpdate update = new CountryUpdate();
+            update.setId(pUpdate.getId());
+            update.setUpdatedAt(pUpdate.getUpdatedAt());
+            update.setCreatedAt(pUpdate.getCreatedAt());
+            update.setTitle(pUpdate.getTitle());
+            update.setDescription(pUpdate.getDescription());
+            return update;
         }
         return null;
     }

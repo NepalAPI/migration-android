@@ -75,7 +75,6 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        initLanguage();
         super.onCreate(savedInstanceState);
         initialize();
 
@@ -109,10 +108,6 @@ public class MainActivity extends BaseActivity implements
                 .build()
                 .inject(this);
         mLatestContentPresenter.attachView(this);
-    }
-
-    private void initLanguage() {
-        Utils.setLanguage(MyConstants.Language.NEPALI, getContext());
     }
 
     @Override

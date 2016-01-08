@@ -8,7 +8,9 @@ import com.yipl.nrna.MyApplication;
 import com.yipl.nrna.R;
 import com.yipl.nrna.di.component.ApplicationComponent;
 import com.yipl.nrna.di.module.ActivityModule;
+import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.util.AppPreferences;
+import com.yipl.nrna.util.Utils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        initLanguage();
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
         setContentView(getLayout());
@@ -31,6 +34,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         initializeToolbar();
 
         mPreferences = new AppPreferences(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initLanguage();
+    }
+
+    private void initLanguage() {
+        Utils.setLanguage(MyConstants.Language.NEPALI, getApplicationContext());
     }
 
     private void initializeToolbar() {
