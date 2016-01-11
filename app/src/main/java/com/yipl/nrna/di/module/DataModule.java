@@ -12,6 +12,7 @@ import com.yipl.nrna.data.repository.PostRepository;
 import com.yipl.nrna.data.repository.QuestionRepository;
 import com.yipl.nrna.data.repository.TagRepository;
 import com.yipl.nrna.data.repository.datasource.DataStoreFactory;
+import com.yipl.nrna.data.repository.datasource.DeletedContentRepository;
 import com.yipl.nrna.domain.executor.PostExecutionThread;
 import com.yipl.nrna.domain.executor.ThreadExecutor;
 import com.yipl.nrna.domain.interactor.GetAnswerListUseCase;
@@ -109,6 +110,13 @@ public class DataModule {
                                                        DataMapper
                                                                pDataMapper) {
         return new LatestContentRepository(pDataStoreFactory, pDataMapper);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("deleted")
+    IBaseRepository provideDeletedContentRepository(DataStoreFactory pDataStoreFactory) {
+        return new DeletedContentRepository(pDataStoreFactory, mLastUpdateStamp);
     }
 
     @Provides

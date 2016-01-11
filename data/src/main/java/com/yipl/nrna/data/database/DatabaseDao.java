@@ -9,15 +9,18 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yipl.nrna.data.entity.AnswerEntity;
 import com.yipl.nrna.data.entity.CountryEntity;
+import com.yipl.nrna.data.entity.DeletedContentEntity;
 import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.data.entity.PostDataEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
+import com.yipl.nrna.data.entity.DeletedContentDataEntity;
 import com.yipl.nrna.domain.util.MyConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
@@ -440,6 +443,7 @@ public class DatabaseDao {
     /*======= Save Operations ==========*/
 
     public void insertUpdate(LatestContentEntity pLatestContent) {
+        Log.e("insert", "Insert or update called");
         saveAllQuestions(pLatestContent.getQuestions());
         saveAllPosts(pLatestContent.getPosts());
         saveAllAnswers(pLatestContent.getAnswers());
@@ -704,6 +708,37 @@ public class DatabaseDao {
         values.put(TABLE_COUNTRY.COLUMN_NAME, pCountry.getName());
         values.put(TABLE_COUNTRY.COLUMN_CODE, pCountry.getCode());
         return values;
+    }
+
+    //delete
+
+    public void deleteContents(DeletedContentDataEntity pContent){
+
+        Log.e("delete", "Delete");
+        String ids = "";
+        for (DeletedContentEntity pPosts : pContent.getPosts()) {
+            ids += pPosts.getId().toString()+", ";
+        }
+        delete(TABLE_POST.TABLE_NAME, TABLE_POST.COLUMN_ID, ids);
+
+        ids = "";
+        for (DeletedContentEntity answer : pContent.getAnswers()) {
+            ids += answer.getId().toString()+", ";
+        }
+        delete(TABLE_ANSWER.TABLE_NAME, TABLE_ANSWER.COLUMN_ID, ids);
+
+        ids = "";
+        for (DeletedContentEntity question : pContent.getQuestions()) {
+            ids += question.getId().toString();
+        }
+        delete(TABLE_QUESTION.TABLE_NAME, TABLE_QUESTION.COLUMN_ID, ids);
+
+    }
+
+    private void delete(String pTableName,String pIdString, String pIds){
+
+        db.delete(pTableName, pIdString + " IN (" + pIds + "-1)", null);
+
     }
 
     private <T> Observable<T> makeObservable(final Callable<T> callable) {
