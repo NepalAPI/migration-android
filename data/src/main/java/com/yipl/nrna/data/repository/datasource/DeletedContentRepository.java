@@ -12,9 +12,11 @@ import rx.Observable;
 public class DeletedContentRepository implements IBaseRepository {
 
     private final DataStoreFactory mDataStoreFactory;
+    private Long mLastUpdateStamp;
 
-    public DeletedContentRepository(DataStoreFactory pDataStoreFactory) {
+    public DeletedContentRepository(DataStoreFactory pDataStoreFactory, long pLastUpdateStamp) {
         mDataStoreFactory = pDataStoreFactory;
+        mLastUpdateStamp = pLastUpdateStamp;
     }
 
     @Override
@@ -23,8 +25,7 @@ public class DeletedContentRepository implements IBaseRepository {
     }
 
     @Override
-    public Observable getSingle(Long pLastUpdated) {
-        RestDataStore restDataStore = mDataStoreFactory.createRestDataStore();
-        return mDataStoreFactory.createRestDataStore().getDeletedContent(pLastUpdated);
+    public Observable getSingle(Long id) {
+        return mDataStoreFactory.createRestDataStore().getDeletedContent(mLastUpdateStamp);
     }
 }

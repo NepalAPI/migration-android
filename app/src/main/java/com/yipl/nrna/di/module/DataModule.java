@@ -116,7 +116,7 @@ public class DataModule {
     @PerActivity
     @Named("deleted")
     IBaseRepository provideDeletedContentRepository(DataStoreFactory pDataStoreFactory) {
-        return new DeletedContentRepository(pDataStoreFactory);
+        return new DeletedContentRepository(pDataStoreFactory, mLastUpdateStamp);
     }
 
     @Provides

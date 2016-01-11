@@ -23,8 +23,7 @@ public class ApiRequest {
     }
 
     public Observable<DeletedContentDataEntity> getDeletedContent(long pLatestUpdateStamp){
-        Observable<DeletedContentDataEntity> a = mApiService.getDeletedContent();
-        return a;
+        return mApiService.getDeletedContent(pLatestUpdateStamp);
     }
 
     /**

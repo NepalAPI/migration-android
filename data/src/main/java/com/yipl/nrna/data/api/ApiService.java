@@ -14,7 +14,7 @@ public interface ApiService {
     Observable<LatestContentEntity> getLatestContent(@Query("last_updated") long pLastUpdateStamp);
 
     @GET(MyConstants.API.DELETED_CONTENT)
-    Observable<DeletedContentDataEntity> getDeletedContent();
+    Observable<DeletedContentDataEntity> getDeletedContent(@Query("last_updated") long pLastUpdateStamp);
 
     /**
      * for debug only
