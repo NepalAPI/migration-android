@@ -39,6 +39,9 @@
     <dimen name="seekbar_thumb_size">18dp</dimen>
     <dimen name="play_btn_size">62dp</dimen>
 
+    <dimen name="toolbar_overlap_offset_neg">-30dp</dimen>
+    <dimen name="toolbar_overlap_offset_pos">30dp</dimen>
+
     <dimen name="default_line_height">22sp</dimen>
     <dimen name="text_xxlarge">26sp</dimen>
     <dimen name="text_xlarge">24sp</dimen>

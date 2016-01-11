@@ -41,6 +41,7 @@
 
     <string-array name="country_info">
         <item>बारे</item>
+        <item>Updates</item>
         <item>सम्बन्धित सामग्री</item>
     </string-array>
 
@@ -54,6 +55,7 @@
     <string name="empty_video">कुनै भिडियोहरु उपलब्ध छैन</string>
     <string name="empty_country">कुनै देशहरु उपलब्ध छैन</string>
     <string name="empty_answer">कुनै Answer उपलब्ध छैन</string>
+    <string name="empty_updates">कुनै Updates उपलब्ध छैन</string>
     <string name="empty_post">कुनै Post उपलब्ध छैन</string>
     <string name="empty_info">%1$s चरणको कुनै जानकारी उपलब्ध छैन</string>
     <string name="empty_question">कुनै प्रश्नहर उपलब्ध छैन</string>

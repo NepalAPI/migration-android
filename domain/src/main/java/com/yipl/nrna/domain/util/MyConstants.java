@@ -95,7 +95,8 @@ public class MyConstants {
         public static final int TYPE_VIDEO = 2;
         public static final int TYPE_TEXT = 3;
         public static final int TYPE_COUNTRY = 4;
-        public static final int TYPE_ANSWER = 5;
+        public static final int TYPE_COUNTRY_UPDATE = 5;
+        public static final int TYPE_ANSWER = 6;
     }
 
     public static final class VideoAdapterType {
@@ -286,6 +287,26 @@ public class MyConstants {
             public static String CREATE_TABLE_TAGS = "Create table " + TABLE_NAME + "( " +
                     COLUUMN_ID + TYPE_INTEGER + " primary key AUTOINCREMENT " + COMMA +
                     COLUMN_TAG + TYPE_TEXT + " UNIQUE " +
+                    " );";
+        }
+
+        public static class TABLE_COUNTRY_UPDATE {
+
+            public static String TABLE_NAME = "tbl_country_update";
+            public static String COLUMN_ID = "id";
+            public static String COLUMN_UPDATED_AT = "updated_date";
+            public static String COLUMN_CREATED_AT = "created_date";
+            public static String COLUMN_TITLE = "title";
+            public static String COLUMN_DESCRIPTION = "description";
+            public static String COLUMN_COUNTRY_ID = "country_id";
+
+            public static String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( " +
+                    COLUMN_ID + TYPE_INTEGER + " PRIMARY KEY" + COMMA +
+                    COLUMN_UPDATED_AT + TYPE_INTEGER + COMMA +
+                    COLUMN_CREATED_AT + TYPE_INTEGER + COMMA +
+                    COLUMN_TITLE + TYPE_TEXT + COMMA +
+                    COLUMN_DESCRIPTION + TYPE_TEXT + COMMA +
+                    COLUMN_COUNTRY_ID + TYPE_INTEGER +
                     " );";
         }
     }

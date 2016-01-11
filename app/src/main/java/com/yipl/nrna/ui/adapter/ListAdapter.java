@@ -11,11 +11,13 @@ import com.yipl.nrna.R;
 import com.yipl.nrna.databinding.ArticleDataBinding;
 import com.yipl.nrna.databinding.AudioDataBinding;
 import com.yipl.nrna.databinding.CountryDataBinding;
+import com.yipl.nrna.databinding.CountryUpdateDataBinding;
 import com.yipl.nrna.databinding.QuestionDataBinding;
 import com.yipl.nrna.databinding.VideoDataBinding;
 import com.yipl.nrna.databinding.VideoGridDataBinding;
 import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Country;
+import com.yipl.nrna.domain.model.CountryUpdate;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.domain.util.MyConstants;
@@ -29,6 +31,7 @@ import butterknife.ButterKnife;
 
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_AUDIO;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_COUNTRY;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_COUNTRY_UPDATE;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_QUESTION;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_VIDEO;
@@ -106,6 +109,11 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                         .layout.list_item_country, parent, false);
                 viewHolder = new CountryViewHolder(countryBinding);
                 break;
+            case TYPE_COUNTRY_UPDATE:
+                CountryUpdateDataBinding updateBinding = DataBindingUtil.inflate(mLayoutInflater, R
+                        .layout.list_item_update, parent, false);
+                viewHolder = new CountryUpdateViewHolder(updateBinding);
+                break;
         }
         return viewHolder;
     }
@@ -133,6 +141,10 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
             case TYPE_COUNTRY:
                 ((CountryViewHolder) holder).mBinding.setCountry((Country) mDataCollection.get
                         (position));
+                break;
+            case TYPE_COUNTRY_UPDATE:
+                ((CountryUpdateViewHolder) holder).mBinding.setUpdate((CountryUpdate)
+                        mDataCollection.get(position));
                 break;
             default:
                 throw new IllegalArgumentException();
@@ -260,6 +272,17 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                     mListener.onListItemSelected(mBinding.getCountry());
                 }
             });
+        }
+    }
+
+    public class CountryUpdateViewHolder extends RecyclerView.ViewHolder {
+
+        public CountryUpdateDataBinding mBinding;
+
+        public CountryUpdateViewHolder(CountryUpdateDataBinding binding) {
+            super(binding.getRoot());
+            ButterKnife.bind(this, binding.getRoot());
+            this.mBinding = binding;
         }
     }
 }

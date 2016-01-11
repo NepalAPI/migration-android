@@ -9,13 +9,16 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yipl.nrna.data.entity.AnswerEntity;
 import com.yipl.nrna.data.entity.CountryEntity;
+<<<<<<< 9984e5d4cea679bc83ab29fe902d63bd166150a3
+import com.yipl.nrna.data.entity.DeletedContentEntity;
+=======
 import com.yipl.nrna.data.entity.CountryUpdateEntity;
+>>>>>>> * fetch and save country updates
 import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.data.entity.PostDataEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
 import com.yipl.nrna.data.entity.DeletedContentDataEntity;
-import com.yipl.nrna.data.entity.DeletedContentEntity;
 import com.yipl.nrna.domain.util.MyConstants;
 
 import java.util.ArrayList;
@@ -353,6 +356,7 @@ public class DatabaseDao {
             }
         };
         return makeObservable(callable);
+
     }
 
     public Observable<CountryEntity> getCountryById(Long pId) {
@@ -503,6 +507,7 @@ public class DatabaseDao {
     /*======= Save Operations ==========*/
 
     public void insertUpdate(LatestContentEntity pLatestContent) {
+        Log.e("insert", "Insert or update called");
         saveAllQuestions(pLatestContent.getQuestions());
         saveAllPosts(pLatestContent.getPosts());
         saveAllAnswers(pLatestContent.getAnswers());

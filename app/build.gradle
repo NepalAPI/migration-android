@@ -42,6 +42,7 @@ dependencies {
 
     compile appDependencies.supportv4
     compile appDependencies.appCompatv7
+    compile appDependencies.cardView
     compile appDependencies.palette
     compile appDependencies.designSupport
     compile appDependencies.cardView
@@ -58,5 +59,4 @@ dependencies {
     compile appDependencies.facebookSdk
     compile appDependencies.iconics
     compile appDependencies.iconicsGoogle
-    compile 'com.android.support:support-v4:23.1.1'
 }
