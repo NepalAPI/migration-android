@@ -72,4 +72,14 @@
     <string name="download_success">%1$s downloaded successfully</string>
     <string name="download_already">%1$s already downloaded</string>
 
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="third_gender">Third Gender</string>
+
+    <string name="language_nepali">Nepali</string>
+    <string name="language_english">English</string>
+
+    <string name="user_type_first">First Time</string>
+    <string name="user_type_returnee">Returnee</string>
+
 </resources>

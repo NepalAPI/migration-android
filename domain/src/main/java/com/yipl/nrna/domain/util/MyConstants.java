@@ -66,6 +66,12 @@ public class MyConstants {
 
         public static final String TAG_FILTER_CHOICES = "tag_filter_choices";
         public static final String STAGE_FILTER_CHOICES = "stage_filter_choices";
+
+        public static final String LANGUAGE = "language";
+        public static final String GENDER = "gender";
+        public static final String COUNTRY = "country";
+        public static final String USERTYPE = "user_type";
+        public static final String FIRST_TIME = "first_time";
     }
 
     public static final class Language {
@@ -127,6 +133,8 @@ public class MyConstants {
         public static final String KEY_TITLE = "key_title";
         public static final String KEY_FILTERED_LIST = "key_filtered_list";
         public static final String KEY_LIST = "key_list";
+
+        public static final String KEY_PERSONALIZATION_LAUNCH = "key_personalization";
 
         public static final String INTENT_FILTER = "filter_intent";
     }

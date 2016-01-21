@@ -77,7 +77,6 @@ public class MainActivity extends BaseActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, getToolbar(), R.string.navigation_drawer_open,
@@ -149,6 +148,10 @@ public class MainActivity extends BaseActivity implements
         int id = item.getItemId();
         if (id == R.id.action_sync) {
             fetchLatestContent();
+        }
+        if(id == R.id.action_settings){
+            Intent i = new Intent(this, SettingActivity.class);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }
