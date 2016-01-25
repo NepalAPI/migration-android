@@ -12,24 +12,26 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_effect"
+        android:stateListAnimator="@anim/raise_press">
 
         <ImageView
             android:id="@+id/content_art"
             android:layout_width="@dimen/content_art_size"
             android:layout_height="@dimen/content_art_size"
-            android:src="@drawable/ic_headset"
+            android:layout_marginBottom="@dimen/spacing_standard"
+            android:layout_marginTop="@dimen/spacing_standard"
             android:background="@drawable/round_bg"
             android:scaleType="centerInside"
-            android:layout_marginTop="@dimen/spacing_standard"
-            android:layout_marginBottom="@dimen/spacing_standard"/>
+            android:src="@drawable/ic_headset"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/spacing_standard"
             android:layout_toRightOf="@id/content_art"
             android:orientation="vertical"
-            android:layout_marginLeft="@dimen/spacing_standard"
             android:paddingTop="@dimen/spacing_standard">
 
             <TextView
@@ -37,9 +39,9 @@
                 style="@style/post_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{audio.getTitle()}"
-                android:singleLine="true"
                 android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{audio.getTitle()}"
                 tools:text="My experience on applying experience csdaksd  itizenship."/>
 
             <TextView

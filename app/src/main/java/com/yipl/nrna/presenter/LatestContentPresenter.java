@@ -1,5 +1,6 @@
 package com.yipl.nrna.presenter;
 
+import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.data.di.PerActivity;
 import com.yipl.nrna.domain.exception.DefaultErrorBundle;
 import com.yipl.nrna.domain.interactor.DefaultSubscriber;
@@ -7,6 +8,7 @@ import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.model.LatestContent;
 import com.yipl.nrna.exception.ErrorMessageFactory;
 import com.yipl.nrna.ui.activity.MainActivity;
+import com.yipl.nrna.ui.activity.PersonalizationActivity;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.ui.interfaces.MvpView;
 import com.yipl.nrna.util.Logger;
@@ -86,11 +88,14 @@ public class LatestContentPresenter implements Presenter {
             if (pLatestContent != null) {
                 long timestamp = Calendar.getInstance().getTimeInMillis();
                 Logger.d("LatestContentSubscriber_onNext", "timestamp: " + (timestamp / 1000l));
-                ((MainActivity) mView).getPreferences().setLastUpdateStamp((timestamp / 1000L) -
+                ((BaseActivity) mView).getPreferences().setLastUpdateStamp((timestamp / 1000L) -
                         2000);
                 if (!pLatestContent.getPosts().isEmpty() && !pLatestContent.getQuestions()
                         .isEmpty())
                     LatestContentPresenter.this.mView.informCurrentFragmentForUpdate();
+                if(mView instanceof PersonalizationActivity)
+                    LatestContentPresenter.this.mView.informCurrentFragmentForUpdate();
+
             }
             LatestContentPresenter.this.mView.hideLoadingView();
         }

@@ -3,15 +3,22 @@ package com.yipl.nrna.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.yipl.nrna.R;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.yipl.nrna.domain.util.MyConstants.Preferences.COUNTRY;
+import static com.yipl.nrna.domain.util.MyConstants.Preferences.FIRST_TIME;
+import static com.yipl.nrna.domain.util.MyConstants.Preferences.GENDER;
+import static com.yipl.nrna.domain.util.MyConstants.Preferences.LANGUAGE;
 import static com.yipl.nrna.domain.util.MyConstants.Preferences.LAST_UPDATE_STAMP;
 import static com.yipl.nrna.domain.util.MyConstants.Preferences.PREF_NAME;
 import static com.yipl.nrna.domain.util.MyConstants.Preferences.STAGE_FILTER_CHOICES;
 import static com.yipl.nrna.domain.util.MyConstants.Preferences.TAG_FILTER_CHOICES;
+import static com.yipl.nrna.domain.util.MyConstants.Preferences.USERTYPE;
 
 /**
  * Created by julian on 12/16/15.
@@ -19,10 +26,12 @@ import static com.yipl.nrna.domain.util.MyConstants.Preferences.TAG_FILTER_CHOIC
 public class AppPreferences {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
+    Context mContext;
 
     public AppPreferences(Context pContext) {
         pref = pContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = pref.edit();
+        mContext = pContext;
     }
 
     public long getLastUpdateStamp() {
@@ -63,4 +72,53 @@ public class AppPreferences {
         editor.remove(TAG_FILTER_CHOICES);
         editor.commit();
     }
+
+    public void setLanguage(String pLanguage){
+        editor.putString(LANGUAGE, pLanguage);
+        editor.commit();
+    }
+
+    public String getLanguage(){
+        return pref.getString(LANGUAGE,"");
+    }
+
+    public void setGender(String pGender){
+        editor.putString(GENDER, pGender);
+        editor.commit();
+    }
+
+    public String getGender(){
+        return pref.getString(GENDER, "");
+    }
+
+    public void setCountries(List<String> pCountry){
+        Set<String> set = new HashSet<String>();
+        set.addAll(pCountry);
+        editor.putStringSet(COUNTRY, set);
+        editor.commit();
+    }
+
+    public List<String> getCountries(){
+        Set<String> set = pref.getStringSet(COUNTRY, new HashSet<String>());
+        return new ArrayList<>(set);
+    }
+
+    public void setUserType(String pUserType){
+        editor.putString(USERTYPE, pUserType);
+        editor.commit();
+    }
+
+    public String getUserType(){
+        return pref.getString(USERTYPE,"");
+    }
+
+    public void setFirstTime(Boolean pFirstTime){
+        editor.putBoolean(FIRST_TIME, pFirstTime);
+        editor.commit();
+    }
+
+    public Boolean getFirstTime(){
+        return pref.getBoolean(FIRST_TIME, true);
+    }
+
 }
