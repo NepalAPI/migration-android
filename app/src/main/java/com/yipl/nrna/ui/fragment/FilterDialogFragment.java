@@ -1,7 +1,5 @@
 package com.yipl.nrna.ui.fragment;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -29,7 +27,6 @@ import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.FilterDialogFragmentPresenter;
 import com.yipl.nrna.ui.interfaces.FilterDialogCallbackInterface;
 import com.yipl.nrna.ui.interfaces.FilterDialogFragmentView;
-import com.yipl.nrna.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +65,18 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
     public static FilterDialogFragment newInstance() {
         FilterDialogFragment fragment = new FilterDialogFragment();
         return fragment;
+    }
+
+    public static ColorStateList getCheckboxColorList() {
+        int[][] states = new int[][]{new int[]{-android.R.attr.state_checked},
+                new int[]{android.R.attr.state_checked}
+        };
+        int[] colors = new int[]{
+                Color.WHITE,
+                Color.WHITE
+        };
+        ColorStateList myColorList = new ColorStateList(states, colors);
+        return myColorList;
     }
 
     @Nullable
@@ -144,7 +153,7 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
                 CheckBox checkBox;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     checkBox = new AppCompatCheckBox(getContext());
-                else{
+                else {
                     checkBox = new CheckBox(getContext());
                     int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
                     checkBox.setButtonDrawable(id);
@@ -246,16 +255,4 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
                 break;
         }
     }
-
-    public static ColorStateList getCheckboxColorList() {
-        int[][] states = new int[][]{new int[]{-android.R.attr.state_checked},
-        new int[]{android.R.attr.state_checked}
-        };
-        int[] colors = new int[]{
-        Color.WHITE,
-        Color.WHITE
-        };
-        ColorStateList myColorList = new ColorStateList(states, colors);
-        return myColorList;
-        }
 }

@@ -1,8 +1,5 @@
 package com.yipl.nrna.data.repository;
 
-import android.util.Log;
-
-import com.yipl.nrna.data.entity.DeletedContentEntity;
 import com.yipl.nrna.data.entity.mapper.DataMapper;
 import com.yipl.nrna.data.repository.datasource.DataStoreFactory;
 import com.yipl.nrna.data.repository.datasource.RestDataStore;
@@ -12,8 +9,6 @@ import com.yipl.nrna.domain.repository.IBaseRepository;
 import java.util.List;
 
 import rx.Observable;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 public class LatestContentRepository implements IBaseRepository<LatestContent> {
 

@@ -1,9 +1,7 @@
 package com.yipl.nrna.data.api;
 
-import android.util.Log;
-
-import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.data.entity.DeletedContentDataEntity;
+import com.yipl.nrna.data.entity.LatestContentEntity;
 
 import javax.inject.Inject;
 
@@ -22,7 +20,7 @@ public class ApiRequest {
         return mApiService.getLatestContent(pLatestUpdateStamp);
     }
 
-    public Observable<DeletedContentDataEntity> getDeletedContent(long pLatestUpdateStamp){
+    public Observable<DeletedContentDataEntity> getDeletedContent(long pLatestUpdateStamp) {
         return mApiService.getDeletedContent(pLatestUpdateStamp);
     }
 

@@ -2,20 +2,19 @@ package com.yipl.nrna.domain.interactor;
 
 import com.yipl.nrna.domain.executor.PostExecutionThread;
 import com.yipl.nrna.domain.executor.ThreadExecutor;
-import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.repository.IRepository;
 
 import javax.inject.Inject;
 
 import rx.Observable;
 
-public class GetPostDetailUseCase extends UseCase<Post> {
+public class DownloadAudioUseCase extends UseCase<Boolean> {
 
     private final IRepository mRepository;
     private long mId;
 
     @Inject
-    public GetPostDetailUseCase(long pId, IRepository pRepository, ThreadExecutor
+    public DownloadAudioUseCase(long pId, IRepository pRepository, ThreadExecutor
             pThreadExecutor, PostExecutionThread
                                         pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
@@ -24,12 +23,12 @@ public class GetPostDetailUseCase extends UseCase<Post> {
     }
 
     @Override
-    protected Observable<Post> buildUseCaseObservable() {
-        return mRepository.getSingle(mId);
+    protected Observable<Boolean> buildUseCaseObservable() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    protected Observable buildUseCaseObservable(long reference) {
-        throw new UnsupportedOperationException();
+    protected Observable<Boolean> buildUseCaseObservable(long reference) {
+        return mRepository.setDownloadReference(mId, reference);
     }
 }

@@ -26,4 +26,9 @@ public class GetTagListUseCase extends UseCase<String> {
     protected Observable<String> buildUseCaseObservable() {
         return mIRepository.getList(-1);
     }
+
+    @Override
+    protected Observable buildUseCaseObservable(long reference) {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -20,17 +20,20 @@ public class GetPostListUseCase extends UseCase<List<Post>> {
     private final MyConstants.Stage mStage;
     private final Long mId;
     private final MyConstants.DataParent mDataParent;
+    private int mDownloadStatus;
 
     @Inject
     public GetPostListUseCase(int pLimit, Long pId, MyConstants.DataParent pDataParent,
-                              MyConstants.PostType pType, MyConstants.Stage pStage,
-                              IRepository pRepository, ThreadExecutor pThreadExecutor,
-                              PostExecutionThread pPostExecutionThread) {
+                              MyConstants.PostType pType, MyConstants.Stage pStage, int
+                                      pDownloadStatus, IRepository pRepository, ThreadExecutor
+                                      pThreadExecutor, PostExecutionThread
+                                      pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
         mRepository = pRepository;
         mLimit = pLimit;
         mType = pType;
         mStage = pStage;
+        mDownloadStatus = pDownloadStatus;
         mId = pId;
         mDataParent = pDataParent;
     }
@@ -40,25 +43,35 @@ public class GetPostListUseCase extends UseCase<List<Post>> {
         if (mId != Long.MIN_VALUE) {
             if (mDataParent == MyConstants.DataParent.QUESTION) {
                 return mRepository.getListByQuestion(mId, MyConstants.Stage.toString
-                        (mStage), MyConstants.PostType.toString(mType), mLimit);
+                        (mStage), MyConstants.PostType.toString(mType), mDownloadStatus, mLimit);
             } else if (mDataParent == MyConstants.DataParent.ANSWER) {
                 return mRepository.getListByAnswer(mId, MyConstants.Stage.toString
-                        (mStage), MyConstants.PostType.toString(mType), mLimit);
+                        (mStage), MyConstants.PostType.toString(mType), mDownloadStatus, mLimit);
             } else {
                 return mRepository.getListByCountry(mId, MyConstants.Stage.toString
-                        (mStage), MyConstants.PostType.toString(mType), mLimit);
+                        (mStage), MyConstants.PostType.toString(mType), mDownloadStatus, mLimit);
             }
         } else {
             if (mType == null && mStage == null) {
-                return mRepository.getList(mLimit);
+                if (mDownloadStatus == -1)
+                    return mRepository.getList(mLimit);
+                else
+                    return mRepository.getListByDownloadStatus(mDownloadStatus, mLimit);
             } else if (mType != null) {
-                return mRepository.getListByType(MyConstants.PostType.toString(mType), mLimit);
+                return mRepository.getListByType(MyConstants.PostType.toString(mType),
+                        mDownloadStatus, mLimit);
             } else if (mStage != null) {
-                return mRepository.getListByStage(MyConstants.Stage.toString(mStage), mLimit);
+                return mRepository.getListByStage(MyConstants.Stage.toString(mStage),
+                        mDownloadStatus, mLimit);
             } else {
                 return mRepository.getListByStageAndType(MyConstants.Stage.toString(mStage),
-                        MyConstants.PostType.toString(mType), mLimit);
+                        MyConstants.PostType.toString(mType), mDownloadStatus, mLimit);
             }
         }
+    }
+
+    @Override
+    protected Observable<List<Post>> buildUseCaseObservable(long reference) {
+        throw new UnsupportedOperationException();
     }
 }

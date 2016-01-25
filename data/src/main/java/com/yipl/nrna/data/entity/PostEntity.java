@@ -29,6 +29,8 @@ public class PostEntity {
     String title;
     PostDataEntity data;
 
+    boolean downloadStatus;
+
     public Long getId() {
         return id;
     }
@@ -139,5 +141,13 @@ public class PostEntity {
 
     public void setCountryIdList(List<Long> pQuestionIdList) {
         this.questionIdList = pQuestionIdList;
+    }
+
+    public boolean getDownloadStatus() {
+        return downloadStatus;
+    }
+
+    public void setDownloadStatus(boolean pDownloadStatus) {
+        downloadStatus = pDownloadStatus;
     }
 }

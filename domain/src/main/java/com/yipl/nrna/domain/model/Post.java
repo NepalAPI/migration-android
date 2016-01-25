@@ -2,8 +2,6 @@ package com.yipl.nrna.domain.model;
 
 import com.yipl.nrna.domain.util.MyConstants;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,28 +20,7 @@ public class Post extends BaseModel {
     String type;
     PostData mData;
     List<String> stage;
-
-    public static List<Post> getDummyPosts(String pType) {
-        List<Post> list = new ArrayList<>();
-        String[] tags = {"tag1", "tag2", "tag3"};
-        PostData data = new PostData();
-        data.setContent("This is sample content...");
-        data.setMediaUrl("https://storage.googleapis.com/anthem/National%20Anthem%20Of%20Nepal%20-%5B%20www.mp3mp4.ninja%20%5D.mp3");
-        for (int i = 0; i < 3; i++) {
-            Post post = new Post();
-            post.setId(((long) i));
-            post.setTitle("This is a sample " + pType + " " + i + ".");
-            post.setCreatedAt(123456252L);
-            post.setUpdatedAt(123425645L);
-            post.setDescription("this is the description");
-            post.setTags(Arrays.asList(tags));
-            post.setData(data);
-            post.setQuestionIdList(new ArrayList());
-            post.setType(pType);
-            list.add(post);
-        }
-        return list;
-    }
+    boolean downloadStatus;
 
     public Long getCreatedAt() {
         return mCreatedAt;
@@ -139,6 +116,14 @@ public class Post extends BaseModel {
 
     public void setStage(List<String> pStage) {
         stage = pStage;
+    }
+
+    public boolean isDownloadStatus() {
+        return downloadStatus;
+    }
+
+    public void setDownloadStatus(boolean pDownloadStatus) {
+        downloadStatus = pDownloadStatus;
     }
 
     @Override

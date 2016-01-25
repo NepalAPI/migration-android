@@ -88,7 +88,6 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
         populateLanguage();
         populateGender();
         populateUserType();
-
     }
 
     private void populateUserType() {
@@ -162,7 +161,6 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
 
     @Override
     public void informCurrentFragmentForUpdate() {
-        showCountryList();
     }
 
     private void showCountryList() {

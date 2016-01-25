@@ -27,4 +27,9 @@ public class GetLatestContentUseCase extends UseCase<LatestContent> {
     protected Observable<LatestContent> buildUseCaseObservable() {
         return mLatestContentRepository.getSingle(mLastUpdatedStamp);
     }
+
+    @Override
+    protected Observable buildUseCaseObservable(long reference) {
+        throw new UnsupportedOperationException();
+    }
 }

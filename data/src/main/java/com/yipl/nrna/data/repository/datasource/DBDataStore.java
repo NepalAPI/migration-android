@@ -29,23 +29,31 @@ public class DBDataStore implements IDataStore {
         return database.getPostById(pId);
     }
 
-    public Observable<List<PostEntity>> getAllPosts(String pStage, String pType, int pLimit) {
-        return database.getAllPosts(pStage, pType, pLimit);
+    public Observable<List<PostEntity>> getAllPosts(String pStage, String pType, int pDownloadStatus, int pLimit) {
+        return database.getAllPosts(pStage, pType, pDownloadStatus, pLimit);
     }
 
     public Observable<List<PostEntity>> getPostByQuestion(Long pQuestionId, String pStage, String
-            pType, int pLimit) {
-        return database.getPostByQuestion(pQuestionId, pStage, pType, pLimit);
+            pType, int pDownloadStatus, int pLimit) {
+        return database.getPostByQuestion(pQuestionId, pStage, pType, pDownloadStatus, pLimit);
     }
 
     public Observable<List<PostEntity>> getPostByAnswer(Long pAnswerId, String pStage, String
-            pType, int pLimit) {
-        return database.getPostByAnswer(pAnswerId, pStage, pType, pLimit);
+            pType, int pDownloadStatus, int pLimit) {
+        return database.getPostByAnswer(pAnswerId, pStage, pType, pDownloadStatus, pLimit);
     }
 
     public Observable<List<PostEntity>> getPostByCountry(Long pCountryId, String pStage, String
-            pType, int pLimit) {
-        return database.getPostByCountry(pCountryId, pStage, pType, pLimit);
+            pType, int pDownloadStatus, int pLimit) {
+        return database.getPostByCountry(pCountryId, pStage, pType, pDownloadStatus, pLimit);
+    }
+
+    public long updateDownloadStatus(Long pId, boolean pDownloadStatus){
+        return database.updateDownloadStatus(pId, pDownloadStatus);
+    }
+
+    public long setDownloadReference(Long pId, long pReference){
+        return database.setDownloadReference(pId, pReference);
     }
 
     public Observable<List<QuestionEntity>> getAllQuestion(String pStage, int pLimit) {

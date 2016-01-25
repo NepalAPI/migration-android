@@ -25,6 +25,14 @@ public class DataStoreFactory {
         mDatabaseDao = pDatabaseDao;
     }
 
+    /*public DBDataStore create(){
+        if(cachetime < currenttime + 20000 || ){
+            return createDBDataStore();
+        }else{
+            return createDBDataStore();
+        }
+    }*/
+
     public DBDataStore createDBDataStore() {
         return new DBDataStore(mDatabaseDao);
     }

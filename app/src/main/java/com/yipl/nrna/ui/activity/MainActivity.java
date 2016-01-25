@@ -30,6 +30,7 @@ import com.yipl.nrna.ui.fragment.AudioListFragment;
 import com.yipl.nrna.ui.fragment.CountryListFragment;
 import com.yipl.nrna.ui.fragment.HomeFragment;
 import com.yipl.nrna.ui.fragment.InfoCenterFragment;
+import com.yipl.nrna.ui.fragment.PostListFragment;
 import com.yipl.nrna.ui.fragment.QuestionListFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
@@ -99,6 +100,12 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mLatestContentPresenter.resume();
+    }
+
     private void initialize() {
         DaggerDataComponent.builder()
                 .dataModule(new DataModule(getPreferences().getLastUpdateStamp(), 0))
@@ -123,12 +130,6 @@ public class MainActivity extends BaseActivity implements
     public void onPause() {
         super.onPause();
         mLatestContentPresenter.pause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mLatestContentPresenter.resume();
     }
 
     @Override
@@ -206,6 +207,13 @@ public class MainActivity extends BaseActivity implements
                 getSupportActionBar().setTitle(getString(R.string.title_countries));
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new CountryListFragment(), "country_fragment")
+                        .commit();
+                break;
+            case R.id.nav_downloads:
+                getSupportActionBar().setTitle(getString(R.string.title_downloads));
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_content, PostListFragment.newInstance(Long.MIN_VALUE,
+                                null, true), "downloads_fragment")
                         .commit();
                 break;
         }

@@ -35,4 +35,9 @@ public class GetUpdateListUseCase extends UseCase<List<CountryUpdate>> {
             return mRepository.getList(mLimit);
         }
     }
+
+    @Override
+    protected Observable<List<CountryUpdate>> buildUseCaseObservable(long reference) {
+        throw new UnsupportedOperationException();
+    }
 }

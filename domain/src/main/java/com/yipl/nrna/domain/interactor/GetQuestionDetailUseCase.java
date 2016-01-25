@@ -27,4 +27,9 @@ public class GetQuestionDetailUseCase extends UseCase<Question> {
     protected Observable<Question> buildUseCaseObservable() {
         return mRepository.getSingle(mId);
     }
+
+    @Override
+    protected Observable<Question> buildUseCaseObservable(long reference) {
+        throw new UnsupportedOperationException();
+    }
 }

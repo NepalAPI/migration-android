@@ -22,7 +22,7 @@ public class PostRepository implements IRepository<Post> {
     @Override
     public Observable<List<Post>> getList(int pLimit) {
         return mDataStoreFactory.createDBDataStore()
-                .getAllPosts(null, null, pLimit)
+                .getAllPosts(null, null, -1, pLimit)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
     }
 
@@ -34,47 +34,73 @@ public class PostRepository implements IRepository<Post> {
     }
 
     @Override
-    public Observable<List<Post>> getListByStage(String pStage, int pLimit) {
+    public Observable<List<Post>> getListByDownloadStatus(int pDownloadStatus, int pLimit) {
         return mDataStoreFactory.createDBDataStore()
-                .getAllPosts(pStage, null, pLimit)
+                .getAllPosts(null, null, pDownloadStatus, pLimit)
+                .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
+    }
+
+    @Override
+    public Observable<List<Post>> getListByStage(String pStage, int pDownloadStatus, int pLimit) {
+        return mDataStoreFactory.createDBDataStore()
+                .getAllPosts(pStage, null, pDownloadStatus, pLimit)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities)
                 );
     }
 
     @Override
-    public Observable<List<Post>> getListByType(String pType, int pLimit) {
+    public Observable<List<Post>> getListByType(String pType, int pDownloadStatus, int pLimit) {
         return mDataStoreFactory.createDBDataStore()
-                .getAllPosts(null, pType, pLimit)
+                .getAllPosts(null, pType, pDownloadStatus, pLimit)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities)
                 );
     }
 
     @Override
-    public Observable<List<Post>> getListByStageAndType(String pStage, String pType, int pLimit) {
+    public Observable<List<Post>> getListByStageAndType(String pStage, String pType, int
+            pDownloadStatus, int pLimit) {
         return mDataStoreFactory.createDBDataStore()
-                .getAllPosts(pStage, pType, pLimit)
+                .getAllPosts(pStage, pType, pLimit, pLimit)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities)
                 );
     }
 
     @Override
-    public Observable<List<Post>> getListByQuestion(Long pQuestionId, String pStage, String pType, int pLimit) {
+    public Observable<List<Post>> getListByQuestion(Long pQuestionId, String pStage, String
+            pType, int pDownloadStatus, int pLimit) {
         return mDataStoreFactory.createDBDataStore()
-                .getPostByQuestion(pQuestionId, pStage, pType, pLimit)
+                .getPostByQuestion(pQuestionId, pStage, pType, pLimit, pLimit)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
     }
 
     @Override
-    public Observable<List<Post>> getListByCountry(Long pId, String pStage, String pType, int pLimit) {
+    public Observable<List<Post>> getListByCountry(Long pId, String pStage, String pType, int
+            pDownloadStatus, int pLimit) {
         return mDataStoreFactory.createDBDataStore()
-                .getPostByCountry(pId, pStage, pType, pLimit)
+                .getPostByCountry(pId, pStage, pType, pDownloadStatus, pLimit)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
     }
 
     @Override
-    public Observable<List<Post>> getListByAnswer(Long pAnswerId, String pStage, String pType, int pLimit) {
+    public Observable<List<Post>> getListByAnswer(Long pAnswerId, String pStage, String pType,
+                                                  int pDownloadStatus, int pLimit) {
         return mDataStoreFactory.createDBDataStore()
-                .getPostByAnswer(pAnswerId, pStage, pType, pLimit)
+                .getPostByAnswer(pAnswerId, pStage, pType, pDownloadStatus, pLimit)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
+    }
+
+    @Override
+    public Observable<Boolean> updateDownloadStatus(long pId, boolean pDownloadStatus) {
+        return Observable.just(
+                mDataStoreFactory.createDBDataStore()
+                        .updateDownloadStatus(pId,pDownloadStatus) != -1
+        );
+    }
+
+    @Override
+    public Observable<Boolean> setDownloadReference(long pId, long pReference) {
+        return Observable.just(
+                mDataStoreFactory.createDBDataStore().setDownloadReference(pId, pReference) != -1
+        );
     }
 }

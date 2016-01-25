@@ -1,7 +1,7 @@
 package com.yipl.nrna.data.api;
 
-import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.data.entity.DeletedContentDataEntity;
+import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.domain.util.MyConstants;
 
 import retrofit.Response;

@@ -29,4 +29,9 @@ public class GetCountryListUseCase extends UseCase<List<Country>> {
     protected Observable<List<Country>> buildUseCaseObservable() {
         return mRepository.getList(mLimit);
     }
+
+    @Override
+    protected Observable<List<Country>> buildUseCaseObservable(long reference) {
+        throw new UnsupportedOperationException();
+    }
 }

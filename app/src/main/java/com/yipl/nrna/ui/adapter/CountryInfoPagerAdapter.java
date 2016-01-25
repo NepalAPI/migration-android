@@ -7,9 +7,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.domain.model.Country;
-import com.yipl.nrna.ui.fragment.country.UpdatesFragment;
 import com.yipl.nrna.ui.fragment.country.AboutFragment;
 import com.yipl.nrna.ui.fragment.country.RelatedContentFragment;
+import com.yipl.nrna.ui.fragment.country.UpdatesFragment;
 
 /**
  * Created by julian on 12/14/15.

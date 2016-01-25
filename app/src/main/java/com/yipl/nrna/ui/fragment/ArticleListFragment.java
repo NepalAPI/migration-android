@@ -67,20 +67,6 @@ public class ArticleListFragment extends ContentListFragment implements PostList
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initialize();
-        setUpAdapter();
-        if(savedInstanceState!=null){
-            List<Post> postList = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_FILTERED_LIST);
-            mListAdapter.setDataCollection(postList);
-            mPosts = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_LIST);
-        }
-        else
-            loadArticleList();
-    }
-
-    @Override
     public void showNewContentInfo() {
         Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
                 .LENGTH_INDEFINITE)
@@ -91,6 +77,19 @@ public class ArticleListFragment extends ContentListFragment implements PostList
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initialize();
+        setUpAdapter();
+        if (savedInstanceState != null) {
+            List<Post> postList = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_FILTERED_LIST);
+            mListAdapter.setDataCollection(postList);
+            mPosts = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_LIST);
+        } else
+            loadArticleList();
     }
 
     @Override
@@ -133,14 +132,14 @@ public class ArticleListFragment extends ContentListFragment implements PostList
         if (mQuestionId != Long.MIN_VALUE) {
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION,
-                            MyConstants.PostType.TEXT))
+                            MyConstants.PostType.TEXT, false))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()
                     .inject(this);
         } else {
             DaggerDataComponent.builder()
-                    .dataModule(new DataModule(MyConstants.PostType.TEXT))
+                    .dataModule(new DataModule(MyConstants.PostType.TEXT, false))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()

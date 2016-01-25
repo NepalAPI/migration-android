@@ -1,5 +1,7 @@
 package com.yipl.nrna.ui.interfaces;
 
+import android.content.Context;
+
 import com.yipl.nrna.domain.model.Post;
 
 /**
@@ -23,4 +25,10 @@ public interface AudioDetailActivityView extends MvpView {
     void onMediaChanged(Post pPost);
 
     void playStatusChanged(boolean isPlaying);
+
+    void onAudioDownloadStarted(String pMessage);
+
+    void onAudioFileNotFoundToShare();
+
+    Context getContext();
 }

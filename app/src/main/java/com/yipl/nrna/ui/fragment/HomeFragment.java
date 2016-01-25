@@ -34,7 +34,6 @@ import com.yipl.nrna.ui.interfaces.HomeFragmentView;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.inject.Inject;
 

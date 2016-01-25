@@ -74,6 +74,8 @@ public class MyConstants {
         public static final String COUNTRY = "country";
         public static final String USERTYPE = "user_type";
         public static final String FIRST_TIME = "first_time";
+
+        public static final String DOWNLOAD_REFERENCES = "download_references";
     }
 
     public static final class Language {
@@ -123,9 +125,10 @@ public class MyConstants {
     }
 
     public static final class Extras {
+        public static final String KEY_DOWNLOAD_STATUS = "key_download_status";
         public static final String KEY_QUESTION = "key_question";
-
         public static final String KEY_Country = "key_country";
+        public static final String KEY_TYPE = "key_type";
         public static final String KEY_AUDIO = "key_audio";
         public static final String KEY_AUDIO_LIST = "key_audio_list";
         public static final String KEY_AUDIO_SELECTION = "key_audio_selection";
@@ -166,6 +169,8 @@ public class MyConstants {
             public static String COLUMN_SOURCE = "source";
             public static String COLUMN_DESCRIPTION = "description";
             public static String COLUMN_TITLE = "title";
+            public static String COLUMN_DOWNLOAD_REF = "download_reference";
+            public static String COLUMN_DOWNLOAD_STATUS = "download_status";
 
             public static String CREATE_TABLE_POST = "CREATE TABLE " + TABLE_NAME + " ( " +
                     COLUMN_ID + TYPE_INTEGER + " PRIMARY KEY" + COMMA +
@@ -178,7 +183,9 @@ public class MyConstants {
                     COLUMN_TAGS + TYPE_TEXT + COMMA +
                     COLUMN_SOURCE + TYPE_TEXT + COMMA +
                     COLUMN_DESCRIPTION + TYPE_TEXT + COMMA +
-                    COLUMN_TITLE + TYPE_TEXT +
+                    COLUMN_TITLE + TYPE_TEXT + COMMA +
+                    COLUMN_DOWNLOAD_REF + TYPE_TEXT + COMMA +
+                    COLUMN_DOWNLOAD_STATUS + TYPE_INTEGER +
                     " );";
         }
 
