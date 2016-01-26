@@ -59,4 +59,5 @@ dependencies {
     compile appDependencies.facebookSdk
     compile appDependencies.iconics
     compile appDependencies.iconicsGoogle
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
 }
