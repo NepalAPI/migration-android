@@ -56,11 +56,8 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
     RadioGroup mUserTypeRadioGroup;
     @Bind(R.id.countryContainer)
     LinearLayout countryContainer;
-    @Bind(R.id.btnSave)
-    Button btnSave;
-    @Bind(R.id.btnSkip)
-    Button btnSkip;
-
+    @Bind(R.id.btnDone)
+    Button btnDone;
     List<CheckBox> countryCheckBoxes = new ArrayList<>();
 
 
@@ -83,8 +80,7 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
         setSupportActionBar(toolbar);
         initialize();
         fetchLatestContent();
-        btnSave.setOnClickListener(this);
-        btnSkip.setOnClickListener(this);
+        btnDone.setOnClickListener(this);
         populate();
     }
 
@@ -97,9 +93,11 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
 
     private void populateUserType() {
         String usertype = getPreferences().getUserType();
+        if(usertype.isEmpty()) {
+            ((RadioButton) mUserTypeRadioGroup.getChildAt(0)).setChecked(true);
+            return;
+        }
         for(int i= 0; i<mUserTypeRadioGroup.getChildCount(); i++){
-            if(usertype.equals(""))
-                usertype = getResources().getString(R.string.user_type_first);
             RadioButton radioButton = (RadioButton) mUserTypeRadioGroup.getChildAt(i);
             if(radioButton.getText().equals(usertype)){
                 radioButton.setChecked(true);
@@ -110,6 +108,10 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
 
     private void populateGender() {
         String gender = getPreferences().getGender();
+        if(gender.isEmpty()) {
+            ((RadioButton) mGenderRadioGroup.getChildAt(0)).setChecked(true);
+            return;
+        }
         for(int i= 0; i<mGenderRadioGroup.getChildCount(); i++){
             RadioButton radioButton = (RadioButton) mGenderRadioGroup.getChildAt(i);
             if(radioButton.getText().toString().equalsIgnoreCase(gender)){
@@ -121,9 +123,11 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
 
     private void populateLanguage() {
         String language = getPreferences().getLanguage();
+        if(language.isEmpty()) {
+            ((RadioButton) mLanguageRadioGroup.getChildAt(0)).setChecked(true);
+            return;
+        }
         for(int i= 0; i<mLanguageRadioGroup.getChildCount(); i++){
-            if(language.equals(""))
-                language = getString(R.string.language_english);
             RadioButton radioButton = (RadioButton) mLanguageRadioGroup.getChildAt(i);
             if(radioButton.getText().toString().equalsIgnoreCase(language)){
                 radioButton.setChecked(true);
@@ -237,9 +241,14 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
     }
 
     private void populateCountry() {
+        boolean isFirst = getPreferences().getFirstTime();
         List<String> countries = getPreferences().getCountries();
-        for (String country : countries) {
             for (CheckBox checkBox : countryCheckBoxes) {
+                if(countries.isEmpty() && isFirst) {
+                    checkBox.setChecked(true);
+                    continue;
+                }
+                for (String country : countries) {
                 if(country.equalsIgnoreCase(checkBox.getText().toString())){
                     checkBox.setChecked(true);
                     break;
@@ -251,9 +260,8 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btnSave:
+            case R.id.btnDone:
                 savePreferences();
-            case R.id.btnSkip:
                 getPreferences().setFirstTime(false);
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);

@@ -91,7 +91,7 @@ public class LatestContentPresenter implements Presenter {
                 ((BaseActivity) mView).getPreferences().setLastUpdateStamp((timestamp / 1000L) -
                         2000);
                 if (!pLatestContent.getPosts().isEmpty() && !pLatestContent.getQuestions()
-                        .isEmpty())
+                        .isEmpty() && !(mView instanceof PersonalizationActivity))
                     LatestContentPresenter.this.mView.informCurrentFragmentForUpdate();
                 if(mView instanceof PersonalizationActivity)
                     LatestContentPresenter.this.mView.informCurrentFragmentForUpdate();

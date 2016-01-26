@@ -1,7 +1,9 @@
 package com.yipl.nrna.ui.activity;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -11,7 +13,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.FacebookActivity;
 import com.yipl.nrna.di.component.DaggerDataComponent;
@@ -19,14 +23,17 @@ import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.PostDetailPresenter;
-import com.yipl.nrna.ui.adapter.CountryInfoPagerAdapter;
 import com.yipl.nrna.ui.interfaces.PostDetailView;
+import com.yipl.nrna.util.Logger;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 
-public class VideoDetailActivity extends FacebookActivity implements PostDetailView {
+public class VideoDetailActivity extends FacebookActivity implements PostDetailView, YouTubePlayer.OnInitializedListener {
 
     public Post mVideo;
     Long mId;
@@ -35,13 +42,14 @@ public class VideoDetailActivity extends FacebookActivity implements PostDetailV
 
     @Bind(R.id.data_container)
     CoordinatorLayout mDataContainer;
-    @Bind(R.id.image)
-    SimpleDraweeView mImage;
+//    @Bind(R.id.image)
+//    SimpleDraweeView mImage;
     @Bind(R.id.description)
     TextView mDescription;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
-    private CountryInfoPagerAdapter mAdapter;
+    private YouTubePlayerSupportFragment mYouTubePlayerFragment;
+
 
     @Override
     public int getLayout() {
@@ -57,6 +65,7 @@ public class VideoDetailActivity extends FacebookActivity implements PostDetailV
             getSupportActionBar().setTitle(data.getString(MyConstants.Extras.KEY_TITLE));
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mYouTubePlayerFragment = (YouTubePlayerSupportFragment) getSupportFragmentManager().findFragmentById(R.id.youtube_fragment);
         initialize();
         fetchDetail();
     }
@@ -88,17 +97,18 @@ public class VideoDetailActivity extends FacebookActivity implements PostDetailV
     @Override
     public void renderPostDetail(Post pVideo) {
         mVideo = pVideo;
-        getSupportActionBar().setTitle(mVideo.getTitle());
-        mImage.setImageURI(Uri.parse(mVideo.getData().getThumbnail()));
-        mImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(mVideo.getData().getMediaUrl()));
-                startActivity(intent);
-            }
-        });
+//        getSupportActionBar().setTitle(mVideo.getTitle());
+//        mImage.setImageURI(Uri.parse(mVideo.getData().getThumbnail()));
+//        mImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                intent.setData(Uri.parse(mVideo.getData().getMediaUrl()));
+//                startActivity(intent);
+//            }
+//        });
         mDescription.setText(mVideo.getDescription());
+        mYouTubePlayerFragment.initialize(MyConstants.YOUTUBE_API_KEY, this);
     }
 
     @Override
@@ -143,4 +153,36 @@ public class VideoDetailActivity extends FacebookActivity implements PostDetailV
     public Context getContext() {
         return this;
     }
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider pProvider, YouTubePlayer pYouTubePlayer, boolean isRestored) {
+
+        pYouTubePlayer.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_ORIENTATION);
+        pYouTubePlayer.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE);
+        pYouTubePlayer.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
+
+        String videoId = getYoutubeIdFromUrl(mVideo.getData().getMediaUrl());
+        if(!isRestored){
+            if(!videoId.isEmpty())
+                pYouTubePlayer.loadVideo(videoId);
+        }
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider pProvider, YouTubeInitializationResult pYouTubeInitializationResult) {
+        Logger.e(pYouTubeInitializationResult.toString());
+    }
+
+    public String getYoutubeIdFromUrl(String url){
+        String pattern = "(?<=watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*";
+
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(url);
+
+        if(matcher.find()){
+            return matcher.group();
+        }
+        return "";
+    }
+
 }

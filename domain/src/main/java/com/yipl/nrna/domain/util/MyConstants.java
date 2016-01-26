@@ -5,6 +5,8 @@ package com.yipl.nrna.domain.util;
  */
 public class MyConstants {
 
+    public static final String YOUTUBE_API_KEY = "AIzaSyAbqEgRif7zCL7R_OoK0rJK1Cc2LzOTWVE";
+
     public enum DataParent {
         COUNTRY,
         QUESTION,

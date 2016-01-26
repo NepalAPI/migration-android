@@ -20,21 +20,12 @@
             android:layout_height="wrap_content">
 
             <!--app:imageUrl="@{country.getImageUrl()}"-->
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/country_toolbar_image_height"
-                fresco:actualImageScaleType="focusCrop"
-                fresco:backgroundImage="@color/colorPrimaryDark"
-                fresco:fadeDuration="300"
-                fresco:failureImageScaleType="centerInside"
-                fresco:placeholderImageScaleType="centerCrop"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@android:drawable/ic_media_play"/>
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:src="@android:drawable/ic_media_play"/>-->
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
