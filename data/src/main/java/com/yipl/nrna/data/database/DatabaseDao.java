@@ -518,10 +518,10 @@ public class DatabaseDao {
     /*======= Save Operations ==========*/
 
     public void insertUpdate(LatestContentEntity pLatestContent) {
+        saveAllCountries(pLatestContent.getCountries());
         saveAllQuestions(pLatestContent.getQuestions());
         saveAllPosts(pLatestContent.getPosts());
         saveAllAnswers(pLatestContent.getAnswers());
-        saveAllCountries(pLatestContent.getCountries());
         saveAllUpdates(pLatestContent.getUpdates());
     }
 

@@ -86,6 +86,8 @@ public class MyConstants {
     public static final class API {
         public static final String LATEST_CONTENT = "api/latest";
         public static final String DELETED_CONTENT = "api/trash";
+        public static final String USER_PREFERENCES = "api/latest";
+
     }
 
     public static class DataInfo {

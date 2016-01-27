@@ -2,6 +2,7 @@ package com.yipl.nrna.data.api;
 
 import com.yipl.nrna.data.entity.DeletedContentDataEntity;
 import com.yipl.nrna.data.entity.LatestContentEntity;
+import com.yipl.nrna.data.entity.UserPreferenceEntity;
 
 import javax.inject.Inject;
 
@@ -22,6 +23,11 @@ public class ApiRequest {
 
     public Observable<DeletedContentDataEntity> getDeletedContent(long pLatestUpdateStamp) {
         return mApiService.getDeletedContent(pLatestUpdateStamp);
+    }
+
+    public Observable<Boolean> sendUserPreference(UserPreferenceEntity pUserPreferenceEntity){
+        UserPreferenceEntity entity = pUserPreferenceEntity;
+        return mApiService.sendUserPreference(pUserPreferenceEntity);
     }
 
     /**

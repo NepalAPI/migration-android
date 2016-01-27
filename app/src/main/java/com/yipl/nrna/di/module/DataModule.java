@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.yipl.nrna.data.database.DatabaseDao;
 import com.yipl.nrna.data.di.PerActivity;
+import com.yipl.nrna.data.entity.UserPreferenceEntity;
 import com.yipl.nrna.data.entity.mapper.DataMapper;
 import com.yipl.nrna.data.repository.AnswerRepository;
 import com.yipl.nrna.data.repository.CountryRepository;
@@ -12,6 +13,7 @@ import com.yipl.nrna.data.repository.LatestContentRepository;
 import com.yipl.nrna.data.repository.PostRepository;
 import com.yipl.nrna.data.repository.QuestionRepository;
 import com.yipl.nrna.data.repository.TagRepository;
+import com.yipl.nrna.data.repository.UserPreferenceRepository;
 import com.yipl.nrna.data.repository.datasource.DataStoreFactory;
 import com.yipl.nrna.data.repository.datasource.DeletedContentRepository;
 import com.yipl.nrna.domain.executor.PostExecutionThread;
@@ -27,6 +29,7 @@ import com.yipl.nrna.domain.interactor.GetQuestionDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetQuestionListUseCase;
 import com.yipl.nrna.domain.interactor.GetTagListUseCase;
 import com.yipl.nrna.domain.interactor.GetUpdateListUseCase;
+import com.yipl.nrna.domain.interactor.GetUserPreferenceUseCase;
 import com.yipl.nrna.domain.interactor.UpdateDownloadStatusUseCase;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.repository.CRepository;
@@ -53,6 +56,7 @@ public class DataModule {
     private MyConstants.DataParent mDataParent = null;
     private int mLimit = -1;
     private int mDownloadStatus = -1;
+    private UserPreferenceEntity mUserPreferenceEntity;
 
     public DataModule() {
     }
@@ -105,6 +109,12 @@ public class DataModule {
         mPostType = pType;
         mLimit = pLimit;
     }
+
+    public DataModule(UserPreferenceEntity pUserPreferenceEntity) {
+        mUserPreferenceEntity = pUserPreferenceEntity;
+    }
+
+    public
 
     @Provides
     @PerActivity
@@ -310,16 +320,34 @@ public class DataModule {
                                                    pPostExecutionThread) {
         return new UpdateDownloadStatusUseCase(mId, true, pDataRepository, pThreadExecutor,
                 pPostExecutionThread);
+
     }
 
     @Provides
     @PerActivity
     @Named("download_start")
     UseCase provideDownloadStartUseCase(@Named("post") IRepository pDataRepository,
-                                           ThreadExecutor pThreadExecutor, PostExecutionThread
-                                                   pPostExecutionThread) {
+                                        ThreadExecutor pThreadExecutor, PostExecutionThread
+                                                pPostExecutionThread) {
         return new DownloadAudioUseCase(mId, pDataRepository, pThreadExecutor,
                 pPostExecutionThread);
+
+    }
+
+    @Provides
+    @PerActivity
+    @Named("UserPreference")
+    UseCase provideUserPreferenceUseCase(@Named("userPreference") IBaseRepository pRepository,
+                                         ThreadExecutor pThreadExecutor, PostExecutionThread pPostExecutionThread) {
+        return new GetUserPreferenceUseCase(pRepository, pThreadExecutor, pPostExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("userPreference")
+    IBaseRepository provideUserPreferenceRepository(DataStoreFactory pDataStoreFactory, DataMapper
+            pDataMapper) {
+        return new UserPreferenceRepository(pDataStoreFactory, mUserPreferenceEntity);
     }
 
     @Provides

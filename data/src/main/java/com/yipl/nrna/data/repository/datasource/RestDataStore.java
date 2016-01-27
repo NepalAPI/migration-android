@@ -9,6 +9,7 @@ import com.yipl.nrna.data.api.ApiRequest;
 import com.yipl.nrna.data.database.DatabaseDao;
 import com.yipl.nrna.data.entity.DeletedContentDataEntity;
 import com.yipl.nrna.data.entity.LatestContentEntity;
+import com.yipl.nrna.data.entity.UserPreferenceEntity;
 import com.yipl.nrna.data.exception.NetworkConnectionException;
 
 import java.io.IOException;
@@ -38,7 +39,6 @@ public class RestDataStore implements IDataStore {
                             mDatabase.insertUpdate(pLatestContentEntity);
                             pSubscriber.onCompleted();
                         }).subscribeOn(Schedulers.computation()).subscribe();
-                        mDatabase.insertUpdate(pLatestContentEntity);
                     });
         } else {
             return Observable.error(new NetworkConnectionException());
@@ -52,6 +52,14 @@ public class RestDataStore implements IDataStore {
         } else {
             return Observable.error(new NetworkConnectionException());
         }
+    }
+
+    public Observable<Boolean> sendUserPreference(UserPreferenceEntity pUserPreferenceEntity){
+        if(isThereInternetConnection()){
+            return mApiRequest.sendUserPreference(pUserPreferenceEntity);
+        }
+        else
+            return Observable.error(new NetworkConnectionException());
     }
 
     private boolean isThereInternetConnection() {

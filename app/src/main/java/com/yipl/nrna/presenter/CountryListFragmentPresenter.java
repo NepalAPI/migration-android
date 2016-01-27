@@ -5,6 +5,7 @@ import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.model.Country;
 import com.yipl.nrna.exception.ErrorMessageFactory;
+import com.yipl.nrna.ui.activity.PersonalizationActivity;
 import com.yipl.nrna.ui.interfaces.CountryListView;
 import com.yipl.nrna.ui.interfaces.MvpView;
 import com.yipl.nrna.util.Logger;
@@ -82,12 +83,17 @@ public class CountryListFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Country> pCountries) {
-            if (pCountries == null || pCountries.isEmpty()) {
-                CountryListFragmentPresenter.this.mView.showEmptyView();
-            } else {
-                CountryListFragmentPresenter.this.mView.hideEmptyView();
-                CountryListFragmentPresenter.this.mView.renderCountryList(pCountries);
+            if(!(mView instanceof PersonalizationActivity)) {
+                if (pCountries == null || pCountries.isEmpty()) {
+                    CountryListFragmentPresenter.this.mView.showEmptyView();
+                } else {
+                    CountryListFragmentPresenter.this.mView.hideEmptyView();
+                    CountryListFragmentPresenter.this.mView.renderCountryList(pCountries);
+                }
             }
+            if(mView instanceof PersonalizationActivity)
+                CountryListFragmentPresenter.this.mView.renderCountryList(pCountries);
+
             CountryListFragmentPresenter.this.mView.hideLoadingView();
         }
     }

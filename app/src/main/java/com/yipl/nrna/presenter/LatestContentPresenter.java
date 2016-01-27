@@ -14,6 +14,7 @@ import com.yipl.nrna.ui.interfaces.MvpView;
 import com.yipl.nrna.util.Logger;
 
 import java.util.Calendar;
+import java.util.logging.Handler;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -66,6 +67,8 @@ public class LatestContentPresenter implements Presenter {
 
         @Override
         public void onCompleted() {
+            if(mView instanceof PersonalizationActivity)
+                LatestContentPresenter.this.mView.informCurrentFragmentForUpdate();
             LatestContentPresenter.this.mView.hideLoadingView();
         }
 
@@ -92,8 +95,6 @@ public class LatestContentPresenter implements Presenter {
                         2000);
                 if (!pLatestContent.getPosts().isEmpty() && !pLatestContent.getQuestions()
                         .isEmpty() && !(mView instanceof PersonalizationActivity))
-                    LatestContentPresenter.this.mView.informCurrentFragmentForUpdate();
-                if(mView instanceof PersonalizationActivity)
                     LatestContentPresenter.this.mView.informCurrentFragmentForUpdate();
 
             }
