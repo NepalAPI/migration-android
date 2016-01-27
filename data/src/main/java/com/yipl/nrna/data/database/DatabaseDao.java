@@ -3,25 +3,23 @@ package com.yipl.nrna.data.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yipl.nrna.data.entity.AnswerEntity;
 import com.yipl.nrna.data.entity.CountryEntity;
 import com.yipl.nrna.data.entity.CountryUpdateEntity;
+import com.yipl.nrna.data.entity.DeletedContentDataEntity;
+import com.yipl.nrna.data.entity.DeletedContentEntity;
 import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.data.entity.PostDataEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
-import com.yipl.nrna.data.entity.DeletedContentDataEntity;
-import com.yipl.nrna.data.entity.DeletedContentEntity;
 import com.yipl.nrna.domain.util.MyConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
@@ -89,6 +87,8 @@ public class DatabaseDao {
         post.setStage(new Gson().fromJson(cursor.getString(cursor.getColumnIndex(TABLE_POST.COLUMN_STAGE)),
                 new TypeToken<List<String>>() {
                 }.getType()));
+        post.setDownloadStatus(cursor.getInt(cursor.getColumnIndex(TABLE_POST
+                .COLUMN_DOWNLOAD_STATUS)) == 1);
         return post;
     }
 
@@ -106,7 +106,7 @@ public class DatabaseDao {
                 .COLUMN_QUESTION_ID)));
         return answer;
     }
-    
+
     public CountryUpdateEntity mapCursorToCountryUpdateEntity(Cursor cursor) {
         CountryUpdateEntity update = new CountryUpdateEntity();
         update.setId(cursor.getLong(cursor.getColumnIndex(TABLE_COUNTRY_UPDATE
@@ -161,10 +161,22 @@ public class DatabaseDao {
         return makeObservable(callable);
     }
 
-    public Observable<List<PostEntity>> getAllPosts(String pStage, String pType, int pLimit) {
+    private String addDownloadStatusToQueryCondition(String pQuery, int pDownloadStatus) {
+        if (pDownloadStatus != -1) {
+            if (!pQuery.contains("where")) {
+                pQuery += " where ";
+            } else {
+                pQuery += " and ";
+            }
+            pQuery += " " + TABLE_POST.COLUMN_DOWNLOAD_STATUS + " = " + pDownloadStatus;
+        }
+        return pQuery;
+    }
+
+    public Observable<List<PostEntity>> getAllPosts(String pStage, String pType, int
+            pDownloadStatus, int pLimit) {
         SQLiteDatabase db = helper.getWritableDatabase();
-        String query = "Select * from " +
-                TABLE_POST.TABLE_NAME;
+        String query = "Select * from " + TABLE_POST.TABLE_NAME;
         if (pStage != null || pType != null) {
             query += " where ";
             if (pType != null) {
@@ -176,9 +188,9 @@ public class DatabaseDao {
                 query += TABLE_POST.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
             }
         }
+        query = addDownloadStatusToQueryCondition(query, pDownloadStatus);
         query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
                 " DESC LIMIT " + pLimit;
-        Log.e("query :", query);
         Cursor cursor = db.rawQuery(query, null);
 
         Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
@@ -196,7 +208,7 @@ public class DatabaseDao {
     }
 
     public Observable<List<PostEntity>> getPostByQuestion(Long pQuestionId, String pStage, String
-            pType, int pLimit) {
+            pType, int pDownloadStatus, int pLimit) {
         String query = "Select p.*" +
                 " from " + TABLE_POST.TABLE_NAME + " p join " +
                 TABLE_POST_QUESTION.TABLE_NAME + " pq on p." + TABLE_POST.COLUMN_ID +
@@ -215,6 +227,7 @@ public class DatabaseDao {
                 query += TABLE_POST.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
             }
         }
+        query = addDownloadStatusToQueryCondition(query, pDownloadStatus);
         query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
                 " DESC LIMIT " + pLimit;
 
@@ -235,7 +248,7 @@ public class DatabaseDao {
     }
 
     public Observable<List<PostEntity>> getPostByCountry(Long countryId, String pStage, String
-            pType, int pLimit) {
+            pType, int pDownloadStatus, int pLimit) {
 
         String query = "Select p.* from " +
                 TABLE_POST.TABLE_NAME + " p join " + TABLE_POST_COUNTRY.TABLE_NAME +
@@ -254,6 +267,7 @@ public class DatabaseDao {
                 query += TABLE_POST.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
             }
         }
+        query = addDownloadStatusToQueryCondition(query, pDownloadStatus);
         query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
                 " DESC LIMIT " + pLimit;
 
@@ -273,7 +287,7 @@ public class DatabaseDao {
     }
 
     public Observable<List<PostEntity>> getPostByAnswer(Long pAnswerId, String pStage, String
-            pType, int pLimit) {
+            pType, int pDownloadStatus, int pLimit) {
         String query = "Select p.*" +
                 " from " + TABLE_POST.TABLE_NAME + " p join " +
                 TABLE_POST_ANSWER.TABLE_NAME + " pa on p." + MyConstants
@@ -293,6 +307,7 @@ public class DatabaseDao {
                 query += TABLE_POST.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
             }
         }
+        query = addDownloadStatusToQueryCondition(query, pDownloadStatus);
         query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
                 " DESC LIMIT " + pLimit;
 
@@ -551,6 +566,20 @@ public class DatabaseDao {
         return insertId;
     }
 
+    public long updateDownloadStatus(Long pId, boolean pDownloadStatus) {
+        ContentValues values = new ContentValues();
+        values.put(TABLE_POST.COLUMN_DOWNLOAD_STATUS, pDownloadStatus ? 1 : 0);
+        values.put(TABLE_POST.COLUMN_DOWNLOAD_REF, "");
+        return db.update(TABLE_POST.TABLE_NAME, values, TABLE_POST.COLUMN_DOWNLOAD_REF + " = '" +
+                pId + "'", null);
+    }
+
+    public long setDownloadReference(Long pId, long pReference) {
+        ContentValues values = new ContentValues();
+        values.put(TABLE_POST.COLUMN_DOWNLOAD_REF, String.valueOf(pReference));
+        return db.update(TABLE_POST.TABLE_NAME, values, TABLE_POST.COLUMN_ID + " = " + pId, null);
+    }
+
     public void saveAllAnswers(List<AnswerEntity> answers) {
         if (answers != null) {
             for (AnswerEntity answer : answers) {
@@ -769,6 +798,7 @@ public class DatabaseDao {
         values.put(TABLE_POST.COLUMN_DESCRIPTION, pPost.getDescription());
         values.put(TABLE_POST.COLUMN_TITLE, pPost.getTitle());
         values.put(TABLE_POST.COLUMN_STAGE, gson.toJson(pPost.getStage()));
+        values.put(TABLE_POST.COLUMN_DOWNLOAD_STATUS, 0);
         return values;
     }
 
@@ -793,7 +823,7 @@ public class DatabaseDao {
         values.put(TABLE_ANSWER.COLUMN_QUESTION_ID, pAnswer.getQuestionId());
         return values;
     }
-    
+
     private ContentValues getContentValues(CountryUpdateEntity pUpdate) {
         ContentValues values = new ContentValues();
         values.put(TABLE_COUNTRY_UPDATE.COLUMN_ID, pUpdate.getId());
@@ -819,18 +849,16 @@ public class DatabaseDao {
 
     //delete
 
-    public void deleteContents(DeletedContentDataEntity pContent){
-
-        Log.e("delete", "Delete");
+    public void deleteContents(DeletedContentDataEntity pContent) {
         String ids = "";
         for (DeletedContentEntity pPosts : pContent.getPosts()) {
-            ids += pPosts.getId().toString()+", ";
+            ids += pPosts.getId().toString() + ", ";
         }
         delete(TABLE_POST.TABLE_NAME, TABLE_POST.COLUMN_ID, ids);
 
         ids = "";
         for (DeletedContentEntity answer : pContent.getAnswers()) {
-            ids += answer.getId().toString()+", ";
+            ids += answer.getId().toString() + ", ";
         }
         delete(TABLE_ANSWER.TABLE_NAME, TABLE_ANSWER.COLUMN_ID, ids);
 
@@ -842,7 +870,7 @@ public class DatabaseDao {
 
     }
 
-    private void delete(String pTableName,String pIdString, String pIds){
+    private void delete(String pTableName, String pIdString, String pIds) {
 
         db.delete(pTableName, pIdString + " IN (" + pIds + "-1)", null);
 

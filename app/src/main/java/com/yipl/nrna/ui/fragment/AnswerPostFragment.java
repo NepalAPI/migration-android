@@ -54,7 +54,7 @@ public class AnswerPostFragment extends BaseFragment implements PostListView {
     TextView mTitle;
     @Bind(R.id.postList)
     LinearLayout mPostList;
-    @Bind(R.id.no_post)
+    @Bind(R.id.no_posts)
     TextView mNoPost;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
@@ -156,7 +156,7 @@ public class AnswerPostFragment extends BaseFragment implements PostListView {
 
     private void initialize() {
         DaggerDataComponent.builder()
-                .dataModule(new DataModule(mAnswerId, MyConstants.DataParent.ANSWER, null))
+                .dataModule(new DataModule(mAnswerId, MyConstants.DataParent.ANSWER, null, false))
                 .activityModule(((BaseActivity) getActivity()).getActivityModule())
                 .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                 .build()

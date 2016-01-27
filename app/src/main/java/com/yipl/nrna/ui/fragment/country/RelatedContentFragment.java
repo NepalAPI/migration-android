@@ -35,13 +35,13 @@ public class RelatedContentFragment extends BaseFragment implements RelatedConte
 
     @Inject
     RelatedContentFragmentPresenter mPresenter;
-    @Bind(R.id.relatedContentList)
+    @Bind(R.id.post_list)
     RecyclerView mRecyclerView;
-    @Bind(R.id.tvNoRelatedContent)
+    @Bind(R.id.no_content)
     TextView mTvNoRelatedContent;
-    @Bind(R.id.progressBar)
+    @Bind(R.id.progress_bar)
     ProgressBar mProgressBar;
-    @Bind(R.id.contentContainer)
+    @Bind(R.id.data_container)
     RelativeLayout mContainer;
     private ListAdapter<Post> mListAdapter;
     private long mQuestionId;
@@ -60,7 +60,7 @@ public class RelatedContentFragment extends BaseFragment implements RelatedConte
 
     @Override
     public int getLayout() {
-        return R.layout.fragment_related_content;
+        return R.layout.fragment_post_list;
     }
 
     @Override

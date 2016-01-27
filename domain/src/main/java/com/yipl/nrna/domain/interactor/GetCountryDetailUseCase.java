@@ -27,4 +27,9 @@ public class GetCountryDetailUseCase extends UseCase<Country> {
     protected Observable<Country> buildUseCaseObservable() {
         return mRepository.getSingle(mId);
     }
+
+    @Override
+    protected Observable<Country> buildUseCaseObservable(long reference) {
+        throw new UnsupportedOperationException();
+    }
 }

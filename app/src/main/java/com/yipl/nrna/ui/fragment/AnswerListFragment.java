@@ -81,7 +81,7 @@ public class AnswerListFragment extends BaseFragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(mPresenter!=null)
+        if (mPresenter != null)
             mPresenter.destroy();
     }
 

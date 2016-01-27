@@ -35,4 +35,9 @@ public class GetAnswerListUseCase extends UseCase<List<Answer>> {
             return mRepository.getList(mLimit);
         }
     }
+
+    @Override
+    protected Observable<List<Answer>> buildUseCaseObservable(long reference) {
+        throw new UnsupportedOperationException();
+    }
 }

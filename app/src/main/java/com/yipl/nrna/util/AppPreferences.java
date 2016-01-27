@@ -3,14 +3,13 @@ package com.yipl.nrna.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.yipl.nrna.R;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static com.yipl.nrna.domain.util.MyConstants.Preferences.COUNTRY;
+import static com.yipl.nrna.domain.util.MyConstants.Preferences.DOWNLOAD_REFERENCES;
 import static com.yipl.nrna.domain.util.MyConstants.Preferences.FIRST_TIME;
 import static com.yipl.nrna.domain.util.MyConstants.Preferences.GENDER;
 import static com.yipl.nrna.domain.util.MyConstants.Preferences.LANGUAGE;
@@ -73,52 +72,75 @@ public class AppPreferences {
         editor.commit();
     }
 
-    public void setLanguage(String pLanguage){
+    public void setLanguage(String pLanguage) {
         editor.putString(LANGUAGE, pLanguage);
         editor.commit();
     }
 
-    public String getLanguage(){
-        return pref.getString(LANGUAGE,"");
+    public String getLanguage() {
+        return pref.getString(LANGUAGE, "");
     }
 
-    public void setGender(String pGender){
+    public void setGender(String pGender) {
         editor.putString(GENDER, pGender);
         editor.commit();
     }
 
-    public String getGender(){
+    public String getGender() {
         return pref.getString(GENDER, "");
     }
 
-    public void setCountries(List<String> pCountry){
+    public void setCountries(List<String> pCountry) {
         Set<String> set = new HashSet<String>();
         set.addAll(pCountry);
         editor.putStringSet(COUNTRY, set);
         editor.commit();
     }
 
-    public List<String> getCountries(){
+    public List<String> getCountries() {
         Set<String> set = pref.getStringSet(COUNTRY, new HashSet<String>());
         return new ArrayList<>(set);
     }
 
-    public void setUserType(String pUserType){
+    public void setUserType(String pUserType) {
         editor.putString(USERTYPE, pUserType);
         editor.commit();
     }
 
-    public String getUserType(){
-        return pref.getString(USERTYPE,"");
+    public String getUserType() {
+        return pref.getString(USERTYPE, "");
     }
 
-    public void setFirstTime(Boolean pFirstTime){
+    public void setFirstTime(Boolean pFirstTime) {
         editor.putBoolean(FIRST_TIME, pFirstTime);
         editor.commit();
     }
 
-    public Boolean getFirstTime(){
+    public Boolean getFirstTime() {
         return pref.getBoolean(FIRST_TIME, true);
+    }
+
+    public Set<String> getDownloadReferences() {
+        return pref.getStringSet(DOWNLOAD_REFERENCES, new HashSet<String>());
+    }
+
+    public void addDownloadReference(Long pReference) {
+        Set<String> references = getDownloadReferences();
+        references.add(String.valueOf(pReference));
+        editor.putStringSet(DOWNLOAD_REFERENCES, references);
+        editor.commit();
+    }
+
+    public void removeDownloadReference(Long pReference) {
+        Set<String> references = getDownloadReferences();
+        references.remove(String.valueOf(pReference));
+        editor.putStringSet(DOWNLOAD_REFERENCES, references);
+        editor.commit();
+    }
+
+    public boolean hasDownloadReference(Long pReference) {
+        Set<String> references = getDownloadReferences();
+        return references.contains(String.valueOf(pReference));
     }
 
 }

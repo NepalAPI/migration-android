@@ -26,7 +26,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             ((BaseActivity) getActivity()).getPreferences().removeFilterChoices();
         }
         //setRetainInstance(true);

@@ -11,6 +11,10 @@ import dagger.Provides;
 public class ActivityModule {
     private final Activity mActivity;
 
+    public ActivityModule() {
+        mActivity = null;
+    }
+
     public ActivityModule(Activity pActivity) {
         this.mActivity = pActivity;
     }

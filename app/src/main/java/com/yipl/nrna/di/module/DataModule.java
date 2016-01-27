@@ -16,6 +16,7 @@ import com.yipl.nrna.data.repository.datasource.DataStoreFactory;
 import com.yipl.nrna.data.repository.datasource.DeletedContentRepository;
 import com.yipl.nrna.domain.executor.PostExecutionThread;
 import com.yipl.nrna.domain.executor.ThreadExecutor;
+import com.yipl.nrna.domain.interactor.DownloadAudioUseCase;
 import com.yipl.nrna.domain.interactor.GetAnswerListUseCase;
 import com.yipl.nrna.domain.interactor.GetCountryDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetCountryListUseCase;
@@ -26,6 +27,7 @@ import com.yipl.nrna.domain.interactor.GetQuestionDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetQuestionListUseCase;
 import com.yipl.nrna.domain.interactor.GetTagListUseCase;
 import com.yipl.nrna.domain.interactor.GetUpdateListUseCase;
+import com.yipl.nrna.domain.interactor.UpdateDownloadStatusUseCase;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.repository.CRepository;
 import com.yipl.nrna.domain.repository.IBaseRepository;
@@ -50,6 +52,7 @@ public class DataModule {
     private MyConstants.Stage mStage = null;
     private MyConstants.DataParent mDataParent = null;
     private int mLimit = -1;
+    private int mDownloadStatus = -1;
 
     public DataModule() {
     }
@@ -58,10 +61,14 @@ public class DataModule {
         mId = pId;
     }
 
-    public DataModule(long pId, MyConstants.DataParent pDataParent, MyConstants.PostType pType) {
+    public DataModule(long pId, MyConstants.DataParent pDataParent, MyConstants.PostType pType,
+                      Boolean pDownloadStatus) {
         mId = pId;
         mDataParent = pDataParent;
         mPostType = pType;
+        mDownloadStatus = pDownloadStatus != null
+                ? pDownloadStatus ? 1 : 0
+                : -1;
     }
 
     public DataModule(long pLastUpdateStamp, int flag) {
@@ -76,8 +83,11 @@ public class DataModule {
         mStage = pStage;
     }
 
-    public DataModule(MyConstants.PostType pPostType) {
+    public DataModule(MyConstants.PostType pPostType, Boolean pDownloadStatus) {
         mPostType = pPostType;
+        mDownloadStatus = pDownloadStatus != null
+                ? pDownloadStatus ? 1 : 0
+                : -1;
     }
 
     public DataModule(MyConstants.PostType pPostType, int pLimit) {
@@ -128,7 +138,8 @@ public class DataModule {
     UseCase providePostListUseCase(@Named("post") IRepository pDataRepository, ThreadExecutor
             pThreadExecutor,
                                    PostExecutionThread pPostExecutionThread) {
-        return new GetPostListUseCase(mLimit, mId, mDataParent, mPostType, mStage, pDataRepository,
+        return new GetPostListUseCase(mLimit, mId, mDataParent, mPostType, mStage, mDownloadStatus,
+                pDataRepository,
                 pThreadExecutor,
                 pPostExecutionThread);
     }
@@ -140,7 +151,7 @@ public class DataModule {
                                     ThreadExecutor pThreadExecutor, PostExecutionThread
                                             pPostExecutionThread) {
         return new GetPostListUseCase(mLimit, mId, mDataParent, MyConstants.PostType.AUDIO,
-                mStage, pDataRepository, pThreadExecutor, pPostExecutionThread);
+                mStage, mDownloadStatus, pDataRepository, pThreadExecutor, pPostExecutionThread);
     }
 
     @Provides
@@ -150,7 +161,7 @@ public class DataModule {
                                     ThreadExecutor pThreadExecutor, PostExecutionThread
                                             pPostExecutionThread) {
         return new GetPostListUseCase(mLimit, mId, mDataParent, MyConstants.PostType.VIDEO,
-                mStage, pDataRepository, pThreadExecutor, pPostExecutionThread);
+                mStage, mDownloadStatus, pDataRepository, pThreadExecutor, pPostExecutionThread);
     }
 
     @Provides
@@ -160,7 +171,7 @@ public class DataModule {
                                       ThreadExecutor pThreadExecutor, PostExecutionThread
                                               pPostExecutionThread) {
         return new GetPostListUseCase(mLimit, mId, mDataParent, MyConstants.PostType.TEXT,
-                mStage, pDataRepository, pThreadExecutor, pPostExecutionThread);
+                mStage, mDownloadStatus, pDataRepository, pThreadExecutor, pPostExecutionThread);
     }
 
     @Provides
@@ -289,6 +300,26 @@ public class DataModule {
                                   ThreadExecutor pThreadExecutor,
                                   PostExecutionThread pPostExecutionThread) {
         return new GetTagListUseCase(pTagRepository, pThreadExecutor, pPostExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("download_complete")
+    UseCase provideDownloadCompleteUseCase(@Named("post") IRepository pDataRepository,
+                                           ThreadExecutor pThreadExecutor, PostExecutionThread
+                                                   pPostExecutionThread) {
+        return new UpdateDownloadStatusUseCase(mId, true, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("download_start")
+    UseCase provideDownloadStartUseCase(@Named("post") IRepository pDataRepository,
+                                           ThreadExecutor pThreadExecutor, PostExecutionThread
+                                                   pPostExecutionThread) {
+        return new DownloadAudioUseCase(mId, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
     }
 
     @Provides

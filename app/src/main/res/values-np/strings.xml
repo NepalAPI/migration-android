@@ -6,6 +6,7 @@
     <string name="action_sync">Sync</string>
     <string name="action_retry">फेरि प्रयास गर्नुहोस्</string>
     <string name="action_share">फेसबुक मा साझा गर्नुहोस</string>
+    <string name="action_share_bluetooth">Share via Bluetooth</string>
 
     <string name="title_home">गृह पृष्ठ</string>
     <string name="title_info_center">सूचना केन्द्र</string>
@@ -14,6 +15,7 @@
     <string name="title_video">भिडियोहरु</string>
     <string name="title_article">लेखहरु</string>
     <string name="title_questions">तपाइँको प्रश्न हाम्रो समाधान</string>
+    <string name="title_downloads">My Downloads</string>
 
     <string name="see_all_questions">सबै प्रश्न हेर्नुहोस्</string>
     <string name="latest_audios">नवीनतम अडियोहरु / पोडकास्टहर</string>
@@ -70,6 +72,7 @@
     <string name="download_start">Downloading %1$s</string>
     <string name="download_success">%1$s downloaded successfully</string>
     <string name="download_already">%1$s already downloaded</string>
+    <string name="error_bluetooth_share">You need to download the audio in order to share</string>
 
     <string name="male">Male</string>
     <string name="female">Female</string>
@@ -80,5 +83,8 @@
 
     <string name="user_type_first">First Time</string>
     <string name="user_type_returnee">Returnee</string>
+
+    <string name="download_description">Downloading...</string>
+    <string name="share_audio">Share Audio Post</string>
 
 </resources>

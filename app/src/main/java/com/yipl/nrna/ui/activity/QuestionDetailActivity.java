@@ -3,14 +3,12 @@ package com.yipl.nrna.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
-import com.yipl.nrna.base.ContentListFragment;
 import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;

@@ -86,6 +86,12 @@
             android:label="@string/title_activity_setting"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+
+        <receiver android:name=".ui.receivers.DownloadStateReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

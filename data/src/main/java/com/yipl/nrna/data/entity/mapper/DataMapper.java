@@ -84,6 +84,7 @@ public class DataMapper {
             post.setTags(pEntity.getTags());
             post.setData(transformPostData(pEntity.getData()));
             post.setStage(pEntity.getStage());
+            post.setDownloadStatus(pEntity.getDownloadStatus());
             return post;
         }
         return null;

@@ -18,7 +18,6 @@ import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
-import com.yipl.nrna.presenter.PostListPresenter;
 import com.yipl.nrna.ui.CustomRecyclerViewItemDecoration;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
@@ -26,8 +25,6 @@ import com.yipl.nrna.ui.interfaces.PostListView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -69,20 +66,6 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initialize();
-        setUpAdapter();
-        if(savedInstanceState!=null){
-            List<Post> postList = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_FILTERED_LIST);
-            mPosts = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_LIST);
-            mListAdapter.setDataCollection(postList,  mType == MyConstants.VideoAdapterType.TYPE_GRID);
-        }
-        else
-            loadVideoList();
-    }
-
-    @Override
     public void showNewContentInfo() {
         Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
                 .LENGTH_INDEFINITE)
@@ -93,6 +76,19 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initialize();
+        setUpAdapter();
+        if (savedInstanceState != null) {
+            List<Post> postList = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_FILTERED_LIST);
+            mPosts = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_LIST);
+            mListAdapter.setDataCollection(postList, mType == MyConstants.VideoAdapterType.TYPE_GRID);
+        } else
+            loadVideoList();
     }
 
     @Override
@@ -115,7 +111,6 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
         super.onPause();
         mPresenter.pause();
     }
-
 
 
     @Override
@@ -142,14 +137,15 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
     private void initialize() {
         if (mQuestionId != Long.MIN_VALUE) {
             DaggerDataComponent.builder()
-                    .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION, MyConstants.PostType.VIDEO))
+                    .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION,
+                            MyConstants.PostType.VIDEO, false))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()
                     .inject(this);
         } else {
             DaggerDataComponent.builder()
-                    .dataModule(new DataModule(MyConstants.PostType.VIDEO))
+                    .dataModule(new DataModule(MyConstants.PostType.VIDEO, false))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()

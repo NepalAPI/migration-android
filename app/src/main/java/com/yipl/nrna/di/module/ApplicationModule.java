@@ -8,6 +8,7 @@ import com.yipl.nrna.data.database.DatabaseHelper;
 import com.yipl.nrna.data.executor.JobExecutor;
 import com.yipl.nrna.domain.executor.PostExecutionThread;
 import com.yipl.nrna.domain.executor.ThreadExecutor;
+import com.yipl.nrna.util.AppPreferences;
 import com.yipl.nrna.util.UIThread;
 
 import javax.inject.Singleton;
@@ -51,5 +52,11 @@ public class ApplicationModule {
     @Singleton
     DatabaseDao provideDatabaseDao(DatabaseHelper databaseHelper) {
         return new DatabaseDao(databaseHelper);
+    }
+
+    @Provides
+    @Singleton
+    AppPreferences provideAppPreferences(Context pContext){
+        return new AppPreferences(pContext);
     }
 }

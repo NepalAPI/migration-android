@@ -61,33 +61,15 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_filter, menu);
-        menu.findItem(R.id.action_filter).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_filter_list)
-                .color(Color.WHITE).actionBar());
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_filter) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment prev = getChildFragmentManager().findFragmentByTag("dialog");
-            if (prev != null) {
-                ft.remove(prev);
-            }
-            ft.addToBackStack(null);
-
-            FilterDialogFragment newFragment = FilterDialogFragment.newInstance();
-            newFragment.setTargetFragment(this, 0);
-            newFragment.show(ft, "dialog");
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mBroadcastReceiver);
+        if (mPresenter != null)
+            mPresenter.destroy();
     }
 
     public void filterContentList(List<String> pStageFilter, List<String> pTagFilter) {
-        if(mPosts == null)
+        if (mPosts == null)
             return;
         if (pStageFilter.isEmpty() && pTagFilter.isEmpty()) {
             mListAdapter.setDataCollection(mPosts);
@@ -124,17 +106,35 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(MyConstants.Extras.KEY_FILTERED_LIST, (Serializable)mListAdapter.getDataCollection());
+        outState.putSerializable(MyConstants.Extras.KEY_FILTERED_LIST, (Serializable) mListAdapter.getDataCollection());
         outState.putSerializable(MyConstants.Extras.KEY_LIST, (Serializable) mPosts);
         Logger.e("tab_saved", this.toString());
         super.onSaveInstanceState(outState);
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mBroadcastReceiver);
-        if(mPresenter!=null)
-            mPresenter.destroy();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_filter, menu);
+        menu.findItem(R.id.action_filter).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_filter_list)
+                .color(Color.WHITE).actionBar());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_filter) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            Fragment prev = getChildFragmentManager().findFragmentByTag("dialog");
+            if (prev != null) {
+                ft.remove(prev);
+            }
+            ft.addToBackStack(null);
+
+            FilterDialogFragment newFragment = FilterDialogFragment.newInstance();
+            newFragment.setTargetFragment(this, 0);
+            newFragment.show(ft, "dialog");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,12 +1,8 @@
 package com.yipl.nrna.presenter;
 
-import android.util.Log;
-
 import com.yipl.nrna.domain.repository.IBaseRepository;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.ui.interfaces.MvpView;
-
-import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,7 +19,7 @@ public class DeletedContentPresenter implements Presenter {
     MainActivityView mView;
 
     @Inject
-    public DeletedContentPresenter(@Named("deleted")IBaseRepository pRepository){
+    public DeletedContentPresenter(@Named("deleted") IBaseRepository pRepository) {
         mRepository = pRepository;
     }
 
@@ -45,6 +41,11 @@ public class DeletedContentPresenter implements Presenter {
         deleteContent();
     }
 
+    @Override
+    public void attachView(MvpView view) {
+        mView = (MainActivityView) view;
+    }
+
     private void deleteContent() {
         mRepository.getSingle(0L).subscribeOn(Schedulers.newThread()).subscribe(new Observer() {
             @Override
@@ -60,10 +61,5 @@ public class DeletedContentPresenter implements Presenter {
                 mView.informCurrentFragmentForUpdate();
             }
         });
-    }
-
-    @Override
-    public void attachView(MvpView view) {
-        mView = (MainActivityView) view;
     }
 }

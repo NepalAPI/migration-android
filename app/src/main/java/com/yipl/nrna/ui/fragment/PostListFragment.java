@@ -30,34 +30,40 @@ import butterknife.ButterKnife;
 /**
  * Created by Nirazan-PC on 12/11/2015.
  */
-public class AudioListFragment extends ContentListFragment implements PostListView {
+public class PostListFragment extends ContentListFragment implements PostListView {
 
 
-    @Bind(R.id.recylerViewAudioList)
+    @Bind(R.id.post_list)
     RecyclerView mRecyclerView;
-    @Bind(R.id.tvNoAudio)
-    TextView tvNoAudio;
-    @Bind(R.id.progressBar)
+    @Bind(R.id.no_content)
+    TextView tvNoPosts;
+    @Bind(R.id.progress_bar)
     ProgressBar mProgressBar;
     @Bind(R.id.data_container)
     RelativeLayout mContainer;
-    private Long mQuestionId = Long.MIN_VALUE;
 
-    public AudioListFragment() {
+    private Long mQuestionId = Long.MIN_VALUE;
+    private MyConstants.PostType mType = null;
+    private Boolean mDownloadStatus = null;
+
+    public PostListFragment() {
         super();
     }
 
-    public static AudioListFragment newInstance(Long pId) {
-        AudioListFragment fragment = new AudioListFragment();
+    public static PostListFragment newInstance(Long pId, MyConstants.PostType pType, Boolean
+            pDownloadStatus) {
+        PostListFragment fragment = new PostListFragment();
         Bundle data = new Bundle();
         data.putLong(MyConstants.Extras.KEY_ID, pId);
+        data.putSerializable(MyConstants.Extras.KEY_TYPE, pType);
+        data.putBoolean(MyConstants.Extras.KEY_DOWNLOAD_STATUS, pDownloadStatus);
         fragment.setArguments(data);
         return fragment;
     }
 
     @Override
     public int getLayout() {
-        return R.layout.fragment_audio_list;
+        return R.layout.fragment_post_list;
     }
 
     @Override
@@ -67,17 +73,11 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
                 .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
                     @Override
                     public void onClick(View pView) {
-                        loadAudioList();
+                        loadPostList();
                     }
                 })
                 .show();
     }
-
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        mPresenter.destroy();
-//    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
             mListAdapter.setDataCollection(postList);
             mPosts = (List<Post>) savedInstanceState.getSerializable(MyConstants.Extras.KEY_LIST);
         } else
-            loadAudioList();
+            loadPostList();
     }
 
     @Override
@@ -98,6 +98,8 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
         Bundle data = getArguments();
         if (data != null) {
             mQuestionId = data.getLong(MyConstants.Extras.KEY_ID);
+            mDownloadStatus = data.getBoolean(MyConstants.Extras.KEY_DOWNLOAD_STATUS);
+            mType = (MyConstants.PostType) data.getSerializable(MyConstants.Extras.KEY_TYPE);
         }
     }
 
@@ -119,12 +121,13 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
         ButterKnife.unbind(this);
     }
 
-    private void loadAudioList() {
+    private void loadPostList() {
         mPresenter.initialize();
     }
 
     private void setUpAdapter() {
-        mListAdapter = new ListAdapter<Post>(getContext(), new ArrayList<Post>(), (ListClickCallbackInterface) getActivity());
+        mListAdapter = new ListAdapter<>(getContext(), new ArrayList<Post>(),
+                (ListClickCallbackInterface) getActivity());
         mRecyclerView.setAdapter(mListAdapter);
     }
 
@@ -132,21 +135,21 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
         if (mQuestionId != Long.MIN_VALUE) {
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION,
-                            MyConstants.PostType.AUDIO, false))
+                            mType, mDownloadStatus))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()
                     .inject(this);
         } else {
             DaggerDataComponent.builder()
-                    .dataModule(new DataModule(MyConstants.PostType.AUDIO, false))
+                    .dataModule(new DataModule(mType, mDownloadStatus))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()
                     .inject(this);
         }
         mPresenter.attachView(this);
-        tvNoAudio.setVisibility(View.GONE);
+        tvNoPosts.setVisibility(View.GONE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
@@ -182,19 +185,19 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
 
     @Override
     public void showEmptyView() {
-        tvNoAudio.setVisibility(View.VISIBLE);
+        tvNoPosts.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideEmptyView() {
-        tvNoAudio.setVisibility(View.INVISIBLE);
+        tvNoPosts.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void renderPostList(List<Post> pAudios) {
         if (pAudios != null) {
             mPosts = pAudios;
-            tvNoAudio.setVisibility(View.GONE);
+            tvNoPosts.setVisibility(View.GONE);
             mListAdapter.setDataCollection(pAudios);
         }
     }

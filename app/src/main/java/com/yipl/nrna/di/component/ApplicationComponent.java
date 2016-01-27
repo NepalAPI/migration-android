@@ -8,6 +8,7 @@ import com.yipl.nrna.di.module.ApplicationModule;
 import com.yipl.nrna.domain.executor.PostExecutionThread;
 import com.yipl.nrna.domain.executor.ThreadExecutor;
 import com.yipl.nrna.media.MediaService;
+import com.yipl.nrna.util.AppPreferences;
 
 import javax.inject.Singleton;
 
@@ -27,4 +28,6 @@ public interface ApplicationComponent {
     PostExecutionThread postExecutionThread();
 
     DatabaseHelper getDatabaseHelper();
+
+    AppPreferences getAppPreferences();
 }
