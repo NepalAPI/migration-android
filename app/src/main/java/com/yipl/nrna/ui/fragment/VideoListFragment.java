@@ -34,7 +34,6 @@ import butterknife.ButterKnife;
  */
 public class VideoListFragment extends ContentListFragment implements PostListView {
 
-
     @Bind(R.id.recylerViewVideoList)
     RecyclerView mRecyclerView;
     @Bind(R.id.tvNoVideo)
@@ -111,7 +110,6 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
         super.onPause();
         mPresenter.pause();
     }
-
 
     @Override
     public void onDestroyView() {

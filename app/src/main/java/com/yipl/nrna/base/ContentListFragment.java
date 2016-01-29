@@ -42,7 +42,6 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
     protected ListAdapter<Post> mListAdapter;
     protected List<Post> mPosts;
 
-
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

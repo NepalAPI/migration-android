@@ -11,6 +11,7 @@ public class UserPreferenceEntity {
     String gender;
     String type;
     List<String> country;
+    String deviceId;
 
     public String getDeviceId() {
         return deviceId;
@@ -19,8 +20,6 @@ public class UserPreferenceEntity {
     public void setDeviceId(String pDeviceId) {
         deviceId = pDeviceId;
     }
-
-    String deviceId;
 
     public String getLanguage() {
         return language;

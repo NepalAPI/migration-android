@@ -52,7 +52,6 @@ public class UpdatesPresenter implements Presenter {
         mView = (UpdateListView) view;
     }
 
-
     private void loadAnswerList() {
         mView.hideRetryView();
         mView.showLoadingView();

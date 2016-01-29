@@ -196,5 +196,4 @@ public class UpdatesFragment extends BaseFragment implements
         tvNoUpdates.setVisibility(View.INVISIBLE);
     }
 
-
 }

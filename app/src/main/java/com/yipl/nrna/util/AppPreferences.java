@@ -72,13 +72,17 @@ public class AppPreferences {
         editor.commit();
     }
 
+    public String getLanguage() {
+        return pref.getString(LANGUAGE, "");
+    }
+
     public void setLanguage(String pLanguage) {
         editor.putString(LANGUAGE, pLanguage);
         editor.commit();
     }
 
-    public String getLanguage() {
-        return pref.getString(LANGUAGE, "");
+    public String getGender() {
+        return pref.getString(GENDER, "");
     }
 
     public void setGender(String pGender) {
@@ -86,8 +90,9 @@ public class AppPreferences {
         editor.commit();
     }
 
-    public String getGender() {
-        return pref.getString(GENDER, "");
+    public List<String> getCountries() {
+        Set<String> set = pref.getStringSet(COUNTRY, null);
+        return set == null ? null : new ArrayList<>(set);
     }
 
     public void setCountries(List<String> pCountry) {
@@ -97,9 +102,8 @@ public class AppPreferences {
         editor.commit();
     }
 
-    public List<String> getCountries() {
-        Set<String> set = pref.getStringSet(COUNTRY, new HashSet<String>());
-        return new ArrayList<>(set);
+    public String getUserType() {
+        return pref.getString(USERTYPE, "");
     }
 
     public void setUserType(String pUserType) {
@@ -107,17 +111,13 @@ public class AppPreferences {
         editor.commit();
     }
 
-    public String getUserType() {
-        return pref.getString(USERTYPE, "");
+    public Boolean getFirstTime() {
+        return pref.getBoolean(FIRST_TIME, true);
     }
 
     public void setFirstTime(Boolean pFirstTime) {
         editor.putBoolean(FIRST_TIME, pFirstTime);
         editor.commit();
-    }
-
-    public Boolean getFirstTime() {
-        return pref.getBoolean(FIRST_TIME, true);
     }
 
     public Set<String> getDownloadReferences() {

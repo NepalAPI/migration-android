@@ -83,7 +83,7 @@ public class CountryListFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Country> pCountries) {
-            if(!(mView instanceof PersonalizationActivity)) {
+            if (!(mView instanceof PersonalizationActivity)) {
                 if (pCountries == null || pCountries.isEmpty()) {
                     CountryListFragmentPresenter.this.mView.showEmptyView();
                 } else {
@@ -91,7 +91,7 @@ public class CountryListFragmentPresenter implements Presenter {
                     CountryListFragmentPresenter.this.mView.renderCountryList(pCountries);
                 }
             }
-            if(mView instanceof PersonalizationActivity)
+            if (mView instanceof PersonalizationActivity)
                 CountryListFragmentPresenter.this.mView.renderCountryList(pCountries);
 
             CountryListFragmentPresenter.this.mView.hideLoadingView();

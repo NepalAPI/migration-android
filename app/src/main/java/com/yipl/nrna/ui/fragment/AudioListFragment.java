@@ -32,7 +32,6 @@ import butterknife.ButterKnife;
  */
 public class AudioListFragment extends ContentListFragment implements PostListView {
 
-
     @Bind(R.id.recylerViewAudioList)
     RecyclerView mRecyclerView;
     @Bind(R.id.tvNoAudio)

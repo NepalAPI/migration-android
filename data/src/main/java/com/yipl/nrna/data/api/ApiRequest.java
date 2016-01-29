@@ -25,7 +25,7 @@ public class ApiRequest {
         return mApiService.getDeletedContent(pLatestUpdateStamp);
     }
 
-    public Observable<Boolean> sendUserPreference(UserPreferenceEntity pUserPreferenceEntity){
+    public Observable<Boolean> sendUserPreference(UserPreferenceEntity pUserPreferenceEntity) {
         UserPreferenceEntity entity = pUserPreferenceEntity;
         return mApiService.sendUserPreference(pUserPreferenceEntity);
     }

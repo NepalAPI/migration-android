@@ -133,7 +133,7 @@ public class AudioDetailActivity extends FacebookActivity implements
     @Override
     public void onResume() {
         super.onResume();
-        if(mPresenter != null) mPresenter.resume();
+        if (mPresenter != null) mPresenter.resume();
         updateSeekBar();
         receiverFilter.addAction(MyConstants.Media.ACTION_MEDIA_BUFFER_START);
         receiverFilter.addAction(MyConstants.Media.ACTION_MEDIA_BUFFER_STOP);
@@ -252,7 +252,7 @@ public class AudioDetailActivity extends FacebookActivity implements
         }
         mService = null;
         super.onDestroy();
-        if(mPresenter != null) mPresenter.destroy();
+        if (mPresenter != null) mPresenter.destroy();
     }
 
     @Override
@@ -261,7 +261,7 @@ public class AudioDetailActivity extends FacebookActivity implements
         if (mediaReceiver != null)
             unregisterReceiver(mediaReceiver);
         super.onPause();
-        if(mPresenter != null) mPresenter.pause();
+        if (mPresenter != null) mPresenter.pause();
     }
 
     @Override

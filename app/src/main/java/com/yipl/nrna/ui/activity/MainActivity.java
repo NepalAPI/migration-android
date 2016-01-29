@@ -150,7 +150,7 @@ public class MainActivity extends BaseActivity implements
         if (id == R.id.action_sync) {
             fetchLatestContent();
         }
-        if(id == R.id.action_settings){
+        if (id == R.id.action_settings) {
             Intent i = new Intent(this, SettingActivity.class);
             startActivity(i);
         }

@@ -78,13 +78,37 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="third_gender">Third Gender</string>
+    <string-array name="gender">
+        <item>@string/male</item>
+        <item>@string/female</item>
+        <item>@string/third_gender</item>
+    </string-array>
 
     <string name="language_nepali">Nepali</string>
     <string name="language_english">English</string>
+    <string-array name="languages">
+        <item>@string/language_english</item>
+        <item>@string/language_nepali</item>
+    </string-array>
 
     <string name="user_type_first">First Time</string>
     <string name="user_type_returnee">Returnee</string>
+    <string-array name="user_type">
+        <item>@string/user_type_first</item>
+        <item>@string/user_type_returnee</item>
+    </string-array>
 
     <string name="download_description">Downloading...</string>
     <string name="share_audio">Share Audio Post</string>
+
+    <!-- Personalization settings -->
+    <string name="setting_language">Language</string>
+    <string name="setting_countries">Country</string>
+    <string name="setting_usertype">User Type</string>
+    <string name="setting_gender">Gender</string>
+    <!-- Setting headers-->
+    <string name="setting_personalization">Personalization</string>
+
+    <string name="save">SAVE</string>
+    <string name="skip">SKIP</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.yipl.nrna.presenter;
 
-import com.yipl.nrna.data.entity.UserPreferenceEntity;
 import com.yipl.nrna.domain.exception.DefaultErrorBundle;
 import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
@@ -21,7 +20,7 @@ public class UserPreferencePresenter implements Presenter {
     private PersonalizationView mView;
 
     @Inject
-    public UserPreferencePresenter(@Named("UserPreference")UseCase pUseCase) {
+    public UserPreferencePresenter(@Named("UserPreference") UseCase pUseCase) {
         mUseCase = pUseCase;
     }
 
@@ -59,14 +58,14 @@ public class UserPreferencePresenter implements Presenter {
 
         @Override
         public void onCompleted() {
-           UserPreferencePresenter.this.mView.hideLoadingView();
+            UserPreferencePresenter.this.mView.hideLoadingView();
         }
 
         @Override
         public void onError(Throwable e) {
             UserPreferencePresenter.this.mView.hideLoadingView();
             UserPreferencePresenter.this.mView.showRetryView();
-            Logger.e("UserreferencePresenter_onError"+ErrorMessageFactory
+            Logger.e("UserreferencePresenter_onError" + ErrorMessageFactory
                     .create(mView.getContext(), new DefaultErrorBundle((Exception) e)
                             .getException()));
             UserPreferencePresenter.this.mView.showError(ErrorMessageFactory
@@ -78,7 +77,7 @@ public class UserPreferencePresenter implements Presenter {
 
         @Override
         public void onNext(Boolean pBoolean) {
-            if(pBoolean){
+            if (pBoolean) {
                 UserPreferencePresenter.this.mView.hideLoadingView();
                 UserPreferencePresenter.this.mView.dataSent();
             }

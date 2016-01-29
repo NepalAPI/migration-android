@@ -32,7 +32,6 @@ import butterknife.ButterKnife;
  */
 public class PostListFragment extends ContentListFragment implements PostListView {
 
-
     @Bind(R.id.post_list)
     RecyclerView mRecyclerView;
     @Bind(R.id.no_content)

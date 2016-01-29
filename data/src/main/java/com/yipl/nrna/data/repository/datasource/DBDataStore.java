@@ -48,11 +48,11 @@ public class DBDataStore implements IDataStore {
         return database.getPostByCountry(pCountryId, pStage, pType, pDownloadStatus, pLimit);
     }
 
-    public long updateDownloadStatus(Long pId, boolean pDownloadStatus){
+    public long updateDownloadStatus(Long pId, boolean pDownloadStatus) {
         return database.updateDownloadStatus(pId, pDownloadStatus);
     }
 
-    public long setDownloadReference(Long pId, long pReference){
+    public long setDownloadReference(Long pId, long pReference) {
         return database.setDownloadReference(pId, pReference);
     }
 
