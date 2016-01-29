@@ -39,7 +39,7 @@ public class AppPreferences {
 
     public void setLastUpdateStamp(long pStamp) {
         editor.putLong(LAST_UPDATE_STAMP, pStamp);
-        editor.commit();
+        editor.apply();
     }
 
     public List<String> getFilterTagChoices() {

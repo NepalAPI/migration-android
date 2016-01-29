@@ -13,7 +13,6 @@ import com.yipl.nrna.domain.model.Answer;
 import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.ui.fragment.AnswerPostFragment;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
-import com.yipl.nrna.util.Logger;
 
 import java.util.List;
 
@@ -88,14 +87,12 @@ public class FragmentListAdapter<T extends BaseModel> extends RecyclerView.Adapt
             try {
                 mContainer.removeAllViews();
                 mContainer.setId(pAnswer.getId().intValue());
-                Logger.d("AnswerViewHolder_bindAnswer", "ID:" + mContainer.getId());
                 ((AppCompatActivity) mContext).getSupportFragmentManager()
                         .beginTransaction()
                         .replace(mContainer.getId(), AnswerPostFragment.newInstance(pAnswer),
                                 "answer_" + pAnswer.getTitle())
                         .commit();
             } catch (Exception e) {
-                Logger.e("AnswerViewHolder_bindAnswer", "exception occurred..");
                 e.printStackTrace();
             }
         }

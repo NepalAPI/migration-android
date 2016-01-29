@@ -23,7 +23,6 @@ import com.yipl.nrna.presenter.PostListPresenter;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.fragment.FilterDialogFragment;
 import com.yipl.nrna.ui.interfaces.FilterDialogCallbackInterface;
-import com.yipl.nrna.util.Logger;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,7 +55,6 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
         super.onActivityCreated(savedInstanceState);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBroadcastReceiver,
                 new IntentFilter(MyConstants.Extras.INTENT_FILTER));
-        Logger.e("broadcast registered: " + this.toString());
     }
 
     @Override
@@ -107,7 +105,6 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
     public void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(MyConstants.Extras.KEY_FILTERED_LIST, (Serializable) mListAdapter.getDataCollection());
         outState.putSerializable(MyConstants.Extras.KEY_LIST, (Serializable) mPosts);
-        Logger.e("tab_saved", this.toString());
         super.onSaveInstanceState(outState);
     }
 

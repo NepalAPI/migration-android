@@ -62,6 +62,10 @@ public class DatabaseDao {
                 .TABLE_COUNTRY.COLUMN_NAME)));
         country.setDescription(pCursor.getString(pCursor.getColumnIndex(
                 TABLE_COUNTRY.COLUMN_DESCRIPTION)));
+        country.setContacts(pCursor.getString(pCursor.getColumnIndex(
+                TABLE_COUNTRY.COLUMN_CONTACTS)));
+        country.setDosAndDonts(pCursor.getString(pCursor.getColumnIndex(
+                TABLE_COUNTRY.COLUMN_DOS_DONTS)));
         country.setImage(pCursor.getString(pCursor.getColumnIndex(TABLE_COUNTRY
                 .COLUMN_IMAGE)));
         country.setCode(pCursor.getString(pCursor.getColumnIndex(TABLE_COUNTRY
@@ -844,6 +848,8 @@ public class DatabaseDao {
         values.put(TABLE_COUNTRY.COLUMN_IMAGE, pCountry.getImage());
         values.put(TABLE_COUNTRY.COLUMN_NAME, pCountry.getName());
         values.put(TABLE_COUNTRY.COLUMN_CODE, pCountry.getCode());
+        values.put(TABLE_COUNTRY.COLUMN_CONTACTS, pCountry.getContacts());
+        values.put(TABLE_COUNTRY.COLUMN_DOS_DONTS, pCountry.getDosAndDonts());
         return values;
     }
 

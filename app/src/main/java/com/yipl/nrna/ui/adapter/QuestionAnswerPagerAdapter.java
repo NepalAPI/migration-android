@@ -22,10 +22,10 @@ import com.yipl.nrna.ui.fragment.VideoListFragment;
 public class QuestionAnswerPagerAdapter extends FragmentPagerAdapter {
 
     private final int[] imageResId = {
-            R.drawable.ic_tab_document,
-            R.drawable.ic_tab_document,
-            R.drawable.ic_tab_document,
-            R.drawable.ic_tab_document
+            R.drawable.ic_tab_star,
+            R.drawable.ic_tab_headset,
+            R.drawable.ic_tab_video,
+            R.drawable.ic_tab_article
     };
     private final String[] tabTitles;
     Context mContext;

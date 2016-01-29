@@ -16,23 +16,23 @@
             android:title="@string/title_countries"/>
         <item
             android:id="@+id/nav_audios"
-            android:icon="@drawable/ic_nav_info"
+            android:icon="@drawable/ic_nav_headset"
             android:title="@string/title_audio"/>
         <item
             android:id="@+id/nav_videos"
-            android:icon="@drawable/ic_nav_info"
+            android:icon="@drawable/ic_nav_video"
             android:title="@string/title_video"/>
         <item
             android:id="@+id/nav_articles"
-            android:icon="@drawable/ic_nav_info"
+            android:icon="@drawable/ic_nav_article"
             android:title="@string/title_article"/>
         <item
             android:id="@+id/nav_questions"
-            android:icon="@drawable/ic_nav_info"
+            android:icon="@drawable/ic_nav_questions"
             android:title="@string/title_questions"/>
         <item
             android:id="@+id/nav_downloads"
-            android:icon="@drawable/ic_nav_info"
+            android:icon="@drawable/ic_nav_download"
             android:title="@string/title_downloads"/>
     </group>
 

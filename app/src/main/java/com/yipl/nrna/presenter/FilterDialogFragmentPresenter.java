@@ -6,7 +6,6 @@ import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.exception.ErrorMessageFactory;
 import com.yipl.nrna.ui.interfaces.FilterDialogFragmentView;
 import com.yipl.nrna.ui.interfaces.MvpView;
-import com.yipl.nrna.util.Logger;
 
 import java.util.List;
 
@@ -71,7 +70,6 @@ public class FilterDialogFragmentPresenter implements Presenter {
         public void onError(Throwable e) {
             FilterDialogFragmentPresenter.this.mView.hideLoadingView();
             FilterDialogFragmentPresenter.this.mView.showEmptyView();
-            Logger.e("TagSubscriber_onError", e.getLocalizedMessage());
             FilterDialogFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));
             FilterDialogFragmentPresenter.this.mView.showRetryView();

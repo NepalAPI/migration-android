@@ -23,7 +23,6 @@ import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
-import com.yipl.nrna.util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -212,7 +211,6 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                     List<Post> selectedTracks = new ArrayList();
                     int index = filterList(selectedTracks, mBinding.getAudio(), MyConstants.Adapter
                             .TYPE_AUDIO);
-                    Logger.d("AudioViewHolder_onClick", "index: " + index);
                     mListener.onAudioItemSelected(selectedTracks, index);
                 }
             });

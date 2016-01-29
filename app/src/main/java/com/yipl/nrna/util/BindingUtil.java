@@ -6,6 +6,8 @@ import android.text.Html;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.yipl.nrna.R;
+
 public class BindingUtil {
     @BindingAdapter("bind:imageUrl")
     public static void setImage(ImageView pView, String url) {
@@ -29,6 +31,10 @@ public class BindingUtil {
 
     @BindingAdapter("bind:fromHtml")
     public static void setFromHtml(TextView pView, String text) {
-        pView.setText(Html.fromHtml(text));
+        try {
+            pView.setText(Html.fromHtml(text));
+        } catch (NullPointerException e) {
+            pView.setText(pView.getContext().getString(R.string.not_available));
+        }
     }
 }

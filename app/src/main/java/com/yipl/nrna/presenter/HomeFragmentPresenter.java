@@ -8,7 +8,6 @@ import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.exception.ErrorMessageFactory;
 import com.yipl.nrna.ui.interfaces.HomeFragmentView;
 import com.yipl.nrna.ui.interfaces.MvpView;
-import com.yipl.nrna.util.Logger;
 
 import java.util.List;
 
@@ -108,7 +107,6 @@ public class HomeFragmentPresenter implements Presenter {
         public void onError(Throwable e) {
             HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_QUESTION);
             HomeFragmentPresenter.this.mView.showEmptyView(FLAG_QUESTION);
-            Logger.e("QuestionSubscriber_onError", e.getLocalizedMessage());
             HomeFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));
             HomeFragmentPresenter.this.mView.showRetryView(FLAG_QUESTION);
@@ -137,7 +135,6 @@ public class HomeFragmentPresenter implements Presenter {
         public void onError(Throwable e) {
             HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_AUDIO);
             HomeFragmentPresenter.this.mView.showEmptyView(FLAG_AUDIO);
-            Logger.e("AudioSubscriber_onError", e.getLocalizedMessage());
             HomeFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));
             HomeFragmentPresenter.this.mView.showRetryView(FLAG_AUDIO);
@@ -166,7 +163,6 @@ public class HomeFragmentPresenter implements Presenter {
         public void onError(Throwable e) {
             HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_VIDEO);
             HomeFragmentPresenter.this.mView.showEmptyView(FLAG_VIDEO);
-            Logger.e("VideoSubscriber_onError", e.getLocalizedMessage());
             HomeFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));
             HomeFragmentPresenter.this.mView.showRetryView(FLAG_VIDEO);
@@ -195,7 +191,6 @@ public class HomeFragmentPresenter implements Presenter {
         public void onError(Throwable e) {
             HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_ARTICLE);
             HomeFragmentPresenter.this.mView.showEmptyView(FLAG_ARTICLE);
-            Logger.e("ArticleSubscriber_onError", e.getLocalizedMessage());
             HomeFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));
             HomeFragmentPresenter.this.mView.showRetryView(FLAG_ARTICLE);

@@ -17,6 +17,8 @@
     <string name="title_article">Articles</string>
     <string name="title_questions">Your questions our solutions</string>
     <string name="title_downloads">My Downloads</string>
+    <string name="title_personalization">Personalization</string>
+    <string name="title_setting">Settings</string>
 
     <string name="see_all_questions">See All Questions</string>
     <string name="latest_audios">latest audios / podcasts</string>
@@ -45,6 +47,8 @@
     <string-array name="country_info">
         <item>About</item>
         <item>Updates</item>
+        <item>Contacts</item>
+        <item>Dos and Don\'ts</item>
         <item>Content</item>
     </string-array>
 
@@ -65,6 +69,7 @@
     <string name="empty_question">No Question Available</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="empty_related_content">No Related Content Available</string>
+    <string name="not_available">Not Available</string>
 
     <string name="filter_by_stage">Filter By Stage</string>
     <string name="filter_by_tag">Filter By Tags</string>
@@ -78,25 +83,12 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="third_gender">Third Gender</string>
-    <string-array name="gender">
-        <item>@string/male</item>
-        <item>@string/female</item>
-        <item>@string/third_gender</item>
-    </string-array>
 
     <string name="language_nepali">Nepali</string>
     <string name="language_english">English</string>
-    <string-array name="languages">
-        <item>@string/language_english</item>
-        <item>@string/language_nepali</item>
-    </string-array>
 
     <string name="user_type_first">First Time</string>
     <string name="user_type_returnee">Returnee</string>
-    <string-array name="user_type">
-        <item>@string/user_type_first</item>
-        <item>@string/user_type_returnee</item>
-    </string-array>
 
     <string name="download_description">Downloading...</string>
     <string name="share_audio">Share Audio Post</string>
@@ -106,8 +98,6 @@
     <string name="setting_countries">Country</string>
     <string name="setting_usertype">User Type</string>
     <string name="setting_gender">Gender</string>
-    <!-- Setting headers-->
-    <string name="setting_personalization">Personalization</string>
 
     <string name="save">SAVE</string>
     <string name="skip">SKIP</string>
