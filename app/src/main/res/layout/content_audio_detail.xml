@@ -31,9 +31,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_big"
+            android:text=""
             android:textColor="@color/text_color_primary"
             android:textSize="@dimen/text_default"
-            android:text=""
             tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sit amet lectus ut urna pulvinar iaculis in vel erat. Phasellus et magna vel turpis vulputate dictum. In fermentum sagittis eros iaculis posuere. Praesent velit diam, efficitur sed pellentesque eget, viverra quis arcu. Vestibulum sagittis nulla at nulla bibendum hendrerit. Donec aliquet libero est, sed volutpat nisl ultricies vitae. Sed non elementum nunc, et malesuada nulla. Suspendisse eu felis maximus, auctor purus sit amet, pretium dolor.
 
 Ut accumsan justo vel neque tempus, in fermentum massa fringilla. In eu libero non nisl rutrum dignissim. Proin id euismod eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent in dui nec orci bibendum vulputate a vitae lacus. Sed lobortis sem vel egestas luctus. Donec non dui aliquet risus finibus pellentesque id sed massa. Ut diam metus, malesuada et cursus sed, ultricies sed odio.

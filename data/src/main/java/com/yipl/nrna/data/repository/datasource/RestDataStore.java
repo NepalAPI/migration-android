@@ -54,11 +54,10 @@ public class RestDataStore implements IDataStore {
         }
     }
 
-    public Observable<Boolean> sendUserPreference(UserPreferenceEntity pUserPreferenceEntity){
-        if(isThereInternetConnection()){
+    public Observable<Boolean> sendUserPreference(UserPreferenceEntity pUserPreferenceEntity) {
+        if (isThereInternetConnection()) {
             return mApiRequest.sendUserPreference(pUserPreferenceEntity);
-        }
-        else
+        } else
             return Observable.error(new NetworkConnectionException());
     }
 

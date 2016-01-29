@@ -56,7 +56,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    AppPreferences provideAppPreferences(Context pContext){
+    AppPreferences provideAppPreferences(Context pContext) {
         return new AppPreferences(pContext);
     }
 }

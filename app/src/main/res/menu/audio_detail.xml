@@ -3,13 +3,15 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.yipl.nrna.ui.activity.QuestionDetailActivity">
 
-    <item android:id="@+id/action_download"
-          android:title="@string/action_download"
-          android:orderInCategory="10"
-          app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_download"
+        android:orderInCategory="10"
+        android:title="@string/action_download"
+        app:showAsAction="always"/>
 
-    <item android:id="@+id/action_bluetooth"
-          android:title="@string/action_share_bluetooth"
-          android:orderInCategory="11"
-          app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_bluetooth"
+        android:orderInCategory="11"
+        android:title="@string/action_share_bluetooth"
+        app:showAsAction="always"/>
 </menu>

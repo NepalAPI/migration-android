@@ -21,9 +21,9 @@
             android:id="@+id/content_art"
             android:layout_width="@dimen/content_art_size"
             android:layout_height="@dimen/content_art_size"
-            android:layout_marginTop="@dimen/spacing_standard"
-            android:layout_marginBottom="@dimen/spacing_standard"
             android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/spacing_standard"
+            android:layout_marginTop="@dimen/spacing_standard"
             app:imageUrl="@{video.getData().getThumbnail()}"
             fresco:actualImageScaleType="centerCrop"
             fresco:backgroundImage="@color/colorAccent"
@@ -34,9 +34,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacing_standard"
             android:layout_toRightOf="@id/content_art"
             android:orientation="vertical"
-            android:layout_marginLeft="@dimen/spacing_standard"
             android:paddingTop="@dimen/spacing_standard">
 
             <TextView
@@ -44,10 +44,10 @@
                 style="@style/post_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingRight="@dimen/spacing_standard"
-                android:text="@{video.getTitle()}"
-                android:singleLine="true"
                 android:ellipsize="end"
+                android:paddingRight="@dimen/spacing_standard"
+                android:singleLine="true"
+                android:text="@{video.getTitle()}"
                 tools:text="My experience on applying for citizenship."/>
 
             <TextView

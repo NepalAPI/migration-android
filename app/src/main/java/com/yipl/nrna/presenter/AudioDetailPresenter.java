@@ -90,16 +90,16 @@ public class AudioDetailPresenter implements Presenter {
         }
     }
 
-    public void shareViaBluetooth(Post pAudio){
+    public void shareViaBluetooth(Post pAudio) {
         String mediaUrl = pAudio.getData().getMediaUrl();
         String fileName = mediaUrl.substring(mediaUrl.lastIndexOf("/") + 1);
         File audioFile = getAudioFile(fileName);
 
-        if(audioFile.exists()){
-            String path =audioFile.getAbsolutePath();
-            if(!(path.startsWith("file")||path.startsWith("content")||path.startsWith("FILE")||path
+        if (audioFile.exists()) {
+            String path = audioFile.getAbsolutePath();
+            if (!(path.startsWith("file") || path.startsWith("content") || path.startsWith("FILE") || path
                     .startsWith("CONTENT"))) {
-                path="file://"+path;
+                path = "file://" + path;
             }
             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
             Uri audioUri = Uri.parse(path);
@@ -109,12 +109,12 @@ public class AudioDetailPresenter implements Presenter {
             sharingIntent.putExtra(Intent.EXTRA_STREAM, audioUri);
             mView.getContext().startActivity(Intent.createChooser(sharingIntent, mView.getContext
                     ().getString(R.string.share_audio)));
-        }else{
+        } else {
             mView.onAudioFileNotFoundToShare();
         }
     }
 
-    private File getAudioFile(String fileName){
+    private File getAudioFile(String fileName) {
         File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
         File dir = new File(root, folderName);
         dir.mkdirs();

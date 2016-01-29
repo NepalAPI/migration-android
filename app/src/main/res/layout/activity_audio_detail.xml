@@ -20,18 +20,18 @@
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/spacing_standard"
             app:contentScrim="?attr/colorPrimary"
-            app:statusBarScrim="?attr/colorPrimaryDark"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:statusBarScrim="?attr/colorPrimaryDark">
 
             <RelativeLayout
                 android:layout_width="@dimen/player_art_size"
                 android:layout_height="@dimen/player_art_size"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/appbar_content_margin_top"
-                app:layout_collapseMode="parallax"
-                android:background="@drawable/podcast_art_bg">
+                android:background="@drawable/podcast_art_bg"
+                app:layout_collapseMode="parallax">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -45,8 +45,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:gravity="top"
-                app:layout_collapseMode="pin"
-                android:theme="@style/AppTheme.PopupOverlay"/>
+                android:theme="@style/AppTheme.PopupOverlay"
+                app:layout_collapseMode="pin"/>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -59,9 +59,9 @@
         android:layout_gravity="bottom"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
+        android:paddingBottom="@dimen/spacing_small"
         android:paddingLeft="@dimen/spacing_small"
         android:paddingRight="@dimen/spacing_small"
-        android:paddingBottom="@dimen/spacing_small"
         android:paddingTop="@dimen/spacing_xlarge">
 
         <ImageView

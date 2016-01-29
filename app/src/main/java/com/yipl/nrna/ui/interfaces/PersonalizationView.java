@@ -5,5 +5,6 @@ package com.yipl.nrna.ui.interfaces;
  */
 public interface PersonalizationView extends LoadDataView {
     public void dataSent();
+
     public void showError(String pErrorMessage);
 }

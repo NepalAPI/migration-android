@@ -9,6 +9,8 @@ import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,7 +27,6 @@ import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Country;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.CountryListFragmentPresenter;
-import com.yipl.nrna.presenter.DeletedContentPresenter;
 import com.yipl.nrna.presenter.LatestContentPresenter;
 import com.yipl.nrna.presenter.UserPreferencePresenter;
 import com.yipl.nrna.ui.interfaces.CountryListView;
@@ -39,16 +40,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PersonalizationActivity extends BaseActivity implements MainActivityView,CountryListView,PersonalizationView, View.OnClickListener {
+public class PersonalizationActivity extends BaseActivity implements MainActivityView, CountryListView, PersonalizationView, View.OnClickListener {
 
     @Inject
     LatestContentPresenter mLatestContentPresenter;
-
-    @Inject
-    DeletedContentPresenter mDeletedContentPresenter;
 
     @Inject
     CountryListFragmentPresenter mCountryListPresenter;
@@ -68,6 +67,8 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
     LinearLayout mCountryContainer;
     @Bind(R.id.btnDone)
     Button btnDone;
+    @Bind(R.id.btnSkip)
+    Button btnSkip;
     List<CheckBox> countryCheckBoxes = new ArrayList<>();
     UserPreferenceEntity mUserPreferenceEntity;
 
@@ -76,21 +77,25 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
         return R.layout.activity_personalization;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getIntent().getBooleanExtra(MyConstants.Extras.KEY_PERSONALIZATION_LAUNCH, true)) {
-            if (!getPreferences().getFirstTime()) {
-                Intent i = new Intent(this, MainActivity.class);
-                startActivity(i);
-            }
-        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        boolean launch = getIntent().getBooleanExtra(MyConstants.Extras.KEY_PERSONALIZATION_LAUNCH, false);
+        if (!launch && !getPreferences().getFirstTime()) {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        }
         initialize();
-        fetchLatestContent();
+        if (getPreferences().getFirstTime()) {
+            fetchLatestContent();
+        } else {
+            loadCountryList();
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         btnDone.setOnClickListener(this);
+        btnSkip.setOnClickListener(this);
         populate();
     }
 
@@ -102,13 +107,13 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
 
     private void populateUserType() {
         String usertype = getPreferences().getUserType();
-        if(usertype.isEmpty()) {
+        if (usertype.isEmpty()) {
             ((RadioButton) mUserTypeRadioGroup.getChildAt(0)).setChecked(true);
             return;
         }
-        for(int i= 0; i<mUserTypeRadioGroup.getChildCount(); i++){
+        for (int i = 0; i < mUserTypeRadioGroup.getChildCount(); i++) {
             RadioButton radioButton = (RadioButton) mUserTypeRadioGroup.getChildAt(i);
-            if(radioButton.getText().equals(usertype)){
+            if (radioButton.getText().equals(usertype)) {
                 radioButton.setChecked(true);
                 break;
             }
@@ -117,13 +122,13 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
 
     private void populateGender() {
         String gender = getPreferences().getGender();
-        if(gender.isEmpty()) {
+        if (gender.isEmpty()) {
             ((RadioButton) mGenderRadioGroup.getChildAt(0)).setChecked(true);
             return;
         }
-        for(int i= 0; i<mGenderRadioGroup.getChildCount(); i++){
+        for (int i = 0; i < mGenderRadioGroup.getChildCount(); i++) {
             RadioButton radioButton = (RadioButton) mGenderRadioGroup.getChildAt(i);
-            if(radioButton.getText().toString().equalsIgnoreCase(gender)){
+            if (radioButton.getText().toString().equalsIgnoreCase(gender)) {
                 radioButton.setChecked(true);
                 break;
             }
@@ -132,13 +137,13 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
 
     private void populateLanguage() {
         String language = getPreferences().getLanguage();
-        if(language.isEmpty()) {
+        if (language.isEmpty()) {
             ((RadioButton) mLanguageRadioGroup.getChildAt(0)).setChecked(true);
             return;
         }
-        for(int i= 0; i<mLanguageRadioGroup.getChildCount(); i++){
+        for (int i = 0; i < mLanguageRadioGroup.getChildCount(); i++) {
             RadioButton radioButton = (RadioButton) mLanguageRadioGroup.getChildAt(i);
-            if(radioButton.getText().toString().equalsIgnoreCase(language)){
+            if (radioButton.getText().toString().equalsIgnoreCase(language)) {
                 radioButton.setChecked(true);
                 break;
             }
@@ -158,14 +163,20 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
 
     private void fetchLatestContent() {
         mLatestContentPresenter.initialize();
-        mDeletedContentPresenter.initialize();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mLatestContentPresenter.destroy();
-        mDeletedContentPresenter.destroy();
         ButterKnife.unbind(this);
     }
 
@@ -239,10 +250,12 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
     @Override
     public void renderCountryList(List<Country> pCountries) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        if(pCountries!= null) {
-            Logger.d("test", "country size"+pCountries.size());
+        int padding = getResources().getDimensionPixelSize(R.dimen.spacing_small);
+        float textSize = getResources().getDimension(R.dimen.text_big);
+        if (pCountries != null) {
+            Logger.d("test", "country size" + pCountries.size());
             for (Country country : pCountries) {
-                Logger.d("test", "country:"+  country.getName());
+                Logger.d("test", "country:" + country.getName());
                 CheckBox checkBox;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     checkBox = new AppCompatCheckBox(getContext());
@@ -252,6 +265,8 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
                     checkBox.setButtonDrawable(id);
                 }
                 checkBox.setText(country.getName());
+                checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+                checkBox.setPadding(0, padding, 0, padding);
                 countryCheckBoxes.add(checkBox);
                 mCountryContainer.addView(checkBox, params);
 
@@ -263,13 +278,13 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
     private void populateCountry() {
         boolean isFirst = getPreferences().getFirstTime();
         List<String> countries = getPreferences().getCountries();
-            for (CheckBox checkBox : countryCheckBoxes) {
-                if(countries.isEmpty() && isFirst) {
-                    checkBox.setChecked(true);
-                    continue;
-                }
-                for (String country : countries) {
-                if(country.equalsIgnoreCase(checkBox.getText().toString())){
+        for (CheckBox checkBox : countryCheckBoxes) {
+            if (countries == null) {
+                checkBox.setChecked(true);
+                continue;
+            }
+            for (String country : countries) {
+                if (country.equalsIgnoreCase(checkBox.getText().toString())) {
                     checkBox.setChecked(true);
                     break;
                 }
@@ -279,7 +294,7 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnDone:
                 mUserPreferenceEntity = new UserPreferenceEntity();
                 String deviceId = Settings.Secure.getString(getContext().getContentResolver(),
@@ -297,7 +312,11 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
                 mUserPreferencePresenter.attachView(this);
 //                sendUserPreference();
                 dataSent();
-
+                break;
+            case R.id.btnSkip:
+                getPreferences().setFirstTime(false);
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
                 break;
             default:
                 break;
@@ -310,13 +329,13 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
     }
 
     private void savePreferences() {
-        if(mLanguageRadioGroup.getCheckedRadioButtonId() != -1){
-            String language =((RadioButton) mLanguageRadioGroup.findViewById(
+        if (mLanguageRadioGroup.getCheckedRadioButtonId() != -1) {
+            String language = ((RadioButton) mLanguageRadioGroup.findViewById(
                     mLanguageRadioGroup.getCheckedRadioButtonId())).getText().toString();
             mUserPreferenceEntity.setLanguage(language);
             getPreferences().setLanguage(language);
         }
-        if(mGenderRadioGroup.getCheckedRadioButtonId() != -1){
+        if (mGenderRadioGroup.getCheckedRadioButtonId() != -1) {
             String gender = ((RadioButton) mGenderRadioGroup.findViewById(
                     mGenderRadioGroup.getCheckedRadioButtonId())).getText().toString();
             mUserPreferenceEntity.setGender(gender);
@@ -325,13 +344,13 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
 
         List<String> countries = new ArrayList<>();
         for (CheckBox countryCheckBox : countryCheckBoxes) {
-            if(countryCheckBox.isChecked())
+            if (countryCheckBox.isChecked())
                 countries.add(countryCheckBox.getText().toString());
         }
         mUserPreferenceEntity.setCountry(countries);
         getPreferences().setCountries(countries);
 
-        if(mUserTypeRadioGroup.getCheckedRadioButtonId() != -1){
+        if (mUserTypeRadioGroup.getCheckedRadioButtonId() != -1) {
             String userType = ((RadioButton) mUserTypeRadioGroup.findViewById(
                     mUserTypeRadioGroup.getCheckedRadioButtonId())).getText().toString();
             mUserPreferenceEntity.setType(userType);

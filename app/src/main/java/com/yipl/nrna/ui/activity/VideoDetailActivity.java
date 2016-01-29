@@ -1,10 +1,6 @@
 package com.yipl.nrna.ui.activity;
 
-import android.app.FragmentManager;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -42,14 +38,13 @@ public class VideoDetailActivity extends FacebookActivity implements PostDetailV
 
     @Bind(R.id.data_container)
     CoordinatorLayout mDataContainer;
-//    @Bind(R.id.image)
+    //    @Bind(R.id.image)
 //    SimpleDraweeView mImage;
     @Bind(R.id.description)
     TextView mDescription;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
     private YouTubePlayerSupportFragment mYouTubePlayerFragment;
-
 
     @Override
     public int getLayout() {
@@ -162,8 +157,8 @@ public class VideoDetailActivity extends FacebookActivity implements PostDetailV
         pYouTubePlayer.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
 
         String videoId = getYoutubeIdFromUrl(mVideo.getData().getMediaUrl());
-        if(!isRestored){
-            if(!videoId.isEmpty())
+        if (!isRestored) {
+            if (!videoId.isEmpty())
                 pYouTubePlayer.loadVideo(videoId);
         }
     }
@@ -173,13 +168,13 @@ public class VideoDetailActivity extends FacebookActivity implements PostDetailV
         Logger.e(pYouTubeInitializationResult.toString());
     }
 
-    public String getYoutubeIdFromUrl(String url){
+    public String getYoutubeIdFromUrl(String url) {
         String pattern = "(?<=watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*";
 
         Pattern compiledPattern = Pattern.compile(pattern);
         Matcher matcher = compiledPattern.matcher(url);
 
-        if(matcher.find()){
+        if (matcher.find()) {
             return matcher.group();
         }
         return "";

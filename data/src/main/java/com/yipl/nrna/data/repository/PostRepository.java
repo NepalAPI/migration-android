@@ -93,7 +93,7 @@ public class PostRepository implements IRepository<Post> {
     public Observable<Boolean> updateDownloadStatus(long pId, boolean pDownloadStatus) {
         return Observable.just(
                 mDataStoreFactory.createDBDataStore()
-                        .updateDownloadStatus(pId,pDownloadStatus) != -1
+                        .updateDownloadStatus(pId, pDownloadStatus) != -1
         );
     }
 
