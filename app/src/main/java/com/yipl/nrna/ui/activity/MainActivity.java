@@ -47,6 +47,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_COUNTRY;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_FOOTER;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_QUESTION;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_VIDEO;
@@ -309,6 +310,10 @@ public class MainActivity extends BaseActivity implements
                 intent.putExtra(MyConstants.Extras.KEY_ID, pModel.getId());
                 intent.putExtra(MyConstants.Extras.KEY_TITLE, ((Post) pModel).getTitle());
                 break;
+            case TYPE_FOOTER:
+                CountryListFragment fragment = ((CountryListFragment) getSupportFragmentManager().getFragments().get(0));
+                fragment.showAllCountries();
+                return;
         }
         startActivity(intent);
     }

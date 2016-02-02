@@ -12,6 +12,7 @@ import com.yipl.nrna.databinding.ArticleDataBinding;
 import com.yipl.nrna.databinding.AudioDataBinding;
 import com.yipl.nrna.databinding.CountryDataBinding;
 import com.yipl.nrna.databinding.CountryUpdateDataBinding;
+import com.yipl.nrna.databinding.FooterDataBinding;
 import com.yipl.nrna.databinding.QuestionDataBinding;
 import com.yipl.nrna.databinding.VideoDataBinding;
 import com.yipl.nrna.databinding.VideoGridDataBinding;
@@ -32,6 +33,7 @@ import butterknife.ButterKnife;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_AUDIO;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_COUNTRY;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_COUNTRY_UPDATE;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_FOOTER;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_QUESTION;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_VIDEO;
@@ -114,6 +116,10 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                         .layout.list_item_update, parent, false);
                 viewHolder = new CountryUpdateViewHolder(updateBinding);
                 break;
+            case TYPE_FOOTER:
+                FooterDataBinding footerDataBinding = DataBindingUtil.inflate(mLayoutInflater,
+                        R.layout.layout_see_all_countries, parent, false);
+                viewHolder = new FooterViewHolder(footerDataBinding);
         }
         return viewHolder;
     }
@@ -145,6 +151,8 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
             case TYPE_COUNTRY_UPDATE:
                 ((CountryUpdateViewHolder) holder).mBinding.setUpdate((CountryUpdate)
                         mDataCollection.get(position));
+                break;
+            case TYPE_FOOTER:
                 break;
             default:
                 throw new IllegalArgumentException();
@@ -283,6 +291,25 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
             super(binding.getRoot());
             ButterKnife.bind(this, binding.getRoot());
             this.mBinding = binding;
+        }
+    }
+
+    public class FooterViewHolder extends RecyclerView.ViewHolder{
+
+        public FooterDataBinding mBinding;
+
+        public FooterViewHolder(FooterDataBinding pBinding) {
+            super(pBinding.getRoot());
+            ButterKnife.bind(this, pBinding.getRoot());
+            this.mBinding = pBinding;
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Country country = new Country();
+                    country.setDataType(TYPE_FOOTER);
+                    mListener.onListItemSelected(country);
+                }
+            });
         }
     }
 }

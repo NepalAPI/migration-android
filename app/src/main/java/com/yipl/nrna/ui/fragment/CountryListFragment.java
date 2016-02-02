@@ -11,15 +11,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
+import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.domain.model.Country;
+import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.CountryListFragmentPresenter;
 import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.interfaces.CountryListView;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,6 +48,7 @@ public class CountryListFragment extends BaseFragment implements CountryListView
     RelativeLayout mContainer;
 
     private ListAdapter<Country> mListAdapter;
+    private List<Country> mCountries;
 
     public CountryListFragment() {
         super();
@@ -171,8 +175,33 @@ public class CountryListFragment extends BaseFragment implements CountryListView
 
     @Override
     public void renderCountryList(List<Country> pCountries) {
+        List<Country> preferedCountries = new ArrayList<>();
         if (pCountries != null) {
-            mListAdapter.setDataCollection(pCountries);
+            mCountries = pCountries;
+            List<String> countriesName = ((BaseActivity)getActivity()).getPreferences().getCountries();
+            if(countriesName != null) {
+                for (String s : countriesName) {
+                    for (Country country : pCountries) {
+                        if (s.equals(country.getName())) {
+                            preferedCountries.add(country);
+                            break;
+                        }
+                    }
+                }
+
+                Country footer = new Country();
+                footer.setDataType(MyConstants.Adapter.TYPE_FOOTER);
+                preferedCountries.add(footer);
+                mListAdapter.setDataCollection(preferedCountries);
+
+                return;
+            }
         }
+        mListAdapter.setDataCollection(pCountries);
     }
+
+    public void showAllCountries(){
+        mListAdapter.setDataCollection(mCountries);
+    }
+
 }

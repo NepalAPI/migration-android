@@ -109,6 +109,7 @@ public class MyConstants {
         public static final int TYPE_COUNTRY = 4;
         public static final int TYPE_COUNTRY_UPDATE = 5;
         public static final int TYPE_ANSWER = 6;
+        public static final int TYPE_FOOTER = 7;
     }
 
     public static final class VideoAdapterType {
