@@ -29,6 +29,7 @@ ext {
     facebookSdkVersion  = '4.7.0'
     iconicsVersion = '2.5.2@aar'
     iconicsGoogleVersion = '2.1.0.1.original@aar'
+    showCaseVersion = '5.4.0'
 
     //Testing
     robolectricVersion = '3.0'
@@ -61,6 +62,7 @@ ext {
             facebookSdk:        "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}",
             iconics:            "com.mikepenz:iconics-core:${iconicsVersion}",
             iconicsGoogle:      "com.mikepenz:google-material-typeface:${iconicsGoogleVersion}",
+            showCase:            "com.github.amlcurran.showcaseview:library:${showCaseVersion}",
     ]
 
     appTestDependencies = [

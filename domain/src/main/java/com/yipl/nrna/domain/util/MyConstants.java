@@ -78,6 +78,11 @@ public class MyConstants {
         public static final String DOWNLOAD_REFERENCES = "download_references";
     }
 
+    public static final class ShowCase{
+        public static final Long MainActivity = 1L;
+        public static final Long AudioActivity = 2L;
+    }
+
     public static final class Language {
         public static final int ENGLISH = 0;
         public static final int NEPALI = 1;

@@ -1,18 +1,29 @@
 package com.yipl.nrna.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseFragment;
@@ -98,6 +109,14 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
         initialize();
         setUpAdapter();
         loadLatestContent();
+        final ViewTreeObserver viewTreeObserver = mQuestionsPager.getViewTreeObserver();
+        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mQuestionsPager.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                showShowCaseView();
+            }
+        });
     }
 
     @Override
@@ -337,5 +356,44 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
                 mNoArticle.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    private void showShowCaseView() {
+        final View v = ((LayoutInflater) getContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.swipe_hand, null, false);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, mQuestionsPager.getMeasuredHeight());
+        int marginTop = ((AppCompatActivity) getActivity()).getSupportActionBar().getHeight();
+        params.setMargins(0, marginTop, 0, 0);
+        ShowcaseView showcaseView = new ShowcaseView.Builder(getActivity())
+                .setTarget(new ViewTarget(mQuestionsPager))
+                .setContentText(getString(R.string.showcase_question_detail))
+                .setContentTitle(getString(R.string.showcase_question_title))
+                .setStyle(R.style.showcase)
+                .withNewStyleShowcase()
+                .setShowcaseEventListener(new OnShowcaseEventListener() {
+                    @Override
+                    public void onShowcaseViewHide(ShowcaseView showcaseView) {
+                    }
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        v.clearAnimation();
+                        ((MainActivity) getActivity()).showCaseView();
+                    }
+
+                    @Override
+                    public void onShowcaseViewShow(ShowcaseView showcaseView) {
+                    }
+                })
+                .singleShot(MyConstants.ShowCase.MainActivity)
+                .build();
+        showcaseView.addView(v, params);
+        Animation animation = new TranslateAnimation(v.getX() + 300, v.getX() - 50, v.getY(), v.getY());
+        animation.setDuration(1500);
+        animation.setStartOffset(300);
+        animation.setInterpolator(new AccelerateDecelerateInterpolator());
+        animation.setRepeatCount(Animation.INFINITE);
+        v.startAnimation(animation);
+
     }
 }

@@ -3,6 +3,7 @@ package com.yipl.nrna.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
@@ -323,5 +327,20 @@ public class MainActivity extends BaseActivity implements
         intent.putExtra(MyConstants.Extras.KEY_AUDIO_LIST, (Serializable) pAudios);
         intent.putExtra(MyConstants.Extras.KEY_AUDIO_SELECTION, index);
         startActivity(intent);
+    }
+
+    public void showCaseView(){
+        ShowcaseView menuShowcaseView = new ShowcaseView.Builder(this)
+                .setStyle(R.style.showcase)
+                .setContentTitle(getString(R.string.showcase_setting_title))
+                .setContentText(getString(R.string.showcase_setting_detail))
+                .withMaterialShowcase()
+                .setTarget(new Target() {
+                    @Override
+                    public Point getPoint() {
+                        return new ViewTarget(getToolbar().getChildAt(getToolbar().getChildCount()-1)).getPoint();
+                    }
+                })
+                .build();
     }
 }

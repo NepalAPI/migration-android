@@ -60,4 +60,5 @@ dependencies {
     compile appDependencies.iconics
     compile appDependencies.iconicsGoogle
     compile files('libs/YouTubeAndroidPlayerApi.jar')
+    compile appDependencies.showCase
 }

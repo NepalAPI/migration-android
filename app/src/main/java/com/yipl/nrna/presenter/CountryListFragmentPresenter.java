@@ -53,9 +53,11 @@ public class CountryListFragmentPresenter implements Presenter {
     }
 
     private void loadCountryList() {
-        mView.hideRetryView();
-        mView.showLoadingView();
-        getCountryList();
+        if(mView!=null) {
+            mView.hideRetryView();
+            mView.showLoadingView();
+            getCountryList();
+        }
     }
 
     public void getCountryList() {
