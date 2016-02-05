@@ -35,7 +35,6 @@ import com.yipl.nrna.ui.fragment.QuestionListFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
-import com.yipl.nrna.util.Logger;
 import com.yipl.nrna.util.Utils;
 
 import java.io.Serializable;
@@ -95,6 +94,7 @@ public class MainActivity extends BaseActivity implements
                     .add(R.id.main_content, new HomeFragment(), "home_fragment")
                     .commit();
             mMainContent.invalidate();
+            mNavigationView.getMenu().getItem(0).setChecked(true);
             fetchLatestContent();
         } else {
             getSupportActionBar().setTitle(savedInstanceState.getCharSequence(MyConstants.Extras.KEY_TITLE));
@@ -283,7 +283,6 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void informCurrentFragmentForUpdate() {
-        Logger.d("MainActivity_informCurrentFragmentForUpdate", "send info");
         ((BaseFragment) getSupportFragmentManager().getFragments().get(0)).showNewContentInfo();
     }
 

@@ -22,7 +22,6 @@ import com.yipl.nrna.R;
 import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
-import com.yipl.nrna.util.Logger;
 
 /**
  * Created by Nirazan-PC on 12/17/2015.
@@ -55,34 +54,30 @@ public abstract class FacebookActivity extends BaseActivity {
         mFbCallBack = new FacebookCallback<Sharer.Result>() {
             @Override
             public void onSuccess(Sharer.Result result) {
-                Logger.d("FacebookActivity_onSuccess", "Share successful: " + result.getPostId());
             }
 
             @Override
             public void onCancel() {
-                Logger.d("FacebookActivity_onCancel", "Share canceled");
             }
 
             @Override
             public void onError(FacebookException error) {
-                Logger.e("FacebookActivity_onError", error.getMessage());
                 error.printStackTrace();
             }
         };
+
         LoginManager.getInstance().registerCallback(mCallback, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult result) {
-                Logger.d("FacebookActivity_onSuccess", "Login successful");
             }
 
             @Override
             public void onCancel() {
-                Logger.d("FacebookActivity_onCancel", "Login cancelled");
+
             }
 
             @Override
             public void onError(FacebookException error) {
-                Logger.e("FacebookActivity_onError", error.getMessage());
                 error.printStackTrace();
             }
         });

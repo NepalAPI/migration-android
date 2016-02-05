@@ -227,6 +227,8 @@ public class MyConstants {
             public static String COLUMN_NAME = "name";
             public static String COLUMN_CODE = "code";
             public static String COLUMN_DESCRIPTION = "description";
+            public static String COLUMN_CONTACTS = "contacts";
+            public static String COLUMN_DOS_DONTS = "dos_donts";
 
             public static String CREATE_TABLE_COUNTRY = "Create table " + TABLE_NAME + "( " +
                     COLUMN_ID + TYPE_INTEGER + " primary key " + COMMA +
@@ -235,6 +237,8 @@ public class MyConstants {
                     COLUMN_IMAGE + TYPE_TEXT + COMMA +
                     COLUMN_CODE + TYPE_TEXT + COMMA +
                     COLUMN_NAME + TYPE_TEXT + COMMA +
+                    COLUMN_DOS_DONTS + TYPE_TEXT + COMMA +
+                    COLUMN_CONTACTS + TYPE_TEXT + COMMA +
                     COLUMN_DESCRIPTION + TYPE_TEXT + " );";
 
         }

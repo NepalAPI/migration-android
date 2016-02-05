@@ -15,6 +15,10 @@ public class CountryEntity {
     String name;
     String code;
     String image;
+    @SerializedName("contact")
+    String contacts;
+    @SerializedName("do_and_dont")
+    String dosAndDonts;
 
     public long getId() {
         return id;
@@ -70,5 +74,21 @@ public class CountryEntity {
 
     public void setImage(String pImage) {
         image = pImage;
+    }
+
+    public String getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(String pContacts) {
+        contacts = pContacts;
+    }
+
+    public String getDosAndDonts() {
+        return dosAndDonts;
+    }
+
+    public void setDosAndDonts(String pDosAndDonts) {
+        dosAndDonts = pDosAndDonts;
     }
 }

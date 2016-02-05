@@ -7,7 +7,6 @@ import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.exception.ErrorMessageFactory;
 import com.yipl.nrna.ui.interfaces.MvpView;
 import com.yipl.nrna.ui.interfaces.PostListView;
-import com.yipl.nrna.util.Logger;
 
 import java.util.List;
 
@@ -74,7 +73,6 @@ public class PostListPresenter implements Presenter {
         public void onError(Throwable e) {
             PostListPresenter.this.mView.hideLoadingView();
             PostListPresenter.this.mView.showEmptyView();
-            Logger.e("ArticleSubscriber_onError", e.getLocalizedMessage());
             e.printStackTrace();
             PostListPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));

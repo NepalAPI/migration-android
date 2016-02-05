@@ -14,7 +14,6 @@ import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.ui.adapter.QuestionAnswerPagerAdapter;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
-import com.yipl.nrna.util.Logger;
 
 import java.io.Serializable;
 import java.util.List;
@@ -50,7 +49,6 @@ public class QuestionDetailActivity extends BaseActivity implements ListClickCal
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            Logger.d(bundle.getLong(MyConstants.Extras.KEY_ID) + "/" + bundle.getString(MyConstants.Extras.KEY_TITLE));
             mId = bundle.getLong(MyConstants.Extras.KEY_ID);
             mTitle.setText(bundle.getString(MyConstants.Extras.KEY_TITLE));
         }

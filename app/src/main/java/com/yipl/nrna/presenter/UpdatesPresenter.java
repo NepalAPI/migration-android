@@ -7,7 +7,6 @@ import com.yipl.nrna.domain.model.CountryUpdate;
 import com.yipl.nrna.exception.ErrorMessageFactory;
 import com.yipl.nrna.ui.interfaces.MvpView;
 import com.yipl.nrna.ui.interfaces.UpdateListView;
-import com.yipl.nrna.util.Logger;
 
 import java.util.List;
 
@@ -74,7 +73,6 @@ public class UpdatesPresenter implements Presenter {
         public void onError(Throwable e) {
             UpdatesPresenter.this.mView.hideLoadingView();
             UpdatesPresenter.this.mView.showEmptyView();
-            Logger.e("UpdatesSubscriber_onError", e.getLocalizedMessage());
             e.printStackTrace();
             UpdatesPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));

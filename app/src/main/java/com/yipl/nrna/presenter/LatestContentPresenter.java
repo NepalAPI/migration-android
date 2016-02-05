@@ -7,12 +7,14 @@ import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.model.LatestContent;
 import com.yipl.nrna.exception.ErrorMessageFactory;
+import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.activity.PersonalizationActivity;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.ui.interfaces.MvpView;
 import com.yipl.nrna.util.Logger;
 
 import java.util.Calendar;
+import java.util.logging.Handler;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -65,8 +67,9 @@ public class LatestContentPresenter implements Presenter {
 
         @Override
         public void onCompleted() {
-            if (mView instanceof PersonalizationActivity)
+            if (mView instanceof PersonalizationActivity) {
                 LatestContentPresenter.this.mView.informCurrentFragmentForUpdate();
+            }
             LatestContentPresenter.this.mView.hideLoadingView();
         }
 
@@ -91,10 +94,11 @@ public class LatestContentPresenter implements Presenter {
                 Logger.d("LatestContentSubscriber_onNext", "timestamp: " + (timestamp / 1000l));
                 ((BaseActivity) mView).getPreferences().setLastUpdateStamp((timestamp / 1000L) -
                         2000);
-                if (!pLatestContent.getPosts().isEmpty() && !pLatestContent.getQuestions()
-                        .isEmpty() && !(mView instanceof PersonalizationActivity))
+                if ((!pLatestContent.getPosts().isEmpty() || !pLatestContent.getQuestions()
+                        .isEmpty() || !pLatestContent.getAnswers().isEmpty() || !pLatestContent
+                        .getUpdates().isEmpty()) && !(mView instanceof PersonalizationActivity)) {
                     LatestContentPresenter.this.mView.informCurrentFragmentForUpdate();
-
+                }
             }
             LatestContentPresenter.this.mView.hideLoadingView();
         }

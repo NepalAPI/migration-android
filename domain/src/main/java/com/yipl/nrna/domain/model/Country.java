@@ -12,6 +12,8 @@ public class Country extends BaseModel {
     String mName;
     String mCode;
     String mImage;
+    String contacts;
+    String dosAndDonts;
 
     public Country() {
         mDataType = MyConstants.Adapter.TYPE_COUNTRY;
@@ -63,5 +65,21 @@ public class Country extends BaseModel {
 
     public void setImage(String pImage) {
         mImage = pImage;
+    }
+
+    public String getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(String pContacts) {
+        contacts = pContacts;
+    }
+
+    public String getDosAndDonts() {
+        return dosAndDonts;
+    }
+
+    public void setDosAndDonts(String pDosAndDonts) {
+        dosAndDonts = pDosAndDonts;
     }
 }

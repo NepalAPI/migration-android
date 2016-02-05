@@ -22,7 +22,7 @@
     <dimen name="spacing_normal">8dp</dimen>
     <dimen name="negative_spacing_large">-42dp</dimen>
 
-    <dimen name="appbar_content_margin_top">60dp</dimen>
+    <dimen name="appbar_content_margin_top">65dp</dimen>
 
     <dimen name="content_art_size">40dp</dimen>
     <dimen name="content_art_radius">20dp</dimen>
@@ -35,6 +35,7 @@
     <dimen name="country_toolbar_image_height">256dp</dimen>
     <dimen name="question_detail_appbar_height">215dp</dimen>
     <dimen name="player_art_size">150dp</dimen>
+    <dimen name="player_art_radius">75dp</dimen>
     <dimen name="pager_indicator_radius">4dp</dimen>
     <dimen name="seekbar_thumb_size">18dp</dimen>
     <dimen name="play_btn_size">62dp</dimen>

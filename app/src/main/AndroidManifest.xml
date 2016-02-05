@@ -72,14 +72,17 @@
 
         <activity
             android:name=".ui.activity.PersonalizationActivity"
-            android:label="@string/app_name"
             android:noHistory="true"
-            android:theme="@style/AppTheme.Personalization">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.SettingActivity"
+            android:label="@string/title_setting">
         </activity>
 
         <receiver android:name=".ui.receivers.DownloadStateReceiver">
@@ -87,11 +90,6 @@
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
             </intent-filter>
         </receiver>
-
-        <activity
-            android:name=".ui.activity.SettingActivity"
-            android:label="@string/title_activity_settings">
-        </activity>
     </application>
 
 </manifest>

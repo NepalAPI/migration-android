@@ -7,7 +7,6 @@ import com.yipl.nrna.domain.model.Answer;
 import com.yipl.nrna.exception.ErrorMessageFactory;
 import com.yipl.nrna.ui.interfaces.AnswerListView;
 import com.yipl.nrna.ui.interfaces.MvpView;
-import com.yipl.nrna.util.Logger;
 
 import java.util.List;
 
@@ -74,7 +73,6 @@ public class AnswerListFragmentPresenter implements Presenter {
         public void onError(Throwable e) {
             AnswerListFragmentPresenter.this.mView.hideLoadingView();
             AnswerListFragmentPresenter.this.mView.showEmptyView();
-            Logger.e("ArticleSubscriber_onError", e.getLocalizedMessage());
             e.printStackTrace();
             AnswerListFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));

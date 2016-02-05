@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -20,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.yipl.nrna.R;
@@ -34,7 +36,6 @@ import com.yipl.nrna.media.MediaService;
 import com.yipl.nrna.media.MediaService.MusicBinder;
 import com.yipl.nrna.presenter.AudioDetailPresenter;
 import com.yipl.nrna.ui.interfaces.AudioDetailActivityView;
-import com.yipl.nrna.util.Logger;
 
 import java.util.List;
 
@@ -48,6 +49,8 @@ public class AudioDetailActivity extends FacebookActivity implements
         View.OnClickListener,
         SeekBar.OnSeekBarChangeListener {
 
+    @Bind(R.id.content_art)
+    SimpleDraweeView mAlbumArt;
     @Bind(R.id.bufferingText)
     TextView bufferingText;
     @Bind(R.id.playerControls)
@@ -219,8 +222,6 @@ public class AudioDetailActivity extends FacebookActivity implements
                 finish();
                 break;
             case R.id.action_share:
-                Logger.d("AudioDetailActivity_onOptionsItemSelected", "audioTitle: " + mService
-                        .getCurrentTrack().getTitle());
                 showShareDialog(mService.getCurrentTrack());
                 break;
             case R.id.action_download:
@@ -379,6 +380,9 @@ public class AudioDetailActivity extends FacebookActivity implements
     }
 
     private void updateView(Post pPost) {
+        if (mAudio.getData().getThumbnail() != null) {
+            mAlbumArt.setImageURI(Uri.parse(mAudio.getData().getThumbnail()));
+        }
         title.setText(pPost.getTitle());
         description.setText(pPost.getDescription());
     }

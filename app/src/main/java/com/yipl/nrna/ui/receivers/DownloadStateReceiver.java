@@ -24,7 +24,7 @@ import javax.inject.Inject;
 /**
  * Created by julian on 1/26/16.
  */
-public class DownloadStateReceiver extends BroadcastReceiver implements MvpView {
+public class DownloadStateReceiver extends BroadcastReceiver implements MvpView{
     DownloadManager mDownloadManager;
     AppPreferences pref;
     Context mContext;
@@ -46,8 +46,6 @@ public class DownloadStateReceiver extends BroadcastReceiver implements MvpView 
             Cursor cursor = mDownloadManager.query(query);
             extractDataFromCursor(context, reference, cursor);
         } else {
-            Logger.d("DownloadStateReceiver_onReceive", "reference set: " + pref.getDownloadReferences());
-            Logger.d("DownloadStateReceiver_onReceive", "test: not apps download");
         }
     }
 
@@ -62,7 +60,7 @@ public class DownloadStateReceiver extends BroadcastReceiver implements MvpView 
             case DownloadManager.STATUS_SUCCESSFUL:
                 Toast.makeText(pContext, pContext.getString(R.string.app_name) + ": File " +
                         "Downloaded to " + filePath, Toast.LENGTH_SHORT).show();
-
+                pref.removeDownloadReference(pReference);
                 DaggerDataComponent.builder()
                         .activityModule(new ActivityModule())
                         .applicationComponent(DaggerApplicationComponent.builder()

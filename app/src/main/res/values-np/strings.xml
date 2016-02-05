@@ -1,12 +1,13 @@
 <resources>
     <string name="app_name">Migration App</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="action_refresh">Refresh</string>
-    <string name="action_sync">Sync</string>
+    <string name="action_settings">सेटिङ</string>
+    <string name="action_refresh">रिफ्रेस</string>
+    <string name="action_sync">नयाँ सामग्रीहरू प्राप्त गर्नुहोस्</string>
     <string name="action_retry">फेरि प्रयास गर्नुहोस्</string>
-    <string name="action_share">फेसबुक मा साझा गर्नुहोस</string>
-    <string name="action_share_bluetooth">Share via Bluetooth</string>
+    <string name="action_download">डाउनलोड गर्नुहोस</string>
+    <string name="action_share">फेसबुक मा शेयर गर्नुहोस</string>
+    <string name="action_share_bluetooth">ब्लुतूथबाट शेयर गर्नुहोस</string>
 
     <string name="title_home">गृह पृष्ठ</string>
     <string name="title_info_center">सूचना केन्द्र</string>
@@ -15,7 +16,9 @@
     <string name="title_video">भिडियोहरु</string>
     <string name="title_article">लेखहरु</string>
     <string name="title_questions">तपाइँको प्रश्न हाम्रो समाधान</string>
-    <string name="title_downloads">My Downloads</string>
+    <string name="title_downloads">मेरो डाउनलोडहरु</string>
+    <string name="title_personalization">Personalization</string>
+    <string name="title_setting">सेटिङ</string>
 
     <string name="see_all_questions">सबै प्रश्न हेर्नुहोस्</string>
     <string name="latest_audios">नवीनतम अडियोहरु / पोडकास्टहर</string>
@@ -23,10 +26,10 @@
     <string name="latest_articles">नवीनतम लेखहरु</string>
 
     <string-array name="question_tabs">
-        <item>All</item>
-        <item>Audio</item>
-        <item>Video</item>
-        <item>Articles</item>
+        <item>सबै</item>
+        <item>अडियो</item>
+        <item>भिडियो</item>
+        <item>लेख</item>
     </string-array>
 
     <string-array name="stages">
@@ -43,7 +46,9 @@
 
     <string-array name="country_info">
         <item>बारे</item>
-        <item>Updates</item>
+        <item>अप्डेटहरु</item>
+        <item>सम्पर्कहरु</item>
+        <item>Dos and Don\'ts</item>
         <item>सम्बन्धित सामग्री</item>
     </string-array>
 
@@ -56,59 +61,45 @@
     <string name="empty_audio">कुनै अडियोहरु / पोडकास्टहर उपलब्ध छैन</string>
     <string name="empty_video">कुनै भिडियोहरु उपलब्ध छैन</string>
     <string name="empty_country">कुनै देशहरु उपलब्ध छैन</string>
-    <string name="empty_answer">कुनै Answer उपलब्ध छैन</string>
-    <string name="empty_updates">कुनै Updates उपलब्ध छैन</string>
+    <string name="empty_answer">कुनै जवाफ उपलब्ध छैन</string>
+    <string name="empty_updates">कुनै अप्डेट उपलब्ध छैन</string>
     <string name="empty_post">कुनै Post उपलब्ध छैन</string>
     <string name="empty_info">%1$s चरणको कुनै जानकारी उपलब्ध छैन</string>
     <string name="empty_question">कुनै प्रश्नहर उपलब्ध छैन</string>
     <string name="empty_related_content">सम्बन्धित सामग्री उपलब्ध छैन</string>
-    <string name="empty_article">No Articles Available</string>
+    <string name="empty_article">कुनै लेख उपलब्ध छैन</string>
+    <string name="not_available">उपलब्ध छैन</string>
 
 
-    <string name="filter_by_stage">Filter By Stage</string>
-    <string name="filter_by_tag">Filter By Tags</string>
-    <string name="menu_filter">Filter</string>
+    <string name="filter_by_stage">चरणबाट फिल्टर गर्नुहोस</string>
+    <string name="filter_by_tag">ट्यागबाट फिल्टर गर्नुहोस</string>
+    <string name="menu_filter">फिल्टर</string>
 
-    <string name="download_start">Downloading %1$s</string>
-    <string name="download_success">%1$s downloaded successfully</string>
-    <string name="download_already">%1$s already downloaded</string>
-    <string name="error_bluetooth_share">You need to download the audio in order to share</string>
+    <string name="download_start">%1$s डाउनलोड हुँद</string>
+    <string name="download_success">%1$s डाउनलोड भयो</string>
+    <string name="download_already">%1$s पहिले नै डाउनलोड भइसक्यो </string>
+    <string name="error_bluetooth_share">शेयर गर्नको लागी पहिले डाउनलोड गर्नुहोस </string>
 
-    <string name="male">Male</string>
-    <string name="female">Female</string>
-    <string name="third_gender">Third Gender</string>
-    <string-array name="gender">
-        <item>@string/male</item>
-        <item>@string/female</item>
-        <item>@string/third_gender</item>
-    </string-array>
+    <string name="male">पुरुष</string>
+    <string name="female">महिला</string>
+    <string name="third_gender">तेस्रो लिङ्ग</string>
 
-    <string name="language_nepali">Nepali</string>
-    <string name="language_english">English</string>
-    <string-array name="languages">
-        <item>@string/language_english</item>
-        <item>@string/language_nepali</item>
-    </string-array>
+    <string name="language_nepali">नेपाली</string>
+    <string name="language_english">अंग्रेजी</string>
+
     <string name="user_type_first">First Time</string>
     <string name="user_type_returnee">Returnee</string>
-    <string-array name="user_type">
-        <item>@string/user_type_first</item>
-        <item>@string/user_type_returnee</item>
-    </string-array>
 
-    <string name="download_description">Downloading...</string>
-    <string name="share_audio">Share Audio Post</string>
+    <string name="download_description">डाउनलोड हुँदै छ...</string>
+    <string name="share_audio">अडियो शेयर गर्नुहोस</string>
 
     <!-- Personalization settings -->
-    <string name="setting_language">Language</string>
-    <string name="setting_countries">Country</string>
-    <string name="setting_usertype">User Type</string>
-    <string name="setting_gender">Gender</string>
-    <string name="setting_personalization">Personalization</string>
+    <string name="setting_language">भाषा</string>
+    <string name="setting_countries">देश</string>
+    <string name="setting_usertype">प्रयोगकर्ता को प्रकार</string>
+    <string name="setting_gender">लिङ्ग</string>
 
-    <string name="save">SAVE</string>
-    <string name="skip">SKIP</string>
-
-    <string name="see_all_countries">See All Countries</string>
-
+    <string name="save">सेभ</string>
+    <string name="skip">स्कीप</string>
+    <string name="see_all_countries">सबै देश प्रश्न हेर्नुहोस्</string>
 </resources>

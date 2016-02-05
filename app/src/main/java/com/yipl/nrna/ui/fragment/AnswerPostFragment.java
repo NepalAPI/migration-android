@@ -31,7 +31,6 @@ import com.yipl.nrna.presenter.AnswerPostListPresenter;
 import com.yipl.nrna.ui.activity.ArticleDetailActivity;
 import com.yipl.nrna.ui.activity.VideoDetailActivity;
 import com.yipl.nrna.ui.interfaces.PostListView;
-import com.yipl.nrna.util.Logger;
 
 import java.util.List;
 
@@ -206,7 +205,6 @@ public class AnswerPostFragment extends BaseFragment implements PostListView {
 
     @Override
     public void renderPostList(List<Post> pPosts) {
-        Logger.d("AnswerPostFragment_renderPostList", mAnswerId + " test: " + pPosts);
         if (pPosts != null) {
             mPosts = pPosts;
             for (Post post : mPosts) {

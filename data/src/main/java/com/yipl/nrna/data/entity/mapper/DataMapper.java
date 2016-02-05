@@ -137,6 +137,8 @@ public class DataMapper {
             country.setImage(pCountry.getImage());
             country.setName(pCountry.getName());
             country.setCode(pCountry.getCode());
+            country.setContacts(pCountry.getContacts());
+            country.setDosAndDonts(pCountry.getDosAndDonts());
             return country;
         }
         return null;

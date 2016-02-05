@@ -8,7 +8,6 @@ import com.yipl.nrna.exception.ErrorMessageFactory;
 import com.yipl.nrna.ui.activity.PersonalizationActivity;
 import com.yipl.nrna.ui.interfaces.CountryListView;
 import com.yipl.nrna.ui.interfaces.MvpView;
-import com.yipl.nrna.util.Logger;
 
 import java.util.List;
 
@@ -74,7 +73,6 @@ public class CountryListFragmentPresenter implements Presenter {
         public void onError(Throwable e) {
             CountryListFragmentPresenter.this.mView.hideLoadingView();
             CountryListFragmentPresenter.this.mView.showEmptyView();
-            Logger.e("AudioSubscriber_onError", e.getLocalizedMessage());
             e.printStackTrace();
             CountryListFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));

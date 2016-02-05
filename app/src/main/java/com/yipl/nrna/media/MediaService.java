@@ -4,13 +4,18 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Binder;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.PowerManager;
 
+import com.yipl.nrna.R;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -120,11 +125,31 @@ public class MediaService extends Service implements
         sendBroadcast(intent);
         try {
             mPlayer.reset();
-            mPlayer.setDataSource(mCurrentTrack.getData().getMediaUrl());
+            setDataSource(mCurrentTrack);
             mPlayer.prepareAsync();
         } catch (Exception e) {
             e.printStackTrace();
             playNext();
+        }
+    }
+
+    private void setDataSource(Post pCurrentTrack) throws IOException {
+        String mediaUrl = pCurrentTrack.getData().getMediaUrl();
+        String fileName = mediaUrl.substring(mediaUrl.lastIndexOf("/") + 1);
+        File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+        File dir = new File(root, getString(R.string.app_name));
+        dir.mkdirs();
+        File audioFile = new File(dir, fileName);
+
+        if (audioFile.exists()) {
+            String path = audioFile.getAbsolutePath();
+            if (!(path.startsWith("file") || path.startsWith("content") || path.startsWith("FILE") || path
+                    .startsWith("CONTENT"))) {
+                path = "file://" + path;
+            }
+            mPlayer.setDataSource(this, Uri.parse(path));
+        } else {
+            mPlayer.setDataSource(mediaUrl);
         }
     }
 

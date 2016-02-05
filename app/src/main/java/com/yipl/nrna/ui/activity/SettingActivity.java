@@ -54,7 +54,5 @@ public class SettingActivity extends AppCompatPreferenceActivity implements Pref
             addPreferencesFromResource(R.xml.pref);
             findPreference(getString(R.string.setting_personalization)).setOnPreferenceClickListener((SettingActivity) getActivity());
         }
-
     }
-
 }

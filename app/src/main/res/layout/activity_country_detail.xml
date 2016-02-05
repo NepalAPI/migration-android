@@ -54,7 +54,7 @@
                 android:textSize="@dimen/text_default"
                 app:tabBackground="@android:color/transparent"
                 app:tabGravity="fill"
-                app:tabMode="fixed"
+                app:tabMode="scrollable"
                 app:tabSelectedTextColor="@android:color/white"
                 app:tabTextColor="@color/white_alpha_70"/>
 

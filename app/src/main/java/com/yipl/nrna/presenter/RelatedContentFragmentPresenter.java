@@ -7,7 +7,6 @@ import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.exception.ErrorMessageFactory;
 import com.yipl.nrna.ui.interfaces.MvpView;
 import com.yipl.nrna.ui.interfaces.RelatedContentFragmentView;
-import com.yipl.nrna.util.Logger;
 
 import java.util.List;
 
@@ -73,7 +72,6 @@ public class RelatedContentFragmentPresenter implements Presenter {
         public void onError(Throwable e) {
             RelatedContentFragmentPresenter.this.mView.hideLoadingView();
             RelatedContentFragmentPresenter.this.mView.showEmptyView();
-            Logger.e("PostSubscriber_onError", e.getLocalizedMessage());
             RelatedContentFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));
             RelatedContentFragmentPresenter.this.mView.showRetryView();

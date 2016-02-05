@@ -23,7 +23,6 @@ import com.yipl.nrna.presenter.AnswerListFragmentPresenter;
 import com.yipl.nrna.ui.adapter.FragmentListAdapter;
 import com.yipl.nrna.ui.interfaces.AnswerListView;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
-import com.yipl.nrna.util.Logger;
 
 import java.util.List;
 
@@ -158,7 +157,6 @@ public class AnswerListFragment extends BaseFragment implements
     public void renderAnswerList(List<Answer> pAnswers) {
         mAnswers = pAnswers;
         mListAdapter.setDataCollection(mAnswers);
-        Logger.d("AnswerListFragment_renderAnswerList", "test: " + mListAdapter.getItemCount());
     }
 
     @Override

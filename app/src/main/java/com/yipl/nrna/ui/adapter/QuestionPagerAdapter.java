@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.ui.fragment.RecentQuestionFragment;
-import com.yipl.nrna.util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,6 @@ public class QuestionPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Logger.d("QuestionPagerAdapter_getItem", position + " / " + mQuestions.size());
         if (position == mQuestions.size()) {
             return RecentQuestionFragment.newInstance(null);
         } else {
