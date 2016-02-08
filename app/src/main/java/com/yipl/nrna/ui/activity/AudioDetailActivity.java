@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.FacebookActivity;
+import com.yipl.nrna.data.utils.Logger;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
@@ -41,6 +43,7 @@ import com.yipl.nrna.media.MediaService.MusicBinder;
 import com.yipl.nrna.presenter.AudioDetailPresenter;
 import com.yipl.nrna.ui.interfaces.AudioDetailActivityView;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -77,7 +80,7 @@ public class AudioDetailActivity extends FacebookActivity implements
     TextView description;
     @Bind(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
-    IconicsDrawable playIcon, pauseIcon;
+    Drawable playIcon, pauseIcon;
 
     @Inject
     AudioDetailPresenter mPresenter;
@@ -163,12 +166,8 @@ public class AudioDetailActivity extends FacebookActivity implements
         getToolbar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        pauseIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_pause)
-                .color(Color.WHITE)
-                .sizeDp(14);
-        playIcon = new IconicsDrawable(this, GoogleMaterial.Icon.gmd_play_arrow)
-                .color(Color.WHITE)
-                .sizeDp(14);
+        pauseIcon = getResources().getDrawable(R.drawable.ic_pause);
+        playIcon = getResources().getDrawable(R.drawable.ic_play);
 
         fab.setImageDrawable(pauseIcon);
         prev.setImageDrawable(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_skip_previous)
@@ -204,16 +203,16 @@ public class AudioDetailActivity extends FacebookActivity implements
 
         menu.findItem(R.id.action_download).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon
                 .gmd_cloud_download)
-                .color(getResources().getColor(R.color.black_alpha_55))
+                .color(Color.WHITE)
                 .actionBar());
 
         menu.findItem(R.id.action_bluetooth).setIcon(new IconicsDrawable(this, GoogleMaterial
                 .Icon.gmd_bluetooth)
-                .color(getResources().getColor(R.color.black_alpha_55))
+                .color(Color.WHITE)
                 .actionBar());
 
         menu.findItem(R.id.action_share).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon
-                .gmd_share).color(getResources().getColor(R.color.black_alpha_55))
+                .gmd_share).color(Color.WHITE)
                 .actionBar());
         showCaseView();
         return true;
@@ -231,7 +230,12 @@ public class AudioDetailActivity extends FacebookActivity implements
             case R.id.action_download:
                 initialize();
                 mPresenter.initialize();
-                mPresenter.downloadAudioPost(mAudio);
+                try {
+                    mPresenter.downloadAudioPost(mAudio);
+                } catch (IOException e) {
+                    Logger.e("AudioDetailActivity_onOptionsItemSelected", "errorMessage: " + e
+                            .getLocalizedMessage());
+                }
                 break;
             case R.id.action_bluetooth:
                 initialize();

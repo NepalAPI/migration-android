@@ -13,10 +13,15 @@ public class QuestionEntity {
     Long updatedAt;
     @SerializedName("created_at")
     Long createdAt;
+    @SerializedName("parent")
+    Long parentId;
     String stage;
     List<String> tags;
     String language;
     String title;
+    @SerializedName("answer")
+    String answer;
+    String childIds;
 
     public Long getId() {
         return id;
@@ -40,6 +45,14 @@ public class QuestionEntity {
 
     public void setCreatedAt(Long pCreatedAt) {
         createdAt = pCreatedAt;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long pParentId) {
+        parentId = pParentId;
     }
 
     public List<String> getTags() {
@@ -66,11 +79,27 @@ public class QuestionEntity {
         title = pTitle;
     }
 
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String pAnswer) {
+        answer = pAnswer;
+    }
+
     public String getStage() {
         return stage;
     }
 
     public void setStage(String pStage) {
         stage = pStage;
+    }
+
+    public String getChildIds() {
+        return childIds;
+    }
+
+    public void setChildIds(String pChildIds) {
+        childIds = pChildIds;
     }
 }

@@ -70,6 +70,9 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="empty_related_content">No Related Content Available</string>
     <string name="not_available">Not Available</string>
+    <string name="sub_questions">Sub-Questions</string>
+    <string name="related_contents">Related Contents</string>
+    <string name="no_pdf_viewer_error">No application around to open PDF</string>
 
     <string name="filter_by_stage">Filter By Stage</string>
     <string name="filter_by_tag">Filter By Tags</string>

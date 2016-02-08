@@ -45,16 +45,18 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
 
     Integer mType = MyConstants.VideoAdapterType.TYPE_LIST;
     private Long mQuestionId = Long.MIN_VALUE;
+    boolean mIncludeChildContents = false;
 
     public VideoListFragment() {
         super();
         mType = MyConstants.VideoAdapterType.TYPE_GRID;
     }
 
-    public static VideoListFragment newInstance(Long pId) {
+    public static VideoListFragment newInstance(Long pId, boolean pIncludeChildContents) {
         VideoListFragment fragment = new VideoListFragment();
         Bundle bundle = new Bundle();
         bundle.putLong(MyConstants.Extras.KEY_ID, pId);
+        bundle.putBoolean(MyConstants.Extras.KEY_INCLUDE_CHILD_CONTENTS, pIncludeChildContents);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -96,6 +98,8 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
         Bundle bundle = getArguments();
         if (bundle != null) {
             mQuestionId = bundle.getLong(MyConstants.Extras.KEY_ID);
+            mIncludeChildContents = bundle.getBoolean(MyConstants.Extras
+                    .KEY_INCLUDE_CHILD_CONTENTS, false);
         }
     }
 
@@ -136,7 +140,7 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
         if (mQuestionId != Long.MIN_VALUE) {
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION,
-                            MyConstants.PostType.VIDEO, false))
+                            MyConstants.PostType.VIDEO, false, mIncludeChildContents))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()

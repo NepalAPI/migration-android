@@ -27,7 +27,6 @@ import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.domain.util.MyConstants;
-import com.yipl.nrna.presenter.DeletedContentPresenter;
 import com.yipl.nrna.presenter.LatestContentPresenter;
 import com.yipl.nrna.ui.fragment.ArticleListFragment;
 import com.yipl.nrna.ui.fragment.AudioListFragment;
@@ -63,8 +62,8 @@ public class MainActivity extends BaseActivity implements
     @Inject
     LatestContentPresenter mLatestContentPresenter;
 
-    @Inject
-    DeletedContentPresenter mDeletedContentPresenter;
+    /*@Inject
+    DeletedContentPresenter mDeletedContentPresenter;*/
 
     @Bind(R.id.nav_view)
     NavigationView mNavigationView;
@@ -113,12 +112,13 @@ public class MainActivity extends BaseActivity implements
 
     private void initialize() {
         DaggerDataComponent.builder()
-                .dataModule(new DataModule(getPreferences().getLastUpdateStamp(), 0))
+                .dataModule(new DataModule())
                 .activityModule(getActivityModule())
                 .applicationComponent(getApplicationComponent())
                 .build()
                 .inject(this);
         mLatestContentPresenter.attachView(this);
+        //mDeletedContentPresenter.attachView(this);
     }
 
     @Override
@@ -229,13 +229,13 @@ public class MainActivity extends BaseActivity implements
     public void onDestroy() {
         super.onDestroy();
         mLatestContentPresenter.destroy();
-        mDeletedContentPresenter.destroy();
+        //mDeletedContentPresenter.destroy();
         ButterKnife.unbind(this);
     }
 
     private void fetchLatestContent() {
         mLatestContentPresenter.initialize();
-        mDeletedContentPresenter.initialize();
+        //mDeletedContentPresenter.initialize();
     }
 
     @Override

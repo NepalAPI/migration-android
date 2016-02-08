@@ -6,5 +6,6 @@ import com.yipl.nrna.domain.model.Post;
  * Created by Nirazan-PC on 12/14/2015.
  */
 public interface PostDetailView extends LoadDataView {
-    public void renderPostDetail(Post post);
+    void renderPostDetail(Post post);
+    void onDownloadStarted(String message);
 }

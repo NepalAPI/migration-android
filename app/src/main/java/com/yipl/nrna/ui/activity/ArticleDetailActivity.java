@@ -139,8 +139,8 @@ public class ArticleDetailActivity extends FacebookActivity implements PostDetai
 
     public void showDocumentView(List<FileData> pFiles) {
         for (final FileData file : pFiles) {
-            final String document = file.getFileUrl();
-            final String type = document.substring(document.lastIndexOf(".") + 1);
+            final String documentUrl = file.getFileUrl();
+            final String type = documentUrl.substring(documentUrl.lastIndexOf(".") + 1);
             View v = getLayoutInflater().inflate(R.layout.layout_document_list, mDocumentContainer, false);
             TextView tvAction = (TextView) v.findViewById(R.id.documentAction);
             TextView tvTitle = (TextView) v.findViewById(R.id.documentTitle);
@@ -155,20 +155,24 @@ public class ArticleDetailActivity extends FacebookActivity implements PostDetai
                 public void onClick(View v) {
                     if (type.equals("pdf")) {
                         Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(Uri.parse(document), "application/pdf");
+                        intent.setDataAndType(Uri.parse(documentUrl), "application/pdf");
                         try {
                             startActivity(intent);
                         } catch (ActivityNotFoundException e) {
-                            Snackbar.make(mDocumentContainer, "No Applicaiton Found To Open pdf", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(mDocumentContainer, "", Snackbar
+                                    .LENGTH_SHORT).show();
                         }
-
                     } else {
-                        //// TODO: 2/10/2016  Doc Download
-
+                        mPresenter.downloadDocument(file);
                     }
                 }
             });
             mDocumentContainer.addView(v);
         }
+    }
+
+    @Override
+    public void onDownloadStarted(String message) {
+        Snackbar.make(mDocumentContainer, message, Snackbar.LENGTH_LONG).show();
     }
 }

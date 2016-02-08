@@ -23,7 +23,7 @@ public class UserPreferenceRepository implements IBaseRepository<Boolean> {
 
     @Override
     public Observable<List<Boolean>> getList(int pLimit) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

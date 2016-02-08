@@ -34,8 +34,9 @@ public class DBDataStore implements IDataStore {
     }
 
     public Observable<List<PostEntity>> getPostByQuestion(Long pQuestionId, String pStage, String
-            pType, int pDownloadStatus, int pLimit) {
-        return database.getPostByQuestion(pQuestionId, pStage, pType, pDownloadStatus, pLimit);
+            pType, int pDownloadStatus, int pLimit, boolean includeChildContents) {
+        return database.getPostByQuestion(pQuestionId, pStage, pType, pDownloadStatus, pLimit,
+                includeChildContents);
     }
 
     public Observable<List<PostEntity>> getPostByAnswer(Long pAnswerId, String pStage, String
@@ -58,6 +59,10 @@ public class DBDataStore implements IDataStore {
 
     public Observable<List<QuestionEntity>> getAllQuestion(String pStage, int pLimit) {
         return database.getAllQuestions(pStage, pLimit);
+    }
+
+    public Observable<QuestionEntity> getQuestionById(Long pQuestionId) {
+        return database.getQuestionById(pQuestionId);
     }
 
     public Observable<List<AnswerEntity>> getAllAnswers(int limit) {

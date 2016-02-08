@@ -2,19 +2,18 @@ package com.yipl.nrna.presenter;
 
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.data.di.PerActivity;
+import com.yipl.nrna.data.utils.Logger;
 import com.yipl.nrna.domain.exception.DefaultErrorBundle;
 import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.model.LatestContent;
 import com.yipl.nrna.exception.ErrorMessageFactory;
-import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.activity.PersonalizationActivity;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.ui.interfaces.MvpView;
-import com.yipl.nrna.util.Logger;
+import com.yipl.nrna.util.AppPreferences;
 
 import java.util.Calendar;
-import java.util.logging.Handler;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,11 +22,13 @@ import javax.inject.Named;
 public class LatestContentPresenter implements Presenter {
 
     private final UseCase mUseCase;
+    private final AppPreferences mPref;
     MainActivityView mView;
 
     @Inject
-    public LatestContentPresenter(@Named("latest") UseCase pUseCase) {
+    public LatestContentPresenter(@Named("latest") UseCase pUseCase, AppPreferences pref) {
         mUseCase = pUseCase;
+        mPref = pref;
     }
 
     @Override
@@ -60,7 +61,9 @@ public class LatestContentPresenter implements Presenter {
     }
 
     private void getLatestContent() {
-        this.mUseCase.execute(new LatestContentSubscriber());
+        Logger.d("LatestContentPresenter_deleteContent", "timestamp: " + mPref.getLastUpdateStamp
+                ());
+        this.mUseCase.execute(new LatestContentSubscriber(), mPref.getLastUpdateStamp());
     }
 
     private final class LatestContentSubscriber extends DefaultSubscriber<LatestContent> {
@@ -92,8 +95,7 @@ public class LatestContentPresenter implements Presenter {
             if (pLatestContent != null) {
                 long timestamp = Calendar.getInstance().getTimeInMillis();
                 Logger.d("LatestContentSubscriber_onNext", "timestamp: " + (timestamp / 1000l));
-                ((BaseActivity) mView).getPreferences().setLastUpdateStamp((timestamp / 1000L) -
-                        2000);
+                ((BaseActivity) mView).getPreferences().setLastUpdateStamp((timestamp / 1000L));
                 if ((!pLatestContent.getPosts().isEmpty() || !pLatestContent.getQuestions()
                         .isEmpty() || !pLatestContent.getAnswers().isEmpty() || !pLatestContent
                         .getUpdates().isEmpty()) && !(mView instanceof PersonalizationActivity)) {

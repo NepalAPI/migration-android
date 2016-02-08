@@ -6,6 +6,5 @@ import rx.Observable;
 
 public interface IBaseRepository<T> {
     Observable<List<T>> getList(int pLimit);
-
     Observable<T> getSingle(Long id);
 }

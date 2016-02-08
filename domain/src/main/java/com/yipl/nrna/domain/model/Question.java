@@ -12,10 +12,13 @@ import java.util.List;
 public class Question extends BaseModel {
     Long mUpdatedAt;
     Long mCreatedAt;
+    Long mParentId;
     List<String> mTags;
     String mLanguage;
     String mTitle;
+    String mAnswer;
     String mStage;
+    String childIds;
 
     public Question() {
         setDataType(MyConstants.Adapter.TYPE_QUESTION);
@@ -53,6 +56,14 @@ public class Question extends BaseModel {
         mCreatedAt = pCreatedAt;
     }
 
+    public Long getParentId() {
+        return mParentId;
+    }
+
+    public void setParentId(Long pParentId) {
+        mParentId = pParentId;
+    }
+
     public List<String> getTags() {
         return mTags;
     }
@@ -83,5 +94,21 @@ public class Question extends BaseModel {
 
     public void setStage(String pStage) {
         mStage = pStage;
+    }
+
+    public String getAnswer() {
+        return mAnswer;
+    }
+
+    public void setAnswer(String pAnswer) {
+        mAnswer = pAnswer;
+    }
+
+    public String getChildIds() {
+        return childIds;
+    }
+
+    public void setChildIds(String pChildIds) {
+        childIds = pChildIds;
     }
 }

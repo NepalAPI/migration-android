@@ -15,6 +15,7 @@ import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.data.entity.PostDataEntity;
 import com.yipl.nrna.data.entity.PostEntity;
 import com.yipl.nrna.data.entity.QuestionEntity;
+import com.yipl.nrna.data.utils.Logger;
 import com.yipl.nrna.domain.util.MyConstants;
 
 import java.util.ArrayList;
@@ -134,12 +135,19 @@ public class DatabaseDao {
         question.setId(cursor.getLong(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_ID)));
         question.setCreatedAt(cursor.getLong(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_CREATED_AT)));
         question.setUpdatedAt(cursor.getLong(cursor.getColumnIndex(TABLE_QUESTION.COlUMN_UPDATED_AT)));
+        question.setParentId(cursor.getLong(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_PARENT_ID)));
         question.setTags(new Gson().fromJson(cursor.getString(cursor.getColumnIndex
                 (TABLE_QUESTION.COLUMN_TAGS)), new TypeToken<List<String>>() {
         }.getType()));
         question.setLanguage(cursor.getString(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_LANGUAGE)));
-        question.setTitle(cursor.getString(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_QUESTION)));
+        question.setTitle(cursor.getString(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_TITLE)));
+        question.setAnswer(cursor.getString(cursor.getColumnIndex(TABLE_QUESTION
+                .COLUMN_ANSWER)));
         question.setStage(cursor.getString(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_STAGE)));
+
+        if(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_CHILD_IDS) != -1)
+            question.setChildIds(cursor.getString(cursor.getColumnIndex(TABLE_QUESTION
+                    .COLUMN_CHILD_IDS)));
         return question;
     }
 
@@ -189,12 +197,13 @@ public class DatabaseDao {
                     query += " and ";
             }
             if (pStage != null) {
-                query += TABLE_POST.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
+                query += TABLE_POST.COLUMN_STAGE + " LIKE '%\"" + pStage + "\"%'";
             }
         }
         query = addDownloadStatusToQueryCondition(query, pDownloadStatus);
         query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
                 " DESC LIMIT " + pLimit;
+        Logger.d("DatabaseDao_getAllPosts", "query: " + query);
         Cursor cursor = db.rawQuery(query, null);
 
         Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
@@ -212,13 +221,17 @@ public class DatabaseDao {
     }
 
     public Observable<List<PostEntity>> getPostByQuestion(Long pQuestionId, String pStage, String
-            pType, int pDownloadStatus, int pLimit) {
+            pType, int pDownloadStatus, int pLimit, boolean includeChildContents) {
         String query = "Select p.*" +
                 " from " + TABLE_POST.TABLE_NAME + " p join " +
                 TABLE_POST_QUESTION.TABLE_NAME + " pq on p." + TABLE_POST.COLUMN_ID +
-                " = pq." + TABLE_POST_QUESTION.COLUMN_POST_ID + " join " + TABLE_QUESTION.TABLE_NAME +
+                " = pq." + TABLE_POST_QUESTION.COLUMN_POST_ID + " join " + TABLE_QUESTION.TABLE_NAME+
                 " q on q." + TABLE_QUESTION.COLUMN_ID + " = pq." + TABLE_POST_QUESTION.COLUMN_QUESTION_ID +
-                " where q." + TABLE_QUESTION.COLUMN_ID + " = " + pQuestionId;
+                " where (q." + TABLE_QUESTION.COLUMN_ID + " = " + pQuestionId;
+                if(includeChildContents)
+                    query += " or q." + TABLE_QUESTION.COLUMN_PARENT_ID + " = " + pQuestionId + ")";
+                else
+                    query += ")";
 
         if (pStage != null || pType != null) {
             query += " and ";
@@ -228,13 +241,12 @@ public class DatabaseDao {
                     query += " and ";
             }
             if (pStage != null) {
-                query += TABLE_POST.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
+                query += TABLE_POST.COLUMN_STAGE + " LIKE '%\"" + pStage + "\"%'";
             }
         }
         query = addDownloadStatusToQueryCondition(query, pDownloadStatus);
         query += " order by " + TABLE_POST.COLUMN_UPDATED_AT +
                 " DESC LIMIT " + pLimit;
-
         Cursor cursor = db.rawQuery(query, null);
         Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
             @Override
@@ -268,7 +280,7 @@ public class DatabaseDao {
                     query += " and ";
             }
             if (pStage != null) {
-                query += TABLE_POST.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
+                query += TABLE_POST.COLUMN_STAGE + " LIKE '%\"" + pStage + "\"%'";
             }
         }
         query = addDownloadStatusToQueryCondition(query, pDownloadStatus);
@@ -308,7 +320,7 @@ public class DatabaseDao {
                     query += " and ";
             }
             if (pStage != null) {
-                query += TABLE_POST.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
+                query += TABLE_POST.COLUMN_STAGE + " LIKE '%\"" + pStage + "\"%'";
             }
         }
         query = addDownloadStatusToQueryCondition(query, pDownloadStatus);
@@ -331,11 +343,12 @@ public class DatabaseDao {
 
     }
 
-    public Observable<QuestionEntity> getQuestionById(int pId) {
-        String query = "Select * from " +
-                TABLE_QUESTION.TABLE_NAME +
-                " where " + TABLE_QUESTION.COLUMN_ID + " = " + pId +
-                "  LIMIT 1 ";
+    public Observable<QuestionEntity> getQuestionById(Long pId) {
+        String query = "Select q1.*, group_concat(q2.id) as " + TABLE_QUESTION.COLUMN_CHILD_IDS +
+                " from " +
+                TABLE_QUESTION.TABLE_NAME + " as q1 left join " +
+                TABLE_QUESTION.TABLE_NAME + " as q2 on q1.id = q2.parent_id" +
+                " where q1.id = " + pId;
         Cursor cursor = db.rawQuery(query, null);
         Callable<QuestionEntity> callable = new Callable<QuestionEntity>() {
             @Override
@@ -355,10 +368,13 @@ public class DatabaseDao {
         String query = "Select * from " +
                 TABLE_QUESTION.TABLE_NAME;
         if (pStage != null) {
-            query += TABLE_QUESTION.COLUMN_STAGE + " LIKE '%" + pStage + "%'";
+            query += TABLE_QUESTION.COLUMN_STAGE + " LIKE '%\"" + pStage + "\"%'";
         }
+        query += " where coalesce(" + TABLE_QUESTION.COLUMN_PARENT_ID + ", '') = '' or " +
+                TABLE_QUESTION.COLUMN_PARENT_ID + " = 0 ";
         query += " order by " + TABLE_QUESTION.COlUMN_UPDATED_AT +
                 " DESC LIMIT " + pLimit;
+        Logger.d("DatabaseDao_getAllQuestions", "question query: " + query);
         Cursor cursor = db.rawQuery(query, null);
         Callable<List<QuestionEntity>> callable = new Callable<List<QuestionEntity>>() {
             @Override
@@ -811,10 +827,12 @@ public class DatabaseDao {
         values.put(TABLE_QUESTION.COLUMN_ID, pQuestion.getId());
         values.put(TABLE_QUESTION.COlUMN_UPDATED_AT, pQuestion.getUpdatedAt());
         values.put(TABLE_QUESTION.COLUMN_CREATED_AT, pQuestion.getCreatedAt());
+        values.put(TABLE_QUESTION.COLUMN_PARENT_ID, pQuestion.getParentId());
         values.put(TABLE_QUESTION.COLUMN_TAGS, new Gson().toJson(pQuestion.getTags()));
         values.put(TABLE_QUESTION.COLUMN_LANGUAGE, pQuestion.getLanguage());
         values.put(TABLE_QUESTION.COLUMN_STAGE, pQuestion.getStage());
-        values.put(TABLE_QUESTION.COLUMN_QUESTION, pQuestion.getTitle());
+        values.put(TABLE_QUESTION.COLUMN_TITLE, pQuestion.getTitle());
+        values.put(TABLE_QUESTION.COLUMN_ANSWER, pQuestion.getAnswer());
         return values;
     }
 
@@ -870,16 +888,14 @@ public class DatabaseDao {
 
         ids = "";
         for (DeletedContentEntity question : pContent.getQuestions()) {
-            ids += question.getId().toString();
+            ids += question.getId().toString() + ", ";
         }
         delete(TABLE_QUESTION.TABLE_NAME, TABLE_QUESTION.COLUMN_ID, ids);
 
     }
 
     private void delete(String pTableName, String pIdString, String pIds) {
-
         db.delete(pTableName, pIdString + " IN (" + pIds + "-1)", null);
-
     }
 
     private <T> Observable<T> makeObservable(final Callable<T> callable) {

@@ -12,20 +12,30 @@ import rx.Observable;
 public class DeletedContentRepository implements IBaseRepository {
 
     private final DataStoreFactory mDataStoreFactory;
-    private Long mLastUpdateStamp;
 
-    public DeletedContentRepository(DataStoreFactory pDataStoreFactory, long pLastUpdateStamp) {
+    public DeletedContentRepository(DataStoreFactory pDataStoreFactory) {
         mDataStoreFactory = pDataStoreFactory;
-        mLastUpdateStamp = pLastUpdateStamp;
     }
 
     @Override
     public Observable<List> getList(int pLimit) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public Observable getSingle(Long id) {
-        return mDataStoreFactory.createRestDataStore().getDeletedContent(mLastUpdateStamp);
+    public Observable<Boolean> getSingle(Long pLastUpdateStamp) {
+        return mDataStoreFactory.createRestDataStore()
+                .getDeletedContent(pLastUpdateStamp)
+                .map(pDeletedEntity -> {
+                    if (pDeletedEntity != null) {
+                        if (!pDeletedEntity.getPosts().isEmpty() || !pDeletedEntity.getQuestions()
+                                .isEmpty() || !pDeletedEntity.getAnswers().isEmpty() ||
+                                !pDeletedEntity.getUpdates().isEmpty()) {
+                            return true;
+                        }
+                        return false;
+                    }
+                    return null;
+                });
     }
 }

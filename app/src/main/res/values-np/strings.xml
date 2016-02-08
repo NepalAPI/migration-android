@@ -69,7 +69,9 @@
     <string name="empty_related_content">सम्बन्धित सामग्री उपलब्ध छैन</string>
     <string name="empty_article">कुनै लेख उपलब्ध छैन</string>
     <string name="not_available">उपलब्ध छैन</string>
-
+    <string name="sub_questions">उप-प्रश्नहरू</string>
+    <string name="related_contents">सम्बन्धित सामग्री</string>
+    <string name="no_pdf_viewer_error">PDF खोल्न एप्लिकेसन  फेला परेन</string>
 
     <string name="filter_by_stage">चरणबाट फिल्टर गर्नुहोस</string>
     <string name="filter_by_tag">ट्यागबाट फिल्टर गर्नुहोस</string>
@@ -102,7 +104,6 @@
     <string name="save">सेभ</string>
     <string name="skip">स्कीप</string>
     <string name="see_all_countries">सबै देश प्रश्न हेर्नुहोस्</string>
-
 
     <string name="showcase_question_title">Latest Questions</string>
     <string name="showcase_question_detail">swipe for latest questions</string>

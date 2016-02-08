@@ -41,15 +41,17 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
     @Bind(R.id.data_container)
     RelativeLayout mContainer;
     private Long mQuestionId = Long.MIN_VALUE;
+    boolean mIncludeChildContents = false;
 
     public AudioListFragment() {
         super();
     }
 
-    public static AudioListFragment newInstance(Long pId) {
+    public static AudioListFragment newInstance(Long pId, boolean pIncludeChildContents) {
         AudioListFragment fragment = new AudioListFragment();
         Bundle data = new Bundle();
         data.putLong(MyConstants.Extras.KEY_ID, pId);
+        data.putBoolean(MyConstants.Extras.KEY_INCLUDE_CHILD_CONTENTS, pIncludeChildContents);
         fragment.setArguments(data);
         return fragment;
     }
@@ -97,6 +99,8 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
         Bundle data = getArguments();
         if (data != null) {
             mQuestionId = data.getLong(MyConstants.Extras.KEY_ID);
+            mIncludeChildContents = data.getBoolean(MyConstants.Extras
+                    .KEY_INCLUDE_CHILD_CONTENTS, false);
         }
     }
 
@@ -131,7 +135,7 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
         if (mQuestionId != Long.MIN_VALUE) {
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION,
-                            MyConstants.PostType.AUDIO, false))
+                            MyConstants.PostType.AUDIO, false, mIncludeChildContents))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()

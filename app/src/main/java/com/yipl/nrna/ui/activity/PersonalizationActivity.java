@@ -22,6 +22,7 @@ import android.widget.RadioGroup;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.data.entity.UserPreferenceEntity;
+import com.yipl.nrna.data.utils.Logger;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Country;
@@ -32,7 +33,7 @@ import com.yipl.nrna.presenter.UserPreferencePresenter;
 import com.yipl.nrna.ui.interfaces.CountryListView;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.ui.interfaces.PersonalizationView;
-import com.yipl.nrna.util.Logger;
+import com.yipl.nrna.util.AppPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,8 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PersonalizationActivity extends BaseActivity implements MainActivityView, CountryListView, PersonalizationView, View.OnClickListener {
+public class PersonalizationActivity extends BaseActivity implements MainActivityView,
+        CountryListView, PersonalizationView, View.OnClickListener {
 
     @Inject
     LatestContentPresenter mLatestContentPresenter;
@@ -77,26 +79,33 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
         return R.layout.activity_personalization;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        boolean launch = getIntent().getBooleanExtra(MyConstants.Extras
+                .KEY_PERSONALIZATION_LAUNCH, false);
+        if (!launch && !new AppPreferences(this).getFirstTime()) {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }
+
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        boolean launch = getIntent().getBooleanExtra(MyConstants.Extras.KEY_PERSONALIZATION_LAUNCH, false);
-        if (!launch && !getPreferences().getFirstTime()) {
-            Intent i = new Intent(this, MainActivity.class);
-            startActivity(i);
+
+        if (!(!launch && !new AppPreferences(this).getFirstTime())) {
+            initialize();
+            if (getPreferences().getFirstTime()) {
+                fetchLatestContent();
+            } else {
+                loadCountryList();
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+            btnDone.setOnClickListener(this);
+            btnSkip.setOnClickListener(this);
+            populate();
         }
-        initialize();
-        if (getPreferences().getFirstTime()) {
-            fetchLatestContent();
-        } else {
-            loadCountryList();
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        btnDone.setOnClickListener(this);
-        btnSkip.setOnClickListener(this);
-        populate();
     }
 
     private void populate() {
@@ -152,11 +161,12 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
 
     private void initialize() {
         DaggerDataComponent.builder()
-                .dataModule(new DataModule(getPreferences().getLastUpdateStamp(), 0))
+                .dataModule(new DataModule())
                 .activityModule(getActivityModule())
                 .applicationComponent(getApplicationComponent())
                 .build()
                 .inject(this);
+
         mLatestContentPresenter.attachView(this);
         mCountryListPresenter.attachView(this);
     }
@@ -176,8 +186,7 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mLatestContentPresenter.destroy();
-        mCountryListPresenter.destroy();
+        if (mLatestContentPresenter != null) mLatestContentPresenter.destroy();
         ButterKnife.unbind(this);
     }
 
@@ -194,9 +203,7 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
                             }
                         });
                     }
-                },
-                1000
-        );
+                }, 1000);
     }
 
     private void loadCountryList() {
@@ -257,11 +264,8 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
             Logger.d("test", "country size" + pCountries.size());
             for (Country country : pCountries) {
                 Logger.d("test", "country:" + country.getName());
-                CheckBox checkBox;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    checkBox = new AppCompatCheckBox(getContext());
-                else {
-                    checkBox = new CheckBox(getContext());
+                AppCompatCheckBox checkBox = new AppCompatCheckBox(getContext());
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
                     int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
                     checkBox.setButtonDrawable(id);
                 }
@@ -277,16 +281,19 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
     }
 
     private void populateCountry() {
+        boolean isFirst = getPreferences().getFirstTime();
         List<String> countries = getPreferences().getCountries();
-        for (CheckBox checkBox : countryCheckBoxes) {
-            if (countries == null) {
-                checkBox.setChecked(true);
-                continue;
-            }
-            for (String country : countries) {
-                if (country.equalsIgnoreCase(checkBox.getText().toString())) {
+        if (countries != null) {
+            for (CheckBox checkBox : countryCheckBoxes) {
+                if (countries.isEmpty() && isFirst) {
                     checkBox.setChecked(true);
-                    break;
+                    continue;
+                }
+                for (String country : countries) {
+                    if (country.equalsIgnoreCase(checkBox.getText().toString())) {
+                        checkBox.setChecked(true);
+                        break;
+                    }
                 }
             }
         }
@@ -294,15 +301,15 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
 
     @Override
     public void onClick(View v) {
+        mUserPreferenceEntity = new UserPreferenceEntity();
+        String deviceId = Settings.Secure.getString(getContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        mUserPreferenceEntity.setDeviceId(deviceId);
+        savePreferences();
+        getPreferences().setFirstTime(false);
+
         switch (v.getId()) {
             case R.id.btnDone:
-                mUserPreferenceEntity = new UserPreferenceEntity();
-                String deviceId = Settings.Secure.getString(getContext().getContentResolver(),
-                        Settings.Secure.ANDROID_ID);
-                mUserPreferenceEntity.setDeviceId(deviceId);
-                savePreferences();
-                getPreferences().setFirstTime(false);
-
                 DaggerDataComponent.builder()
                         .dataModule(new DataModule(mUserPreferenceEntity))
                         .activityModule(getActivityModule())
@@ -312,11 +319,12 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
                 mUserPreferencePresenter.attachView(this);
 //                sendUserPreference();
                 dataSent();
+                finish();
                 break;
             case R.id.btnSkip:
-                getPreferences().setFirstTime(false);
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
+                finish();
                 break;
             default:
                 break;

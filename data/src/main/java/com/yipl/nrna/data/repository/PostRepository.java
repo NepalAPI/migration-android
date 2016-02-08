@@ -67,9 +67,9 @@ public class PostRepository implements IRepository<Post> {
 
     @Override
     public Observable<List<Post>> getListByQuestion(Long pQuestionId, String pStage, String
-            pType, int pDownloadStatus, int pLimit) {
+            pType, int pDownloadStatus, int pLimit, boolean includeChildContents) {
         return mDataStoreFactory.createDBDataStore()
-                .getPostByQuestion(pQuestionId, pStage, pType, pLimit, pLimit)
+                .getPostByQuestion(pQuestionId, pStage, pType, pLimit, pLimit, includeChildContents)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
     }
 

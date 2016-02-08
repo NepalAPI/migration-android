@@ -15,7 +15,7 @@ public interface IRepository<T> extends IBaseRepository<T> {
                                               int pLimit);
 
     Observable<List<T>> getListByQuestion(Long pQuestionId, String pStage, String pType, int
-            pDownloadStatus, int pLimit);
+            pDownloadStatus, int pLimit, boolean includeChildContents);
 
     Observable<List<T>> getListByCountry(Long pId, String pStage, String pType, int
             pDownloadStatus, int pLimit);

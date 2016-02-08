@@ -1,26 +1,33 @@
 package com.yipl.nrna.presenter;
 
-import com.yipl.nrna.domain.repository.IBaseRepository;
+import com.yipl.nrna.base.BaseActivity;
+import com.yipl.nrna.domain.exception.DefaultErrorBundle;
+import com.yipl.nrna.domain.interactor.DefaultSubscriber;
+import com.yipl.nrna.domain.interactor.UseCase;
+import com.yipl.nrna.exception.ErrorMessageFactory;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.ui.interfaces.MvpView;
+import com.yipl.nrna.util.AppPreferences;
+import com.yipl.nrna.data.utils.Logger;
+
+import java.util.Calendar;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import rx.Observer;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Nirazan-PC on 1/8/2016.
  */
 public class DeletedContentPresenter implements Presenter {
 
-    IBaseRepository mRepository;
+    private final UseCase mUseCase;
+    private final AppPreferences mPref;
     MainActivityView mView;
 
     @Inject
-    public DeletedContentPresenter(@Named("deleted") IBaseRepository pRepository) {
-        mRepository = pRepository;
+    public DeletedContentPresenter(@Named("deleted") UseCase pUseCase, AppPreferences pref) {
+        mUseCase = pUseCase;
+        mPref = pref;
     }
 
     @Override
@@ -47,19 +54,35 @@ public class DeletedContentPresenter implements Presenter {
     }
 
     private void deleteContent() {
-        mRepository.getSingle(0L).subscribeOn(Schedulers.newThread()).subscribe(new Observer() {
-            @Override
-            public void onCompleted() {
-            }
+        Logger.d("DeletedContentPresenter_deleteContent", "timestamp: " + mPref.getLastUpdateStamp());
+        this.mUseCase.execute(new DeleteContentSubscriber(), mPref.getLastUpdateStamp());
+    }
 
-            @Override
-            public void onError(Throwable e) {
-            }
+    private final class DeleteContentSubscriber extends DefaultSubscriber<Boolean> {
 
-            @Override
-            public void onNext(Object t) {
-                mView.informCurrentFragmentForUpdate();
+        @Override
+        public void onCompleted() {
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Logger.e("DeleteContentSubscriber_onError", "factory_message: " + ErrorMessageFactory
+                    .create(mView.getContext(), new DefaultErrorBundle((Exception) e)
+                            .getException()));
+            e.printStackTrace();
+            mView.showErrorView(ErrorMessageFactory.create(mView
+                    .getContext(), new DefaultErrorBundle((Exception) e).getException()));
+        }
+
+        @Override
+        public void onNext(Boolean pFlag) {
+            if (pFlag != null) {
+                long timestamp = Calendar.getInstance().getTimeInMillis();
+                Logger.d("DeleteContentSubscriber_onNext", "timestamp: " + (timestamp / 1000l));
+                ((BaseActivity) mView).getPreferences().setLastUpdateStamp((timestamp / 1000L));
+                Logger.d("DeleteContentSubscriber_onNext", "flag:" + pFlag);
+                if (pFlag) mView.informCurrentFragmentForUpdate();
             }
-        });
+        }
     }
 }

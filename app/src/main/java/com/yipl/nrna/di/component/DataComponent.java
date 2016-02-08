@@ -19,6 +19,7 @@ import com.yipl.nrna.ui.fragment.FilterDialogFragment;
 import com.yipl.nrna.ui.fragment.HomeFragment;
 import com.yipl.nrna.ui.fragment.InfoCenterContentFragment;
 import com.yipl.nrna.ui.fragment.PostListFragment;
+import com.yipl.nrna.ui.fragment.QuestionDetailFragment;
 import com.yipl.nrna.ui.fragment.QuestionListFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
 import com.yipl.nrna.ui.fragment.country.RelatedContentFragment;
@@ -59,6 +60,8 @@ public interface DataComponent extends ActivityComponent {
     void inject(QuestionListFragment pFragment);
 
     void inject(AnswerPostFragment pFragment);
+
+    void inject(QuestionDetailFragment pFragment);
 
     void inject(ArticleDetailActivity pActivity);
 

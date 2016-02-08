@@ -1,13 +1,11 @@
 package com.yipl.nrna.presenter;
 
-import com.yipl.nrna.data.entity.UserPreferenceEntity;
 import com.yipl.nrna.domain.exception.DefaultErrorBundle;
 import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.exception.ErrorMessageFactory;
 import com.yipl.nrna.ui.interfaces.MvpView;
 import com.yipl.nrna.ui.interfaces.PersonalizationView;
-import com.yipl.nrna.util.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Named;

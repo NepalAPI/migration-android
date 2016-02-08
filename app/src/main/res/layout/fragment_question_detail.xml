@@ -1,13 +1,133 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:padding="@dimen/spacing_standard"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.yipl.nrna.ui.fragment.QuestionDetailFragment">
+
+        <LinearLayout
+            android:id="@+id/collapsible_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/toggle_icon"
+                android:layout_width="@dimen/content_art_size"
+                android:layout_height="@dimen/content_art_size"
+                android:background="@drawable/expandable_icon"
+                android:padding="@dimen/spacing_small"/>
+
+            <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context="com.yipl.nrna.ui.adapter.QuestionDetailActivityFragment"
-                tools:showIn="@layout/activity_question_detail">
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_standard"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/text_default"
+                android:textStyle="bold"
+                tools:text="Getting a citizenShip"/>
+        </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-</RelativeLayout>
+            <WebView
+                android:id="@+id/answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginBottom="@dimen/spacing_xsmall"
+                android:layout_marginTop="@dimen/spacing_xsmall"
+                android:background="@color/divider"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/spacing_xsmall"
+                android:paddingTop="@dimen/spacing_xsmall"
+                android:text="@string/related_contents"
+                android:textAllCaps="true"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/text_big"
+                android:textStyle="bold"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/no_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="@string/empty_post"
+                    android:visibility="gone"/>
+
+                <LinearLayout
+                    android:id="@+id/post_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="150dp"
+                    android:orientation="vertical">
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/sub_question_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/spacing_xsmall"
+                    android:paddingTop="@dimen/spacing_xsmall"
+                    android:text="@string/sub_questions"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_big"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:id="@+id/sub_question_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorPrimary"/>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
