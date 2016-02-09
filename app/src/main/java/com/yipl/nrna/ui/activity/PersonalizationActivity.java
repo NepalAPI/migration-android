@@ -27,7 +27,6 @@ import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Country;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.CountryListFragmentPresenter;
-import com.yipl.nrna.presenter.DeletedContentPresenter;
 import com.yipl.nrna.presenter.LatestContentPresenter;
 import com.yipl.nrna.presenter.UserPreferencePresenter;
 import com.yipl.nrna.ui.interfaces.CountryListView;
@@ -49,9 +48,6 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
 
     @Inject
     LatestContentPresenter mLatestContentPresenter;
-
-    @Inject
-    DeletedContentPresenter mDeletedContentPresenter;
 
     @Inject
     CountryListFragmentPresenter mCountryListPresenter;
@@ -81,13 +77,11 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
         return R.layout.activity_personalization;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getString(R.string.title_personalization));
         boolean launch = getIntent().getBooleanExtra(MyConstants.Extras.KEY_PERSONALIZATION_LAUNCH, false);
         if (!launch && !getPreferences().getFirstTime()) {
             Intent i = new Intent(this, MainActivity.class);
@@ -183,7 +177,7 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
     public void onDestroy() {
         super.onDestroy();
         mLatestContentPresenter.destroy();
-        mDeletedContentPresenter.destroy();
+        mCountryListPresenter.destroy();
         ButterKnife.unbind(this);
     }
 
@@ -283,19 +277,16 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
     }
 
     private void populateCountry() {
-        boolean isFirst = getPreferences().getFirstTime();
         List<String> countries = getPreferences().getCountries();
-        if (countries != null) {
-            for (CheckBox checkBox : countryCheckBoxes) {
-                if (countries.isEmpty() && isFirst) {
+        for (CheckBox checkBox : countryCheckBoxes) {
+            if (countries == null) {
+                checkBox.setChecked(true);
+                continue;
+            }
+            for (String country : countries) {
+                if (country.equalsIgnoreCase(checkBox.getText().toString())) {
                     checkBox.setChecked(true);
-                    continue;
-                }
-                for (String country : countries) {
-                    if (country.equalsIgnoreCase(checkBox.getText().toString())) {
-                        checkBox.setChecked(true);
-                        break;
-                    }
+                    break;
                 }
             }
         }
@@ -321,12 +312,11 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
                 mUserPreferencePresenter.attachView(this);
 //                sendUserPreference();
                 dataSent();
-                finish();
                 break;
             case R.id.btnSkip:
+                getPreferences().setFirstTime(false);
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
-                finish();
                 break;
             default:
                 break;

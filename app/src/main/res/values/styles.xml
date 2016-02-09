@@ -39,4 +39,17 @@
         <item name="android:layout_marginTop">@dimen/spacing_xxsmall</item>
     </style>
 
+    <style name="showcase" parent="ShowcaseView.Light">
+        <item name="sv_backgroundColor">@color/black_alpha_55</item>
+        <item name="sv_showcaseColor">@color/colorPrimary</item>
+        <item name="sv_buttonText">Ok</item>
+        <item name="sv_detailTextAppearance">@style/showcase_description</item>
+        <item name="sv_titleTextAppearance">@style/showcase_title</item>
+    </style>
+    <style name="showcase_title" parent="TextAppearance.ShowcaseView.Title">
+    </style>
+    <style name="showcase_description" parent="TextAppearance.ShowcaseView.Detail.Light">
+        <item name="android:textColor">@color/divider</item>
+    </style>
+
 </resources>

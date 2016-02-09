@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.net.Uri;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -22,6 +23,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.yipl.nrna.R;
@@ -211,7 +215,7 @@ public class AudioDetailActivity extends FacebookActivity implements
         menu.findItem(R.id.action_share).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon
                 .gmd_share).color(getResources().getColor(R.color.black_alpha_55))
                 .actionBar());
-
+        showCaseView();
         return true;
     }
 
@@ -406,5 +410,23 @@ public class AudioDetailActivity extends FacebookActivity implements
     private void updateSeekBar() {
         seekbarHandler.removeCallbacks(updateSeekTime);
         seekbarHandler.postDelayed(updateSeekTime, 100);
+    }
+
+    public void showCaseView(){
+
+        ShowcaseView menuShowcaseView = new ShowcaseView.Builder(this)
+                .setStyle(R.style.showcase)
+                .setContentText(getString(R.string.showcase_auido_download_detail))
+                .setContentTitle(getString(R.string.showcase_audio_download_title))
+                .withMaterialShowcase()
+                .singleShot(MyConstants.ShowCase.AudioActivity)
+                .setTarget(new Target() {
+                    @Override
+                    public Point getPoint() {
+                        return new ViewTarget(getToolbar().findViewById(R.id.action_download)).getPoint();
+                    }
+                })
+                .build();
+
     }
 }
