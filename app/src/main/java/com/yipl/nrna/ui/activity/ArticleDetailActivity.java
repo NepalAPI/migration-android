@@ -1,20 +1,15 @@
 package com.yipl.nrna.ui.activity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.CardView;
-import android.view.LayoutInflater;
+import android.support.design.widget.Snackbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
@@ -25,18 +20,15 @@ import com.yipl.nrna.domain.model.FileData;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.PostDetailPresenter;
-import com.yipl.nrna.ui.fragment.PdfViewerDialogFragment;
 import com.yipl.nrna.ui.interfaces.PostDetailView;
-import com.yipl.nrna.util.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 
-public class ArticleDetailActivity extends FacebookActivity implements PostDetailView{
+public class ArticleDetailActivity extends FacebookActivity implements PostDetailView {
 
     Long mId;
     @Inject
@@ -162,15 +154,14 @@ public class ArticleDetailActivity extends FacebookActivity implements PostDetai
                 @Override
                 public void onClick(View v) {
                     if (type.equals("pdf")) {
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        Fragment prev = getSupportFragmentManager().findFragmentByTag("pdfViewer");
-                        if (prev != null) {
-                            ft.remove(prev);
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(Uri.parse(document), "application/pdf");
+                        try {
+                            startActivity(intent);
+                        } catch (ActivityNotFoundException e) {
+                            Snackbar.make(mDocumentContainer, "No Applicaiton Found To Open pdf", Snackbar.LENGTH_SHORT).show();
                         }
-                        ft.addToBackStack(null);
 
-                        PdfViewerDialogFragment newFragment = PdfViewerDialogFragment.newInstance(document);
-                        newFragment.show(ft, "pdfViewer");
                     } else {
                         //// TODO: 2/10/2016  Doc Download
 

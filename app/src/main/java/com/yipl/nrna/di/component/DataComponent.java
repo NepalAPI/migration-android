@@ -18,7 +18,6 @@ import com.yipl.nrna.ui.fragment.CountryListFragment;
 import com.yipl.nrna.ui.fragment.FilterDialogFragment;
 import com.yipl.nrna.ui.fragment.HomeFragment;
 import com.yipl.nrna.ui.fragment.InfoCenterContentFragment;
-import com.yipl.nrna.ui.fragment.PdfViewerDialogFragment;
 import com.yipl.nrna.ui.fragment.PostListFragment;
 import com.yipl.nrna.ui.fragment.QuestionListFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
@@ -78,6 +77,4 @@ public interface DataComponent extends ActivityComponent {
     void inject(AudioDetailActivity pActivity);
 
     void inject(DownloadStateReceiver pReceiver);
-
-    void inject(PdfViewerDialogFragment pFragment);
 }
