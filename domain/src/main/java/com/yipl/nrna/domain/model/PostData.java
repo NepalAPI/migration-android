@@ -1,6 +1,8 @@
 package com.yipl.nrna.domain.model;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by julian on 12/9/15.
@@ -10,6 +12,15 @@ public class PostData implements Serializable {
     String content;
     String thumbnail;
     String duration;
+    List<FileData> fileData;
+
+    public List<FileData> getFileData() {
+        return fileData;
+    }
+
+    public void setFileData(List<FileData> pFileData) {
+        fileData = pFileData;
+    }
 
     public String getMediaUrl() {
         return mediaUrl;

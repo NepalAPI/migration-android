@@ -30,6 +30,7 @@ ext {
     iconicsVersion = '2.5.2@aar'
     iconicsGoogleVersion = '2.1.0.1.original@aar'
     showCaseVersion = '5.4.0'
+    pdfViewerVersion = '1.0.4@aar'
 
     //Testing
     robolectricVersion = '3.0'
@@ -63,6 +64,7 @@ ext {
             iconics:            "com.mikepenz:iconics-core:${iconicsVersion}",
             iconicsGoogle:      "com.mikepenz:google-material-typeface:${iconicsGoogleVersion}",
             showCase:            "com.github.amlcurran.showcaseview:library:${showCaseVersion}",
+            pdfViewer:          "com.joanzapata.pdfview:android-pdfview:${pdfViewerVersion}",
     ]
 
     appTestDependencies = [

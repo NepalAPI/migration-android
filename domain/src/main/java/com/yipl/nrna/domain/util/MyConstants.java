@@ -150,6 +150,7 @@ public class MyConstants {
         public static final String KEY_PERSONALIZATION_LAUNCH = "key_personalization";
 
         public static final String INTENT_FILTER = "filter_intent";
+        public static final String KEY_PDF_URL = "pdf_url";
     }
 
     public static class DATABASE {

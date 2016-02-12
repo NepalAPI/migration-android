@@ -112,4 +112,8 @@
     <string name="showcase_audio_download_title">Download Audio</string>
     <string name="showcase_auido_download_detail">Click here to download audio and save in phone</string>
 
+    <string name="related_document">Related Documents</string>
+    <string name="download">Download</string>
+    <string name="view_pdf">View Pdf</string>
+
 </resources>

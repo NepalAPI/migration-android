@@ -2,6 +2,8 @@ package com.yipl.nrna.data.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by julian on 12/9/15.
  */
@@ -11,6 +13,7 @@ public class PostDataEntity {
     String content;
     String thumbnail;
     String duration;
+    List<FileDataEntity> file;
 
     public String getMediaUrl() {
         return mediaUrl;
@@ -43,4 +46,14 @@ public class PostDataEntity {
     public void setDuration(String pDuration) {
         duration = pDuration;
     }
+
+
+    public List<FileDataEntity> getFile() {
+        return file;
+    }
+
+    public void setFile(List<FileDataEntity> pFile) {
+        file = pFile;
+    }
+
 }
