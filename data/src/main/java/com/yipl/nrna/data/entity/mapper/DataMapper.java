@@ -4,6 +4,7 @@ import com.yipl.nrna.data.di.PerActivity;
 import com.yipl.nrna.data.entity.AnswerEntity;
 import com.yipl.nrna.data.entity.CountryEntity;
 import com.yipl.nrna.data.entity.CountryUpdateEntity;
+import com.yipl.nrna.data.entity.FileDataEntity;
 import com.yipl.nrna.data.entity.LatestContentEntity;
 import com.yipl.nrna.data.entity.PostDataEntity;
 import com.yipl.nrna.data.entity.PostEntity;
@@ -11,11 +12,13 @@ import com.yipl.nrna.data.entity.QuestionEntity;
 import com.yipl.nrna.domain.model.Answer;
 import com.yipl.nrna.domain.model.Country;
 import com.yipl.nrna.domain.model.CountryUpdate;
+import com.yipl.nrna.domain.model.FileData;
 import com.yipl.nrna.domain.model.LatestContent;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.PostData;
 import com.yipl.nrna.domain.model.Question;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -189,7 +192,24 @@ public class DataMapper {
             data.setMediaUrl(pEntity.getMediaUrl());
             data.setDuration(pEntity.getDuration());
             data.setThumbnail(pEntity.getThumbnail());
+            data.setFileData(transformFileData(pEntity.getFile()));
         }
         return data;
+    }
+
+    public List<FileData> transformFileData(List<FileDataEntity> pEntities){
+
+        List<FileData> fileList = new ArrayList<>();
+        if(pEntities != null){
+            for (FileDataEntity entity : pEntities) {
+                if(entity!= null) {
+                    FileData data = new FileData();
+                    data.setFileUrl(entity.getFileUrl());
+                    data.setDescription(entity.getDescription());
+                    fileList.add(data);
+                }
+            }
+        }
+        return fileList;
     }
 }

@@ -37,6 +37,8 @@ import com.yipl.nrna.domain.repository.IBaseRepository;
 import com.yipl.nrna.domain.repository.IRepository;
 import com.yipl.nrna.domain.repository.QRepository;
 import com.yipl.nrna.domain.util.MyConstants;
+import com.yipl.nrna.presenter.PdfViewerDialogFragmentPresenter;
+import com.yipl.nrna.ui.fragment.PdfViewerDialogFragment;
 
 import javax.inject.Named;
 
