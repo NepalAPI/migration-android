@@ -43,7 +43,7 @@ public class PostListPresenter implements Presenter {
 
     @Override
     public void initialize() {
-        loadArticleList();
+        loadPostList();
     }
 
     @Override
@@ -51,18 +51,18 @@ public class PostListPresenter implements Presenter {
         mView = (PostListView) view;
     }
 
-    private void loadArticleList() {
+    private void loadPostList() {
         mView.hideRetryView();
         mView.showLoadingView();
         mView.hideEmptyView();
-        getArticleList();
+        getPostList();
     }
 
-    private void getArticleList() {
-        this.mUseCase.execute(new ArticleSubscriber());
+    private void getPostList() {
+        this.mUseCase.execute(new PostSubscriber());
     }
 
-    private final class ArticleSubscriber extends DefaultSubscriber<List<Post>> {
+    private final class PostSubscriber extends DefaultSubscriber<List<Post>> {
 
         @Override
         public void onCompleted() {

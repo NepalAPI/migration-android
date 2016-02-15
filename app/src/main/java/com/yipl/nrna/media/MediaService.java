@@ -149,7 +149,7 @@ public class MediaService extends Service implements
             }
             mPlayer.setDataSource(this, Uri.parse(path));
         } else {
-            mPlayer.setDataSource(mediaUrl);
+            mPlayer.setDataSource(mediaUrl.replace(" ", "%20"));
         }
     }
 

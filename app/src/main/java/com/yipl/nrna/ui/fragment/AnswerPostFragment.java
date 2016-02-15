@@ -155,7 +155,8 @@ public class AnswerPostFragment extends BaseFragment implements PostListView {
 
     private void initialize() {
         DaggerDataComponent.builder()
-                .dataModule(new DataModule(mAnswerId, MyConstants.DataParent.ANSWER, null, false))
+                .dataModule(new DataModule(mAnswerId, MyConstants.DataParent.ANSWER, null, false,
+                        false))
                 .activityModule(((BaseActivity) getActivity()).getActivityModule())
                 .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                 .build()

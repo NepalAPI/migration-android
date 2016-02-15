@@ -29,6 +29,7 @@ public class QuestionRepository implements IBaseRepository<Question> {
 
     @Override
     public Observable<Question> getSingle(Long pId) {
-        throw new UnsupportedOperationException();
+        return mDataStoreFactory.createDBDataStore().getQuestionById(pId)
+                .map(pQuestionEntity -> mDataMapper.transformQuestion(pQuestionEntity));
     }
 }

@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yipl.nrna.R;
-import com.yipl.nrna.ui.fragment.AnswerListFragment;
 import com.yipl.nrna.ui.fragment.ArticleListFragment;
 import com.yipl.nrna.ui.fragment.AudioListFragment;
+import com.yipl.nrna.ui.fragment.QuestionDetailFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
 
 /**
@@ -43,16 +43,16 @@ public class QuestionAnswerPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment;
         switch (position) {
             case 0:
-                fragment = AnswerListFragment.newInstance(mQuestionId);
+                fragment = QuestionDetailFragment.newInstance(mQuestionId, false);
                 break;
             case 1:
-                fragment = AudioListFragment.newInstance(mQuestionId);
+                fragment = AudioListFragment.newInstance(mQuestionId, true);
                 break;
             case 2:
-                fragment = VideoListFragment.newInstance(mQuestionId);
+                fragment = VideoListFragment.newInstance(mQuestionId, true);
                 break;
             case 3:
-                fragment = ArticleListFragment.newInstance(mQuestionId);
+                fragment = ArticleListFragment.newInstance(mQuestionId, true);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid index...");

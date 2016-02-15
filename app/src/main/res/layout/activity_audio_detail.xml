@@ -19,44 +19,39 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/spacing_standard"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:statusBarScrim="?attr/colorPrimaryDark">
 
-            <RelativeLayout
-                android:layout_width="@dimen/player_art_size"
-                android:layout_height="@dimen/player_art_size"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/appbar_content_margin_top"
-                android:background="@drawable/podcast_art_bg"
-                app:layout_collapseMode="parallax">
-
-                <!--<ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_headset_large"/>-->
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/content_art"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    fresco:actualImageScaleType="centerCrop"
-                    fresco:placeholderImage="@drawable/ic_headset_large"
-                    fresco:placeholderImageScaleType="center"
-                    fresco:roundAsCircle="true"
-                    fresco:roundedCornerRadius="@dimen/player_art_radius"/>
-            </RelativeLayout>
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/content_art"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/audio_toolbar_image_height"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="parallax"
+                fresco:actualImageScaleType="focusCrop"
+                fresco:backgroundImage="@color/colorPrimary"
+                fresco:fadeDuration="300"
+                fresco:failureImageScaleType="centerInside"
+                fresco:placeholderImage="@drawable/podcast_art_bg"
+                fresco:placeholderImageScaleType="center"/>
+            <!--<com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/content_art"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                fresco:actualImageScaleType="centerCrop"
+                fresco:placeholderImage="@drawable/ic_headset_large"
+                fresco:placeholderImageScaleType="center"/>-->
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:gravity="top"
-                android:theme="@style/AppTheme.PopupOverlay"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:layout_collapseMode="pin"/>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -143,7 +138,7 @@
         android:id="@+id/play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_media_pause"
+        android:src="@drawable/ic_pause"
         app:backgroundTint="@color/colorPrimary"
         app:layout_anchor="@id/playerControls"
         app:layout_anchorGravity="top|center"

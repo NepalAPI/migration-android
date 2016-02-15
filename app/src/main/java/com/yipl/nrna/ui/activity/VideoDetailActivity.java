@@ -20,7 +20,7 @@ import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.PostDetailPresenter;
 import com.yipl.nrna.ui.interfaces.PostDetailView;
-import com.yipl.nrna.util.Logger;
+import com.yipl.nrna.data.utils.Logger;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -180,4 +180,8 @@ public class VideoDetailActivity extends FacebookActivity implements PostDetailV
         return "";
     }
 
+    @Override
+    public void onDownloadStarted(String message) {
+        throw new UnsupportedOperationException();
+    }
 }

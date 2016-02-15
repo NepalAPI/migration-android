@@ -151,6 +151,8 @@ public class MyConstants {
 
         public static final String INTENT_FILTER = "filter_intent";
         public static final String KEY_PDF_URL = "pdf_url";
+        public static final String KEY_INCLUDE_CHILD_CONTENTS = "key_include_child_contents";
+        public static final String KEY_IS_SUB_QUESTION = "key_is_sub_question";
     }
 
     public static class DATABASE {
@@ -205,19 +207,24 @@ public class MyConstants {
             public static String COLUMN_ID = "id";
             public static String COlUMN_UPDATED_AT = "updated_date";
             public static String COLUMN_CREATED_AT = "created_date";
+            public static String COLUMN_PARENT_ID = "parent_id";
             public static String COLUMN_TAGS = "tags";
             public static String COLUMN_LANGUAGE = "language";
-            public static String COLUMN_QUESTION = "question";
+            public static String COLUMN_TITLE = "title";
+            public static String COLUMN_ANSWER = "answer";
             public static String COLUMN_STAGE = "stage";
+            public static String COLUMN_CHILD_IDS = "child_ids";
 
             public static String CREATE_TABLE_QUESTION = "Create table " + TABLE_NAME + "( " +
                     COLUMN_ID + TYPE_INTEGER + " primary key " + COMMA +
                     COlUMN_UPDATED_AT + TYPE_INTEGER + COMMA +
                     COLUMN_CREATED_AT + TYPE_INTEGER + COMMA +
+                    COLUMN_PARENT_ID + TYPE_INTEGER + COMMA +
                     COLUMN_TAGS + TYPE_TEXT + COMMA +
                     COLUMN_LANGUAGE + TYPE_TEXT + COMMA +
                     COLUMN_STAGE + TYPE_TEXT + COMMA +
-                    COLUMN_QUESTION + TYPE_TEXT +
+                    COLUMN_ANSWER + TYPE_TEXT + COMMA +
+                    COLUMN_TITLE + TYPE_TEXT +
                     " );";
 
         }

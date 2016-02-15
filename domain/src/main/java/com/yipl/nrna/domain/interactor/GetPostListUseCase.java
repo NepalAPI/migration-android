@@ -21,19 +21,21 @@ public class GetPostListUseCase extends UseCase<List<Post>> {
     private final Long mId;
     private final MyConstants.DataParent mDataParent;
     private int mDownloadStatus;
+    private boolean mIncludeChildContents;
 
     @Inject
     public GetPostListUseCase(int pLimit, Long pId, MyConstants.DataParent pDataParent,
                               MyConstants.PostType pType, MyConstants.Stage pStage, int
-                                      pDownloadStatus, IRepository pRepository, ThreadExecutor
-                                      pThreadExecutor, PostExecutionThread
-                                      pPostExecutionThread) {
+                                      pDownloadStatus, boolean pIncludeChildContents, IRepository
+                                          pRepository, ThreadExecutor pThreadExecutor,
+                              PostExecutionThread pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
         mRepository = pRepository;
         mLimit = pLimit;
         mType = pType;
         mStage = pStage;
         mDownloadStatus = pDownloadStatus;
+        mIncludeChildContents = pIncludeChildContents;
         mId = pId;
         mDataParent = pDataParent;
     }
@@ -43,7 +45,8 @@ public class GetPostListUseCase extends UseCase<List<Post>> {
         if (mId != Long.MIN_VALUE) {
             if (mDataParent == MyConstants.DataParent.QUESTION) {
                 return mRepository.getListByQuestion(mId, MyConstants.Stage.toString
-                        (mStage), MyConstants.PostType.toString(mType), mDownloadStatus, mLimit);
+                        (mStage), MyConstants.PostType.toString(mType), mDownloadStatus, mLimit,
+                        mIncludeChildContents);
             } else if (mDataParent == MyConstants.DataParent.ANSWER) {
                 return mRepository.getListByAnswer(mId, MyConstants.Stage.toString
                         (mStage), MyConstants.PostType.toString(mType), mDownloadStatus, mLimit);

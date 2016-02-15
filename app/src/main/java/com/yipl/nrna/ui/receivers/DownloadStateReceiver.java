@@ -17,7 +17,6 @@ import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.presenter.DownloadCompletePresenter;
 import com.yipl.nrna.ui.interfaces.MvpView;
 import com.yipl.nrna.util.AppPreferences;
-import com.yipl.nrna.util.Logger;
 
 import javax.inject.Inject;
 

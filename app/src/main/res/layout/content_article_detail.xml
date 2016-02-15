@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView
     android:id="@+id/main_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -7,51 +6,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:padding="@dimen/spacing_standard"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.activity.MainActivity"
     tools:showIn="@layout/app_bar_article_detail">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/spacing_standard"
-        android:textColor="@color/text_color_primary"
-        android:textSize="@dimen/text_large"/>
-
-    <WebView
-        android:id="@+id/webContent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/spacing_standard">
-    </WebView>
-    <View
-        android:layout_marginTop="@dimen/spacing_standard"
-        android:layout_marginBottom="@dimen/spacing_standard"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@color/divider"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_large"
-        android:text="@string/related_document"
-        android:padding="@dimen/spacing_small"
-        android:textStyle="bold"
-        />
 
     <LinearLayout
-        android:id="@+id/container_document"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:weightSum="10"
-        android:padding="@dimen/spacing_small">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_large"
+            android:textStyle="bold"/>
+
+        <WebView
+            android:id="@+id/webContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_small"/>
+
+        <LinearLayout
+            android:id="@+id/container_document"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
     </LinearLayout>
-</LinearLayout>
 </ScrollView>

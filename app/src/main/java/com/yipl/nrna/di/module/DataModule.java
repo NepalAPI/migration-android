@@ -18,6 +18,7 @@ import com.yipl.nrna.data.repository.datasource.DataStoreFactory;
 import com.yipl.nrna.data.repository.datasource.DeletedContentRepository;
 import com.yipl.nrna.domain.executor.PostExecutionThread;
 import com.yipl.nrna.domain.executor.ThreadExecutor;
+import com.yipl.nrna.domain.interactor.DeleteContentUseCase;
 import com.yipl.nrna.domain.interactor.DownloadAudioUseCase;
 import com.yipl.nrna.domain.interactor.GetAnswerListUseCase;
 import com.yipl.nrna.domain.interactor.GetCountryDetailUseCase;
@@ -49,13 +50,13 @@ import dagger.Provides;
 @Module
 public class DataModule {
 
-    private long mLastUpdateStamp = Long.MIN_VALUE;
     private long mId = Long.MIN_VALUE;
     private MyConstants.PostType mPostType = null;
     private MyConstants.Stage mStage = null;
     private MyConstants.DataParent mDataParent = null;
     private int mLimit = -1;
     private int mDownloadStatus = -1;
+    private boolean flag = false;
     private UserPreferenceEntity mUserPreferenceEntity;
 
     public DataModule() {
@@ -66,17 +67,14 @@ public class DataModule {
     }
 
     public DataModule(long pId, MyConstants.DataParent pDataParent, MyConstants.PostType pType,
-                      Boolean pDownloadStatus) {
+                      Boolean pDownloadStatus, boolean includeChildContents) {
         mId = pId;
         mDataParent = pDataParent;
         mPostType = pType;
         mDownloadStatus = pDownloadStatus != null
                 ? pDownloadStatus ? 1 : 0
                 : -1;
-    }
-
-    public DataModule(long pLastUpdateStamp, int flag) {
-        mLastUpdateStamp = pLastUpdateStamp;
+        flag = includeChildContents;
     }
 
     public DataModule(int pLimit) {
@@ -122,24 +120,31 @@ public class DataModule {
     UseCase provideLatestContentUseCase(@Named("latest") IBaseRepository pDataRepository,
                                         ThreadExecutor pThreadExecutor, PostExecutionThread
                                                 pPostExecutionThread) {
-        return new GetLatestContentUseCase(mLastUpdateStamp, pDataRepository, pThreadExecutor,
-                pPostExecutionThread);
+        return new GetLatestContentUseCase(pDataRepository, pThreadExecutor, pPostExecutionThread);
     }
 
     @Provides
     @PerActivity
     @Named("latest")
     IBaseRepository provideLatestContentDataRepository(DataStoreFactory pDataStoreFactory,
-                                                       DataMapper
-                                                               pDataMapper) {
+                                                       DataMapper pDataMapper) {
         return new LatestContentRepository(pDataStoreFactory, pDataMapper);
     }
 
     @Provides
     @PerActivity
     @Named("deleted")
+    UseCase provideDeleteContentUseCase(@Named("deleted") IBaseRepository pDataRepository,
+                                        ThreadExecutor pThreadExecutor, PostExecutionThread
+                                                pPostExecutionThread) {
+        return new DeleteContentUseCase(pDataRepository, pThreadExecutor, pPostExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("deleted")
     IBaseRepository provideDeletedContentRepository(DataStoreFactory pDataStoreFactory) {
-        return new DeletedContentRepository(pDataStoreFactory, mLastUpdateStamp);
+        return new DeletedContentRepository(pDataStoreFactory);
     }
 
     @Provides
@@ -148,7 +153,8 @@ public class DataModule {
     UseCase providePostListUseCase(@Named("post") IRepository pDataRepository, ThreadExecutor
             pThreadExecutor,
                                    PostExecutionThread pPostExecutionThread) {
-        return new GetPostListUseCase(mLimit, mId, mDataParent, mPostType, mStage, mDownloadStatus,
+        return new GetPostListUseCase(mLimit, mId, mDataParent, mPostType, mStage,
+                mDownloadStatus, flag,
                 pDataRepository,
                 pThreadExecutor,
                 pPostExecutionThread);
@@ -161,7 +167,8 @@ public class DataModule {
                                     ThreadExecutor pThreadExecutor, PostExecutionThread
                                             pPostExecutionThread) {
         return new GetPostListUseCase(mLimit, mId, mDataParent, MyConstants.PostType.AUDIO,
-                mStage, mDownloadStatus, pDataRepository, pThreadExecutor, pPostExecutionThread);
+                mStage, mDownloadStatus, flag, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
     }
 
     @Provides
@@ -171,7 +178,8 @@ public class DataModule {
                                     ThreadExecutor pThreadExecutor, PostExecutionThread
                                             pPostExecutionThread) {
         return new GetPostListUseCase(mLimit, mId, mDataParent, MyConstants.PostType.VIDEO,
-                mStage, mDownloadStatus, pDataRepository, pThreadExecutor, pPostExecutionThread);
+                mStage, mDownloadStatus, flag, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
     }
 
     @Provides
@@ -181,7 +189,8 @@ public class DataModule {
                                       ThreadExecutor pThreadExecutor, PostExecutionThread
                                               pPostExecutionThread) {
         return new GetPostListUseCase(mLimit, mId, mDataParent, MyConstants.PostType.TEXT,
-                mStage, mDownloadStatus, pDataRepository, pThreadExecutor, pPostExecutionThread);
+                mStage, mDownloadStatus, flag, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
     }
 
     @Provides

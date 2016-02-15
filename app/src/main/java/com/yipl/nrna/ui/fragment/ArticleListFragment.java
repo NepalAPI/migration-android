@@ -48,15 +48,17 @@ public class ArticleListFragment extends ContentListFragment implements PostList
     RelativeLayout mContainer;
 
     Long mQuestionId = Long.MIN_VALUE;
+    boolean mIncludeChildContents = false;
 
     public ArticleListFragment() {
         super();
     }
 
-    public static ArticleListFragment newInstance(Long pId) {
+    public static ArticleListFragment newInstance(Long pId, boolean includeChildContents) {
         ArticleListFragment fragment = new ArticleListFragment();
         Bundle bundle = new Bundle();
         bundle.putLong(MyConstants.Extras.KEY_ID, pId);
+        bundle.putBoolean(MyConstants.Extras.KEY_INCLUDE_CHILD_CONTENTS, includeChildContents);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -98,6 +100,8 @@ public class ArticleListFragment extends ContentListFragment implements PostList
         Bundle bundle = getArguments();
         if (bundle != null) {
             mQuestionId = bundle.getLong(MyConstants.Extras.KEY_ID);
+            mIncludeChildContents = bundle.getBoolean(MyConstants.Extras
+                    .KEY_INCLUDE_CHILD_CONTENTS, false);
         }
     }
 
@@ -132,7 +136,7 @@ public class ArticleListFragment extends ContentListFragment implements PostList
         if (mQuestionId != Long.MIN_VALUE) {
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION,
-                            MyConstants.PostType.TEXT, false))
+                            MyConstants.PostType.TEXT, false, mIncludeChildContents))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()

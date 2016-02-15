@@ -9,10 +9,10 @@
         <item name="android:windowBackground">@color/window_background</item>
     </style>
 
-    <style name="AppTheme.AudioDetail" parent="AppTheme.NoActionBar">
-        <!-- Customize your theme here. -->
+    <!--<style name="AppTheme.AudioDetail" parent="AppTheme.NoActionBar">
+        &lt;!&ndash; Customize your theme here. &ndash;&gt;
         <item name="colorPrimary">#F3F3F3</item>
-    </style>
+    </style>-->
 
     <style name="AppTheme.Personalization" parent="AppTheme.NoActionBar">
         <item name="colorAccent">@color/colorPrimary</item>

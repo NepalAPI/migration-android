@@ -1,11 +1,16 @@
 package com.yipl.nrna.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -59,6 +64,15 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     ListAdapter<Question> mListAdapter;
     List<Question> mQuestions;
 
+    BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            List<String> tagChoices = ((BaseActivity) getActivity()).getPreferences().getFilterTagChoices();
+            List<String> stageChoices = ((BaseActivity) getActivity()).getPreferences().getFilterStageChoices();
+            filterContentList(stageChoices, tagChoices);
+        }
+    };
+
     public QuestionListFragment() {
         super();
     }
@@ -83,6 +97,8 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBroadcastReceiver,
+                new IntentFilter(MyConstants.Extras.INTENT_FILTER));
         initialize();
         setUpAdapter();
         if (savedInstanceState != null) {
@@ -96,6 +112,7 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     @Override
     public void onDestroy() {
         super.onDestroy();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mBroadcastReceiver);
         if (mPresenter != null)
             mPresenter.destroy();
     }

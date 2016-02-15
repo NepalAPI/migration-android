@@ -47,12 +47,15 @@ public class DataMapper {
         if (pEntity != null) {
             Question question = new Question();
             question.setId(pEntity.getId());
+            question.setParentId(pEntity.getParentId());
             question.setTitle(pEntity.getTitle());
+            question.setAnswer(pEntity.getAnswer());
             question.setLanguage(pEntity.getLanguage());
             question.setTags(pEntity.getTags());
             question.setStage(pEntity.getStage());
             question.setCreatedAt(pEntity.getCreatedAt());
             question.setUpdatedAt(pEntity.getUpdatedAt());
+            question.setChildIds(pEntity.getChildIds());
             return question;
         }
         return null;

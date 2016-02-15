@@ -44,6 +44,7 @@ public class PostListFragment extends ContentListFragment implements PostListVie
     private Long mQuestionId = Long.MIN_VALUE;
     private MyConstants.PostType mType = null;
     private Boolean mDownloadStatus = null;
+    private boolean mIncludeChildContents = false;
 
     public PostListFragment() {
         super();
@@ -56,6 +57,7 @@ public class PostListFragment extends ContentListFragment implements PostListVie
         data.putLong(MyConstants.Extras.KEY_ID, pId);
         data.putSerializable(MyConstants.Extras.KEY_TYPE, pType);
         data.putBoolean(MyConstants.Extras.KEY_DOWNLOAD_STATUS, pDownloadStatus);
+        data.putBoolean(MyConstants.Extras.KEY_INCLUDE_CHILD_CONTENTS, false);
         fragment.setArguments(data);
         return fragment;
     }
@@ -98,6 +100,8 @@ public class PostListFragment extends ContentListFragment implements PostListVie
         if (data != null) {
             mQuestionId = data.getLong(MyConstants.Extras.KEY_ID);
             mDownloadStatus = data.getBoolean(MyConstants.Extras.KEY_DOWNLOAD_STATUS);
+            mIncludeChildContents = data.getBoolean(MyConstants.Extras.KEY_INCLUDE_CHILD_CONTENTS,
+                    false);
             mType = (MyConstants.PostType) data.getSerializable(MyConstants.Extras.KEY_TYPE);
         }
     }
@@ -134,7 +138,7 @@ public class PostListFragment extends ContentListFragment implements PostListVie
         if (mQuestionId != Long.MIN_VALUE) {
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION,
-                            mType, mDownloadStatus))
+                            mType, mDownloadStatus, mIncludeChildContents))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
                     .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                     .build()
