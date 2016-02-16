@@ -33,4 +33,9 @@ public class LatestContentRepository implements IBaseRepository<LatestContent> {
                         (pLatestContentEntity));
     }
 
+    @Override
+    public Observable<List<LatestContent>> getListByStage(String pStage, int pLimit) {
+        throw new UnsupportedOperationException();
+    }
+
 }

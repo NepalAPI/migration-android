@@ -144,7 +144,7 @@ public class DatabaseDao {
         question.setAnswer(cursor.getString(cursor.getColumnIndex(TABLE_QUESTION
                 .COLUMN_ANSWER)));
         question.setStage(cursor.getString(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_STAGE)));
-
+        question.setWeight(cursor.getLong(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_WEIGHT)));
         if(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_CHILD_IDS) != -1)
             question.setChildIds(cursor.getString(cursor.getColumnIndex(TABLE_QUESTION
                     .COLUMN_CHILD_IDS)));
@@ -367,12 +367,13 @@ public class DatabaseDao {
     public Observable<List<QuestionEntity>> getAllQuestions(String pStage, int pLimit) {
         String query = "Select * from " +
                 TABLE_QUESTION.TABLE_NAME;
-        if (pStage != null) {
-            query += TABLE_QUESTION.COLUMN_STAGE + " LIKE '%\"" + pStage + "\"%'";
-        }
+
         query += " where coalesce(" + TABLE_QUESTION.COLUMN_PARENT_ID + ", '') = '' or " +
                 TABLE_QUESTION.COLUMN_PARENT_ID + " = 0 ";
-        query += " order by " + TABLE_QUESTION.COlUMN_UPDATED_AT +
+        if (pStage != null) {
+            query += " and " +TABLE_QUESTION.COLUMN_STAGE + " = '" + pStage + "'";
+        }
+        query += " order by " + TABLE_QUESTION.COLUMN_WEIGHT +
                 " DESC LIMIT " + pLimit;
         Logger.d("DatabaseDao_getAllQuestions", "question query: " + query);
         Cursor cursor = db.rawQuery(query, null);
@@ -833,6 +834,7 @@ public class DatabaseDao {
         values.put(TABLE_QUESTION.COLUMN_STAGE, pQuestion.getStage());
         values.put(TABLE_QUESTION.COLUMN_TITLE, pQuestion.getTitle());
         values.put(TABLE_QUESTION.COLUMN_ANSWER, pQuestion.getAnswer());
+        values.put(TABLE_QUESTION.COLUMN_WEIGHT, pQuestion.getWeight());
         return values;
     }
 

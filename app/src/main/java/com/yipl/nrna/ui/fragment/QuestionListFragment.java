@@ -29,6 +29,7 @@ import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.di.component.DaggerDataComponent;
+import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.QuestionListFragmentPresenter;
@@ -63,6 +64,7 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
 
     ListAdapter<Question> mListAdapter;
     List<Question> mQuestions;
+    MyConstants.Stage mStage;
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -77,8 +79,11 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
         super();
     }
 
-    public static QuestionListFragment newInstance() {
+    public static QuestionListFragment newInstance(MyConstants.Stage pStage) {
         QuestionListFragment fragment = new QuestionListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MyConstants.Extras.KEY_STAGE, pStage);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -99,6 +104,10 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
         super.onActivityCreated(savedInstanceState);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBroadcastReceiver,
                 new IntentFilter(MyConstants.Extras.INTENT_FILTER));
+        Bundle bundle = getArguments();
+        if(bundle!=null){
+            mStage = (MyConstants.Stage) bundle.getSerializable(MyConstants.Extras.KEY_STAGE);
+        }
         initialize();
         setUpAdapter();
         if (savedInstanceState != null) {
@@ -176,6 +185,7 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
 
     private void initialize() {
         DaggerDataComponent.builder()
+                .dataModule(new DataModule(mStage))
                 .activityModule(((BaseActivity) getActivity()).getActivityModule())
                 .applicationComponent(((BaseActivity) getActivity()).getApplicationComponent())
                 .build()

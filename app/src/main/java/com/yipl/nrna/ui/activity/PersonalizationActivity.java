@@ -305,11 +305,11 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
         String deviceId = Settings.Secure.getString(getContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         mUserPreferenceEntity.setDeviceId(deviceId);
-        savePreferences();
         getPreferences().setFirstTime(false);
 
         switch (v.getId()) {
             case R.id.btnDone:
+                savePreferences();
                 DaggerDataComponent.builder()
                         .dataModule(new DataModule(mUserPreferenceEntity))
                         .activityModule(getActivityModule())

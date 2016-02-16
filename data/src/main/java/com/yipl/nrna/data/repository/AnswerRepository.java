@@ -32,6 +32,11 @@ public class AnswerRepository implements QRepository<Answer> {
     }
 
     @Override
+    public Observable<List<Answer>> getListByStage(String pStage, int pLimit) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Observable<List<Answer>> getListByQuestion(Long pQuestionId, int pLimit) {
         return mDataStoreFactory.createDBDataStore()
                 .getAnswersByQuestion(pQuestionId, pLimit)

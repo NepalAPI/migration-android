@@ -56,6 +56,7 @@ public class DataMapper {
             question.setCreatedAt(pEntity.getCreatedAt());
             question.setUpdatedAt(pEntity.getUpdatedAt());
             question.setChildIds(pEntity.getChildIds());
+            question.setWeight(pEntity.getWeight());
             return question;
         }
         return null;

@@ -30,6 +30,11 @@ public class CountryUpdateRepository implements CRepository<CountryUpdate> {
     }
 
     @Override
+    public Observable<List<CountryUpdate>> getListByStage(String pStage, int pLimit) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Observable<List<CountryUpdate>> getListByCountry(Long pCountryId, int pLimit) {
         return mDataStoreFactory.createDBDataStore()
                 .getUpdatesByCountry(pCountryId, pLimit)

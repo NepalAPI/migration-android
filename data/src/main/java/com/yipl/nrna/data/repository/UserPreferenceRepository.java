@@ -30,4 +30,9 @@ public class UserPreferenceRepository implements IBaseRepository<Boolean> {
     public Observable<Boolean> getSingle(Long id) {
         return mDataStoreFactory.createRestDataStore().sendUserPreference(mUserPreferenceEntity);
     }
+
+    @Override
+    public Observable<List<Boolean>> getListByStage(String pStage, int pLimit) {
+        throw new UnsupportedOperationException();
+    }
 }
