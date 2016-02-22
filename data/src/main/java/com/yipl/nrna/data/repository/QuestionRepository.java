@@ -32,4 +32,11 @@ public class QuestionRepository implements IBaseRepository<Question> {
         return mDataStoreFactory.createDBDataStore().getQuestionById(pId)
                 .map(pQuestionEntity -> mDataMapper.transformQuestion(pQuestionEntity));
     }
+
+    @Override
+    public Observable<List<Question>> getListByStage(String pStage, int pLimit) {
+        return mDataStoreFactory.createDBDataStore().getAllQuestion(pStage, pLimit).map(
+                questionEntities -> mDataMapper.transformQuestion(questionEntities)
+        );
+    }
 }

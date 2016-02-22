@@ -44,11 +44,11 @@ public class CountryInfoPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return AboutFragment.newInstance(mCountry);
             case 1:
-                return UpdatesFragment.newInstance(mCountry.getId());
+                return DosAndDontsFragment.newInstance(mCountry);
             case 2:
                 return ContactsFragment.newInstance(mCountry);
             case 3:
-                return DosAndDontsFragment.newInstance(mCountry);
+                return UpdatesFragment.newInstance(mCountry.getId());
             case 4:
                 return RelatedContentFragment.newInstance(mCountry.getId());
             default:

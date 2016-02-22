@@ -34,6 +34,7 @@ import com.yipl.nrna.ui.fragment.CountryListFragment;
 import com.yipl.nrna.ui.fragment.HomeFragment;
 import com.yipl.nrna.ui.fragment.InfoCenterFragment;
 import com.yipl.nrna.ui.fragment.PostListFragment;
+import com.yipl.nrna.ui.fragment.QuestionListContainerFragment;
 import com.yipl.nrna.ui.fragment.QuestionListFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
@@ -205,7 +206,7 @@ public class MainActivity extends BaseActivity implements
             case R.id.nav_questions:
                 getSupportActionBar().setTitle(getString(R.string.title_questions));
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.main_content, new QuestionListFragment(), "question_fragment")
+                        .replace(R.id.main_content, new QuestionListContainerFragment(), "question_list_fragment")
                         .commit();
                 break;
             case R.id.nav_countries:

@@ -32,4 +32,9 @@ public class CountryRepository implements IBaseRepository<Country> {
                 .getCountryById(pId)
                 .map(pCountryEntity -> mDataMapper.transformCountry(pCountryEntity));
     }
+
+    @Override
+    public Observable<List<Country>> getListByStage(String pStage, int pLimit) {
+        throw new UnsupportedOperationException();
+    }
 }

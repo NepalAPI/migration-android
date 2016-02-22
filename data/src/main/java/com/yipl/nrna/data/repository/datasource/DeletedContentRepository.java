@@ -38,4 +38,10 @@ public class DeletedContentRepository implements IBaseRepository {
                     return null;
                 });
     }
+
+    @Override
+    public Observable<List> getListByStage(String pStage, int pLimit) {
+        throw new UnsupportedOperationException();
+
+    }
 }

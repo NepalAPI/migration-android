@@ -19,6 +19,7 @@ public class Question extends BaseModel {
     String mAnswer;
     String mStage;
     String childIds;
+    Long weight;
 
     public Question() {
         setDataType(MyConstants.Adapter.TYPE_QUESTION);
@@ -111,4 +112,10 @@ public class Question extends BaseModel {
     public void setChildIds(String pChildIds) {
         childIds = pChildIds;
     }
+
+
+    public Long getWeight() {return weight; }
+
+    public void setWeight(Long pWeight) {weight = pWeight; }
+
 }

@@ -46,9 +46,9 @@
 
     <string-array name="country_info">
         <item>About</item>
-        <item>Updates</item>
-        <item>Contacts</item>
         <item>Dos and Don\'ts</item>
+        <item>Contacts</item>
+        <item>Updates</item>
         <item>Content</item>
     </string-array>
 

@@ -34,6 +34,11 @@ public class PostRepository implements IRepository<Post> {
     }
 
     @Override
+    public Observable<List<Post>> getListByStage(String pStage, int pLimit) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Observable<List<Post>> getListByDownloadStatus(int pDownloadStatus, int pLimit) {
         return mDataStoreFactory.createDBDataStore()
                 .getAllPosts(null, null, pDownloadStatus, pLimit)

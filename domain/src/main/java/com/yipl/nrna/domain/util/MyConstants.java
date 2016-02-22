@@ -97,7 +97,7 @@ public class MyConstants {
 
     public static class DataInfo {
         public static final String STAGE_PRE_APPLICATION = "pre-application";
-        public static final String STAGE_APPLICATION = "application";
+        public static final String STAGE_APPLICATION = "applying";
         public static final String STAGE_WORK_PERMIT = "work-permit";
         public static final String STAGE_DESTINATION_COUNTRY = "destination-country";
 
@@ -214,6 +214,7 @@ public class MyConstants {
             public static String COLUMN_ANSWER = "answer";
             public static String COLUMN_STAGE = "stage";
             public static String COLUMN_CHILD_IDS = "child_ids";
+            public static String COLUMN_WEIGHT = "weight";
 
             public static String CREATE_TABLE_QUESTION = "Create table " + TABLE_NAME + "( " +
                     COLUMN_ID + TYPE_INTEGER + " primary key " + COMMA +
@@ -224,7 +225,8 @@ public class MyConstants {
                     COLUMN_LANGUAGE + TYPE_TEXT + COMMA +
                     COLUMN_STAGE + TYPE_TEXT + COMMA +
                     COLUMN_ANSWER + TYPE_TEXT + COMMA +
-                    COLUMN_TITLE + TYPE_TEXT +
+                    COLUMN_TITLE + TYPE_TEXT + COMMA +
+                    COLUMN_WEIGHT + TYPE_INTEGER +
                     " );";
 
         }

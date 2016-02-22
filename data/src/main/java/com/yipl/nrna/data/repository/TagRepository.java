@@ -30,4 +30,9 @@ public class TagRepository implements IBaseRepository<String> {
     public Observable<String> getSingle(Long id) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public Observable<List<String>> getListByStage(String pStage, int pLimit) {
+        throw new UnsupportedOperationException();
+    }
 }

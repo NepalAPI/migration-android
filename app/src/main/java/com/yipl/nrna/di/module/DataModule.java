@@ -282,7 +282,7 @@ public class DataModule {
     UseCase provideQuestionListUseCase(@Named("question") IBaseRepository pDataRepository,
                                        ThreadExecutor
                                                pThreadExecutor, PostExecutionThread pPostExecutionThread) {
-        return new GetQuestionListUseCase(mLimit, pDataRepository, pThreadExecutor,
+        return new GetQuestionListUseCase(mLimit, mStage, pDataRepository, pThreadExecutor,
                 pPostExecutionThread);
     }
 
