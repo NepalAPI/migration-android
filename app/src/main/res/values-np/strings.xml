@@ -6,13 +6,14 @@
     <string name="action_sync">नयाँ सामग्रीहरू प्राप्त गर्नुहोस्</string>
     <string name="action_retry">फेरि प्रयास गर्नुहोस्</string>
     <string name="action_download">डाउनलोड गर्नुहोस</string>
-    <string name="action_share">फेसबुक मा शेयर गर्नुहोस</string>
+    <string name="action_share">शेयर गर्नुहोस</string>
+    <string name="action_share_facebook">फेसबुक मा शेयर गर्नुहोस</string>
     <string name="action_share_bluetooth">ब्लुतूथबाट शेयर गर्नुहोस</string>
 
     <string name="title_home">गृह पृष्ठ</string>
     <string name="title_info_center">सूचना केन्द्र</string>
     <string name="title_countries">गन्तव्य देशहरु</string>
-        <string name="title_audio">अडियोहरु / पोडकास्टहरु</string>
+    <string name="title_audio">अडियोहरु / पोडकास्टहरु</string>
     <string name="title_video">भिडियोहरु</string>
     <string name="title_article">लेखहरु</string>
     <string name="title_questions">तपाइँको प्रश्न हाम्रो समाधान</string>
@@ -33,15 +34,15 @@
     </string-array>
 
     <string-array name="stages">
-        <item>पूर्व- आवेदन</item>
-        <item>आवेदन</item>
-        <item>कार्य अनुमति</item>
-        <item>गन्तव्य देश</item>
+        <item>@string/stage_pre_application</item>
+        <item>@string/stage_application</item>
+        <item>@string/stage_work_permit</item>
+        <item>@string/stage_destination_country</item>
     </string-array>
 
-    <string name="stage_pre_application">पूर्व- आवेदन</string>
+    <string name="stage_pre_application">पूर्ण - आवेदन</string>
     <string name="stage_application">आवेदन</string>
-    <string name="stage_work_permit">कार्यअनुमति </string>
+    <string name="stage_work_permit">कार्य अनुमति</string>
     <string name="stage_destination_country">गन्तव्य देश</string>
 
     <string-array name="country_info">
@@ -58,12 +59,15 @@
     <string name="exception_message_generic">त्रुटि फेला पर्यो</string>
     <string name="exception_message_no_connection">तपाइँको इन्टरनेट जडान जाँच गर्नुहोस्</string>
 
-    <string name="empty_audio">कुनै अडियोहरु / पोडकास्टहर उपलब्ध छैन</string>
+    <string name="sorry_prefix">माफ गर्नुहोला। %1$s</string>
+    <string name="question_related_text">यस प्रश्न समबन्धि  %1$s</string>
+    <string name="stage_related_text">यस चरण समबन्धि  %1$s</string>
+    <string name="empty_audio">कुनै अडियोहरु उपलब्ध छैन</string>
     <string name="empty_video">कुनै भिडियोहरु उपलब्ध छैन</string>
     <string name="empty_country">कुनै देशहरु उपलब्ध छैन</string>
     <string name="empty_answer">कुनै जवाफ उपलब्ध छैन</string>
     <string name="empty_updates">कुनै अप्डेट उपलब्ध छैन</string>
-    <string name="empty_post">कुनै Post उपलब्ध छैन</string>
+    <string name="empty_post">कुनै पोस्ट उपलब्ध छैन</string>
     <string name="empty_info">%1$s चरणको कुनै जानकारी उपलब्ध छैन</string>
     <string name="empty_question">कुनै प्रश्नहर उपलब्ध छैन</string>
     <string name="empty_related_content">सम्बन्धित सामग्री उपलब्ध छैन</string>
@@ -121,4 +125,7 @@
     <string name="cancel">रद्द गर्नुहोस् </string>
 
     <string name="ok">हुन्छ </string>
+    <string name="message_buffering">बफर हुँदैछ ...</string>
+    <string name="read_more">थप पढ्नुहोस्</string>
+    <string name="read_less">कम पढ्नुहोस्</string>
 </resources>

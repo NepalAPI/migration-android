@@ -170,7 +170,7 @@ public class HomeFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Post> pVideos) {
-            if (pVideos!= null && !pVideos.isEmpty()) {
+            if (pVideos != null && !pVideos.isEmpty()) {
                 HomeFragmentPresenter.this.mView.showPostSection(FLAG_VIDEO);
                 HomeFragmentPresenter.this.mView.renderLatestVideos(pVideos);
             } else {

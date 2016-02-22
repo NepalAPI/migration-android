@@ -26,10 +26,10 @@
             android:id="@+id/documentTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/documentAction"
             android:gravity="center_vertical"
             android:padding="@dimen/spacing_small"
-            android:layout_centerVertical="true"
             android:textSize="@dimen/text_big"
             tools:text="Title 1"/>
     </RelativeLayout>

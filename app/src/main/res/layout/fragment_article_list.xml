@@ -6,15 +6,31 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <TextView
-        android:id="@+id/tvNoArticle"
+    <RelativeLayout
+        android:id="@+id/noArticle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="@string/empty_article"
-        android:visibility="gone"
-        />
+        android:padding="@dimen/spacing_standard"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvNoArticle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/empty_article"
+            android:textColor="@color/text_color_primary_faded_70"
+            android:textSize="@dimen/text_big"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tvNoArticle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_standard"
+            android:src="@drawable/ic_no_content"/>
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewArticleList"

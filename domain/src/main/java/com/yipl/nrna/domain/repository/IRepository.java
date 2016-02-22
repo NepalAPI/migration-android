@@ -1,10 +1,14 @@
 package com.yipl.nrna.domain.repository;
 
+import com.yipl.nrna.domain.model.DownloadItem;
+
 import java.util.List;
 
 import rx.Observable;
 
 public interface IRepository<T> extends IBaseRepository<T> {
+    Observable<List<DownloadItem>> getCurrentDownloadList();
+
     Observable<List<T>> getListByDownloadStatus(int pDownloadStatus, int pLimit);
 
     Observable<List<T>> getListByStage(String pType, int pDownloadStatus, int pLimit);

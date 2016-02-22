@@ -22,6 +22,8 @@ public interface AudioDetailActivityView extends MvpView {
 
     void onMediaPrepared();
 
+    void showHidePrevNext(boolean showPrev, boolean showNext);
+
     void onMediaChanged(Post pPost);
 
     void playStatusChanged(boolean isPlaying);

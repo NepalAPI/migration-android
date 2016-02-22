@@ -33,6 +33,10 @@ public class DBDataStore implements IDataStore {
         return database.getAllPosts(pStage, pType, pDownloadStatus, pLimit);
     }
 
+    public Observable<List<PostEntity>> getCurrentDownloads(){
+        return database.getCurrentDownloads();
+    }
+
     public Observable<List<PostEntity>> getPostByQuestion(Long pQuestionId, String pStage, String
             pType, int pDownloadStatus, int pLimit, boolean includeChildContents) {
         return database.getPostByQuestion(pQuestionId, pStage, pType, pDownloadStatus, pLimit,
@@ -49,8 +53,8 @@ public class DBDataStore implements IDataStore {
         return database.getPostByCountry(pCountryId, pStage, pType, pDownloadStatus, pLimit);
     }
 
-    public long updateDownloadStatus(Long pId, boolean pDownloadStatus) {
-        return database.updateDownloadStatus(pId, pDownloadStatus);
+    public long updateDownloadStatus(Long pReference, boolean pDownloadStatus) {
+        return database.updateDownloadStatus(pReference, pDownloadStatus);
     }
 
     public long setDownloadReference(Long pId, long pReference) {

@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yipl.nrna.R;
@@ -53,6 +54,8 @@ public class CountryDetailActivity extends BaseActivity implements CountryDetail
     ViewPager mViewPager;
     @Bind(R.id.image)
     SimpleDraweeView mImage;
+    @Bind(R.id.name)
+    TextView mName;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
     private CountryInfoPagerAdapter mAdapter;
@@ -92,6 +95,7 @@ public class CountryDetailActivity extends BaseActivity implements CountryDetail
     @Override
     public void renderCountryDetail(Country pCountry) {
         mCountry = pCountry;
+        mName.setText(pCountry.getName());
         mImage.setImageURI(Uri.parse(pCountry.getImage()));
         mAdapter = new CountryInfoPagerAdapter(getSupportFragmentManager(), this, mCountry);
         mViewPager.setAdapter(mAdapter);

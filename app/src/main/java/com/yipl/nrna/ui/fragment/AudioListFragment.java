@@ -36,12 +36,14 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
     RecyclerView mRecyclerView;
     @Bind(R.id.tvNoAudio)
     TextView tvNoAudio;
+    @Bind(R.id.noAudio)
+    RelativeLayout mEmptyView;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
     @Bind(R.id.data_container)
     RelativeLayout mContainer;
-    private Long mQuestionId = Long.MIN_VALUE;
     boolean mIncludeChildContents = false;
+    private Long mQuestionId = Long.MIN_VALUE;
 
     public AudioListFragment() {
         super();
@@ -133,6 +135,8 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
 
     private void initialize() {
         if (mQuestionId != Long.MIN_VALUE) {
+            tvNoAudio.setText(getString(R.string.sorry_prefix, getString(R.string
+                    .question_related_text, getString(R.string.empty_audio))));
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION,
                             MyConstants.PostType.AUDIO, false, mIncludeChildContents))
@@ -141,6 +145,7 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
                     .build()
                     .inject(this);
         } else {
+            tvNoAudio.setText(getString(R.string.sorry_prefix, getString(R.string.empty_article)));
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(MyConstants.PostType.AUDIO, false))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
@@ -149,7 +154,6 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
                     .inject(this);
         }
         mPresenter.attachView(this);
-        tvNoAudio.setVisibility(View.GONE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
@@ -185,12 +189,12 @@ public class AudioListFragment extends ContentListFragment implements PostListVi
 
     @Override
     public void showEmptyView() {
-        tvNoAudio.setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideEmptyView() {
-        tvNoAudio.setVisibility(View.INVISIBLE);
+        mEmptyView.setVisibility(View.INVISIBLE);
     }
 
     @Override

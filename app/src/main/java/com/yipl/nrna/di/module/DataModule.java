@@ -23,6 +23,7 @@ import com.yipl.nrna.domain.interactor.DownloadAudioUseCase;
 import com.yipl.nrna.domain.interactor.GetAnswerListUseCase;
 import com.yipl.nrna.domain.interactor.GetCountryDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetCountryListUseCase;
+import com.yipl.nrna.domain.interactor.GetCurrentDownloadsUseCase;
 import com.yipl.nrna.domain.interactor.GetLatestContentUseCase;
 import com.yipl.nrna.domain.interactor.GetPostDetailUseCase;
 import com.yipl.nrna.domain.interactor.GetPostListUseCase;
@@ -64,6 +65,11 @@ public class DataModule {
 
     public DataModule(long pId) {
         mId = pId;
+    }
+
+    public DataModule(long pId, boolean pFlag) {
+        mId = pId;
+        flag = pFlag;
     }
 
     public DataModule(long pId, MyConstants.DataParent pDataParent, MyConstants.PostType pType,
@@ -327,7 +333,7 @@ public class DataModule {
     UseCase provideDownloadCompleteUseCase(@Named("post") IRepository pDataRepository,
                                            ThreadExecutor pThreadExecutor, PostExecutionThread
                                                    pPostExecutionThread) {
-        return new UpdateDownloadStatusUseCase(mId, true, pDataRepository, pThreadExecutor,
+        return new UpdateDownloadStatusUseCase(mId, flag, pDataRepository, pThreadExecutor,
                 pPostExecutionThread);
 
     }
@@ -339,6 +345,17 @@ public class DataModule {
                                         ThreadExecutor pThreadExecutor, PostExecutionThread
                                                 pPostExecutionThread) {
         return new DownloadAudioUseCase(mId, pDataRepository, pThreadExecutor,
+                pPostExecutionThread);
+
+    }
+
+    @Provides
+    @PerActivity
+    @Named("current_downloads")
+    UseCase provideCurrentDownloadsUseCase(@Named("post") IRepository pDataRepository,
+                                           ThreadExecutor pThreadExecutor, PostExecutionThread
+                                                   pPostExecutionThread) {
+        return new GetCurrentDownloadsUseCase(pDataRepository, pThreadExecutor,
                 pPostExecutionThread);
 
     }

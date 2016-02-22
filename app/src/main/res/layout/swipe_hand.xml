@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/recent_question_section_height">
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/recent_question_section_height"
+                android:orientation="vertical">
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/hand_swipe"
+        android:layout_centerInParent="true"
         android:scaleType="fitCenter"
-        android:layout_centerInParent="true"/>
+        android:src="@drawable/hand_swipe"/>
 
 </RelativeLayout>

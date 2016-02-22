@@ -115,6 +115,7 @@ public class MyConstants {
         public static final int TYPE_COUNTRY_UPDATE = 5;
         public static final int TYPE_ANSWER = 6;
         public static final int TYPE_FOOTER = 7;
+        public static final int TYPE_DOWNLOAD_ITEM = 8;
     }
 
     public static final class VideoAdapterType {
@@ -124,9 +125,10 @@ public class MyConstants {
 
     public static class Media {
         public static final String ACTION_MEDIA_BUFFER_START = "media.action.BUFFER_START";
-        public static final String ACTION_MEDIA_BUFFER_STOP = "media.action.BUFFER_START";
+        public static final String ACTION_MEDIA_BUFFER_STOP = "media.action.BUFFER_STOP";
         public static final String ACTION_MEDIA_CHANGE = "media.action.MEDIA_CHANGE";
         public static final String ACTION_STATUS_PREPARED = "media.action.STATUS_PREPARED";
+        public static final String ACTION_SHOW_HIDE_CONTROLS = "media.action.SHOW_HIDE_CONTROLS";
         public static final String ACTION_STATUS_COMPLETION = "media.action.STATUS_COMPLETION";
         public static final String ACTION_PREFERENCE_CHANGED = "media.action.PREF_CHANGED";
         public static final String ACTION_PLAY_STATUS_CHANGE = "media.action.PLAY_STATUS_CHANGED";
@@ -215,6 +217,7 @@ public class MyConstants {
             public static String COLUMN_ANSWER = "answer";
             public static String COLUMN_STAGE = "stage";
             public static String COLUMN_CHILD_IDS = "child_ids";
+            public static String COLUMN_CHILD_TITLES = "child_titles";
             public static String COLUMN_WEIGHT = "weight";
 
             public static String CREATE_TABLE_QUESTION = "Create table " + TABLE_NAME + "( " +

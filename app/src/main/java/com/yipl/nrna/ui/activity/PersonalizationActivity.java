@@ -265,7 +265,7 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
             for (Country country : pCountries) {
                 Logger.d("test", "country:" + country.getName());
                 AppCompatCheckBox checkBox = new AppCompatCheckBox(getContext());
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                     int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
                     checkBox.setButtonDrawable(id);
                 }
@@ -367,6 +367,12 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
     }
 
     @Override
+    public void dataSent() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
+
+    @Override
     public void showError(String pErrorMessage) {
         Snackbar.make(mCountryContainer, pErrorMessage, Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.action_retry), new View.OnClickListener() {
@@ -375,11 +381,5 @@ public class PersonalizationActivity extends BaseActivity implements MainActivit
                         sendUserPreference();
                     }
                 }).show();
-    }
-
-    @Override
-    public void dataSent() {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
     }
 }

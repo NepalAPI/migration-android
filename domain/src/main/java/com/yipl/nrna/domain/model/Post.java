@@ -21,6 +21,7 @@ public class Post extends BaseModel {
     PostData mData;
     List<String> stage;
     boolean downloadStatus;
+    long downloadReference;
 
     public Long getCreatedAt() {
         return mCreatedAt;
@@ -124,6 +125,14 @@ public class Post extends BaseModel {
 
     public void setDownloadStatus(boolean pDownloadStatus) {
         downloadStatus = pDownloadStatus;
+    }
+
+    public long getDownloadReference() {
+        return downloadReference;
+    }
+
+    public void setDownloadReference(long pDownloadReference) {
+        downloadReference = pDownloadReference;
     }
 
     @Override

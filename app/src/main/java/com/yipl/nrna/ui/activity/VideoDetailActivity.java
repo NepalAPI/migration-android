@@ -6,21 +6,21 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.FacebookActivity;
+import com.yipl.nrna.data.utils.Logger;
 import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.PostDetailPresenter;
 import com.yipl.nrna.ui.interfaces.PostDetailView;
-import com.yipl.nrna.data.utils.Logger;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,7 +41,7 @@ public class VideoDetailActivity extends FacebookActivity implements PostDetailV
     //    @Bind(R.id.image)
 //    SimpleDraweeView mImage;
     @Bind(R.id.description)
-    TextView mDescription;
+    WebView mDescription;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
     private YouTubePlayerSupportFragment mYouTubePlayerFragment;
@@ -92,18 +92,19 @@ public class VideoDetailActivity extends FacebookActivity implements PostDetailV
     @Override
     public void renderPostDetail(Post pVideo) {
         mVideo = pVideo;
-//        getSupportActionBar().setTitle(mVideo.getTitle());
-//        mImage.setImageURI(Uri.parse(mVideo.getData().getThumbnail()));
-//        mImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Intent.ACTION_VIEW);
-//                intent.setData(Uri.parse(mVideo.getData().getMediaUrl()));
-//                startActivity(intent);
-//            }
-//        });
-        mDescription.setText(mVideo.getDescription());
+        StringBuilder sb = new StringBuilder();
+        sb.append("<HTML><HEAD><LINK href=\"styles.css\" type=\"text/css\" rel=\"stylesheet\"/></HEAD><body>");
+        sb.append(pVideo.getDescription());
+        sb.append("</body></HTML>");
+        mDescription.loadDataWithBaseURL("file:///android_asset/", sb.toString(), "text/html",
+                "utf-8", null);
+        //mDescription.setText(Html.fromHtml(mVideo.getDescription()));
         mYouTubePlayerFragment.initialize(MyConstants.YOUTUBE_API_KEY, this);
+    }
+
+    @Override
+    public void onDownloadStarted(String message) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -178,10 +179,5 @@ public class VideoDetailActivity extends FacebookActivity implements PostDetailV
             return matcher.group();
         }
         return "";
-    }
-
-    @Override
-    public void onDownloadStarted(String message) {
-        throw new UnsupportedOperationException();
     }
 }

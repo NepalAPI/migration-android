@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 
 import com.yipl.nrna.R;
+import com.yipl.nrna.data.utils.Logger;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
 
@@ -94,6 +95,7 @@ public class MediaService extends Service implements
 
     @Override
     public void onPrepared(MediaPlayer pMediaPlayer) {
+        Logger.d("MediaService_onPrepared", "test");
         mIsMediaValid = true;
         pMediaPlayer.start();
         sendBroadcast(new Intent(MyConstants.Media.ACTION_STATUS_PREPARED));
@@ -101,19 +103,30 @@ public class MediaService extends Service implements
 
     @Override
     public void onCompletion(MediaPlayer pMediaPlayer) {
+        Logger.d("MediaService_onCompletion", "test");
         sendBroadcast(new Intent(MyConstants.Media.ACTION_MEDIA_BUFFER_STOP));
         mIsMediaValid = false;
         playNext();
     }
 
     @Override
-    public boolean onError(MediaPlayer pMediaPlayer, int pWhat, int pExtra) {
+    public boolean onError(MediaPlayer pMediaPlayer, int what, int extra) {
+        Logger.e("MediaService_onError", "info[what: " + what + ", extra: " + extra + "]");
         return false;
     }
 
     @Override
     public boolean onInfo(MediaPlayer mp, int what, int extra) {
-        return false;
+        Logger.d("MediaService_onInfo", "info[what: " + what + ", extra: " + extra + "]");
+        switch (what) {
+            case MediaPlayer.MEDIA_INFO_BUFFERING_END:
+                sendBroadcast(new Intent(MyConstants.Media.ACTION_MEDIA_BUFFER_STOP));
+                break;
+            case MediaPlayer.MEDIA_INFO_BUFFERING_START:
+                sendBroadcast(new Intent(MyConstants.Media.ACTION_MEDIA_BUFFER_START));
+                break;
+        }
+        return true;
     }
 
     private void playMedia(int index) {
@@ -134,6 +147,14 @@ public class MediaService extends Service implements
     }
 
     private void setDataSource(Post pCurrentTrack) throws IOException {
+        boolean showNext = !(mCurrentPosition == mTracks.size() - 1);
+        boolean showPrev = !(mCurrentPosition == 0);
+
+        Intent broadcastIntent = new Intent(MyConstants.Media.ACTION_SHOW_HIDE_CONTROLS);
+        broadcastIntent.putExtra("showPrev", showPrev);
+        broadcastIntent.putExtra("showNext", showNext);
+        sendBroadcast(broadcastIntent);
+
         String mediaUrl = pCurrentTrack.getData().getMediaUrl();
         String fileName = mediaUrl.substring(mediaUrl.lastIndexOf("/") + 1);
         File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
@@ -177,19 +198,19 @@ public class MediaService extends Service implements
             mCurrentPosition = 0;
         } else {
             mCurrentPosition += 1;
+            playMedia(mCurrentPosition);
         }
-        playMedia(mCurrentPosition);
     }
 
     public void playPrev() {
         mIsMediaValid = false;
+        mPlayer.stop();
         if (mCurrentPosition == 0) {
             mCurrentPosition = mTracks.size() - 1;
         } else {
             mCurrentPosition -= 1;
+            playMedia(mCurrentPosition);
         }
-        mPlayer.stop();
-        playMedia(mCurrentPosition);
     }
 
     public void seekTo(int seekbarProgress) {

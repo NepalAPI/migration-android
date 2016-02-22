@@ -11,23 +11,22 @@ import rx.Observable;
 public class UpdateDownloadStatusUseCase extends UseCase<Boolean> {
 
     private final IRepository mRepository;
-    private long mId;
+    private long mReference;
     private boolean mDownloadStatus;
 
     @Inject
-    public UpdateDownloadStatusUseCase(long pId, boolean pDownloadStatus, IRepository pRepository,
-                                       ThreadExecutor
-                                               pThreadExecutor, PostExecutionThread
+    public UpdateDownloadStatusUseCase(long pReference, boolean pDownloadStatus, IRepository
+            pRepository, ThreadExecutor pThreadExecutor, PostExecutionThread
                                                pPostExecutionThread) {
         super(pThreadExecutor, pPostExecutionThread);
-        this.mId = pId;
+        mReference = pReference;
         mDownloadStatus = pDownloadStatus;
         mRepository = pRepository;
     }
 
     @Override
     protected Observable<Boolean> buildUseCaseObservable() {
-        return mRepository.updateDownloadStatus(mId, mDownloadStatus);
+        return mRepository.updateDownloadStatus(mReference, mDownloadStatus);
     }
 
     @Override

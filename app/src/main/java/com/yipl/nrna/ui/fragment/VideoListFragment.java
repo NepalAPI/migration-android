@@ -38,14 +38,16 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
     RecyclerView mRecyclerView;
     @Bind(R.id.tvNoVideo)
     TextView tvNoVideo;
+    @Bind(R.id.noVideo)
+    RelativeLayout mEmptyView;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
     @Bind(R.id.data_container)
     RelativeLayout mContainer;
 
     Integer mType = MyConstants.VideoAdapterType.TYPE_LIST;
-    private Long mQuestionId = Long.MIN_VALUE;
     boolean mIncludeChildContents = false;
+    private Long mQuestionId = Long.MIN_VALUE;
 
     public VideoListFragment() {
         super();
@@ -138,6 +140,8 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
 
     private void initialize() {
         if (mQuestionId != Long.MIN_VALUE) {
+            tvNoVideo.setText(getString(R.string.sorry_prefix, getString(R.string
+                    .question_related_text, getString(R.string.empty_video))));
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION,
                             MyConstants.PostType.VIDEO, false, mIncludeChildContents))
@@ -146,6 +150,7 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
                     .build()
                     .inject(this);
         } else {
+            tvNoVideo.setText(getString(R.string.sorry_prefix, getString(R.string.empty_article)));
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(MyConstants.PostType.VIDEO, false))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
@@ -154,7 +159,6 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
                     .inject(this);
         }
         mPresenter.attachView(this);
-        tvNoVideo.setVisibility(View.GONE);
     }
 
     @Override
@@ -189,12 +193,12 @@ public class VideoListFragment extends ContentListFragment implements PostListVi
 
     @Override
     public void showEmptyView() {
-        tvNoVideo.setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideEmptyView() {
-        tvNoVideo.setVisibility(View.INVISIBLE);
+        mEmptyView.setVisibility(View.GONE);
     }
 
     @Override

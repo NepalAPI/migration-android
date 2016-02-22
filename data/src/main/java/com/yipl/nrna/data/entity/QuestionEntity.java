@@ -22,6 +22,7 @@ public class QuestionEntity {
     @SerializedName("answer")
     String answer;
     String childIds;
+    String childTitles;
     @SerializedName("weight")
     Long weight;
 
@@ -103,6 +104,14 @@ public class QuestionEntity {
 
     public void setChildIds(String pChildIds) {
         childIds = pChildIds;
+    }
+
+    public void setChildTitles(String pChildTitles) {
+        childTitles = pChildTitles;
+    }
+
+    public String getChildTitles() {
+        return childTitles;
     }
 
     public Long getWeight() { return weight; }

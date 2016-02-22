@@ -6,6 +6,7 @@ import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.ui.activity.ArticleDetailActivity;
 import com.yipl.nrna.ui.activity.AudioDetailActivity;
 import com.yipl.nrna.ui.activity.CountryDetailActivity;
+import com.yipl.nrna.ui.activity.CurrentDownloadsActivity;
 import com.yipl.nrna.ui.activity.MainActivity;
 import com.yipl.nrna.ui.activity.PersonalizationActivity;
 import com.yipl.nrna.ui.activity.QuestionDetailActivity;
@@ -78,6 +79,8 @@ public interface DataComponent extends ActivityComponent {
     void inject(PersonalizationActivity pActivity);
 
     void inject(AudioDetailActivity pActivity);
+
+    void inject(CurrentDownloadsActivity pActivity);
 
     void inject(DownloadStateReceiver pReceiver);
 }

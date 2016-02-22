@@ -29,6 +29,7 @@ public class PostEntity {
     String title;
     PostDataEntity data;
 
+    long downloadReference;
     boolean downloadStatus;
 
     public Long getId() {
@@ -141,6 +142,14 @@ public class PostEntity {
 
     public void setCountryIdList(List<Long> pQuestionIdList) {
         this.questionIdList = pQuestionIdList;
+    }
+
+    public long getDownloadReference() {
+        return downloadReference;
+    }
+
+    public void setDownloadReference(long pDownloadReference) {
+        downloadReference = pDownloadReference;
     }
 
     public boolean getDownloadStatus() {

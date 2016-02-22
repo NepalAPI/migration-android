@@ -88,8 +88,19 @@
         <receiver android:name=".ui.receivers.DownloadStateReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED"/>
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".ui.activity.CurrentDownloadsActivity"
+            android:label="@string/title_activity_current_downloads"
+            android:parentActivityName=".ui.activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.yipl.nrna.ui.activity.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>

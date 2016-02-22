@@ -37,8 +37,10 @@ public class InfoCenterContentFragment extends BaseFragment implements
 
     @Bind(R.id.postList)
     RecyclerView mRecyclerView;
-    @Bind(R.id.tvNoInformation)
-    TextView mTvNoInformation;
+    @Bind(R.id.tvNoPost)
+    TextView tvNoPost;
+    @Bind(R.id.noPost)
+    RelativeLayout mEmptyView;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
     @Bind(R.id.main_container)
@@ -66,6 +68,7 @@ public class InfoCenterContentFragment extends BaseFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ((MainActivity) getActivity()).getSupportActionBar().setElevation(0);
         initialize();
         setUpAdapter();
         loadRelatedPosts();
@@ -117,6 +120,8 @@ public class InfoCenterContentFragment extends BaseFragment implements
     }
 
     private void initialize() {
+        tvNoPost.setText(getString(R.string.sorry_prefix, getString(R.string.stage_related_text,
+                getString(R.string.empty_post))));
         DaggerDataComponent.builder()
                 .dataModule(new DataModule(mStage))
                 .activityModule(((MainActivity) getActivity()).getActivityModule())
@@ -133,8 +138,6 @@ public class InfoCenterContentFragment extends BaseFragment implements
     }
 
     private void loadRelatedPosts() {
-        mTvNoInformation.setText(getString(R.string.empty_info, MyConstants.Stage.toString
-                (mStage)));
         mPresenter.initialize();
     }
 
@@ -173,11 +176,11 @@ public class InfoCenterContentFragment extends BaseFragment implements
 
     @Override
     public void showEmptyView() {
-        mTvNoInformation.setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideEmptyView() {
-        mTvNoInformation.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.GONE);
     }
 }

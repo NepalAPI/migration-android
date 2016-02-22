@@ -2,18 +2,24 @@ package com.yipl.nrna.util;
 
 import android.databinding.BindingAdapter;
 import android.net.Uri;
-import android.text.Html;
-import android.widget.ImageView;
+import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.yipl.nrna.R;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 public class BindingUtil {
     @BindingAdapter("bind:imageUrl")
-    public static void setImage(ImageView pView, String url) {
-        try {
+    public static void setImage(SimpleDraweeView pView, String url) {
+        if (url != null) {
+            /*ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(url))
+                    .setProgressiveRenderingEnabled(true)
+                    .build();
+            DraweeController controller = Fresco.newDraweeControllerBuilder()
+                    .setImageRequest(request)
+                    .setOldController(pView.getController())
+                    .build();
+            pView.setController(controller);*/
             pView.setImageURI(Uri.parse(url));
-        } catch (NullPointerException e) {
         }
     }
 
@@ -30,11 +36,15 @@ public class BindingUtil {
     }
 
     @BindingAdapter("bind:fromHtml")
-    public static void setFromHtml(TextView pView, String text) {
+    public static void setFromHtml(WebView pView, String text) {
         try {
-            pView.setText(Html.fromHtml(text));
+            StringBuilder sb = new StringBuilder();
+            sb.append("<HTML><HEAD><LINK href=\"styles.css\" type=\"text/css\" rel=\"stylesheet\"/></HEAD><body>");
+            sb.append(text);
+            sb.append("</body></HTML>");
+            pView.loadDataWithBaseURL("file:///android_asset/", sb.toString(), "text/html",
+                    "utf-8", null);
         } catch (NullPointerException e) {
-            pView.setText(pView.getContext().getString(R.string.not_available));
         }
     }
 }

@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.iconics.IconicsDrawable;
 import com.yipl.nrna.R;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.util.MyConstants;
@@ -68,15 +65,6 @@ public abstract class ContentListFragment extends BaseFragment {
             mPresenter.destroy();
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        if(mFiltered)
-            menu.findItem(R.id.action_filter).setIcon(R.drawable.ic_filter_applied);
-        else
-            menu.findItem(R.id.action_filter).setIcon(R.drawable.ic_filter);
-    }
-
     public void filterContentList(List<String> pStageFilter, List<String> pTagFilter) {
         if (mPosts == null)
             return;
@@ -91,9 +79,8 @@ public abstract class ContentListFragment extends BaseFragment {
         getActivity().invalidateOptionsMenu();
         List<Post> filteredPost = new ArrayList<>();
         for (Post post : mPosts) {
-            if((post.getStage()!=null && !Collections.disjoint(post.getStage(), pStageFilter) ||
-                    (post.getTags()!= null && !Collections.disjoint(post.getTags(), pTagFilter))))
-            {
+            if ((post.getStage() != null && !Collections.disjoint(post.getStage(), pStageFilter) ||
+                    (post.getTags() != null && !Collections.disjoint(post.getTags(), pTagFilter)))) {
                 filteredPost.add(post);
             }
         }
@@ -113,6 +100,15 @@ public abstract class ContentListFragment extends BaseFragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_filter, menu);
         menu.findItem(R.id.action_filter).setIcon(R.drawable.ic_filter);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (mFiltered)
+            menu.findItem(R.id.action_filter).setIcon(R.drawable.ic_filter_applied);
+        else
+            menu.findItem(R.id.action_filter).setIcon(R.drawable.ic_filter);
     }
 
     @Override

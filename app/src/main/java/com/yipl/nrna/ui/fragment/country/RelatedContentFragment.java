@@ -37,8 +37,10 @@ public class RelatedContentFragment extends BaseFragment implements RelatedConte
     RelatedContentFragmentPresenter mPresenter;
     @Bind(R.id.post_list)
     RecyclerView mRecyclerView;
-    @Bind(R.id.no_content)
-    TextView mTvNoRelatedContent;
+    @Bind(R.id.tvNoPost)
+    TextView tvNoPost;
+    @Bind(R.id.noPost)
+    RelativeLayout mEmptyView;
     @Bind(R.id.progress_bar)
     ProgressBar mProgressBar;
     @Bind(R.id.data_container)
@@ -91,6 +93,7 @@ public class RelatedContentFragment extends BaseFragment implements RelatedConte
     }
 
     private void initialize() {
+        tvNoPost.setText(getString(R.string.sorry_prefix, getString(R.string.empty_post)));
         DaggerDataComponent.builder()
                 .dataModule(new DataModule(mQuestionId))
                 .activityModule(((BaseActivity) getActivity()).getActivityModule())
@@ -138,11 +141,11 @@ public class RelatedContentFragment extends BaseFragment implements RelatedConte
 
     @Override
     public void showEmptyView() {
-        mTvNoRelatedContent.setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideEmptyView() {
-        mTvNoRelatedContent.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.GONE);
     }
 }

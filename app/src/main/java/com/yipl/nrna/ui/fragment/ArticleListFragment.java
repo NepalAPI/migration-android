@@ -42,6 +42,8 @@ public class ArticleListFragment extends ContentListFragment implements PostList
     RecyclerView mRecyclerView;
     @Bind(R.id.tvNoArticle)
     TextView tvNoArticle;
+    @Bind(R.id.noArticle)
+    RelativeLayout mEmptyView;
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
     @Bind(R.id.data_container)
@@ -134,6 +136,8 @@ public class ArticleListFragment extends ContentListFragment implements PostList
 
     private void initialize() {
         if (mQuestionId != Long.MIN_VALUE) {
+            tvNoArticle.setText(getString(R.string.sorry_prefix, getString(R.string
+                    .question_related_text, getString(R.string.empty_article))));
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION,
                             MyConstants.PostType.TEXT, false, mIncludeChildContents))
@@ -142,6 +146,7 @@ public class ArticleListFragment extends ContentListFragment implements PostList
                     .build()
                     .inject(this);
         } else {
+            tvNoArticle.setText(getString(R.string.sorry_prefix, getString(R.string.empty_article)));
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(MyConstants.PostType.TEXT, false))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
@@ -150,7 +155,6 @@ public class ArticleListFragment extends ContentListFragment implements PostList
                     .inject(this);
         }
         mPresenter.attachView(this);
-        tvNoArticle.setVisibility(View.GONE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
@@ -192,12 +196,12 @@ public class ArticleListFragment extends ContentListFragment implements PostList
 
     @Override
     public void showEmptyView() {
-        tvNoArticle.setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideEmptyView() {
-        tvNoArticle.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.GONE);
     }
 
 }

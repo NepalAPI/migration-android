@@ -19,7 +19,6 @@ import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseFragment;
 import com.yipl.nrna.data.utils.Logger;
 import com.yipl.nrna.domain.util.MyConstants;
-import com.yipl.nrna.ui.adapter.InfoCenterPagerAdapter;
 import com.yipl.nrna.ui.adapter.QuestionListContainerAdapter;
 
 import butterknife.Bind;
@@ -39,29 +38,13 @@ public class QuestionListContainerFragment extends BaseFragment {
     MenuItem mMenuFilter;
     Boolean mFiltered;
 
-    @Override
-    public int getLayout() {
-        return R.layout.fragment_question_list_container;
-    }
-
     public QuestionListContainerFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mPagerAdapter = new QuestionListContainerAdapter(getChildFragmentManager(), getContext());
-        if(savedInstanceState != null){
-            mFiltered = savedInstanceState.getBoolean(MyConstants.Extras.KEY_IS_FILTERED);
-        }
-        else {
-            mFiltered = false;
-        }
-        mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.setOffscreenPageLimit(3);
-        mTabs.setupWithViewPager(mViewPager);
-        Logger.e("quesiton: fragment created");
+    public int getLayout() {
+        return R.layout.fragment_question_list_container;
     }
 
     @Nullable
@@ -72,10 +55,54 @@ public class QuestionListContainerFragment extends BaseFragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mPagerAdapter = new QuestionListContainerAdapter(getChildFragmentManager(), getContext());
+        if (savedInstanceState != null) {
+            mFiltered = savedInstanceState.getBoolean(MyConstants.Extras.KEY_IS_FILTERED);
+        } else {
+            mFiltered = false;
+        }
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);
+        mTabs.setupWithViewPager(mViewPager);
+        Logger.e("quesiton: fragment created");
+    }
+
+    @Override
+    public void showNewContentInfo() {
+        Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
+                .LENGTH_INDEFINITE)
+                .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View pView) {
+                        mPagerAdapter.notifyDataSetChanged();
+                    }
+                })
+                .show();
+    }
+
+    public void changeFilterIcon(boolean pIsFIltered) {
+        if (pIsFIltered) {
+            mFiltered = true;
+            mMenuFilter.setIcon(R.drawable.ic_filter_applied);
+        } else {
+            mFiltered = false;
+            mMenuFilter.setIcon(R.drawable.ic_filter);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(MyConstants.Extras.KEY_IS_FILTERED, mFiltered);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_filter, menu);
-        if(mFiltered)
+        if (mFiltered)
             mMenuFilter = menu.findItem(R.id.action_filter).setIcon(R.drawable.ic_filter_applied);
         else
             mMenuFilter = menu.findItem(R.id.action_filter).setIcon(R.drawable.ic_filter);
@@ -97,35 +124,5 @@ public class QuestionListContainerFragment extends BaseFragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void showNewContentInfo() {
-        Snackbar.make(mContainer, getString(R.string.message_content_available), Snackbar
-                .LENGTH_INDEFINITE)
-                .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View pView) {
-                        mPagerAdapter.notifyDataSetChanged();
-                    }
-                })
-                .show();
-    }
-
-    public void changeFilterIcon(boolean pIsFIltered){
-        if(pIsFIltered){
-            mFiltered = true;
-            mMenuFilter.setIcon(R.drawable.ic_filter_applied);
-        }
-        else{
-            mFiltered = false;
-            mMenuFilter.setIcon(R.drawable.ic_filter);
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(MyConstants.Extras.KEY_IS_FILTERED, mFiltered);
     }
 }

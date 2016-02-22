@@ -1,6 +1,7 @@
 package com.yipl.nrna.presenter;
 
 import com.yipl.nrna.base.BaseActivity;
+import com.yipl.nrna.data.utils.Logger;
 import com.yipl.nrna.domain.exception.DefaultErrorBundle;
 import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
@@ -8,7 +9,6 @@ import com.yipl.nrna.exception.ErrorMessageFactory;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
 import com.yipl.nrna.ui.interfaces.MvpView;
 import com.yipl.nrna.util.AppPreferences;
-import com.yipl.nrna.data.utils.Logger;
 
 import java.util.Calendar;
 
