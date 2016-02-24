@@ -146,6 +146,7 @@ public class MyConstants {
         public static final String KEY_TITLE = "key_title";
         public static final String KEY_FILTERED_LIST = "key_filtered_list";
         public static final String KEY_LIST = "key_list";
+        public static final String KEY_IS_FILTERED = "key_is_filtered";
 
         public static final String KEY_PERSONALIZATION_LAUNCH = "key_personalization";
 

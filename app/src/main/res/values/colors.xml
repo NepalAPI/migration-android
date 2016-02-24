@@ -11,6 +11,7 @@
     <color name="nav_header_bg">#029baf</color>
     <color name="window_background">#ffffff</color>
     <color name="rippleColor">#5000bbd3</color>
+    <color name="rippleColorDark">#cc0096a6</color>
 
     <color name="article_art_bg">#f0f0f0</color>
     <color name="divider">#d2f6fb</color>
@@ -19,4 +20,6 @@
     <color name="pager_indicator_active">#ffffff</color>
 
     <color name="list_background">#cccccc</color>
+    <color name="nav_item_selected">#ffffff</color>
+    <color name="nav_item_normal">#deffffff</color>
 </resources>

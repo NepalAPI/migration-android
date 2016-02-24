@@ -12,7 +12,7 @@
     <string name="title_home">गृह पृष्ठ</string>
     <string name="title_info_center">सूचना केन्द्र</string>
     <string name="title_countries">गन्तव्य देशहरु</string>
-    <string name="title_audio">अडियोहरु / पोडकास्टहरु</string>
+        <string name="title_audio">अडियोहरु / पोडकास्टहरु</string>
     <string name="title_video">भिडियोहरु</string>
     <string name="title_article">लेखहरु</string>
     <string name="title_questions">तपाइँको प्रश्न हाम्रो समाधान</string>
@@ -39,10 +39,10 @@
         <item>गन्तव्य देश</item>
     </string-array>
 
-    <string name="stage_pre_application">pre-application</string>
-    <string name="stage_application">applying</string>
-    <string name="stage_work_permit">work-permit</string>
-    <string name="stage_destination_country">destination-country</string>
+    <string name="stage_pre_application">पूर्व- आवेदन</string>
+    <string name="stage_application">आवेदन</string>
+    <string name="stage_work_permit">कार्यअनुमति </string>
+    <string name="stage_destination_country">गन्तव्य देश</string>
 
     <string-array name="country_info">
         <item>समान्य जान्कारी</item>
@@ -89,8 +89,8 @@
     <string name="language_nepali">नेपाली</string>
     <string name="language_english">अंग्रेजी</string>
 
-    <string name="user_type_first">First Time</string>
-    <string name="user_type_returnee">Returnee</string>
+    <string name="user_type_first">पहिलो पटक</string>
+    <string name="user_type_returnee">फर्किएको</string>
 
     <string name="download_description">डाउनलोड हुँदै छ...</string>
     <string name="share_audio">अडियो शेयर गर्नुहोस</string>
@@ -105,16 +105,20 @@
     <string name="skip">स्कीप</string>
     <string name="see_all_countries">सबै देश प्रश्न हेर्नुहोस्</string>
 
-    <string name="showcase_question_title">Latest Questions</string>
-    <string name="showcase_question_detail">swipe for latest questions</string>
-    <string name="showcase_setting_title">Click for menu</string>
-    <string name="showcase_setting_detail">Click SYNC to get latest data from internet
-        \nClick Setting to change App Setting and for Personalization</string>
-    <string name="showcase_audio_download_title">Download Audio</string>
-    <string name="showcase_auido_download_detail">Click here to download audio and save in phone</string>
+    <string name="showcase_question_title">नयाँ प्रश्नहरू</string>
+    <string name="showcase_question_detail">नयाँ प्रश्नहरू हेर्न दाँयाबाट स्वाईप गर्नुहोस् </string>
+    <string name="showcase_setting_title">मेनुको लागि क्लिक</string>
+    <string name="showcase_setting_detail">नयाँ सामग्रीहरू प्राप्त गर्न \" नयाँ सामग्रीहरू प्राप्त गर्नुहोस \" मा थिच्नुहोस्
+        \nआफ्नो चाहन अनुसार एप बदल्न \" सेटिङ \" थिच्नु होस् </string>
+    <string name="showcase_audio_download_title">डाउनलोड अडियो</string>
+    <string name="showcase_auido_download_detail">अडियो डाउनलोड गरेर फोन मा शेभ गर्न माथि थिच्नुहोस्   </string>
 
-    <string name="related_document">Related Documents</string>
-    <string name="download">Download</string>
-    <string name="view_pdf">View Pdf</string>
+    <string name="related_document">सम्बन्धित कागजातहरू</string>
+    <string name="download">डाउनलोड</string>
+    <string name="view_pdf">PDF हेर्नुहोस् </string>
 
+    <string name="filter">फिल्टर गर्नुहोस् </string>
+    <string name="cancel">रद्द गर्नुहोस् </string>
+
+    <string name="ok">हुन्छ </string>
 </resources>

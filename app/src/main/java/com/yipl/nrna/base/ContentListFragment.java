@@ -22,10 +22,10 @@ import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.PostListPresenter;
 import com.yipl.nrna.ui.adapter.ListAdapter;
 import com.yipl.nrna.ui.fragment.FilterDialogFragment;
-import com.yipl.nrna.ui.interfaces.FilterDialogCallbackInterface;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,13 +33,15 @@ import javax.inject.Inject;
 /**
  * Created by Nirazan-PC on 12/23/2015.
  */
-public abstract class ContentListFragment extends BaseFragment implements FilterDialogCallbackInterface {
+public abstract class ContentListFragment extends BaseFragment {
 
     @Inject
     public PostListPresenter mPresenter;
 
     protected ListAdapter<Post> mListAdapter;
     protected List<Post> mPosts;
+    MenuItem mMenuFilter;
+    Boolean mFiltered;
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -55,6 +57,7 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
         super.onActivityCreated(savedInstanceState);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBroadcastReceiver,
                 new IntentFilter(MyConstants.Extras.INTENT_FILTER));
+        mFiltered = false;
     }
 
     @Override
@@ -65,36 +68,32 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
             mPresenter.destroy();
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if(mFiltered)
+            menu.findItem(R.id.action_filter).setIcon(R.drawable.ic_filter_applied);
+        else
+            menu.findItem(R.id.action_filter).setIcon(R.drawable.ic_filter);
+    }
+
     public void filterContentList(List<String> pStageFilter, List<String> pTagFilter) {
         if (mPosts == null)
             return;
         if (pStageFilter.isEmpty() && pTagFilter.isEmpty()) {
+            mFiltered = false;
+            getActivity().invalidateOptionsMenu();
             mListAdapter.setDataCollection(mPosts);
             return;
         }
+        mFiltered = true;
+        //mMenuFilter.setIcon(R.drawable.ic_filter_applied);
+        getActivity().invalidateOptionsMenu();
         List<Post> filteredPost = new ArrayList<>();
-        if (pTagFilter.isEmpty()) {
-            for (Post post : mPosts) {
-                if (post.getStage() != null && post.getStage().containsAll(pStageFilter)) {
-                    filteredPost.add(post);
-                }
-            }
-            mListAdapter.setDataCollection(filteredPost);
-            return;
-        }
-        if (pStageFilter.isEmpty()) {
-            for (Post post : mPosts) {
-                if (post.getTags() != null && post.getTags().containsAll(pTagFilter)) {
-                    filteredPost.add(post);
-                }
-            }
-            mListAdapter.setDataCollection(filteredPost);
-            return;
-        }
-
         for (Post post : mPosts) {
-            if (post.getStage() != null && post.getStage().containsAll(pStageFilter) &&
-                    post.getTags() != null && post.getTags().containsAll(pTagFilter)) {
+            if((post.getStage()!=null && !Collections.disjoint(post.getStage(), pStageFilter) ||
+                    (post.getTags()!= null && !Collections.disjoint(post.getTags(), pTagFilter))))
+            {
                 filteredPost.add(post);
             }
         }
@@ -105,6 +104,7 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
     public void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(MyConstants.Extras.KEY_FILTERED_LIST, (Serializable) mListAdapter.getDataCollection());
         outState.putSerializable(MyConstants.Extras.KEY_LIST, (Serializable) mPosts);
+        outState.putBoolean(MyConstants.Extras.KEY_IS_FILTERED, mFiltered);
         super.onSaveInstanceState(outState);
     }
 
@@ -112,8 +112,7 @@ public abstract class ContentListFragment extends BaseFragment implements Filter
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_filter, menu);
-        menu.findItem(R.id.action_filter).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_filter_list)
-                .color(Color.WHITE).actionBar());
+        menu.findItem(R.id.action_filter).setIcon(R.drawable.ic_filter);
     }
 
     @Override

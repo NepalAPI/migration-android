@@ -134,7 +134,7 @@ public class HomeFragmentPresenter implements Presenter {
         @Override
         public void onError(Throwable e) {
             HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_AUDIO);
-            HomeFragmentPresenter.this.mView.showEmptyView(FLAG_AUDIO);
+            HomeFragmentPresenter.this.mView.showPostSection(FLAG_AUDIO);
             HomeFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));
             HomeFragmentPresenter.this.mView.showRetryView(FLAG_AUDIO);
@@ -142,11 +142,11 @@ public class HomeFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Post> pPosts) {
-            if (!pPosts.isEmpty()) {
-                HomeFragmentPresenter.this.mView.hideEmptyView(FLAG_AUDIO);
+            if (pPosts != null && !pPosts.isEmpty()) {
+                HomeFragmentPresenter.this.mView.showPostSection(FLAG_AUDIO);
                 HomeFragmentPresenter.this.mView.renderLatestAudios(pPosts);
             } else {
-                HomeFragmentPresenter.this.mView.showEmptyView(FLAG_AUDIO);
+                HomeFragmentPresenter.this.mView.hidePostSection(FLAG_AUDIO);
             }
             HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_AUDIO);
         }
@@ -162,7 +162,7 @@ public class HomeFragmentPresenter implements Presenter {
         @Override
         public void onError(Throwable e) {
             HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_VIDEO);
-            HomeFragmentPresenter.this.mView.showEmptyView(FLAG_VIDEO);
+            HomeFragmentPresenter.this.mView.hidePostSection(FLAG_VIDEO);
             HomeFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));
             HomeFragmentPresenter.this.mView.showRetryView(FLAG_VIDEO);
@@ -170,11 +170,11 @@ public class HomeFragmentPresenter implements Presenter {
 
         @Override
         public void onNext(List<Post> pVideos) {
-            if (!pVideos.isEmpty()) {
-                HomeFragmentPresenter.this.mView.hideEmptyView(FLAG_VIDEO);
+            if (pVideos!= null && !pVideos.isEmpty()) {
+                HomeFragmentPresenter.this.mView.showPostSection(FLAG_VIDEO);
                 HomeFragmentPresenter.this.mView.renderLatestVideos(pVideos);
             } else {
-                HomeFragmentPresenter.this.mView.showEmptyView(FLAG_VIDEO);
+                HomeFragmentPresenter.this.mView.hidePostSection(FLAG_VIDEO);
             }
             HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_VIDEO);
         }
@@ -184,25 +184,25 @@ public class HomeFragmentPresenter implements Presenter {
 
         @Override
         public void onCompleted() {
-            HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_AUDIO);
+            HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_ARTICLE);
         }
 
         @Override
         public void onError(Throwable e) {
             HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_ARTICLE);
-            HomeFragmentPresenter.this.mView.showEmptyView(FLAG_ARTICLE);
+            HomeFragmentPresenter.this.mView.hidePostSection(FLAG_ARTICLE);
             HomeFragmentPresenter.this.mView.showErrorView(ErrorMessageFactory.create(mView
                     .getContext(), new DefaultErrorBundle((Exception) e).getException()));
             HomeFragmentPresenter.this.mView.showRetryView(FLAG_ARTICLE);
         }
 
         @Override
-        public void onNext(List<Post> pVideos) {
-            if (!pVideos.isEmpty()) {
-                HomeFragmentPresenter.this.mView.hideEmptyView(FLAG_ARTICLE);
-                HomeFragmentPresenter.this.mView.renderLatestArticles(pVideos);
+        public void onNext(List<Post> pAudio) {
+            if (pAudio != null && !pAudio.isEmpty()) {
+                HomeFragmentPresenter.this.mView.showPostSection(FLAG_ARTICLE);
+                HomeFragmentPresenter.this.mView.renderLatestArticles(pAudio);
             } else {
-                HomeFragmentPresenter.this.mView.showEmptyView(FLAG_ARTICLE);
+                HomeFragmentPresenter.this.mView.hidePostSection(FLAG_ARTICLE);
             }
             HomeFragmentPresenter.this.mView.hideLoadingView(FLAG_ARTICLE);
         }

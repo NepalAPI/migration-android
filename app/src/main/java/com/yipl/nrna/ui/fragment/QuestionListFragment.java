@@ -4,27 +4,21 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.iconics.IconicsDrawable;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseActivity;
 import com.yipl.nrna.base.BaseFragment;
@@ -34,12 +28,12 @@ import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.QuestionListFragmentPresenter;
 import com.yipl.nrna.ui.adapter.ListAdapter;
-import com.yipl.nrna.ui.interfaces.FilterDialogCallbackInterface;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.QuestionListFragmentView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -49,7 +43,7 @@ import butterknife.Bind;
 /**
  * Created by Nirazan-PC on 12/15/2015.
  */
-public class QuestionListFragment extends BaseFragment implements QuestionListFragmentView, FilterDialogCallbackInterface {
+public class QuestionListFragment extends BaseFragment implements QuestionListFragmentView{
 
     @Inject
     QuestionListFragmentPresenter mPresenter;
@@ -65,6 +59,7 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     ListAdapter<Question> mListAdapter;
     List<Question> mQuestions;
     MyConstants.Stage mStage;
+    List<String> filterPrefStage;
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -102,8 +97,6 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBroadcastReceiver,
-                new IntentFilter(MyConstants.Extras.INTENT_FILTER));
         Bundle bundle = getArguments();
         if(bundle!=null){
             mStage = (MyConstants.Stage) bundle.getSerializable(MyConstants.Extras.KEY_STAGE);
@@ -116,12 +109,13 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
             mListAdapter.setDataCollection(questionList);
         } else
             loadQuestionList();
+
+        filterPrefStage = new ArrayList<>();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mBroadcastReceiver);
         if (mPresenter != null)
             mPresenter.destroy();
     }
@@ -142,6 +136,9 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     @Override
     public void onResume() {
         super.onResume();
+        ((BaseActivity) getActivity()).getPreferences().setFilterTagChoices(filterPrefStage);
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBroadcastReceiver,
+                new IntentFilter(MyConstants.Extras.INTENT_FILTER));
     }
 
     @Override
@@ -154,33 +151,15 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     @Override
     public void onPause() {
         super.onPause();
+        filterPrefStage = ((BaseActivity)getActivity()).getPreferences().getFilterTagChoices();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mBroadcastReceiver);
         mPresenter.pause();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_filter, menu);
-        menu.findItem(R.id.action_filter).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_filter_list)
-                .color(Color.WHITE).actionBar());
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_filter) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment prev = getChildFragmentManager().findFragmentByTag("dialog");
-            if (prev != null) {
-                ft.remove(prev);
-            }
-            ft.addToBackStack(null);
-
-            FilterDialogFragment newFragment = FilterDialogFragment.newInstance();
-            newFragment.setTargetFragment(this, 0);
-            newFragment.show(ft, "dialog");
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void initialize() {
@@ -222,23 +201,19 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
 
     @Override
     public void showRetryView() {
-
     }
 
     @Override
     public void hideRetryView() {
-
     }
 
     @Override
     public void showErrorView(String pErrorMessage) {
         Snackbar.make(mRecyclerView, pErrorMessage, Snackbar.LENGTH_SHORT).show();
-
     }
 
     @Override
     public void hideErrorView() {
-
     }
 
     @Override
@@ -254,32 +229,19 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     public void filterContentList(List<String> pStageFilter, List<String> pTagFilter) {
         if (pStageFilter.isEmpty() && pTagFilter.isEmpty()) {
             mListAdapter.setDataCollection(mQuestions);
-            return;
-        }
-        List<Question> filteredQuestion = new ArrayList<>();
-        if (pTagFilter.isEmpty()) {
-            for (Question question : mQuestions) {
-                if (question.getStage() != null && pStageFilter.contains(question.getStage())) {
-                    filteredQuestion.add(question);
-                }
-            }
-            mListAdapter.setDataCollection(filteredQuestion);
-            return;
-        }
-        if (pStageFilter.isEmpty()) {
-            for (Question question : mQuestions) {
-                if (question.getTags() != null && question.getTags().containsAll(pTagFilter)) {
-                    filteredQuestion.add(question);
-                }
-            }
-            mListAdapter.setDataCollection(filteredQuestion);
+            ((QuestionListContainerFragment)getParentFragment()).changeFilterIcon(false);
             return;
         }
 
-        for (Question question : mQuestions) {
-            if (question.getStage() != null && pStageFilter.contains(question.getStage()) &&
-                    question.getTags() != null && question.getTags().containsAll(pTagFilter)) {
-                filteredQuestion.add(question);
+        ((QuestionListContainerFragment)getParentFragment()).changeFilterIcon(true);
+        List<Question> filteredQuestion = new ArrayList<>();
+
+        if(mQuestions!=null) {
+            for (Question question : mQuestions) {
+                if ((question.getStage() != null && pStageFilter.contains(question.getStage()) ||
+                        (question.getTags() != null && !Collections.disjoint(question.getTags(), pTagFilter)))) {
+                    filteredQuestion.add(question);
+                }
             }
         }
         mListAdapter.setDataCollection(filteredQuestion);
