@@ -16,4 +16,8 @@ public interface HomeFragmentView extends MultipleLoadDataView {
     void renderLatestVideos(List<Post> pVideos);
 
     void renderLatestArticles(List<Post> pArticles);
+
+    void hidePostSection(int flag);
+
+    void showPostSection(int flag);
 }

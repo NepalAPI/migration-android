@@ -52,15 +52,6 @@
                 android:layout_centerInParent="true"
                 android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/no_question"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/text_color_primary"
-                android:textSize="@dimen/text_default"
-                android:visibility="gone"/>
-
         </RelativeLayout>
 
         <LinearLayout
@@ -85,7 +76,7 @@
                     android:text="@string/latest_audios"
                     android:textAllCaps="true"
                     android:textColor="@color/text_color_primary"
-                    android:textSize="@dimen/text_big"/>
+                    android:textSize="@dimen/text_xbig"/>
 
                 <LinearLayout
                     android:id="@+id/audio_list"
@@ -100,17 +91,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/no_audio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/label_audio"
-                    android:layout_centerInParent="true"
-                    android:text="@string/empty_video"
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="@dimen/text_default"
                     android:visibility="gone"/>
 
             </RelativeLayout>
@@ -130,7 +110,7 @@
                     android:text="@string/latest_videos"
                     android:textAllCaps="true"
                     android:textColor="@color/text_color_primary"
-                    android:textSize="@dimen/text_big"/>
+                    android:textSize="@dimen/text_xbig"/>
 
                 <LinearLayout
                     android:id="@+id/video_list"
@@ -147,16 +127,6 @@
                     android:layout_centerInParent="true"
                     android:visibility="gone"/>
 
-                <TextView
-                    android:id="@+id/no_video"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/label_video"
-                    android:layout_centerInParent="true"
-                    android:text="@string/empty_video"
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="@dimen/text_default"
-                    android:visibility="gone"/>
 
             </RelativeLayout>
 
@@ -175,7 +145,7 @@
                     android:text="@string/latest_articles"
                     android:textAllCaps="true"
                     android:textColor="@color/text_color_primary"
-                    android:textSize="@dimen/text_big"/>
+                    android:textSize="@dimen/text_xbig"/>
 
                 <LinearLayout
                     android:id="@+id/article_list"
@@ -190,17 +160,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/no_article"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/label_articles"
-                    android:layout_centerInParent="true"
-                    android:text="@string/empty_article"
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="@dimen/text_default"
                     android:visibility="gone"/>
             </RelativeLayout>
         </LinearLayout>

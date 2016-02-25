@@ -374,7 +374,7 @@ public class DatabaseDao {
             query += " and " +TABLE_QUESTION.COLUMN_STAGE + " = '" + pStage + "'";
         }
         query += " order by " + TABLE_QUESTION.COLUMN_WEIGHT +
-                " DESC LIMIT " + pLimit;
+                " ASC LIMIT " + pLimit;
         Logger.d("DatabaseDao_getAllQuestions", "question query: " + query);
         Cursor cursor = db.rawQuery(query, null);
         Callable<List<QuestionEntity>> callable = new Callable<List<QuestionEntity>>() {

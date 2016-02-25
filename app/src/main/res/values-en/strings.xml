@@ -108,7 +108,7 @@
     <string name="see_all_countries">See All Countries</string>
 
     <string name="showcase_question_title">Latest Questions</string>
-    <string name="showcase_question_detail">swipe for latest questions</string>
+    <string name="showcase_question_detail">Swipe for latest questions</string>
     <string name="showcase_setting_title">Click for menu</string>
     <string name="showcase_setting_detail">Click SYNC to get latest data from internet
         \nClick Setting to change App Setting and for Personalization</string>
@@ -118,5 +118,10 @@
     <string name="related_document">Related Documents</string>
     <string name="download">Download</string>
     <string name="view_pdf">View Pdf</string>
+
+    <string name="filter">Filter</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="ok">Ok </string>
 
 </resources>

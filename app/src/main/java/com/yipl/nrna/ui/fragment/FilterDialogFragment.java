@@ -25,13 +25,13 @@ import com.yipl.nrna.di.component.DaggerDataComponent;
 import com.yipl.nrna.di.module.DataModule;
 import com.yipl.nrna.domain.util.MyConstants;
 import com.yipl.nrna.presenter.FilterDialogFragmentPresenter;
-import com.yipl.nrna.ui.interfaces.FilterDialogCallbackInterface;
 import com.yipl.nrna.ui.interfaces.FilterDialogFragmentView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.sql.RowSetInternal;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,14 +56,13 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
     Button btnCancel;
     List<CheckBox> tagCheckbox;
 
-    FilterDialogCallbackInterface mCallbackInterface;
-
     public FilterDialogFragment() {
 
     }
 
     public static FilterDialogFragment newInstance() {
         FilterDialogFragment fragment = new FilterDialogFragment();
+//        fragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AppTheme_Dialog);
         return fragment;
     }
 
@@ -134,7 +133,6 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
         tagCheckbox = new ArrayList<>();
         btnFilter.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
-        mCallbackInterface = (FilterDialogCallbackInterface) getTargetFragment();
     }
 
     private void loadTags() {
@@ -153,6 +151,7 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
                 CheckBox checkBox;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     checkBox = new AppCompatCheckBox(getContext());
+
                 else {
                     checkBox = new CheckBox(getContext());
                     int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
@@ -169,7 +168,7 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
     private void restoreLastChoices() {
         List<String> lastTagChoices = ((BaseActivity) getActivity()).getPreferences().getFilterTagChoices();
         List<String> lastStageChoices = ((BaseActivity) getActivity()).getPreferences().getFilterStageChoices();
-        if (lastStageChoices != null) {
+        if (lastTagChoices != null) {
             for (String choice : lastTagChoices) {
                 for (CheckBox checkBox : tagCheckbox) {
                     if (choice.equals(checkBox.getText().toString()))
@@ -177,15 +176,16 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
                 }
             }
         }
-        if (lastTagChoices != null) {
+        String stages[] = getResources().getStringArray(R.array.stage_check);
+        if (lastStageChoices != null) {
             for (String choice : lastStageChoices) {
-                for (CheckBox checkBox : stageCheckbox) {
-                    if (choice.equals(checkBox.getText().toString()))
-                        checkBox.setChecked(true);
+                for (int i = 0; i < stages.length; i++) {
+                    if(choice.equals(stages[i])){
+                        stageCheckbox.get(i).setChecked(true);
+                    }
                 }
             }
         }
-
     }
 
     @Override
@@ -234,9 +234,10 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
             case R.id.btnFilter:
                 List<String> tagFilter = new ArrayList<>();
                 List<String> stageFilter = new ArrayList<>();
-                for (CheckBox checkBox : stageCheckbox) {
-                    if (checkBox.isChecked()) {
-                        stageFilter.add(checkBox.getText().toString());
+                String stages[] = getResources().getStringArray(R.array.stage_check);
+                for (int i = 0; i < stageCheckbox.size(); i++) {
+                    if (stageCheckbox.get(i).isChecked()) {
+                        stageFilter.add(stages[i]);
                     }
                 }
                 for (CheckBox checkBox : tagCheckbox) {

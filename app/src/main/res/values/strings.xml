@@ -8,4 +8,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="stage_check">
+        <item>pre-application</item>
+        <item>applying</item>
+        <item>work-permit</item>
+        <item>destination</item>
+    </string-array>
 </resources>
