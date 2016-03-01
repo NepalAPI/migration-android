@@ -2,6 +2,7 @@ package com.yipl.nrna.data.repository;
 
 import com.yipl.nrna.data.entity.mapper.DataMapper;
 import com.yipl.nrna.data.repository.datasource.DataStoreFactory;
+import com.yipl.nrna.domain.model.DownloadItem;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.repository.IRepository;
 
@@ -43,6 +44,13 @@ public class PostRepository implements IRepository<Post> {
         return mDataStoreFactory.createDBDataStore()
                 .getAllPosts(null, null, pDownloadStatus, pLimit)
                 .map(pPostEntities -> mDataMapper.transformPost(pPostEntities));
+    }
+
+    @Override
+    public Observable<List<DownloadItem>> getCurrentDownloadList() {
+        return mDataStoreFactory.createDBDataStore()
+                .getCurrentDownloads()
+                .map(pPostEntities -> mDataMapper.transformPostToDownloadItem(pPostEntities));
     }
 
     @Override
@@ -95,10 +103,10 @@ public class PostRepository implements IRepository<Post> {
     }
 
     @Override
-    public Observable<Boolean> updateDownloadStatus(long pId, boolean pDownloadStatus) {
+    public Observable<Boolean> updateDownloadStatus(long pReference, boolean pDownloadStatus) {
         return Observable.just(
                 mDataStoreFactory.createDBDataStore()
-                        .updateDownloadStatus(pId, pDownloadStatus) != -1
+                        .updateDownloadStatus(pReference, pDownloadStatus) != -1
         );
     }
 

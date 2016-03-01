@@ -22,5 +22,5 @@
         android:layout_centerHorizontal="true"
         android:textAllCaps="true"
         android:textColor="@drawable/tab_selector"
-        android:textSize="@dimen/text_small"/>
+        android:textSize="@dimen/text_default"/>
 </RelativeLayout>

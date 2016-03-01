@@ -8,10 +8,4 @@
         android:orderInCategory="10"
         android:title="@string/action_download"
         app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/action_bluetooth"
-        android:orderInCategory="11"
-        android:title="@string/action_share_bluetooth"
-        app:showAsAction="always"/>
 </menu>

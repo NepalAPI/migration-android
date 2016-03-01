@@ -28,22 +28,33 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        getDelegate().onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        getDelegate().onDestroy();
+    }
+
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         getDelegate().onPostCreate(savedInstanceState);
     }
 
-    public ActionBar getSupportActionBar() {
-        return getDelegate().getSupportActionBar();
-    }
-
-    public void setSupportActionBar(@Nullable Toolbar toolbar) {
-        getDelegate().setSupportActionBar(toolbar);
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        getDelegate().onPostResume();
     }
 
     @Override
-    public MenuInflater getMenuInflater() {
-        return getDelegate().getMenuInflater();
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        getDelegate().onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -66,10 +77,13 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
         getDelegate().addContentView(view, params);
     }
 
+    public void invalidateOptionsMenu() {
+        getDelegate().invalidateOptionsMenu();
+    }
+
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        getDelegate().onPostResume();
+    public MenuInflater getMenuInflater() {
+        return getDelegate().getMenuInflater();
     }
 
     @Override
@@ -78,26 +92,12 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
         getDelegate().setTitle(title);
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        getDelegate().onConfigurationChanged(newConfig);
+    public ActionBar getSupportActionBar() {
+        return getDelegate().getSupportActionBar();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        getDelegate().onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        getDelegate().onDestroy();
-    }
-
-    public void invalidateOptionsMenu() {
-        getDelegate().invalidateOptionsMenu();
+    public void setSupportActionBar(@Nullable Toolbar toolbar) {
+        getDelegate().setSupportActionBar(toolbar);
     }
 
     private AppCompatDelegate getDelegate() {

@@ -7,11 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.yipl.nrna.R;
+import com.yipl.nrna.data.utils.Logger;
 import com.yipl.nrna.databinding.ArticleDataBinding;
 import com.yipl.nrna.databinding.AudioDataBinding;
 import com.yipl.nrna.databinding.CountryDataBinding;
 import com.yipl.nrna.databinding.CountryUpdateDataBinding;
+import com.yipl.nrna.databinding.DownloadItemDataBinding;
 import com.yipl.nrna.databinding.FooterDataBinding;
 import com.yipl.nrna.databinding.QuestionDataBinding;
 import com.yipl.nrna.databinding.VideoDataBinding;
@@ -19,6 +23,7 @@ import com.yipl.nrna.databinding.VideoGridDataBinding;
 import com.yipl.nrna.domain.model.BaseModel;
 import com.yipl.nrna.domain.model.Country;
 import com.yipl.nrna.domain.model.CountryUpdate;
+import com.yipl.nrna.domain.model.DownloadItem;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.Question;
 import com.yipl.nrna.domain.util.MyConstants;
@@ -32,6 +37,7 @@ import butterknife.ButterKnife;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_AUDIO;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_COUNTRY;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_COUNTRY_UPDATE;
+import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_DOWNLOAD_ITEM;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_FOOTER;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_QUESTION;
 import static com.yipl.nrna.domain.util.MyConstants.Adapter.TYPE_TEXT;
@@ -119,6 +125,13 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                 FooterDataBinding footerDataBinding = DataBindingUtil.inflate(mLayoutInflater,
                         R.layout.layout_see_all_countries, parent, false);
                 viewHolder = new FooterViewHolder(footerDataBinding);
+                break;
+            case TYPE_DOWNLOAD_ITEM:
+                DownloadItemDataBinding dataBinding = DataBindingUtil.inflate(mLayoutInflater, R
+                        .layout.list_item_current_download, parent, false);
+                viewHolder = new DownloadItemViewHolder(dataBinding);
+                Logger.d("ListAdapter_onCreateViewHolder", "test test test!!!");
+                break;
         }
         return viewHolder;
     }
@@ -152,6 +165,12 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
                         mDataCollection.get(position));
                 break;
             case TYPE_FOOTER:
+                break;
+            case TYPE_DOWNLOAD_ITEM:
+                ((DownloadItemViewHolder) holder).mBinding.setDownload((DownloadItem)
+                        mDataCollection.get(position));
+                Logger.d("ListAdapter_onBindViewHolder", "test: " + mDataCollection.get(position)
+                        .getId());
                 break;
             default:
                 throw new IllegalArgumentException();
@@ -292,7 +311,32 @@ public class ListAdapter<T extends BaseModel> extends RecyclerView.Adapter<Recyc
         }
     }
 
-    public class FooterViewHolder extends RecyclerView.ViewHolder{
+    public class DownloadItemViewHolder extends RecyclerView.ViewHolder {
+
+        public DownloadItemDataBinding mBinding;
+
+        public DownloadItemViewHolder(final DownloadItemDataBinding binding) {
+            super(binding.getRoot());
+            ButterKnife.bind(this, binding.getRoot());
+            this.mBinding = binding;
+            Context context = mBinding.getRoot().getContext();
+            mBinding.cancelAction.setImageDrawable(new IconicsDrawable(context,
+                    GoogleMaterial.Icon.gmd_clear)
+                    .color(context.getResources().getColor(R.color.colorPrimary))
+                    .sizeDp(14));
+            binding.cancelAction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onListItemSelected(binding.getDownload());
+                    mDataCollection.remove(getPosition());
+                    notifyItemRemoved(getPosition());
+                    notifyItemRangeChanged(getPosition(), mDataCollection.size());
+                }
+            });
+        }
+    }
+
+    public class FooterViewHolder extends RecyclerView.ViewHolder {
 
         public FooterDataBinding mBinding;
 

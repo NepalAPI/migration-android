@@ -19,7 +19,7 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -53,9 +53,24 @@
         <item name="android:textColor">@color/divider</item>
     </style>
 
-    <style name="AppTheme.Dialog" parent="Base.V21.Theme.AppCompat.Light.Dialog">
+    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsFloating">true</item>
+
         <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+        <item name="tabTextColor">@color/white_alpha_70</item>
+        <item name="tabIndicatorHeight">3dp</item>
+    </style>
+
+    <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/text_big</item>
+        <item name="textAllCaps">true</item>
+        <!--<item name="android:textStyle">bold</item>-->
     </style>
 
 </resources>

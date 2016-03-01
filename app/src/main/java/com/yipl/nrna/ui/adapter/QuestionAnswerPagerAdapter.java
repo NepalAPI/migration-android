@@ -43,7 +43,7 @@ public class QuestionAnswerPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment;
         switch (position) {
             case 0:
-                fragment = QuestionDetailFragment.newInstance(mQuestionId, false);
+                fragment = QuestionDetailFragment.newInstance(mQuestionId);
                 break;
             case 1:
                 fragment = AudioListFragment.newInstance(mQuestionId, true);

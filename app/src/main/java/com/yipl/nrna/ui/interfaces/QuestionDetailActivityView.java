@@ -7,5 +7,6 @@ import com.yipl.nrna.domain.model.Question;
  */
 public interface QuestionDetailActivityView extends PostListView {
     void renderQuestionDetail(Question pQuestion);
-    void renderSubQuestions(String[] pChildIds);
+
+    void renderSubQuestions(String[] pChildIds, String[] pChildTitles);
 }

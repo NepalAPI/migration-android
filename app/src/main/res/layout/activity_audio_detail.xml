@@ -35,24 +35,30 @@
                 fresco:backgroundImage="@color/colorPrimary"
                 fresco:fadeDuration="300"
                 fresco:failureImageScaleType="centerInside"
+                fresco:overlayImage="@drawable/toolbar_gradient_white_black"
                 fresco:placeholderImage="@drawable/podcast_art_bg"
                 fresco:placeholderImageScaleType="center"/>
-            <!--<com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/content_art"
+
+
+            <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                fresco:actualImageScaleType="centerCrop"
-                fresco:placeholderImage="@drawable/ic_headset_large"
-                fresco:placeholderImageScaleType="center"/>-->
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_standard"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                app:layout_collapseMode="parallax"
+                android:textSize="@dimen/text_large"
+                tools:text="My experience on applying for citizenship"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:gravity="top"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:layout_collapseMode="pin"/>
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -66,8 +72,8 @@
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/spacing_small"
-        android:paddingLeft="@dimen/spacing_small"
-        android:paddingRight="@dimen/spacing_small"
+        android:paddingLeft="@dimen/spacing_medium"
+        android:paddingRight="@dimen/spacing_medium"
         android:paddingTop="@dimen/spacing_xlarge">
 
         <ImageView
@@ -75,7 +81,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/spacing_xsmall"
-            android:paddingRight="0dp"
             android:src="@android:drawable/ic_media_previous"/>
 
         <RelativeLayout
@@ -99,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/seekbar"
                 android:layout_centerHorizontal="true"
-                android:text="Buffering..."
+                android:text="@string/message_buffering"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_xsmall"
                 android:visibility="gone"/>
@@ -130,14 +135,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/spacing_xsmall"
-            android:paddingLeft="0dp"
             android:src="@android:drawable/ic_media_next"/>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/play_btn_size"
+        android:layout_height="@dimen/play_btn_size"
         android:src="@drawable/ic_pause"
         app:backgroundTint="@color/colorPrimary"
         app:layout_anchor="@id/playerControls"

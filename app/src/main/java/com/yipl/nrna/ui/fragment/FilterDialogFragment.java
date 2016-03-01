@@ -3,7 +3,6 @@ package com.yipl.nrna.ui.fragment;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +13,7 @@ import android.support.v7.widget.AppCompatCheckBox;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.sql.RowSetInternal;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,26 +55,9 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
     Button btnCancel;
     List<CheckBox> tagCheckbox;
 
-    public FilterDialogFragment() {
-
-    }
-
     public static FilterDialogFragment newInstance() {
         FilterDialogFragment fragment = new FilterDialogFragment();
-//        fragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AppTheme_Dialog);
         return fragment;
-    }
-
-    public static ColorStateList getCheckboxColorList() {
-        int[][] states = new int[][]{new int[]{-android.R.attr.state_checked},
-                new int[]{android.R.attr.state_checked}
-        };
-        int[] colors = new int[]{
-                Color.WHITE,
-                Color.WHITE
-        };
-        ColorStateList myColorList = new ColorStateList(states, colors);
-        return myColorList;
     }
 
     @Nullable
@@ -95,6 +77,14 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
 
     @Override
     public void onResume() {
+        // Get existing layout params for the window
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        // Assign window properties to fill the parent
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+        // Call super onResume after sizing
+
         super.onResume();
         mPresenter.resume();
     }
@@ -143,20 +133,35 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
         mPresenter.initialize();
     }
 
+
+    public ColorStateList getCheckboxColorList() {
+        int[][] states = new int[][]{new int[]{-android.R.attr.state_checked},
+                new int[]{android.R.attr.state_checked}
+        };
+        int[] colors = new int[]{
+                getContext().getResources().getColor(R.color.text_color_primary_faded_70),
+                getContext().getResources().getColor(R.color.colorPrimary)
+        };
+        ColorStateList myColorList = new ColorStateList(states, colors);
+        return myColorList;
+    }
+
+
     @Override
     public void renderTags(List<String> tagsList) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout
+                .LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         if (tagsList != null) {
             for (String tag : tagsList) {
-                CheckBox checkBox;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    checkBox = new AppCompatCheckBox(getContext());
-
-                else {
-                    checkBox = new CheckBox(getContext());
-                    int id = Resources.getSystem().getIdentifier("btn_check_holo_light", "drawable", "android");
+                AppCompatCheckBox checkBox = new AppCompatCheckBox(getContext());
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    int id = Resources.getSystem().getIdentifier("btn_check_holo_light",
+                            "drawable", "android");
                     checkBox.setButtonDrawable(id);
+                } else {
+                    checkBox.setButtonTintList(getCheckboxColorList());
                 }
+
                 checkBox.setText(tag);
                 tagCheckbox.add(checkBox);
                 tagsContainer.addView(checkBox, params);
@@ -180,7 +185,7 @@ public class FilterDialogFragment extends DialogFragment implements FilterDialog
         if (lastStageChoices != null) {
             for (String choice : lastStageChoices) {
                 for (int i = 0; i < stages.length; i++) {
-                    if(choice.equals(stages[i])){
+                    if (choice.equals(stages[i])) {
                         stageCheckbox.get(i).setChecked(true);
                     }
                 }

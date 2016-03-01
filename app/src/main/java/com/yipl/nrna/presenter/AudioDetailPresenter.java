@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Environment;
 
 import com.yipl.nrna.R;
+import com.yipl.nrna.data.utils.Logger;
 import com.yipl.nrna.domain.interactor.DefaultSubscriber;
 import com.yipl.nrna.domain.interactor.UseCase;
 import com.yipl.nrna.domain.model.Post;
@@ -67,13 +68,14 @@ public class AudioDetailPresenter implements Presenter {
 
     public void downloadAudioPost(Post pAudio) throws IOException {
         String mediaUrl = pAudio.getData().getMediaUrl().replace(" ", "%20");
-        String fileName = mediaUrl.substring(mediaUrl.lastIndexOf("/") + 1);
+        String fileName = mediaUrl.substring(mediaUrl.lastIndexOf("/") + 1).replace("%20", " ");
         File audioFile = getAudioFile(fileName);
-
+        Logger.d("AudioDetailPresenter_downloadAudioPost", "filename: " + fileName);
+        Logger.d("AudioDetailPresenter_downloadAudioPost", "path: " + audioFile.getAbsolutePath());
         if (!audioFile.exists()) {
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mediaUrl));
             request.setNotificationVisibility(DownloadManager.Request
-                    .VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                    .VISIBILITY_VISIBLE);
             request.setTitle(pAudio.getTitle());
             request.setDescription(mView.getContext().getResources().getString(R.string
                     .download_description));
@@ -83,6 +85,7 @@ public class AudioDetailPresenter implements Presenter {
             request.setVisibleInDownloadsUi(true);
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
             long reference = mDownloadManager.enqueue(request);
+            pAudio.setDownloadReference(reference);
             mPreferences.addDownloadReference(reference);
             mUseCase.execute(new DefaultSubscriber(), reference);
         } else {

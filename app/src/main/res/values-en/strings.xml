@@ -5,7 +5,8 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_sync">Sync</string>
     <string name="action_retry">Retry</string>
-    <string name="action_share">Share On Facebook</string>
+    <string name="action_share">Share</string>
+    <string name="action_share_facebook">Share On Facebook</string>
     <string name="action_download">Download</string>
     <string name="action_share_bluetooth">Share via Bluetooth</string>
 
@@ -33,16 +34,16 @@
     </string-array>
 
     <string-array name="stages">
-        <item>Pre-application</item>
-        <item>Application</item>
-        <item>Work permit</item>
-        <item>Destination country</item>
+        <item>@string/stage_pre_application</item>
+        <item>@string/stage_application</item>
+        <item>@string/stage_work_permit</item>
+        <item>@string/stage_destination_country</item>
     </string-array>
 
-    <string name="stage_pre_application">pre-application</string>
-    <string name="stage_application">applying</string>
-    <string name="stage_work_permit">work-permit</string>
-    <string name="stage_destination_country">destination-country</string>
+    <string name="stage_pre_application">Pre - application</string>
+    <string name="stage_application">Applying</string>
+    <string name="stage_work_permit">Work permit</string>
+    <string name="stage_destination_country">Destination country</string>
 
     <string-array name="country_info">
         <item>About</item>
@@ -58,7 +59,10 @@
     <string name="exception_message_generic">Error encountered.</string>
     <string name="exception_message_no_connection">Please check your internet connection.</string>
 
-    <string name="empty_audio">No Audio / Podcasts Available</string>
+    <string name="sorry_prefix">Sorry. %1$s</string>
+    <string name="question_related_text">%1$s related to this question</string>
+    <string name="stage_related_text">%1$s related to this stage</string>
+    <string name="empty_audio">No Audio Available</string>
     <string name="empty_video">No Videos Available</string>
     <string name="empty_article">No Articles Available</string>
     <string name="empty_country">No Countries Available</string>
@@ -118,10 +122,12 @@
     <string name="related_document">Related Documents</string>
     <string name="download">Download</string>
     <string name="view_pdf">View Pdf</string>
+    <string name="message_buffering">Bufferring...</string>
 
     <string name="filter">Filter</string>
     <string name="cancel">Cancel</string>
 
-    <string name="ok">Ok </string>
-
+    <string name="ok">OK</string>
+    <string name="read_more">Read more</string>
+    <string name="read_less">Read less</string>
 </resources>

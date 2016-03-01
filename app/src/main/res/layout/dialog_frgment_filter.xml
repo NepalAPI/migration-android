@@ -1,72 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingBottom="@dimen/spacing_standard"
+    android:paddingTop="@dimen/spacing_standard">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_standard"
-        android:layout_marginBottom="@dimen/spacing_standard">
+        android:layout_height="match_parent">
 
         <ProgressBar
             android:id="@+id/tagProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="gone"
-            />
+            android:visibility="gone"/>
 
         <LinearLayout
             android:id="@+id/stageContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="@dimen/spacing_medium">
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/filter_by_stage"
-                android:textSize="@dimen/text_large"
-                android:textStyle="bold"
+                android:background="@color/colorPrimary"
                 android:padding="@dimen/spacing_small"
+                android:text="@string/filter_by_stage"
                 android:textColor="@color/window_background"
-                android:background="@color/colorPrimary"/>
+                android:textSize="@dimen/text_large"
+                android:textStyle="bold"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/spacing_standard"
-                android:paddingStart="@dimen/spacing_standard">
+                android:paddingRight="@dimen/spacing_standard">
 
-            <CheckBox
-                android:id="@+id/checkBoxStage0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stage_pre_application"/>
+                <CheckBox
+                    android:id="@+id/checkBoxStage0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stage_pre_application"/>
 
-            <CheckBox
-                android:id="@+id/checkBoxStage1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stage_application"/>
+                <CheckBox
+                    android:id="@+id/checkBoxStage1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stage_application"/>
 
-            <CheckBox
-                android:id="@+id/checkBoxStage2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stage_work_permit"/>
+                <CheckBox
+                    android:id="@+id/checkBoxStage2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stage_work_permit"/>
 
-            <CheckBox
-                android:id="@+id/checkBoxStage3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stage_destination_country"/>
-                </LinearLayout>
+                <CheckBox
+                    android:id="@+id/checkBoxStage3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stage_destination_country"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -75,23 +76,23 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/stageContainer"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/filter_by_tag"
-                android:textSize="@dimen/text_large"
-                android:textStyle="bold"
+                android:background="@color/colorPrimary"
                 android:padding="@dimen/spacing_small"
+                android:text="@string/filter_by_tag"
                 android:textColor="@color/window_background"
-                android:background="@color/colorPrimary"/>
+                android:textSize="@dimen/text_large"
+                android:textStyle="bold"/>
+
             <LinearLayout
                 android:id="@+id/tagsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/spacing_standard"
-                android:paddingStart="@dimen/spacing_standard"
-                android:paddingEnd="@dimen/spacing_standard"
                 android:paddingRight="@dimen/spacing_standard"/>
         </LinearLayout>
 
@@ -99,39 +100,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tags"
-            android:weightSum="10"
             android:layout_marginTop="@dimen/spacing_small"
             android:padding="@dimen/spacing_standard"
-            >
+            android:weightSum="10">
 
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:cardElevation="4dp"
-                android:layout_weight="4">
-            <Button
-                android:id="@+id/btnFilter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_effect_dark"
-                android:text="@string/filter"
-                />
+                android:layout_weight="4"
+                app:cardElevation="4dp">
+
+                <Button
+                    android:id="@+id/btnFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_effect_dark"
+                    android:text="@string/filter"/>
             </android.support.v7.widget.CardView>
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"/>
+
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:cardElevation="4dp"
-                android:layout_weight="4">
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_effect_dark"
-                android:text="@string/cancel"/>
+                android:layout_weight="4"
+                app:cardElevation="4dp">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_effect_dark"
+                    android:text="@string/cancel"/>
             </android.support.v7.widget.CardView>
         </LinearLayout>
     </RelativeLayout>

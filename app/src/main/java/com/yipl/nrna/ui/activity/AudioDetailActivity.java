@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -18,6 +18,7 @@ import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -56,6 +57,10 @@ public class AudioDetailActivity extends FacebookActivity implements
         View.OnClickListener,
         SeekBar.OnSeekBarChangeListener {
 
+    private static final int GROUP1 = 101;
+    private static final int SUBMENU_BLUETOOTH = 1001;
+    private static final int SUBMENU_FACEBOOK = 1002;
+
     @Bind(R.id.content_art)
     SimpleDraweeView mAlbumArt;
     @Bind(R.id.bufferingText)
@@ -77,7 +82,7 @@ public class AudioDetailActivity extends FacebookActivity implements
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.description)
-    TextView description;
+    WebView description;
     @Bind(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
     Drawable playIcon, pauseIcon;
@@ -118,15 +123,13 @@ public class AudioDetailActivity extends FacebookActivity implements
             if (mService != null) {
                 long[] lengths = mService.getSongLengths();
                 if (lengths != null) {
-                    /*Logger.e("AudioDetailActivity_updateSeekTime", "lengths: " + lengths[0] + "/" +
-                            lengths[1]);*/
                     currentTime.setText(MediaHelper.getFormattedTime(lengths[0]));
                     totalTime.setText(MediaHelper.getFormattedTime(lengths[1]));
                     int progress = MediaHelper.getProgressPercentage(lengths[0], lengths[1]);
                     seekbar.setProgress(progress);
-                    seekbarHandler.postDelayed(this, 100);
+                    seekbarHandler.postDelayed(this, 500);
                 } else {
-                    //Logger.e("AudioDetailActivity_updateSeekTime", "lengths: null");
+                    seekbar.setProgress(0);
                     seekbar.removeCallbacks(updateSeekTime);
                 }
             } else {
@@ -145,11 +148,16 @@ public class AudioDetailActivity extends FacebookActivity implements
         super.onResume();
         if (mPresenter != null) mPresenter.resume();
         updateSeekBar();
+        if (mMusicBound) {
+            updateView(mService.getCurrentTrack());
+            onBufferStopped();
+        }
         receiverFilter.addAction(MyConstants.Media.ACTION_MEDIA_BUFFER_START);
         receiverFilter.addAction(MyConstants.Media.ACTION_MEDIA_BUFFER_STOP);
         receiverFilter.addAction(MyConstants.Media.ACTION_STATUS_PREPARED);
         receiverFilter.addAction(MyConstants.Media.ACTION_MEDIA_CHANGE);
         receiverFilter.addAction(MyConstants.Media.ACTION_PLAY_STATUS_CHANGE);
+        receiverFilter.addAction(MyConstants.Media.ACTION_SHOW_HIDE_CONTROLS);
         registerReceiver(mediaReceiver, receiverFilter);
     }
 
@@ -186,16 +194,6 @@ public class AudioDetailActivity extends FacebookActivity implements
         seekbar.setOnSeekBarChangeListener(this);
     }
 
-    private void initialize() {
-        DaggerDataComponent.builder()
-                .activityModule(getActivityModule())
-                .applicationComponent(getApplicationComponent())
-                .dataModule(new DataModule(mAudio.getId()))
-                .build()
-                .inject(this);
-        mPresenter.attachView(this);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -206,16 +204,32 @@ public class AudioDetailActivity extends FacebookActivity implements
                 .color(Color.WHITE)
                 .actionBar());
 
-        menu.findItem(R.id.action_bluetooth).setIcon(new IconicsDrawable(this, GoogleMaterial
-                .Icon.gmd_bluetooth)
-                .color(Color.WHITE)
-                .actionBar());
-
         menu.findItem(R.id.action_share).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon
                 .gmd_share).color(Color.WHITE)
                 .actionBar());
+
+        menu.findItem(R.id.action_share).getSubMenu().add(GROUP1, SUBMENU_BLUETOOTH, 1,
+                getString(R.string.action_share_bluetooth));
+        menu.findItem(R.id.action_share).getSubMenu().add(GROUP1, SUBMENU_FACEBOOK, 2, getString
+                (R.string.action_share_facebook));
         showCaseView();
         return true;
+    }
+
+    private void initialize() {
+        DaggerDataComponent.builder()
+                .activityModule(getActivityModule())
+                .applicationComponent(getApplicationComponent())
+                .dataModule(new DataModule(mAudio.getId()))
+                .build()
+                .inject(this);
+        mPresenter.attachView(this);
+    }
+
+    private void shareViaBluetooth() {
+        initialize();
+        mPresenter.initialize();
+        mPresenter.shareViaBluetooth(mAudio);
     }
 
     @Override
@@ -225,22 +239,25 @@ public class AudioDetailActivity extends FacebookActivity implements
                 finish();
                 break;
             case R.id.action_share:
+                break;
+            case SUBMENU_BLUETOOTH:
+                shareViaBluetooth();
+                break;
+            case SUBMENU_FACEBOOK:
                 showShareDialog(mService.getCurrentTrack());
                 break;
             case R.id.action_download:
                 initialize();
                 mPresenter.initialize();
                 try {
-                    mPresenter.downloadAudioPost(mAudio);
+                    if (!getPreferences().getDownloadReferences().contains(mAudio
+                            .getDownloadReference())) {
+                        mPresenter.downloadAudioPost(mAudio);
+                    }
                 } catch (IOException e) {
                     Logger.e("AudioDetailActivity_onOptionsItemSelected", "errorMessage: " + e
                             .getLocalizedMessage());
                 }
-                break;
-            case R.id.action_bluetooth:
-                initialize();
-                mPresenter.initialize();
-                mPresenter.shareViaBluetooth(mAudio);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -304,11 +321,6 @@ public class AudioDetailActivity extends FacebookActivity implements
     }
 
     @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
     }
@@ -320,6 +332,7 @@ public class AudioDetailActivity extends FacebookActivity implements
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
+        Logger.d("AudioDetailActivity_onStopTrackingTouch", "test: " + seekbar.getProgress());
         mService.seekTo(seekBar.getProgress());
         updateSeekBar();
     }
@@ -346,11 +359,13 @@ public class AudioDetailActivity extends FacebookActivity implements
 
     @Override
     public void onBufferStarted() {
+        Logger.d("AudioDetailActivity_onBufferStarted", "buffering start");
         disablePlayerControls();
     }
 
     @Override
     public void onBufferStopped() {
+        Logger.d("AudioDetailActivity_onBufferStopped", "buffering stop");
         enablePlayerControls();
     }
 
@@ -361,9 +376,19 @@ public class AudioDetailActivity extends FacebookActivity implements
     }
 
     @Override
+    public void showHidePrevNext(boolean showPrev, boolean showNext) {
+        Logger.d("AudioDetailActivity_showHidePrevNext", "test: " + showPrev + "/" + showNext);
+        prev.setVisibility(showPrev ? View.VISIBLE : View.GONE);
+        next.setVisibility(showNext ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
     public void onMediaChanged(Post pTrack) {
         mAudio = pTrack;
         updateView(pTrack);
+        seekbar.setProgress(0);
+        currentTime.setText("00:00");
+        totalTime.setText("00:00");
         seekbarHandler.removeCallbacks(updateSeekTime);
     }
 
@@ -387,28 +412,39 @@ public class AudioDetailActivity extends FacebookActivity implements
                 .LENGTH_SHORT).show();
     }
 
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
     private void updateView(Post pPost) {
         if (mAudio.getData().getThumbnail() != null) {
             mAlbumArt.setImageURI(Uri.parse(mAudio.getData().getThumbnail()));
         }
         title.setText(pPost.getTitle());
-        description.setText(pPost.getDescription());
+        StringBuilder sb = new StringBuilder();
+        sb.append("<HTML><HEAD><LINK href=\"styles.css\" type=\"text/css\" rel=\"stylesheet\"/></HEAD><body>");
+        sb.append(pPost.getDescription());
+        sb.append("</body></HTML>");
+        description.loadDataWithBaseURL("file:///android_asset/", sb.toString(), "text/html",
+                "utf-8", null);
+        //description.setText(Html.fromHtml(pPost.getDescription()));
     }
 
     private void disablePlayerControls() {
         bufferingText.setVisibility(View.VISIBLE);
         fab.setEnabled(false);
-        next.setEnabled(false);
-        prev.setEnabled(false);
-        seekbar.setEnabled(false);
+        //next.setEnabled(false);
+        //prev.setEnabled(false);
+        //seekbar.setEnabled(false);
     }
 
     private void enablePlayerControls() {
         bufferingText.setVisibility(View.GONE);
         fab.setEnabled(true);
-        next.setEnabled(true);
-        prev.setEnabled(true);
-        seekbar.setEnabled(true);
+        //next.setEnabled(true);
+        //prev.setEnabled(true);
+        //seekbar.setEnabled(true);
     }
 
     private void updateSeekBar() {
@@ -416,8 +452,7 @@ public class AudioDetailActivity extends FacebookActivity implements
         seekbarHandler.postDelayed(updateSeekTime, 100);
     }
 
-    public void showCaseView(){
-
+    public void showCaseView() {
         ShowcaseView menuShowcaseView = new ShowcaseView.Builder(this)
                 .setStyle(R.style.showcase)
                 .setContentText(getString(R.string.showcase_auido_download_detail))
@@ -431,6 +466,5 @@ public class AudioDetailActivity extends FacebookActivity implements
                     }
                 })
                 .build();
-
     }
 }

@@ -19,12 +19,10 @@ import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
-import com.google.android.youtube.player.internal.p;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.yipl.nrna.R;
 import com.yipl.nrna.base.BaseFragment;
@@ -54,7 +52,7 @@ import butterknife.ButterKnife;
 
 public class HomeFragment extends BaseFragment implements HomeFragmentView {
 
-    public static final int LATEST_DATA_SIZE = 5;
+    public static final int LATEST_DATA_SIZE = 3;
 
     @Inject
     HomeFragmentPresenter mPresenter;
@@ -84,7 +82,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     @Bind(R.id.audio_section)
     RelativeLayout mAudioSection;
     @Bind(R.id.video_section)
-    RelativeLayout mVideoSeciton;
+    RelativeLayout mVideoSection;
 
     private QuestionPagerAdapter mQuestionPagerAdapter;
 
@@ -193,7 +191,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     public void renderLatestAudios(final List<Post> pAudios) {
         if (pAudios != null) {
             mAudioList.removeAllViews();
-            int limit = pAudios.size()>2?2:pAudios.size();
+            int limit = pAudios.size() > 2 ? 2 : pAudios.size();
             for (int i = 0; i < limit; i++) {
                 AudioDataBinding audioDataBinding = DataBindingUtil.inflate
                         (LayoutInflater.from(getContext()), R.layout.list_item_audio, mAudioList,
@@ -220,8 +218,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     public void renderLatestVideos(List<Post> pVideos) {
         if (pVideos != null) {
             mVideoList.removeAllViews();
-            int limit = pVideos.size()>2?2:pVideos.size();
-            for (int i = 0; i< limit; i++) {
+            int limit = pVideos.size() > 2 ? 2 : pVideos.size();
+            for (int i = 0; i < limit; i++) {
                 final Post video = pVideos.get(i);
                 final VideoDataBinding videoDataBinding = DataBindingUtil.inflate
                         (LayoutInflater.from(getContext()), R.layout.list_item_video, mVideoList,
@@ -248,8 +246,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     public void renderLatestArticles(List<Post> pArticles) {
         if (pArticles != null) {
             mArticleList.removeAllViews();
-            int limit = pArticles.size()>2?2:pArticles.size();
-            for (int i = 0; i< limit; i++) {
+            int limit = pArticles.size() > 2 ? 2 : pArticles.size();
+            for (int i = 0; i < limit; i++) {
                 final Post article = pArticles.get(i);
                 ArticleDataBinding articleDataBinding = DataBindingUtil.inflate
                         (LayoutInflater.from(getContext()), R.layout.list_item_article, mArticleList,
@@ -272,31 +270,31 @@ public class HomeFragment extends BaseFragment implements HomeFragmentView {
     }
 
     @Override
-    public void showPostSection(int flag) {
-        switch (flag) {
-            case HomeFragmentPresenter.FLAG_AUDIO:
-                mAudioSection.setVisibility(View.VISIBLE);
-                break;
-            case HomeFragmentPresenter.FLAG_VIDEO:
-                mVideoSeciton.setVisibility(View.VISIBLE);
-                break;
-            case HomeFragmentPresenter.FLAG_ARTICLE:
-                mArticleSection.setVisibility(View.VISIBLE);
-                break;
-        }
-    }
-
-    @Override
     public void hidePostSection(int flag) {
         switch (flag) {
             case HomeFragmentPresenter.FLAG_AUDIO:
                 mAudioSection.setVisibility(View.GONE);
                 break;
             case HomeFragmentPresenter.FLAG_VIDEO:
-                mVideoSeciton.setVisibility(View.GONE);
+                mVideoSection.setVisibility(View.GONE);
                 break;
             case HomeFragmentPresenter.FLAG_ARTICLE:
                 mArticleSection.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    @Override
+    public void showPostSection(int flag) {
+        switch (flag) {
+            case HomeFragmentPresenter.FLAG_AUDIO:
+                mAudioSection.setVisibility(View.VISIBLE);
+                break;
+            case HomeFragmentPresenter.FLAG_VIDEO:
+                mVideoSection.setVisibility(View.VISIBLE);
+                break;
+            case HomeFragmentPresenter.FLAG_ARTICLE:
+                mArticleSection.setVisibility(View.VISIBLE);
                 break;
         }
     }

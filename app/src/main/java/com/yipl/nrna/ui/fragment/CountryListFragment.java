@@ -178,8 +178,8 @@ public class CountryListFragment extends BaseFragment implements CountryListView
         List<Country> preferedCountries = new ArrayList<>();
         if (pCountries != null) {
             mCountries = pCountries;
-            List<String> countriesName = ((BaseActivity)getActivity()).getPreferences().getCountries();
-            if(countriesName != null && !countriesName.isEmpty()) {
+            List<String> countriesName = ((BaseActivity) getActivity()).getPreferences().getCountries();
+            if (countriesName != null && !countriesName.isEmpty()) {
                 for (String s : countriesName) {
                     for (Country country : pCountries) {
                         if (s.equals(country.getName())) {
@@ -199,7 +199,7 @@ public class CountryListFragment extends BaseFragment implements CountryListView
         mListAdapter.setDataCollection(pCountries);
     }
 
-    public void showAllCountries(){
+    public void showAllCountries() {
         mListAdapter.setDataCollection(mCountries);
     }
 

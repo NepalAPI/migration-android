@@ -33,6 +33,9 @@ public class MediaReceiver extends BroadcastReceiver {
         } else if (intent.getAction().equals(MyConstants.Media.ACTION_PLAY_STATUS_CHANGE)) {
             mListener.playStatusChanged(intent.getBooleanExtra(MyConstants.Extras
                     .KEY_PLAY_STATUS, false));
+        } else if (intent.getAction().equals(MyConstants.Media.ACTION_SHOW_HIDE_CONTROLS)) {
+            mListener.showHidePrevNext(intent.getBooleanExtra("showPrev", true), intent
+                    .getBooleanExtra("showNext", true));
         }
     }
 }

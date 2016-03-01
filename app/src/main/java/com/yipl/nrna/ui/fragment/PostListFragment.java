@@ -34,8 +34,10 @@ public class PostListFragment extends ContentListFragment implements PostListVie
 
     @Bind(R.id.post_list)
     RecyclerView mRecyclerView;
-    @Bind(R.id.no_content)
+    @Bind(R.id.tvNoPost)
     TextView tvNoPosts;
+    @Bind(R.id.noPost)
+    RelativeLayout mEmptyView;
     @Bind(R.id.progress_bar)
     ProgressBar mProgressBar;
     @Bind(R.id.data_container)
@@ -136,6 +138,8 @@ public class PostListFragment extends ContentListFragment implements PostListVie
 
     private void initialize() {
         if (mQuestionId != Long.MIN_VALUE) {
+            tvNoPosts.setText(getString(R.string.sorry_prefix, getString(R.string
+                    .question_related_text, getString(R.string.empty_post))));
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(mQuestionId, MyConstants.DataParent.QUESTION,
                             mType, mDownloadStatus, mIncludeChildContents))
@@ -144,6 +148,7 @@ public class PostListFragment extends ContentListFragment implements PostListVie
                     .build()
                     .inject(this);
         } else {
+            tvNoPosts.setText(getString(R.string.sorry_prefix, getString(R.string.empty_post)));
             DaggerDataComponent.builder()
                     .dataModule(new DataModule(mType, mDownloadStatus))
                     .activityModule(((BaseActivity) getActivity()).getActivityModule())
@@ -152,7 +157,6 @@ public class PostListFragment extends ContentListFragment implements PostListVie
                     .inject(this);
         }
         mPresenter.attachView(this);
-        tvNoPosts.setVisibility(View.GONE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
@@ -188,12 +192,12 @@ public class PostListFragment extends ContentListFragment implements PostListVie
 
     @Override
     public void showEmptyView() {
-        tvNoPosts.setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideEmptyView() {
-        tvNoPosts.setVisibility(View.INVISIBLE);
+        mEmptyView.setVisibility(View.GONE);
     }
 
     @Override

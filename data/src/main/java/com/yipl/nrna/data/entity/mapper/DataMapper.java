@@ -12,13 +12,13 @@ import com.yipl.nrna.data.entity.QuestionEntity;
 import com.yipl.nrna.domain.model.Answer;
 import com.yipl.nrna.domain.model.Country;
 import com.yipl.nrna.domain.model.CountryUpdate;
+import com.yipl.nrna.domain.model.DownloadItem;
 import com.yipl.nrna.domain.model.FileData;
 import com.yipl.nrna.domain.model.LatestContent;
 import com.yipl.nrna.domain.model.Post;
 import com.yipl.nrna.domain.model.PostData;
 import com.yipl.nrna.domain.model.Question;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +56,7 @@ public class DataMapper {
             question.setCreatedAt(pEntity.getCreatedAt());
             question.setUpdatedAt(pEntity.getUpdatedAt());
             question.setChildIds(pEntity.getChildIds());
+            question.setChildTitles(pEntity.getChildTitles());
             question.setWeight(pEntity.getWeight());
             return question;
         }
@@ -92,7 +93,19 @@ public class DataMapper {
             post.setData(transformPostData(pEntity.getData()));
             post.setStage(pEntity.getStage());
             post.setDownloadStatus(pEntity.getDownloadStatus());
+            post.setDownloadReference(pEntity.getDownloadReference());
             return post;
+        }
+        return null;
+    }
+
+    public DownloadItem transformPostToDownloadItem(PostEntity pEntity) {
+        if (pEntity != null) {
+            DownloadItem item = new DownloadItem();
+            item.setId(pEntity.getId());
+            item.setTitle(pEntity.getTitle());
+            item.setDownloadReference(pEntity.getDownloadReference());
+            return item;
         }
         return null;
     }
@@ -107,6 +120,18 @@ public class DataMapper {
             }
         }
         return postList;
+    }
+
+    public List<DownloadItem> transformPostToDownloadItem(List<PostEntity> pEntities) {
+        List<DownloadItem> list = new ArrayList<>();
+        if (pEntities != null) {
+            for (PostEntity entity : pEntities) {
+                DownloadItem item = transformPostToDownloadItem(entity);
+                if (item != null)
+                    list.add(item);
+            }
+        }
+        return list;
     }
 
     public Answer transformAnswer(AnswerEntity pEntity) {

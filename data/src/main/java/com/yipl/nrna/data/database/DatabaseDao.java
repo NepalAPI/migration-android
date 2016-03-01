@@ -94,6 +94,8 @@ public class DatabaseDao {
                 }.getType()));
         post.setDownloadStatus(cursor.getInt(cursor.getColumnIndex(TABLE_POST
                 .COLUMN_DOWNLOAD_STATUS)) == 1);
+        post.setDownloadReference(cursor.getLong(cursor.getColumnIndex(TABLE_POST
+                .COLUMN_DOWNLOAD_REF)));
         return post;
     }
 
@@ -148,6 +150,9 @@ public class DatabaseDao {
         if(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_CHILD_IDS) != -1)
             question.setChildIds(cursor.getString(cursor.getColumnIndex(TABLE_QUESTION
                     .COLUMN_CHILD_IDS)));
+        if(cursor.getColumnIndex(TABLE_QUESTION.COLUMN_CHILD_TITLES) != -1)
+            question.setChildTitles(cursor.getString(cursor.getColumnIndex(TABLE_QUESTION
+                    .COLUMN_CHILD_TITLES)));
         return question;
     }
 
@@ -185,9 +190,30 @@ public class DatabaseDao {
         return pQuery;
     }
 
+    public Observable<List<PostEntity>> getCurrentDownloads(){
+        String query = "Select * from " + TABLE_POST.TABLE_NAME +
+                /*" where " + TABLE_POST.COLUMN_DOWNLOAD_STATUS + " = 0" +
+                " and " + TABLE_POST.COLUMN_DOWNLOAD_REF + "!= ''";*/
+                " where " + TABLE_POST.COLUMN_DOWNLOAD_REF + "!= ''";
+        Cursor cursor = db.rawQuery(query, null);
+
+        Callable<List<PostEntity>> c = new Callable<List<PostEntity>>() {
+            @Override
+            public List<PostEntity> call() throws Exception {
+                List<PostEntity> posts = new ArrayList<PostEntity>();
+                while (cursor.moveToNext()) {
+                    posts.add(mapCursorToPostEntity(cursor));
+                }
+                cursor.close();
+                return posts;
+            }
+        };
+        return makeObservable(c);
+    }
+
     public Observable<List<PostEntity>> getAllPosts(String pStage, String pType, int
             pDownloadStatus, int pLimit) {
-        SQLiteDatabase db = helper.getWritableDatabase();
+        //SQLiteDatabase db = helper.getWritableDatabase();
         String query = "Select * from " + TABLE_POST.TABLE_NAME;
         if (pStage != null || pType != null) {
             query += " where ";
@@ -344,7 +370,9 @@ public class DatabaseDao {
     }
 
     public Observable<QuestionEntity> getQuestionById(Long pId) {
-        String query = "Select q1.*, group_concat(q2.id) as " + TABLE_QUESTION.COLUMN_CHILD_IDS +
+        String query = "Select q1.*, " +
+                "group_concat(q2.id, '::') as " + TABLE_QUESTION.COLUMN_CHILD_IDS + ", " +
+                "group_concat(q2.title, '::') as " + TABLE_QUESTION.COLUMN_CHILD_TITLES +
                 " from " +
                 TABLE_QUESTION.TABLE_NAME + " as q1 left join " +
                 TABLE_QUESTION.TABLE_NAME + " as q2 on q1.id = q2.parent_id" +
@@ -587,12 +615,12 @@ public class DatabaseDao {
         return insertId;
     }
 
-    public long updateDownloadStatus(Long pId, boolean pDownloadStatus) {
+    public long updateDownloadStatus(Long pReference, boolean pDownloadStatus) {
         ContentValues values = new ContentValues();
         values.put(TABLE_POST.COLUMN_DOWNLOAD_STATUS, pDownloadStatus ? 1 : 0);
         values.put(TABLE_POST.COLUMN_DOWNLOAD_REF, "");
         return db.update(TABLE_POST.TABLE_NAME, values, TABLE_POST.COLUMN_DOWNLOAD_REF + " = '" +
-                pId + "'", null);
+                pReference + "'", null);
     }
 
     public long setDownloadReference(Long pId, long pReference) {

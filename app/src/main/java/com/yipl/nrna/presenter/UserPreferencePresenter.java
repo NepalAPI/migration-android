@@ -43,21 +43,21 @@ public class UserPreferencePresenter implements Presenter {
         sendUserPreference();
     }
 
-    private void sendUserPreference() {
-        mView.showLoadingView();
-        mUseCase.execute(new UserPreferenceSubscriber());
-    }
-
     @Override
     public void attachView(MvpView view) {
         mView = (PersonalizationView) view;
+    }
+
+    private void sendUserPreference() {
+        mView.showLoadingView();
+        mUseCase.execute(new UserPreferenceSubscriber());
     }
 
     private final class UserPreferenceSubscriber extends DefaultSubscriber<Boolean> {
 
         @Override
         public void onCompleted() {
-           UserPreferencePresenter.this.mView.hideLoadingView();
+            UserPreferencePresenter.this.mView.hideLoadingView();
         }
 
         @Override
@@ -73,7 +73,7 @@ public class UserPreferencePresenter implements Presenter {
 
         @Override
         public void onNext(Boolean pBoolean) {
-            if(pBoolean){
+            if (pBoolean) {
                 UserPreferencePresenter.this.mView.hideLoadingView();
                 UserPreferencePresenter.this.mView.dataSent();
             }

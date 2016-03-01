@@ -19,6 +19,7 @@ public class Question extends BaseModel {
     String mAnswer;
     String mStage;
     String childIds;
+    String childTitles;
     Long weight;
 
     public Question() {
@@ -113,6 +114,13 @@ public class Question extends BaseModel {
         childIds = pChildIds;
     }
 
+    public String getChildTitles() {
+        return childTitles;
+    }
+
+    public void setChildTitles(String pChildTitles) {
+        childTitles = pChildTitles;
+    }
 
     public Long getWeight() {return weight; }
 

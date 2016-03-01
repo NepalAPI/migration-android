@@ -43,7 +43,7 @@ import butterknife.Bind;
 /**
  * Created by Nirazan-PC on 12/15/2015.
  */
-public class QuestionListFragment extends BaseFragment implements QuestionListFragmentView{
+public class QuestionListFragment extends BaseFragment implements QuestionListFragmentView {
 
     @Inject
     QuestionListFragmentPresenter mPresenter;
@@ -98,7 +98,7 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
-        if(bundle!=null){
+        if (bundle != null) {
             mStage = (MyConstants.Stage) bundle.getSerializable(MyConstants.Extras.KEY_STAGE);
         }
         initialize();
@@ -151,7 +151,7 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     @Override
     public void onPause() {
         super.onPause();
-        filterPrefStage = ((BaseActivity)getActivity()).getPreferences().getFilterTagChoices();
+        filterPrefStage = ((BaseActivity) getActivity()).getPreferences().getFilterTagChoices();
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mBroadcastReceiver);
         mPresenter.pause();
     }
@@ -229,14 +229,14 @@ public class QuestionListFragment extends BaseFragment implements QuestionListFr
     public void filterContentList(List<String> pStageFilter, List<String> pTagFilter) {
         if (pStageFilter.isEmpty() && pTagFilter.isEmpty()) {
             mListAdapter.setDataCollection(mQuestions);
-            ((QuestionListContainerFragment)getParentFragment()).changeFilterIcon(false);
+            ((QuestionListContainerFragment) getParentFragment()).changeFilterIcon(false);
             return;
         }
 
-        ((QuestionListContainerFragment)getParentFragment()).changeFilterIcon(true);
+        ((QuestionListContainerFragment) getParentFragment()).changeFilterIcon(true);
         List<Question> filteredQuestion = new ArrayList<>();
 
-        if(mQuestions!=null) {
+        if (mQuestions != null) {
             for (Question question : mQuestions) {
                 if ((question.getStage() != null && pStageFilter.contains(question.getStage()) ||
                         (question.getTags() != null && !Collections.disjoint(question.getTags(), pTagFilter)))) {

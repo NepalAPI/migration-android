@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    >
+        xmlns:fresco="http://schemas.android.com/apk/res-auto">
 
     <data class="CountryDataBinding">
 
@@ -27,6 +26,7 @@
             fresco:backgroundImage="@color/colorPrimaryDark"
             fresco:fadeDuration="300"
             fresco:failureImageScaleType="centerInside"
+            fresco:overlayImage="@drawable/toolbar_gradient_white_black"
             fresco:placeholderImageScaleType="centerCrop"/>
 
         <TextView
@@ -34,11 +34,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/image"
-            android:layout_marginBottom="@dimen/spacing_big"
+            android:layout_marginBottom="@dimen/spacing_xmedium"
             android:layout_marginLeft="@dimen/content_inset_start"
             android:text="@{country.getName()}"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_xlarge"/>
+            android:textSize="@dimen/text_xxxlarge"/>
 
         <View
             android:layout_width="match_parent"

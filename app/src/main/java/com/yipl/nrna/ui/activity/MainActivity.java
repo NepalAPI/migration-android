@@ -35,7 +35,6 @@ import com.yipl.nrna.ui.fragment.HomeFragment;
 import com.yipl.nrna.ui.fragment.InfoCenterFragment;
 import com.yipl.nrna.ui.fragment.PostListFragment;
 import com.yipl.nrna.ui.fragment.QuestionListContainerFragment;
-import com.yipl.nrna.ui.fragment.QuestionListFragment;
 import com.yipl.nrna.ui.fragment.VideoListFragment;
 import com.yipl.nrna.ui.interfaces.ListClickCallbackInterface;
 import com.yipl.nrna.ui.interfaces.MainActivityView;
@@ -330,7 +329,7 @@ public class MainActivity extends BaseActivity implements
         startActivity(intent);
     }
 
-    public void showCaseView(){
+    public void showCaseView() {
         ShowcaseView menuShowcaseView = new ShowcaseView.Builder(this)
                 .setStyle(R.style.showcase)
                 .setContentTitle(getString(R.string.showcase_setting_title))
@@ -339,7 +338,7 @@ public class MainActivity extends BaseActivity implements
                 .setTarget(new Target() {
                     @Override
                     public Point getPoint() {
-                        return new ViewTarget(getToolbar().getChildAt(getToolbar().getChildCount()-1)).getPoint();
+                        return new ViewTarget(getToolbar().getChildAt(getToolbar().getChildCount() - 1)).getPoint();
                     }
                 })
                 .build();

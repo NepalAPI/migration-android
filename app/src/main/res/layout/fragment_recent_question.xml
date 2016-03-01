@@ -27,7 +27,7 @@
                 android:paddingRight="@dimen/spacing_standard"
                 android:text="@{question.getTitle()}"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_xxlarge"
+                android:textSize="@dimen/text_xxxlarge"
                 tools:text="How to apply for passport ?"/>
 
         </RelativeLayout>
@@ -44,7 +44,7 @@
                 android:layout_centerInParent="true"
                 android:text="@string/see_all_questions"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_xxlarge"/>
+                android:textSize="@dimen/text_xxxlarge"/>
         </RelativeLayout>
     </FrameLayout>
 </layout>

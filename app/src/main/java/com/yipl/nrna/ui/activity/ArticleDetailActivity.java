@@ -38,9 +38,9 @@ public class ArticleDetailActivity extends FacebookActivity implements PostDetai
     TextView tvTitle;
     @Bind(R.id.webContent)
     WebView webContent;
-    private Post mPost;
     @Bind(R.id.container_document)
     LinearLayout mDocumentContainer;
+    private Post mPost;
 
     @Override
     public int getLayout() {
@@ -77,10 +77,21 @@ public class ArticleDetailActivity extends FacebookActivity implements PostDetai
     public void renderPostDetail(Post post) {
         mPost = post;
         tvTitle.setText(post.getTitle());
-        webContent.loadDataWithBaseURL(null, post.getData().getContent(), "text/html", "utf-8",
-                null);
+        StringBuilder sb = new StringBuilder();
+        sb.append("<HTML><HEAD><LINK href=\"styles.css\" type=\"text/css\" rel=\"stylesheet\"/></HEAD><body>");
+        sb.append(post.getData().getContent());
+        sb.append("</body></HTML>");
+        webContent.loadDataWithBaseURL("file:///android_asset/", sb.toString(), "text/html",
+                "utf-8", null);
+        /*webContent.loadDataWithBaseURL(null, post.getData().getContent(), "text/html", "utf-8",
+                null);*/
         showDocumentView(post.getData().getFileData());
 
+    }
+
+    @Override
+    public void onDownloadStarted(String message) {
+        Snackbar.make(mDocumentContainer, message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -169,10 +180,5 @@ public class ArticleDetailActivity extends FacebookActivity implements PostDetai
             });
             mDocumentContainer.addView(v);
         }
-    }
-
-    @Override
-    public void onDownloadStarted(String message) {
-        Snackbar.make(mDocumentContainer, message, Snackbar.LENGTH_LONG).show();
     }
 }

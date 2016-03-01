@@ -75,7 +75,7 @@
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:text="@string/latest_audios"
                     android:textAllCaps="true"
-                    android:textColor="@color/text_color_primary"
+                    android:textColor="@color/text_color_primary_faded_70"
                     android:textSize="@dimen/text_xbig"/>
 
                 <LinearLayout
@@ -109,7 +109,7 @@
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:text="@string/latest_videos"
                     android:textAllCaps="true"
-                    android:textColor="@color/text_color_primary"
+                    android:textColor="@color/text_color_primary_faded_70"
                     android:textSize="@dimen/text_xbig"/>
 
                 <LinearLayout
@@ -144,7 +144,7 @@
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:text="@string/latest_articles"
                     android:textAllCaps="true"
-                    android:textColor="@color/text_color_primary"
+                    android:textColor="@color/text_color_primary_faded_70"
                     android:textSize="@dimen/text_xbig"/>
 
                 <LinearLayout
