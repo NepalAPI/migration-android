@@ -60,6 +60,7 @@ public class QuestionDetailActivity extends BaseActivity implements ListClickCal
             TabLayout.Tab tab = mTabs.getTabAt(i);
             tab.setCustomView(mAdapter.getTabView(i));
         }
+        mViewPager.setCurrentItem(0);
     }
 
     @Override
