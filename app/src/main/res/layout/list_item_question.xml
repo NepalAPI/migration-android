@@ -9,7 +9,7 @@
             type="com.yipl.nrna.domain.model.Question"/>
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_small"
@@ -24,28 +24,30 @@
             android:layout_marginTop="@dimen/spacing_normal"
             android:background="@drawable/round_bg"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_article"/>
+            android:src="@drawable/ic_nav_questions"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/content_art"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/spacing_standard"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/spacing_standard">
+            android:paddingTop="@dimen/spacing_standard">
 
             <TextView
-                android:id="@+id/image_caption"
+                android:id="@+id/title"
+                style="@style/post_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/text_margin"
+                android:singleLine="true"
                 android:text="@{question.getTitle()}"
-                tools:text="How to get passport?"/>
+                android:textSize="@dimen/text_big"
+                tools:text="नेपाल सरकारबाट संस्थागत रुपमा बैदेशिक रोजगारका लाशग खल्ुला गररएका देिहरुको नामावली"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_standard"
                 android:background="@color/divider"/>
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

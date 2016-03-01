@@ -71,6 +71,8 @@ public class QuestionDetailFragment extends BaseFragment implements QuestionDeta
     TextView mReadMore;
     @Bind(R.id.sub_question_section)
     LinearLayout mSubQuestionSection;
+    @Bind(R.id.related_post_section)
+    LinearLayout mRelatedPostSection;
     @Bind(R.id.sub_question_container)
     LinearLayout mSubQuestionContainer;
 
@@ -115,11 +117,11 @@ public class QuestionDetailFragment extends BaseFragment implements QuestionDeta
     public void showFullLengthAnswer() {
         ViewGroup.LayoutParams lp = mAnswer.getLayoutParams();
         lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        if(lp.height == ViewGroup.LayoutParams.WRAP_CONTENT){
+        if (lp.height == ViewGroup.LayoutParams.WRAP_CONTENT) {
             lp.height = getResources().getDimensionPixelOffset(R.dimen.content_wrap_height);
             mReadMore.setText(getString(R.string.read_more));
             mScrollView.fullScroll(View.FOCUS_DOWN);
-        }else {
+        } else {
             lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             mReadMore.setText(getString(R.string.read_less));
         }
@@ -200,10 +202,10 @@ public class QuestionDetailFragment extends BaseFragment implements QuestionDeta
 
     @Override
     public void renderPostList(List<Post> pPosts) {
-        Logger.d("QuestionDetailFragment_renderPostList", "test:" + pPosts.size());
-        if (pPosts != null) {
+        if (pPosts != null && pPosts.size() > 0) {
             mPosts = pPosts;
             for (Post post : mPosts) {
+                Logger.d("QuestionDetailFragment_renderPostList", "test: " + post.getType());
                 if (post.getDataType() == MyConstants.Adapter.TYPE_AUDIO) {
                     renderAudio(post);
                 } else if (post.getDataType() == MyConstants.Adapter.TYPE_VIDEO) {
@@ -330,11 +332,11 @@ public class QuestionDetailFragment extends BaseFragment implements QuestionDeta
 
     @Override
     public void showEmptyView() {
-        tvNoPosts.setVisibility(View.VISIBLE);
+        mRelatedPostSection.setVisibility(View.GONE);
     }
 
     @Override
     public void hideEmptyView() {
-        tvNoPosts.setVisibility(View.INVISIBLE);
+        mRelatedPostSection.setVisibility(View.VISIBLE);
     }
 }
